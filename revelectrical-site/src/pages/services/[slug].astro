@@ -5,6 +5,7 @@ import ServiceHero from '../../components/ServiceHero.astro';
 import GuaranteeBand from '../../components/GuaranteeBand.astro';
 import ServiceSteps from '../../components/ServiceSteps.astro';
 import ChargerTypes from '../../components/ChargerTypes.astro';
+import ServiceAreasBand from '../../components/ServiceAreasBand.astro';
 import DiffGrid from '../../components/DiffGrid.astro';
 import WorkGrid from '../../components/WorkGrid.astro';
 import BrandList from '../../components/BrandList.astro';
@@ -24,7 +25,7 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const { settings, service, services, brands, gallery } = await sanity.fetch(SERVICE_QUERY, { slug });
+const { settings, service, services, brands, gallery, suburbs } = await sanity.fetch(SERVICE_QUERY, { slug });
 
 const canonical = `https://www.revelectrical.com.au/services/${service.slug}/`;
 const title = service.seoTitle || `${service.title} | ${settings.businessName}`;
@@ -45,8 +46,9 @@ const description = service.seoDescription || service.summary;
     <ServiceSteps service={service} />
     <ChargerTypes service={service} />
     <DiffGrid service={service} />
-    <WorkGrid service={service} items={gallery} />
+    <WorkGrid service={service} />
     <BrandList service={service} brands={brands} settings={settings} />
+    <ServiceAreasBand service={service} suburbs={suburbs} />
     <RelatedServices service={service} />
     <FaqList service={service} settings={settings} />
     <FinalCta service={service} settings={settings} />

@@ -367,3 +367,7 @@ textarea.input{min-height:132px;resize:vertical}
 /* Feature strip headings stay on a single line */
 .featitem__title{white-space:nowrap}
 @media (max-width:1080px){.featitem__title{white-space:normal}}
+
+
+/* Headings balance instead of dropping a single word to its own line */
+.h1,.h2,.h3{text-wrap:balance}

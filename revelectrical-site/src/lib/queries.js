@@ -58,6 +58,7 @@ export const SERVICE_QUERY = /* groq */ `{
     faqEyebrow, faqHeading, faqNote, faqs[]{ question, answer }
   },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
+  "suburbs": *[_type == "suburb"] | order(order asc, name asc){ _id, name, postcode },
   "brands": *[_type == "homePage"][0].brands,
   "gallery": *[_type == "galleryItem"] | order(order asc)[0...3]{ _id, caption, image }
 }`;
