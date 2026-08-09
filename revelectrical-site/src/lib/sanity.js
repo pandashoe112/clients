@@ -3,8 +3,8 @@ import imageUrlBuilder from '@sanity/image-url';
 import cache from './content-cache.json';
 
 const client = createClient({
-  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
-  dataset: import.meta.env.PUBLIC_SANITY_DATASET || 'production',
+  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID || process.env.PUBLIC_SANITY_PROJECT_ID,
+  dataset: import.meta.env.PUBLIC_SANITY_DATASET || process.env.PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-10-01',
   useCdn: true
 });
