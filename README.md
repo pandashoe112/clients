@@ -50,61 +50,53 @@ document. Then:
 1. Open the Studio, add the logo, hero image and real copy, publish.
 2. Build the sections in `sites/<slug>/src/sections/` and wire them into
    `src/pages/index.astro`. Delete `Example.astro`.
-3. Commit and push. CI builds and deploys.
+3. Wire the site up once (below).
 4. Point the domain, then turn off *Hide from search engines* in Sanity.
 
 The slug is the single source of truth: folder name, npm workspace name,
 `PUBLIC_SITE_ID`, and the Sanity document `_id` are all the same string.
 
-## One-time setup
+## Wiring a site up — once per site
 
-Done once for the whole repo, not per site.
+Two connections. After these, pushing code and publishing content both deploy on
+their own, with nothing else to run.
 
-**1. Local credentials**
+**1. Connect the repo to Netlify**
 
-```bash
-netlify login
-export SANITY_WRITE_TOKEN=...   # Sanity → project → API → Tokens (Editor)
-```
+Netlify → the project → Site configuration → Build & deploy → Link repository →
+pick this repo. Then set:
 
-**2. Repository secret**
+| Setting | Value |
+| --- | --- |
+| Base directory | `sites/<slug>` |
+| Build command | *(leave blank — `netlify.toml` sets it)* |
+| Publish directory | *(leave blank — `netlify.toml` sets it)* |
 
-`NETLIFY_AUTH_TOKEN` — Netlify → User settings → Applications → Personal access
-tokens. Add it under GitHub → Settings → Secrets and variables → Actions.
+Now every push to `main` rebuilds and deploys that site.
 
-**3. One Sanity webhook, covering every site**
+**2. Rebuild when content is published**
+
+Netlify → Build & deploy → Build hooks → Add build hook. Copy the URL.
 
 Sanity → API → Webhooks → Create webhook:
 
 | Field | Value |
 | --- | --- |
-| URL | `https://api.github.com/repos/pandashoe112/clients/dispatches` |
+| URL | the Netlify build hook URL |
 | Method | `POST` |
 | Trigger on | Create, Update, Delete |
-| Filter | `_type == "landingPage"` |
-| Projection | `{"event_type": "sanity-publish", "client_payload": {"site": _id}}` |
-| Headers | `Authorization: Bearer <github-token>`<br>`Accept: application/vnd.github+json` |
+| Filter | `_type == "landingPage" && _id == "<slug>"` |
 
-The GitHub token is a fine-grained PAT with **Contents: read and write** on this
-repo. Because the projection sends the document `_id` and the slug *is* the
-`_id`, this single webhook routes to the right site forever — new clients are
-covered automatically with nothing to configure.
+The filter is what stops one client's edits rebuilding everyone else's site.
 
 ## How deploys work
 
-Deploys go through the Netlify CLI with a token rather than Netlify's Git
-integration, which is why adding a site never touches the Netlify UI.
+Netlify builds from the repo itself — the standard Git integration, same as the
+rest of our sites. Pushing code triggers a build; the Sanity webhook triggers a
+build when content is published. There is no CI pipeline and no tokens to store.
 
-`.github/workflows/deploy.yml` runs on three triggers, and
-`.github/scripts/pick-sites.mjs` decides what to build:
-
-- **push to `main`** — only the sites the commit touched. A change under
-  `packages/` or to the lockfile rebuilds every site.
-- **`repository_dispatch`** — from the Sanity webhook above, rebuilds the one
-  site whose content was published.
-- **manual run** — a slug, or `all`.
-
-Sites are only eligible once `sites/<slug>/site.json` exists.
+`sites/<slug>/site.json` records which Netlify project a site belongs to, so the
+mapping is visible in the repo rather than only in Netlify's UI.
 
 ## Local development
 
