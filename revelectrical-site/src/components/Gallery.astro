@@ -1,6 +1,14 @@
 ---
 import { img, alt } from '../lib/sanity.js';
 const { heading, intro, items } = Astro.props;
+
+// EV charging shots that live as files rather than in the dataset.
+const EXTRA = [
+  { src: '/photos/evnex_07.webp', cap: 'Wall-mounted EV charger' },
+  { src: '/photos/evnex_12.webp', cap: 'Smart charger in a garage' },
+  { src: '/photos/evnex_10.webp', cap: 'Driveway charge point' },
+  { src: '/photos/evnex_06.webp', cap: 'Charging at home' }
+];
 ---
 <section class="section bg-cream" id="gallery">
   <div class="wrap">
@@ -13,6 +21,12 @@ const { heading, intro, items } = Astro.props;
         <li class="shot">
           <img src={img(item.image, 700, 700)} alt={alt(item.image)} width="700" height="700" loading="lazy" />
           <span class="shot__cap">{item.caption}</span>
+        </li>
+      ))}
+      {EXTRA.map((item) => (
+        <li class="shot">
+          <img src={item.src} alt={item.cap} width="700" height="700" loading="lazy" />
+          <span class="shot__cap">{item.cap}</span>
         </li>
       ))}
     </ul>
