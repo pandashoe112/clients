@@ -26,7 +26,7 @@ export const HOME_QUERY = /* groq */ `{
     _id, name, postcode
   },
   "reviews": *[_type == "review"] | order(reviewedAt desc){
-    _id, authorName, reviewedAt, rating, body
+    _id, authorName, reviewedAt, rating, body, photo
   },
   "gallery": *[_type == "galleryItem"] | order(order asc){
     _id, caption, image
