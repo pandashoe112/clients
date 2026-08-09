@@ -2,6 +2,20 @@
 import Icon from './Icon.astro';
 const { settings, services } = Astro.props;
 ---
+<div class="utilbar">
+  <div class="wrap utilbar__inner">
+    <span class="utilbar__lic">
+      <span class="utilbar__licfull">{settings.licence}</span>
+      <span class="utilbar__dot" aria-hidden="true"></span>
+      Licensed and insured
+    </span>
+    <div class="utilbar__links">
+      <a class="utilbar__link js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+      <a class="utilbar__link utilbar__link-email" href={`mailto:${settings.email}?subject=quote%20enquiry`}>{settings.email}</a>
+    </div>
+  </div>
+</div>
+
 <header class="siteheader" id="siteheader">
   <div class="wrap siteheader__inner">
     <a class="siteheader__logo" href="/" aria-label={`${settings.businessName} home`}>
@@ -16,28 +30,25 @@ const { settings, services } = Astro.props;
         </button>
         <div class="dropdown" id="dd-services">
           {services.map((s) => (
-            <a class="dropdown__link" href={s.hasPage ? `/services/${s.slug.current}` : `#svc-${s.slug.current}`}>{s.title}</a>
+            <a class="dropdown__link" href={s.hasPage ? `/services/${s.slug.current}` : `/#svc-${s.slug.current}`}>{s.title}</a>
           ))}
         </div>
       </div>
-      <a class="navlink" href="#how-it-works">How it works</a>
-      <a class="navlink" href="#service-areas">Service areas</a>
-      <a class="navlink" href="#about">About us</a>
-      <a class="navlink" href="#gallery">Gallery</a>
+      <a class="navlink" href="/#how-it-works">How it works</a>
+      <a class="navlink" href="/#service-areas">Service areas</a>
+      <a class="navlink" href="/#about">About us</a>
+      <a class="navlink" href="/#gallery">Gallery</a>
     </nav>
 
     <div class="siteheader__actions">
       <a class="callblock js-call" href={settings.phoneHref}>
-        <span class="callblock__icon" aria-hidden="true"><Icon name="phone" size={19} stroke={2.2} /></span>
+        <span class="callblock__icon"><Icon name="phone" size={18} stroke={2.2} /></span>
         <span>
           <span class="callblock__label">Call us first</span>
           <span class="callblock__num">{settings.phone}</span>
         </span>
       </a>
-      <a class="btn btn-ink btn-sm" href="#contact">
-        Contact us
-        <Icon name="chevron" size={15} stroke={2.6} />
-      </a>
+      <a class="btn btn-ink btn-sm" href="#contact">Contact us <Icon name="chevron" size={15} stroke={2.6} /></a>
     </div>
   </div>
 </header>

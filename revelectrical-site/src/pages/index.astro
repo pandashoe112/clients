@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import AnnounceBar from '../components/AnnounceBar.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import Hero from '../components/Hero.astro';
 import FeatureStrip from '../components/FeatureStrip.astro';
@@ -20,7 +19,6 @@ import { HOME_QUERY } from '../lib/queries.js';
 const { settings, page, services, suburbs, reviews, gallery } = await sanity.fetch(HOME_QUERY);
 ---
 <Base title={page.seoTitle} description={page.seoDescription} settings={settings}>
-  <AnnounceBar settings={settings} />
   <SiteHeader settings={settings} services={services} />
 
   <main id="main">

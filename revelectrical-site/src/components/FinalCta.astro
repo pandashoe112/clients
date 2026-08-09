@@ -2,16 +2,61 @@
 import Icon from './Icon.astro';
 const { service, settings } = Astro.props;
 ---
-<section class="section bg-cream">
-  <div class="wrap">
-    <div class="finalcta__inner reveal">
-      {service.ctaEyebrow && <p class="eyebrow">{service.ctaEyebrow}</p>}
-      <h2 class="h2 finalcta__title">{service.ctaHeading}</h2>
-      <p class="lede" style="margin-top:18px">{service.ctaText}</p>
-      <div class="btn-row" style="margin-top:30px">
-        <a class="btn btn-ink" href="#quote">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
-        <a class="btn btn-outline js-call" href={settings.phoneHref}>Call {settings.phone}</a>
-      </div>
+<section class="section bg-deep" id="get-in-touch">
+  <div class="wrap ctaband__inner">
+    <div class="reveal">
+      {service.ctaEyebrow && <p class="eyebrow eyebrow-light">{service.ctaEyebrow}</p>}
+      <h2 class="h2 h2-lime" style="margin-top:12px">{service.ctaHeading}</h2>
+      <p class="lede lede-light" style="margin-top:18px;max-width:46ch">{service.ctaText}</p>
+
+      <ul class="contactlist contactlist--light">
+        <li>
+          <Icon name="mail" size={19} />
+          <div><a href={`mailto:${settings.email}?subject=quote%20enquiry`}>{settings.email}</a></div>
+        </li>
+        <li>
+          <Icon name="phone" size={19} />
+          <div><a class="js-call" href={settings.phoneHref}>{settings.phone}</a></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="ctaform reveal reveal-d1">
+      <form class="formgrid" name="service-enquiry-footer" method="POST" action="/thank-you"
+            data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="service-enquiry-footer" />
+        <input type="hidden" name="service_page" value={service.title} />
+        <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+        <div class="field">
+          <label class="label" for="fc_name">Name</label>
+          <input class="input" type="text" id="fc_name" name="name" autocomplete="name" placeholder="First and last name" required />
+        </div>
+        <div class="fieldrow">
+          <div class="field">
+            <label class="label" for="fc_email">Email</label>
+            <input class="input" type="email" id="fc_email" name="email" autocomplete="email" placeholder="Email address" required />
+          </div>
+          <div class="field">
+            <label class="label" for="fc_phone">Phone number</label>
+            <input class="input" type="tel" id="fc_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="fc_suburb">Suburb</label>
+          <input class="input" type="text" id="fc_suburb" name="suburb" autocomplete="address-level2" placeholder="Suburb or postcode" required />
+        </div>
+        <div class="field">
+          <label class="label" for="fc_message">Message <span class="label__opt">(optional)</span></label>
+          <textarea class="input" id="fc_message" name="message" placeholder="How can we help.."></textarea>
+        </div>
+
+        <button class="btn btn-lime btn-block" type="submit">Submit</button>
+        <p class="formnote formnote--light">
+          <Icon name="lock" size={15} stroke={2.2} />
+          We only use your details to quote your job. No obligation to go ahead.
+        </p>
+      </form>
     </div>
   </div>
 </section>
