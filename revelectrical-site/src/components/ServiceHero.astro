@@ -31,7 +31,7 @@ const ticks = service.heroTicks || [];
     </div>
 
     <div class="quotecard" id="quote">
-      <div class="quotecard__head">
+      <div class="quotecard__head quotecard__head--plain">
         <h2 class="quotecard__title">{service.quoteHeading || 'Get a free quote'}</h2>
         <p class="quotecard__sub">{service.quoteText}</p>
       </div>
@@ -68,8 +68,7 @@ const ticks = service.heroTicks || [];
             <Icon name="lock" size={15} stroke={2.2} />
             We only use your details to quote your job. No obligation to go ahead.
           </p>
-          <p class="formcall">Prefer to talk? <a class="js-call" href={settings.phoneHref}>Call {settings.phone}</a></p>
-        </form>
+          </form>
       </div>
     </div>
   </div>

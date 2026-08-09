@@ -1,54 +1,24 @@
 ---
 import Icon from './Icon.astro';
 const { service } = Astro.props;
-
-// Photos of home charger installs, one per row.
-const PHOTOS = [
-  { src: '/photos/evnex_07.webp', alt: 'Home EV charger mounted beside a garage door' },
-  { src: '/photos/evnex_12.webp', alt: 'Charging an electric car from a wall-mounted home charger' },
-  { src: '/photos/evnex_10.webp', alt: 'Electric car charging on a home driveway' }
-];
 const items = service.diffItems || [];
-
-// Three rows, each pairing a photo with a group of the points. The rows
-// alternate side, and any leftover points land in the last row.
-const perRow = Math.ceil(items.length / 3) || 1;
-const rows = [0, 1, 2]
-  .map((i) => items.slice(i * perRow, (i + 1) * perRow))
-  .filter((group) => group.length);
-const photo = (i) => PHOTOS[i % PHOTOS.length];
 ---
-<section class="section bg-paper" id="why-us">
+<section class="section bg-deep" id="why-us">
   <div class="wrap">
     <div class="diff__head reveal">
-      {service.diffEyebrow && <p class="eyebrow">{service.diffEyebrow}</p>}
-      <h2 class="h2">{service.diffHeading}</h2>
-      {service.diffIntro && <p class="lede measure" style="margin-top:18px">{service.diffIntro}</p>}
+      {service.diffEyebrow && <p class="eyebrow eyebrow-light">{service.diffEyebrow}</p>}
+      <h2 class="h2 h2-lime">{service.diffHeading}</h2>
+      {service.diffIntro && <p class="lede lede-light measure" style="margin-top:18px">{service.diffIntro}</p>}
     </div>
 
-    <div class="diffrows">
-      {rows.map((group, r) => (
-        <div class={`diffrow reveal ${r % 2 === 1 ? 'diffrow--flip' : ''}`}>
-          <figure class="diffrow__media">
-            <img src={photo(r).src} alt={photo(r).alt} width="1600" height="1100" loading="lazy" />
-          </figure>
-          <ul class="difflist">
-            {group.map((item) => (
-              <li>
-                <span class="difflist__tick"><Icon name="checkCircle" size={18} stroke={2.2} /></span>
-                <div>
-                  <h3 class="h3 difflist__title">{item.title}</h3>
-                  <p class="difflist__text">{item.text}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <ul class="diffgrid reveal reveal-d1">
+      {items.map((item) => (
+        <li class="diffitem">
+          <span class="diffitem__icon" aria-hidden="true"><Icon name="check" size={18} stroke={2.6} /></span>
+          <h3 class="diffitem__title">{item.title}</h3>
+          <p class="diffitem__text">{item.text}</p>
+        </li>
       ))}
-    </div>
-
-    <div class="btn-row" style="margin-top:clamp(30px,3.4vw,46px)">
-      <a class="btn btn-ink" href="#quote">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
-    </div>
+    </ul>
   </div>
 </section>
