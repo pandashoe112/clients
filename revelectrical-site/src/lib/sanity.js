@@ -1,16 +1,40 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
+import cache from './content-cache.json';
 
-export const sanity = createClient({
+const client = createClient({
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
   dataset: import.meta.env.PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-10-01',
   useCdn: true
 });
 
-const builder = imageUrlBuilder(sanity);
+function fromCache(query, params) {
+  if (query.includes('hasPage == true')) return [{ slug: 'ev-charging' }];
+  if (query.includes('"service":')) {
+    return {
+      settings: cache.settings,
+      service: cache.evService,
+      services: cache.services,
+      brands: cache.page.brands,
+      gallery: cache.gallery.slice(0, 3)
+    };
+  }
+  if (query.includes('siteSettings') && !query.includes('"page"')) return cache.settings;
+  return cache;
+}
 
-// img(source, 900) -> a resized, auto-format URL. Always pass a width.
+const OFFLINE = process.env.SANITY_OFFLINE === '1';
+
+export const sanity = {
+  fetch: async (query, params) => {
+    if (OFFLINE) return fromCache(query, params);
+    return client.fetch(query, params);
+  }
+};
+
+const builder = imageUrlBuilder(client);
+
 export function img(source, width, height) {
   if (!source) return '';
   let url = builder.image(source).width(width).auto('format').fit('crop');
@@ -18,7 +42,6 @@ export function img(source, width, height) {
   return url.url();
 }
 
-// Alt text lives on the image object in Sanity, not on the field using it.
 export function alt(source) {
   return (source && source.alt) || '';
 }
