@@ -4,7 +4,7 @@ const { service } = Astro.props;
 const steps = service.processSteps || [];
 const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : i >= 3 ? 'reveal-d3' : '');
 ---
-<section class="section bg-cream" id="how-it-works">
+<section class="section bg-paper" id="how-it-works">
   <div class="wrap">
     <div class="process__head reveal">
       {service.processEyebrow && <p class="eyebrow">{service.processEyebrow}</p>}

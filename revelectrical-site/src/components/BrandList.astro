@@ -3,13 +3,13 @@ import Icon from './Icon.astro';
 import { img } from '../lib/sanity.js';
 const { service, brands = [], settings } = Astro.props;
 ---
-<section class="section bg-deep">
+<section class="section bg-paper">
   <div class="wrap brands__inner">
     <div class="reveal">
-      <h2 class="h2 h2-lime">{service.brandsHeading}</h2>
-      <p class="lede lede-light" style="margin-top:20px;max-width:44ch">{service.brandsText}</p>
+      <h2 class="h2">{service.brandsHeading}</h2>
+      <p class="lede" style="margin-top:20px;max-width:44ch">{service.brandsText}</p>
       <div class="btn-row" style="margin-top:28px">
-        <a class="btn btn-lime" href="#quote">Talk to us <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-ink" href="#quote">Talk to us <Icon name="chevron" size={15} stroke={2.6} /></a>
       </div>
     </div>
     <ul class="brandlist reveal reveal-d1">
