@@ -159,7 +159,7 @@ button{font:inherit}
 /* ============================================================
    HERO
    ============================================================ */
-.hero{position:relative;isolation:isolate;padding-block:clamp(38px,5vw,72px) clamp(56px,7vw,96px)}
+.hero{position:relative;isolation:isolate;padding-block:clamp(58px,7vw,108px) clamp(72px,8.5vw,124px)}
 .hero__glow{
   position:absolute;top:-180px;right:0;width:min(720px,86vw);height:min(720px,86vw);
   background:radial-gradient(circle at 62% 42%, rgba(182,237,62,.38), rgba(182,237,62,0) 62%);
@@ -328,7 +328,9 @@ button{font:inherit}
    BRANDS
    ============================================================ */
 .brands__inner{display:grid;grid-template-columns:minmax(0,.58fr) minmax(0,1fr);gap:clamp(30px,4vw,64px);align-items:center}
-.brandlist{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:12px}
+.brandlist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.brandlist li{background:var(--cream);border-radius:var(--r-sm);min-height:92px;display:grid;place-items:center;padding:16px;font-family:var(--font-display);font-weight:600;font-size:1rem;letter-spacing:-.015em;color:var(--muted)}
+@media (max-width:700px){.brandlist{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .brandlist li{
   font-family:var(--font-display);font-weight:600;font-size:1.125rem;letter-spacing:-.01em;
   border:1px solid var(--line-light);border-radius:var(--r-pill);padding:12px 24px;color:var(--cream);
@@ -462,4 +464,19 @@ button{font:inherit}
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .reveal{opacity:1;transform:none}
+}
+
+
+/* Final CTA band -> dark contact section with a form */
+.ctaband__inner{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr);gap:clamp(34px,5vw,72px);align-items:start}
+.ctaform{background:var(--paper);border-radius:var(--r-lg);padding:clamp(22px,2.6vw,34px);box-shadow:0 24px 60px rgba(0,0,0,.28)}
+.fieldrow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.contactlist--light{color:var(--cream)}
+.contactlist--light a{color:var(--cream);text-decoration:none}
+.contactlist--light a:hover{color:var(--lime)}
+.contactlist--light svg{color:var(--lime)}
+.formnote--light{color:var(--muted)}
+@media (max-width:900px){
+  .ctaband__inner{grid-template-columns:1fr}
+  .fieldrow{grid-template-columns:1fr}
 }

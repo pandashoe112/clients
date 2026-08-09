@@ -312,3 +312,58 @@ textarea.input{min-height:132px;resize:vertical}
   *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
   .reveal{opacity:1;transform:none}
 }
+
+
+/* ============================================================
+   UTILITY BAR + SHARED HEADER  (was service-page only)
+   ============================================================ */
+.utilbar{background:var(--ink);color:var(--muted-light);font-size:.875rem}
+.utilbar__inner{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:44px;flex-wrap:wrap}
+.utilbar__lic{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.04em}
+.utilbar__dot{width:7px;height:7px;border-radius:50%;background:var(--lime);flex:none}
+.utilbar__links{display:flex;align-items:center;gap:26px}
+.utilbar__link{color:inherit;text-decoration:none;font-weight:600;transition:color .18s ease}
+.utilbar__link:hover{color:var(--lime)}
+
+/* ============================================================
+   HOME HERO  — light split panel, photo bleeding to the right
+   ============================================================ */
+.homehero{position:relative;isolation:isolate;overflow:hidden;background:var(--cream);color:var(--ink);
+  display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);align-items:stretch}
+.homehero::before{content:"";position:absolute;top:-220px;left:-160px;width:min(760px,80vw);height:min(760px,80vw);
+  background:radial-gradient(circle at 58% 45%, rgba(182,237,62,.34), rgba(182,237,62,0) 62%);
+  pointer-events:none;z-index:0}
+.homehero__panel{position:relative;z-index:1;display:flex;align-items:center;
+  padding-block:clamp(56px,6.5vw,104px);padding-inline:var(--pad-x) clamp(28px,3.5vw,60px)}
+.homehero__panelin{width:100%;max-width:610px;margin-left:auto}
+.homehero__title{margin:0 0 22px}
+.homehero__lede{margin:0 0 26px}
+.homehero__media{position:relative;z-index:1;margin:0}
+.homehero__media img{width:100%;height:100%;min-height:clamp(380px,46vw,660px);object-fit:cover;object-position:center 40%;display:block}
+.herorating{display:flex;align-items:center;gap:14px;margin-top:34px}
+.herorating__num{font-family:var(--font-display);font-weight:700;font-size:1.75rem;line-height:1;letter-spacing:-.03em;color:var(--ink)}
+.herorating__meta{margin:5px 0 0;font-size:.8125rem;color:var(--muted);font-weight:600}
+
+@media (max-width:900px){
+  .homehero{grid-template-columns:1fr}
+  .homehero__panel{padding-inline:var(--pad-x)}
+  .homehero__panelin{max-width:none;margin-left:0}
+  .homehero__media{order:-1}
+  .homehero__media img{min-height:clamp(260px,58vw,420px)}
+  .utilbar__licfull{display:none}
+  .utilbar__links{gap:16px}
+  .utilbar__link-email{display:none}
+}
+
+
+/* Header fits once the full nav is present */
+.siteheader__inner{gap:18px}
+.sitenav{gap:2px}
+.navlink{padding:10px 12px}
+@media (max-width:1320px){
+  .callblock__label,.callblock__num{display:none}
+  .callblock__icon{width:40px;height:40px}
+}
+@media (max-width:1080px){
+  .sitenav{display:none}
+}

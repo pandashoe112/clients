@@ -1,6 +1,6 @@
 ---
 import ServiceBase from '../../layouts/ServiceBase.astro';
-import ServiceHeader from '../../components/ServiceHeader.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
 import ServiceHero from '../../components/ServiceHero.astro';
 import GuaranteeBand from '../../components/GuaranteeBand.astro';
 import ServiceSteps from '../../components/ServiceSteps.astro';
@@ -36,7 +36,7 @@ const description = service.seoDescription || service.summary;
   settings={settings}
   faqs={service.faqs || []}
 >
-  <ServiceHeader settings={settings} services={services} />
+  <SiteHeader settings={settings} services={services} />
 
   <main id="main">
     <ServiceHero service={service} settings={settings} services={services} />
