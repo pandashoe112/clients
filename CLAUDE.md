@@ -24,7 +24,7 @@ The project has two halves:
 | Project ID     | `mt5betow`                             |
 | Organization   | `oKIL2aLz6`                            |
 | Dataset        | `production` (public read ACL)         |
-| Studio         | one deployed Studio (workspace `revelectrical`) |
+| Studio         | https://revelectrical-cms.sanity.studio/ (workspace `revelectrical`) |
 | Account        | oliver@dunk.agency (Google)            |
 
 ### Deployed schema (document types)
@@ -58,6 +58,12 @@ tasks:
 
 Workflow rules:
 - Always `get_schema` (workspace `revelectrical`) before writing.
+- The schema is now **MCP-managed**, so schema changes are made from a Claude
+  session with `deploy_schema` + `deploy_studio` — no local machine needed.
+  After `deploy_schema`, re-run `deploy_studio` (appHost `revelectrical-cms`)
+  so the Studio picks the new fields up.
+- The `sanity/` folder in this repo is now a reference copy, not the live
+  source. Keep it in step with what you deploy, but the deployed schema wins.
 - Edits create **drafts**; use `publish_documents` to make them live, or tell
   the user you've staged a draft for them to review in the Studio.
 - To find a doc's `_id` first: `query_documents` with a GROQ filter.
@@ -80,8 +86,8 @@ To apply it, the user must (in the real site repo + Studio):
 1. Copy `src/`, `public/`, `sanity/` over their site.
 2. Deploy the schema change from their **local Studio** with
    `npx sanity@latest schema deploy` (or `sanity deploy`).
-   ⚠️ Do NOT deploy the `avatar` schema change via the MCP `deploy_schema`
-   tool — a local Studio owns this schema, and MCP deploy would fork it.
+   (Superseded: the schema is MCP-managed now, so deploy it with
+   `deploy_schema` + `deploy_studio` from a session instead.)
 3. In the Studio: swap the Hero photo to the downlight shot; upload Google
    profile photos for reviews by Brandon Grant, Chris Peers, Prab Pandher,
    Justin Fennessy.
@@ -98,3 +104,33 @@ To apply it, the user must (in the real site repo + Studio):
 
 - Repo: `pandashoe112/clients`.
 - Work branch: `claude/sanity-project-setup-sy7buv`.
+
+## Service landing pages
+
+`src/pages/services/[slug].astro` is one template that builds a page for every
+service whose **Has a landing page** toggle is on. Sections: hero + quote form,
+guarantee, steps, why-us, our work, brands, FAQs, related services, final CTA.
+Styles live in `src/styles/service.css`, markup in the ten `Service*`/`Diff*`/
+`Faq*`/`Rel*`/`FinalCta` components.
+
+- Live so far: **ev-charging**. The other five have the fields but `hasPage`
+  off, so they do not build until their content is filled in.
+- `ServiceBase.astro` emits canonical + `Electrician` + `FAQPage` structured
+  data, so FAQs are eligible for a Google rich result.
+
+## Environment note
+
+This sandbox's egress policy **blocks `*.sanity.io`**, so `npm run build`
+cannot fetch content here — it fails at the network call. Netlify's build
+servers are not restricted. To check rendering locally, temporarily swap
+`src/lib/sanity.js` for a fixture (see git history) and restore it after.
+
+## Netlify
+
+- Project `revelectrical-site` (id `5c860da9-591c-4efd-80df-ea04600a5c09`),
+  team DUNK Agency. `PUBLIC_SANITY_PROJECT_ID` and `PUBLIC_SANITY_DATASET`
+  are already set on it.
+- An older project `revelectrical` holds a one-off manual upload; it is not
+  git-connected and has no env vars.
+- Still to do: connect the GitHub repo (base directory `revelectrical-site`)
+  and add a build hook into Sanity so publishing rebuilds the site.
