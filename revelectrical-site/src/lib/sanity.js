@@ -6,7 +6,7 @@ const client = createClient({
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID || process.env.PUBLIC_SANITY_PROJECT_ID,
   dataset: import.meta.env.PUBLIC_SANITY_DATASET || process.env.PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2024-10-01',
-  useCdn: true
+  useCdn: false
 });
 
 function fromCache(query, params) {
