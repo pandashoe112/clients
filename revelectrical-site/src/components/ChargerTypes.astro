@@ -1,0 +1,56 @@
+---
+import Icon from './Icon.astro';
+const { service } = Astro.props;
+
+const TYPES = [
+  {
+    img: '/photos/evnex_08.webp',
+    alt: 'Single-phase home EV charger installed beside a garage',
+    meta: 'Single-phase AC',
+    title: 'Standard home charging',
+    text: 'The common setup in Melbourne homes. Runs off your existing single-phase supply on a dedicated circuit, and charges most cars fully overnight.'
+  },
+  {
+    img: '/photos/evnex_09.webp',
+    alt: 'Three-phase EV charger on a home driveway',
+    meta: 'Three-phase AC',
+    title: 'Faster charging',
+    text: 'If your home has three-phase power, a three-phase charger cuts charging time significantly. We check your supply and switchboard before quoting.'
+  },
+  {
+    img: '/photos/evnex_12.webp',
+    alt: 'Smart wall-mounted EV charger being used at home',
+    meta: 'Smart chargers',
+    title: 'Scheduled and solar-aware',
+    text: 'Smart units let you schedule charging for off-peak rates and, where you have solar, prioritise your own generation. Basic units are available too.'
+  }
+];
+---
+<section class="section bg-paper" id="charger-types">
+  <div class="wrap">
+    <div class="work__head reveal">
+      <p class="eyebrow">Charger options</p>
+      <h2 class="h2">Types of EV charger installation we do.</h2>
+      <p class="lede measure" style="margin-top:14px">
+        We help you pick the right one for your car, your switchboard and how you drive, then install it properly.
+      </p>
+    </div>
+
+    <div class="types">
+      {TYPES.map((t, i) => (
+        <article class={`typecard reveal ${i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : ''}`}>
+          <img src={t.img} alt={t.alt} width="1600" height="1040" loading="lazy" />
+          <div class="typecard__body">
+            <p class="typecard__meta">{t.meta}</p>
+            <h3 class="h3 typecard__title">{t.title}</h3>
+            <p class="typecard__text">{t.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="btn-row" style="margin-top:clamp(28px,3vw,42px)">
+      <a class="btn btn-ink" href="#quote">Ask which suits your home <Icon name="chevron" size={15} stroke={2.6} /></a>
+    </div>
+  </div>
+</section>

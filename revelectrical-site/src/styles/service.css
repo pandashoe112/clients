@@ -506,3 +506,24 @@ button{font:inherit}
   .diffrow{grid-template-columns:1fr;gap:26px}
   .diffrow--flip .diffrow__media{order:0}
 }
+
+
+/* Quote card: lighter head, tighter fields */
+.quotecard__head--plain{background:transparent;color:var(--ink);padding:22px 24px 4px;border-bottom:0}
+.quotecard__head--plain .quotecard__title{font-size:1.3125rem}
+.quotecard__head--plain .quotecard__sub{color:var(--muted);font-size:.9063rem}
+.quotecard__body{padding:14px 24px 22px}
+.quotecard .field{margin:0 0 10px}
+.quotecard .input{padding:9px 13px;font-size:.9688rem}
+.quotecard textarea.input{min-height:70px}
+.quotecard .formnote{margin-top:12px;font-size:.8125rem}
+
+/* Charger types */
+.types{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2.2vw,28px)}
+.typecard{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;display:flex;flex-direction:column}
+.typecard img{width:100%;aspect-ratio:4/2.6;height:auto;object-fit:cover;display:block}
+.typecard__body{padding:clamp(18px,2vw,26px);display:flex;flex-direction:column;gap:10px;flex:1}
+.typecard__title{margin:0;font-size:1.125rem}
+.typecard__text{margin:0;color:var(--muted);font-size:.9375rem;line-height:1.65}
+.typecard__meta{margin:0;font-weight:700;font-size:.8125rem;letter-spacing:.04em;text-transform:uppercase;color:var(--deep)}
+@media (max-width:900px){.types{grid-template-columns:1fr}}

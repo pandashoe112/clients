@@ -4,6 +4,7 @@ import SiteHeader from '../../components/SiteHeader.astro';
 import ServiceHero from '../../components/ServiceHero.astro';
 import GuaranteeBand from '../../components/GuaranteeBand.astro';
 import ServiceSteps from '../../components/ServiceSteps.astro';
+import ChargerTypes from '../../components/ChargerTypes.astro';
 import DiffGrid from '../../components/DiffGrid.astro';
 import WorkGrid from '../../components/WorkGrid.astro';
 import BrandList from '../../components/BrandList.astro';
@@ -42,6 +43,7 @@ const description = service.seoDescription || service.summary;
     <ServiceHero service={service} settings={settings} services={services} />
     <GuaranteeBand service={service} settings={settings} />
     <ServiceSteps service={service} />
+    <ChargerTypes service={service} />
     <DiffGrid service={service} />
     <WorkGrid service={service} items={gallery} />
     <BrandList service={service} brands={brands} settings={settings} />
