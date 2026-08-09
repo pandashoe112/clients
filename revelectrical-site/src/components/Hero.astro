@@ -5,8 +5,8 @@ import { img, alt } from '../lib/sanity.js';
 const { page, settings } = Astro.props;
 ---
 <section class="homehero">
-  <div class="homehero__panel">
-    <div class="homehero__panelin">
+  <div class="wrap homehero__inner">
+    <div class="homehero__panel">
       <h1 class="h1 homehero__title">
         {page.heroHeadingStart} <span class="hl">{page.heroHeadingHighlight}</span> {page.heroHeadingEnd}
       </h1>
@@ -32,9 +32,9 @@ const { page, settings } = Astro.props;
         </div>
       </div>
     </div>
-  </div>
 
-  <figure class="homehero__media">
-    <img src={img(page.heroImage, 1400)} alt={alt(page.heroImage)} width="1400" height="1200" fetchpriority="high" />
-  </figure>
+    <figure class="homehero__media">
+      <img src={img(page.heroImage, 1100)} alt={alt(page.heroImage)} width="1100" height="1150" fetchpriority="high" />
+    </figure>
+  </div>
 </section>
