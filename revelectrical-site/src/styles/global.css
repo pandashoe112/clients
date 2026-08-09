@@ -329,8 +329,8 @@ textarea.input{min-height:132px;resize:vertical}
    HOME HERO  — contained split, framed photo
    ============================================================ */
 .homehero{position:relative;isolation:isolate;overflow:hidden;background:var(--ink);color:var(--cream)}
-.homehero::before{content:"";position:absolute;top:-240px;left:-180px;width:min(760px,80vw);height:min(760px,80vw);
-  background:radial-gradient(circle at 58% 45%, rgba(182,237,62,.30), rgba(182,237,62,0) 64%);
+.homehero::before{content:"";position:absolute;top:-46%;left:-30%;width:min(1600px,130vw);height:min(1600px,130vw);
+  background:radial-gradient(circle at 52% 48%, rgba(182,237,62,.16), rgba(182,237,62,0) 70%);
   pointer-events:none;z-index:0}
 .homehero__inner{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);
   gap:clamp(34px,4.4vw,68px);align-items:center;padding-block:clamp(46px,5.4vw,86px)}
@@ -362,3 +362,8 @@ textarea.input{min-height:132px;resize:vertical}
 @media (max-width:1080px){
   .sitenav{display:none}
 }
+
+
+/* Feature strip headings stay on a single line */
+.featitem__title{white-space:nowrap}
+@media (max-width:1080px){.featitem__title{white-space:normal}}
