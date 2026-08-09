@@ -2,11 +2,39 @@
 const { service } = Astro.props;
 
 // Installs for this service rather than the site-wide gallery.
-const WORK = [
-  { src: '/photos/evnex_07.webp', cap: 'Wall-mounted home charger' },
-  { src: '/photos/evnex_12.webp', cap: 'Smart charger, garage install' },
-  { src: '/photos/evnex_10.webp', cap: 'Driveway charge point' }
-];
+const BY_SERVICE = {
+  'ev-charging': [
+    { src: '/photos/evnex_07.webp', cap: 'Wall-mounted home charger' },
+    { src: '/photos/evnex_12.webp', cap: 'Smart charger, garage install' },
+    { src: '/photos/evnex_10.webp', cap: 'Driveway charge point' }
+  ],
+  'solar-battery': [
+    { src: '/photos/solar-battery.webp', cap: 'Home battery and inverter' },
+    { src: '/photos/switchboard-test.webp', cap: 'Switchboard tie-in' },
+    { src: '/photos/team.webp', cap: 'On site in Melbourne' }
+  ],
+  'heat-pump-hot-water': [
+    { src: '/photos/heat-pump.webp', cap: 'Heat pump hot water unit' },
+    { src: '/photos/switchboard-test.webp', cap: 'Circuit and testing' },
+    { src: '/photos/team.webp', cap: 'On site in Melbourne' }
+  ],
+  'switchboard-upgrade': [
+    { src: '/photos/switchboard-test.webp', cap: 'Switchboard testing' },
+    { src: '/photos/downlight-install.webp', cap: 'Circuit work' },
+    { src: '/photos/team.webp', cap: 'On site in Melbourne' }
+  ],
+  'led-lighting': [
+    { src: '/photos/downlight.webp', cap: 'LED downlights' },
+    { src: '/photos/downlight-install.webp', cap: 'Downlight installation' },
+    { src: '/photos/team.webp', cap: 'On site in Melbourne' }
+  ],
+  'induction-cooking': [
+    { src: '/photos/induction-cooktop.webp', cap: 'Induction cooktop install' },
+    { src: '/photos/switchboard-test.webp', cap: 'Dedicated circuit' },
+    { src: '/photos/team.webp', cap: 'On site in Melbourne' }
+  ]
+};
+const WORK = BY_SERVICE[service.slug] || BY_SERVICE['ev-charging'];
 const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : '');
 ---
 <section class="section bg-cream" id="our-work">
