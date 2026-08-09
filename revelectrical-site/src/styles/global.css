@@ -147,7 +147,7 @@ button{font:inherit}
 .svccard__icon--center{width:78px;height:76px;object-position:center;margin:0 auto 6px}
 .svccard__title--lime{color:var(--lime)}
 .svccard__text--light{color:var(--muted-light);text-align:center}
-.h2-lime{color:var(--lime)}
+.h2-lime{color:var(--cream)}
 .svcnote{margin:clamp(16px,1.8vw,26px) 0 0;font-size:1.0625rem;color:var(--muted-light);text-align:center}
 .svcnote--plain{font-style:italic;color:var(--lime)}
 
