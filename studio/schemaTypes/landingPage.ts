@@ -295,11 +295,95 @@ export const landingPage = defineType({
           description: 'The reassurance line under the heading.',
         }),
         defineField({
-          name: 'serviceOptions',
-          title: 'Service dropdown options',
+          name: 'fields',
+          title: 'Questions',
           type: 'array',
-          of: [{type: 'string'}],
-          description: 'The choices in the "What do you need?" dropdown. Leave empty to hide the dropdown entirely.',
+          description:
+            'The questions this client asks. Order here is the order on the page. Every submission also carries the Google Ads click ID and UTM tags automatically — you do not need to add those.',
+          of: [
+            defineField({
+              name: 'formField',
+              type: 'object',
+              fields: [
+                defineField({
+                  name: 'label',
+                  title: 'Label',
+                  type: 'string',
+                  description: 'What the visitor sees, e.g. "Your name".',
+                  validation: (Rule) => Rule.required(),
+                }),
+                defineField({
+                  name: 'name',
+                  title: 'Field name',
+                  type: 'string',
+                  description:
+                    'The column name in the Netlify inbox, e.g. business_name. Lowercase, no spaces. Changing this on a live page splits your submission history.',
+                  validation: (Rule) =>
+                    Rule.required()
+                      .regex(/^[a-z][a-z0-9_]*$/, {name: 'field name'})
+                      .error('Lowercase letters, numbers and underscores only, starting with a letter.')
+                      .custom((value) =>
+                        ['form-name', 'form_location', 'bot-field', 'gclid', 'page_url'].includes(value ?? '')
+                          ? 'That name is reserved by the form itself. Pick another.'
+                          : true,
+                      ),
+                }),
+                defineField({
+                  name: 'type',
+                  title: 'Type',
+                  type: 'string',
+                  options: {
+                    list: [
+                      {title: 'Short text', value: 'text'},
+                      {title: 'Phone number', value: 'tel'},
+                      {title: 'Email address', value: 'email'},
+                      {title: 'Dropdown', value: 'select'},
+                      {title: 'Long text', value: 'textarea'},
+                    ],
+                    layout: 'radio',
+                  },
+                  initialValue: 'text',
+                  validation: (Rule) => Rule.required(),
+                }),
+                defineField({
+                  name: 'options',
+                  title: 'Dropdown choices',
+                  type: 'array',
+                  of: [{type: 'string'}],
+                  description: 'Only used when the type is Dropdown.',
+                  hidden: ({parent}) => parent?.type !== 'select',
+                }),
+                defineField({
+                  name: 'placeholder',
+                  title: 'Placeholder',
+                  type: 'string',
+                  description: 'Faint example text inside the box. Not used for dropdowns.',
+                  hidden: ({parent}) => parent?.type === 'select',
+                }),
+                defineField({
+                  name: 'required',
+                  title: 'Required',
+                  type: 'boolean',
+                  initialValue: true,
+                }),
+              ],
+              preview: {
+                select: {title: 'label', subtitle: 'name', type: 'type'},
+                prepare: ({title, subtitle, type}) => ({
+                  title,
+                  subtitle: `${subtitle} · ${type ?? 'text'}`,
+                }),
+              },
+            }),
+          ],
+          validation: (Rule) =>
+            Rule.required()
+              .min(1)
+              .custom((fields) => {
+                const names = (fields ?? []).map((f) => f?.name).filter(Boolean)
+                const duplicate = names.find((name, i) => names.indexOf(name) !== i)
+                return duplicate ? `Two questions both use the field name "${duplicate}".` : true
+              }),
         }),
         defineField({name: 'submitLabel', title: 'Submit button label', type: 'string', initialValue: 'Get my free quote', validation: (Rule) => Rule.required()}),
         defineField({

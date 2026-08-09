@@ -49,10 +49,22 @@ export interface Hero {
   review?: {show?: boolean; score?: number; count?: number}
 }
 
+export type FormFieldType = 'text' | 'tel' | 'email' | 'select' | 'textarea'
+
+export interface FormField {
+  label: string
+  /** Becomes the field name in the Netlify submission. */
+  name: string
+  type: FormFieldType
+  options?: string[]
+  placeholder?: string
+  required?: boolean
+}
+
 export interface QuoteForm {
   heading: string
   subcopy?: string
-  serviceOptions?: string[]
+  fields: FormField[]
   submitLabel: string
   footnote?: string
 }

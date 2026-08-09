@@ -15,6 +15,13 @@ interface Props {
 
 const {form, location, id, class: className} = Astro.props
 const uid = `${location}`
+
+// Let browsers offer saved details where the field type makes that unambiguous.
+const AUTOCOMPLETE: Record<string, string | undefined> = {
+  tel: 'tel',
+  email: 'email',
+  text: undefined,
+}
 ---
 
 <div class={className} id={id}>
@@ -42,33 +49,40 @@ const uid = `${location}`
     <input type="hidden" name="utm_term" class="f-utm_term" />
     <input type="hidden" name="page_url" class="f-page_url" />
 
-    <label for={`n-${uid}`}>Your name</label>
-    <input id={`n-${uid}`} name="name" type="text" required autocomplete="name" placeholder="First and last name" />
-
-    <label for={`p-${uid}`}>Mobile</label>
-    <input id={`p-${uid}`} name="mobile" type="tel" required autocomplete="tel" placeholder="04__ ___ ___" />
-
-    <label for={`s-${uid}`}>Suburb</label>
-    <input
-      id={`s-${uid}`}
-      name="suburb"
-      type="text"
-      required
-      autocomplete="address-level2"
-      placeholder="Where is the car parked?"
-    />
-
     {
-      form.serviceOptions && form.serviceOptions.length > 0 && (
-        <>
-          <label for={`w-${uid}`}>What do you need?</label>
-          <select id={`w-${uid}`} name="service">
-            {form.serviceOptions.map((option) => (
-              <option>{option}</option>
-            ))}
-          </select>
-        </>
-      )
+      form.fields.map((field) => {
+        const id = `${field.name}-${uid}`
+        return (
+          <>
+            <label for={id}>{field.label}</label>
+
+            {field.type === 'select' ? (
+              <select id={id} name={field.name} required={field.required}>
+                {(field.options ?? []).map((option) => (
+                  <option>{option}</option>
+                ))}
+              </select>
+            ) : field.type === 'textarea' ? (
+              <textarea
+                id={id}
+                name={field.name}
+                rows="4"
+                required={field.required}
+                placeholder={field.placeholder}
+              />
+            ) : (
+              <input
+                id={id}
+                name={field.name}
+                type={field.type}
+                required={field.required}
+                placeholder={field.placeholder}
+                autocomplete={AUTOCOMPLETE[field.type]}
+              />
+            )}
+          </>
+        )
+      })
     }
 
     <button class="btn btn-royal" type="submit">{form.submitLabel}</button>

@@ -45,9 +45,16 @@ export const LANDING_PAGE_QUERY = `
   form{
     heading,
     subcopy,
-    serviceOptions,
     submitLabel,
-    footnote
+    footnote,
+    fields[]{
+      label,
+      name,
+      type,
+      options,
+      placeholder,
+      required
+    }
   },
   thankYou{
     heading,
