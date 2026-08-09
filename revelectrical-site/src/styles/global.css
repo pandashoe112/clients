@@ -37,7 +37,7 @@ button{font:inherit}
 
 .wrap{width:100%;max-width:1220px;margin:0 auto;padding-inline:var(--pad-x)}
 .section{padding-block:var(--section-y)}
-.section--tight-b{padding-bottom:clamp(24px,2.4vw,36px)}
+.section--tight-b{padding-bottom:clamp(34px,3.4vw,52px)}
 .bg-paper{background:var(--paper);color:var(--ink)}
 .bg-cream{background:var(--cream);color:var(--ink)}
 .bg-ink{background:var(--ink);color:var(--cream)}
@@ -148,7 +148,7 @@ button{font:inherit}
 .svccard__title--lime{color:var(--lime)}
 .svccard__text--light{color:var(--muted-light);text-align:center}
 .h2-lime{color:var(--lime)}
-.svcnote{margin:clamp(10px,1.2vw,18px) 0 0;font-size:1.0625rem;color:var(--muted-light);text-align:center}
+.svcnote{margin:clamp(16px,1.8vw,26px) 0 0;font-size:1.0625rem;color:var(--muted-light);text-align:center}
 .svcnote--plain{font-style:italic;color:var(--lime)}
 
 /* ---------- photo prompt panel ---------- */
