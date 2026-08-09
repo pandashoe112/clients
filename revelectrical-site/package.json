@@ -11,8 +11,5 @@
     "@sanity/client": "^6.21.3",
     "@sanity/image-url": "^1.0.2",
     "astro": "^4.15.0"
-  },
-  "devDependencies": {
-    "playwright": "^1.62.1"
   }
 }
