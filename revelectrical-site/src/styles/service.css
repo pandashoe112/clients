@@ -140,9 +140,7 @@ button{font:inherit}
   transition:border-color .25s ease, box-shadow .25s ease;
 }
 .siteheader.is-stuck{border-bottom-color:var(--line);box-shadow:0 6px 24px rgba(3,47,53,.07)}
-.siteheader__inner{display:flex;align-items:center;justify-content:space-between;gap:28px;min-height:78px}
 .siteheader__logo{display:block;flex:none}
-.siteheader__logo img{width:174px;height:auto}
 .sitenav{display:flex;align-items:center;gap:30px}
 .sitenav__link{
   text-decoration:none;font-weight:600;font-size:.9688rem;color:var(--ink);
@@ -508,3 +506,7 @@ button{font:inherit}
 .quotecard .label{margin:0 0 5px}
 .quotecard textarea.input{min-height:88px}
 .quotecard .formnote{margin-top:10px}
+
+
+/* Step numbers keep the lime fill */
+.steps .step__node{background:var(--lime);border-color:var(--lime);color:var(--ink)}
