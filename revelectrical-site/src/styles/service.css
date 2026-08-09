@@ -131,28 +131,6 @@ button{font:inherit}
 .utilbar__link{text-decoration:none;font-weight:600;transition:color .18s ease}
 .utilbar__link:hover{color:var(--lime)}
 
-.siteheader{
-  position:sticky;top:0;z-index:100;
-  background:rgba(244,246,239,.88);
-  backdrop-filter:saturate(160%) blur(14px);
-  -webkit-backdrop-filter:saturate(160%) blur(14px);
-  border-bottom:1px solid transparent;
-  transition:border-color .25s ease, box-shadow .25s ease;
-}
-.siteheader.is-stuck{border-bottom-color:var(--line);box-shadow:0 6px 24px rgba(3,47,53,.07)}
-.siteheader__logo{display:block;flex:none}
-.sitenav{display:flex;align-items:center;gap:30px}
-.sitenav__link{
-  text-decoration:none;font-weight:600;font-size:.9688rem;color:var(--ink);
-  padding-block:6px;border-bottom:2px solid transparent;transition:border-color .18s ease
-}
-.sitenav__link:hover{border-bottom-color:var(--lime)}
-.siteheader__actions{display:flex;align-items:center;gap:14px}
-.siteheader__phone{
-  display:inline-flex;align-items:center;gap:9px;text-decoration:none;
-  font-weight:700;font-size:.9688rem;white-space:nowrap;
-}
-.siteheader__phone:hover{color:var(--deep)}
 
 /* ============================================================
    HERO
@@ -434,8 +412,7 @@ button{font:inherit}
   .utilbar__licfull{display:none}
   .utilbar__inner{justify-content:space-between;gap:14px}
   .utilbar__links{gap:16px}
-  .siteheader__phone{display:none}
-  .workgrid,.relgrid{grid-template-columns:1fr}
+    .workgrid,.relgrid{grid-template-columns:1fr}
   .diff__head,.finalcta__inner{grid-template-columns:1fr}
   .work__head{align-items:start}
   .mobar{display:flex}
