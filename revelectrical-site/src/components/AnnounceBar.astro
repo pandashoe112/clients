@@ -1,0 +1,18 @@
+---
+import Stars from './Stars.astro';
+import Icon from './Icon.astro';
+const { settings } = Astro.props;
+---
+<div class="announce" id="announce">
+  <div class="wrap announce__inner">
+    <span class="announce__rating">
+      {settings.ratingValue}
+      <Stars size={14} className="stars announce__stars" />
+      ({settings.reviewCount} reviews)
+    </span>
+    <p class="announce__msg">{settings.announcementText} <a href="#contact">{settings.announcementCtaLabel}</a></p>
+    <button class="announce__close" type="button" id="announceClose" aria-label="Dismiss announcement">
+      <Icon name="close" size={16} stroke={2.4} />
+    </button>
+  </div>
+</div>

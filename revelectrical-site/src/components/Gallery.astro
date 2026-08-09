@@ -1,0 +1,20 @@
+---
+import { img, alt } from '../lib/sanity.js';
+const { heading, intro, items } = Astro.props;
+---
+<section class="section bg-cream" id="gallery">
+  <div class="wrap">
+    <div class="sec__head sec__head--center reveal">
+      <h2 class="h2">{heading}</h2>
+      <p class="lede" style="margin-top:16px">{intro}</p>
+    </div>
+    <ul class="gallerygrid reveal reveal-d1">
+      {items.map((item) => (
+        <li class="shot">
+          <img src={img(item.image, 700, 700)} alt={alt(item.image)} width="700" height="700" loading="lazy" />
+          <span class="shot__cap">{item.caption}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

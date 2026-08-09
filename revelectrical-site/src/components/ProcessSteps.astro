@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+const { heading, steps } = Astro.props;
+---
+<section class="section bg-cream" id="how-it-works">
+  <div class="wrap process">
+    <div class="reveal">
+      <h2 class="h2">{heading}</h2>
+      <div class="btn-row" style="margin-top:30px">
+        <a class="btn btn-ink" href="#contact">Contact us <Icon name="chevron" size={15} stroke={2.6} /></a>
+      </div>
+    </div>
+
+    <ol class="steplist">
+      {steps.map((step) => (
+        <li class="step reveal">
+          <span class="step__wire" aria-hidden="true"></span>
+          <span class="step__tile" aria-hidden="true"><Icon name={step.icon} size={26} stroke={1.7} /></span>
+          <div>
+            <h3 class="h3 step__title">{step.title}</h3>
+            <p class="step__text">{step.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

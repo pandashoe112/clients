@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import { img } from '../lib/sanity';
+const { heading, text, brands } = Astro.props;
+---
+<section class="section bg-paper">
+  <div class="wrap brands__inner">
+    <div class="reveal">
+      <h2 class="h2">{heading}</h2>
+      <p class="lede" style="margin-top:20px;max-width:44ch">{text}</p>
+      <div class="btn-row" style="margin-top:28px">
+        <a class="btn btn-ink" href="#contact">Talk to us <Icon name="chevron" size={15} stroke={2.6} /></a>
+      </div>
+    </div>
+    <ul class="brandgrid reveal reveal-d1">
+      {brands.map((b) => (
+        <li>
+          {b.logo ? <img class="brandlogo" src={img(b.logo, 320)} alt={b.name} loading="lazy" /> : b.name}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

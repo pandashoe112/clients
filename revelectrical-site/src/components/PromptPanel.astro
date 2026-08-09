@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+import { img, alt } from '../lib/sanity.js';
+const { page, settings } = Astro.props;
+---
+<section class="bg-paper" style="padding-bottom:var(--section-y)">
+  <div class="wrap">
+    <div class="promptpanel reveal">
+      <div class="promptpanel__body">
+        <h2 class="h2 promptpanel__title">{page.promptHeading}</h2>
+        <p class="promptpanel__text">{page.promptText}</p>
+        <div class="btn-row">
+          <a class="btn btn-lime" href="#contact">{page.promptCtaLabel} <Icon name="chevron" size={15} stroke={2.6} /></a>
+          <a class="btn btn-glass js-call" href={settings.phoneHref}>Call now <Icon name="phone" size={16} stroke={2.2} /></a>
+        </div>
+      </div>
+      <figure class="promptpanel__media">
+        <img src={img(page.promptImage, 900)} alt={alt(page.promptImage)} width="900" height="900" loading="lazy" />
+      </figure>
+    </div>
+  </div>
+</section>

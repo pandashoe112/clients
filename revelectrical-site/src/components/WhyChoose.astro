@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import { img, alt } from '../lib/sanity.js';
+const { page } = Astro.props;
+---
+<section class="section bg-paper" id="about">
+  <div class="wrap split">
+    <figure class="split__media reveal">
+      <img src={img(page.whyImage, 800)} alt={alt(page.whyImage)} width="800" height="800" loading="lazy" />
+    </figure>
+    <div class="split__body reveal reveal-d1">
+      <h2 class="h2">{page.whyHeading}</h2>
+      {page.whyParagraphs.map((para, i) => (
+        <p class="lede" style={i === 0 ? 'margin-top:24px' : ''}>{para}</p>
+      ))}
+      <ul class="ticklist">
+        {page.whyPoints.map((point) => (
+          <li><Icon name="check" size={18} stroke={2.4} />{point}</li>
+        ))}
+      </ul>
+      <div class="btn-row">
+        <a class="btn btn-ink" href="#contact">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-outline" href="#gallery">See our work</a>
+      </div>
+    </div>
+  </div>
+</section>

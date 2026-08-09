@@ -1,0 +1,49 @@
+---
+import '../styles/global.css';
+const { title, description, settings } = Astro.props;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Electrician',
+  name: settings.businessName,
+  legalName: 'Everything Electrification Pty Ltd',
+  foundingDate: String(settings.established),
+  telephone: settings.phoneHref.replace('tel:', ''),
+  email: settings.email,
+  url: 'https://www.revelectrical.com.au/',
+  identifier: settings.licence,
+  areaServed: [{ '@type': 'City', name: 'Melbourne' }],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: String(settings.ratingValue),
+    reviewCount: String(settings.reviewCount),
+    bestRating: '5'
+  }
+};
+---
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href="https://www.revelectrical.com.au/" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#032F35" />
+  <link rel="icon" href="/favicon.webp" type="image/webp" />
+  <link rel="apple-touch-icon" href="/favicon.webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)}></script>
+</head>
+<body>
+  <a class="skiplink" href="#main">Skip to main content</a>
+  <slot />
+  <script>
+    import "../scripts/site.js";
+  </script>
+</body>
+</html>

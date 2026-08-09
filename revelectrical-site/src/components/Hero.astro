@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+import Stars from './Stars.astro';
+import { img, alt } from '../lib/sanity.js';
+const { page, settings } = Astro.props;
+---
+<section class="hero">
+  <div class="hero__pattern" aria-hidden="true"></div>
+  <div class="wrap hero__inner">
+    <div>
+      <h1 class="h1 hero__title">
+        {page.heroHeadingStart} <span class="hl">{page.heroHeadingHighlight}</span> {page.heroHeadingEnd}
+      </h1>
+
+      <ul class="heroticks">
+        {page.heroTicks.map((t) => (
+          <li><Icon name="checkCircle" size={19} stroke={2.2} />{t}</li>
+        ))}
+      </ul>
+
+      <p class="lede lede-light measure" style="margin-bottom:32px">{page.heroIntro}</p>
+
+      <div class="btn-row">
+        <a class="btn btn-lime" href="#contact">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-glass js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+      </div>
+    </div>
+
+    <figure class="hero__figure">
+      <img src={img(page.heroImage, 900)} alt={alt(page.heroImage)} width="900" height="920" />
+      <figcaption class="ratingcard">
+        <span class="ratingcard__num">{settings.ratingValue}</span>
+        <div>
+          <Stars size={16} />
+          <p class="ratingcard__meta">from {settings.reviewCount} reviewers</p>
+        </div>
+      </figcaption>
+    </figure>
+  </div>
+</section>

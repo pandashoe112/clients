@@ -1,0 +1,26 @@
+---
+const { heading, intro, services, note } = Astro.props;
+const delay = (i) => (i % 3 === 1 ? 'reveal-d1' : i % 3 === 2 ? 'reveal-d2' : '');
+---
+<section class="section bg-ink" id="services">
+  <div class="wrap">
+    <div class="sec__head sec__head--center reveal">
+      <h2 class="h2 h2-lime">{heading}</h2>
+      <p class="lede lede-light" style="margin-top:18px">{intro}</p>
+    </div>
+
+    <ul class="svcgrid">
+      {services.map((s, i) => (
+        <li class={`reveal ${delay(i)}`} id={`svc-${s.slug.current}`}>
+          <a class="svccard svccard--bare" href="#contact">
+            <img class="svccard__icon svccard__icon--center" src={`/icon-${s.icon}.webp`} alt="" width="78" height="76" loading="lazy" />
+            <h3 class="h3 svccard__title svccard__title--lime">{s.title}</h3>
+            <p class="svccard__text svccard__text--light">{s.summary}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    {note && <p class="svcnote svcnote--plain reveal">{note}</p>}
+  </div>
+</section>

@@ -1,0 +1,9 @@
+---
+const { size = 14, className = 'stars', label = '5 out of 5 stars', count = 5 } = Astro.props;
+const star = 'm12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1Z';
+---
+<span class={className} role="img" aria-label={label}>
+  {Array.from({ length: count }).map(() => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={star} /></svg>
+  ))}
+</span>

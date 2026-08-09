@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Icon from '../components/Icon.astro';
+import { sanity } from '../lib/sanity.js';
+
+const settings = await sanity.fetch(`*[_type == "siteSettings"][0]{
+  businessName, phone, phoneHref, email, licence, established,
+  ratingValue, reviewCount, instagramUrl, facebookUrl
+}`);
+---
+<Base title="Thanks, we've got your enquiry" description="Your enquiry has been received." settings={settings}>
+  <main id="main" class="section bg-paper">
+    <div class="wrap" style="max-width:720px">
+      <h1 class="h2">Thanks, we've got your enquiry.</h1>
+      <p class="lede" style="margin-top:20px">
+        We'll be in touch shortly. If it's urgent, call us on
+        <a class="js-call" href={settings.phoneHref}>{settings.phone}</a>.
+      </p>
+      <div class="btn-row" style="margin-top:32px">
+        <a class="btn btn-ink" href="/">Back to the site <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-outline js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+      </div>
+    </div>
+  </main>
+  <SiteFooter settings={settings} />
+</Base>

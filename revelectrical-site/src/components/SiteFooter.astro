@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+const { settings } = Astro.props;
+---
+<footer class="sitefooter">
+  <div class="wrap">
+    <div class="footer__top">
+      <div>
+        <img class="footer__logo" src="/logo-light.webp" alt={settings.businessName} width="196" height="32" loading="lazy" />
+        <p class="footer__blurb">A licensed residential electrical contractor helping Melbourne homes go all-electric.</p>
+        <ul class="footer__social">
+          {settings.instagramUrl && <li><a href={settings.instagramUrl} aria-label="Instagram"><Icon name="instagram" size={18} /></a></li>}
+          {settings.facebookUrl && <li><a href={settings.facebookUrl} aria-label="Facebook"><Icon name="facebook" size={18} /></a></li>}
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__h">Get in touch</h2>
+        <ul class="footer__list">
+          <li><a class="js-call" href={settings.phoneHref}>{settings.phone}</a></li>
+          <li><a href={`mailto:${settings.email}?subject=quote%20enquiry`}>{settings.email}</a></li>
+          <li><a href="#contact">Request a free quote</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__h">Explore</h2>
+        <ul class="footer__list">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#how-it-works">How it works</a></li>
+          <li><a href="#service-areas">Service areas</a></li>
+          <li><a href="#about">About us</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p style="margin:0">{settings.licence} · EST. {settings.established} · Everything Electrification Pty Ltd t/a {settings.businessName}</p>
+      <p style="margin:0">revelectrical.com.au</p>
+    </div>
+  </div>
+</footer>

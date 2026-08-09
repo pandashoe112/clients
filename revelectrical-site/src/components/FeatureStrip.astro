@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+const { items } = Astro.props;
+---
+<section class="section bg-cream">
+  <div class="wrap">
+    <ul class="featgrid reveal">
+      {items.map((item) => (
+        <li class="featitem">
+          <span class="featitem__icon" aria-hidden="true"><Icon name={item.icon} size={38} stroke={1.6} /></span>
+          <h3 class="h4 featitem__title">{item.title}</h3>
+          <p class="featitem__text">{item.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

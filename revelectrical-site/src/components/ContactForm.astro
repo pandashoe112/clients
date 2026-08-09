@@ -1,0 +1,100 @@
+---
+import Icon from './Icon.astro';
+import { img, alt } from '../lib/sanity.js';
+const { page, settings, services } = Astro.props;
+---
+<section class="section bg-paper" id="contact">
+  <div class="wrap contact__inner">
+    <div class="reveal">
+      <h2 class="h2">{page.contactHeading}</h2>
+      <p class="lede" style="margin-top:18px;max-width:42ch">{page.contactIntro}</p>
+
+      <ul class="contactlist">
+        <li>
+          <Icon name="mail" size={19} />
+          <div><a href={`mailto:${settings.email}?subject=quote%20enquiry`}>{settings.email}</a></div>
+        </li>
+        <li>
+          <Icon name="phone" size={19} />
+          <div><a class="js-call" href={settings.phoneHref}>{settings.phone}</a></div>
+        </li>
+        <li>
+          <Icon name="pin" size={19} />
+          <div>
+            <a href="#service-areas">Melbourne west and north</a>
+            <span>{settings.licence} · Est. {settings.established}</span>
+          </div>
+        </li>
+      </ul>
+
+      <figure class="contact__media">
+        <img src={img(page.contactImage, 800)} alt={alt(page.contactImage)} width="800" height="860" loading="lazy" />
+      </figure>
+    </div>
+
+    <div class="reveal reveal-d1">
+      <form class="formgrid" name="home-enquiry" method="POST" action="/thank-you"
+            data-netlify="true" netlify-honeypot="bot-field"
+            enctype="multipart/form-data" id="quoteForm" novalidate>
+        <input type="hidden" name="form-name" value="home-enquiry" />
+        <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+        <input type="hidden" name="page_url" id="f_page_url" />
+
+        <div>
+          <label class="label" for="f_name">Name</label>
+          <input class="input" type="text" id="f_name" name="name" autocomplete="name" placeholder="First and last name" required aria-describedby="err_name" />
+          <p class="err" id="err_name" role="alert"></p>
+        </div>
+
+        <div class="formrow">
+          <div>
+            <label class="label" for="f_email">Email</label>
+            <input class="input" type="email" id="f_email" name="email" autocomplete="email" inputmode="email" placeholder="Email address" required aria-describedby="err_email" />
+            <p class="err" id="err_email" role="alert"></p>
+          </div>
+          <div>
+            <label class="label" for="f_phone">Phone number</label>
+            <input class="input" type="tel" id="f_phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="Phone number" required aria-describedby="err_phone" />
+            <p class="err" id="err_phone" role="alert"></p>
+          </div>
+        </div>
+
+        <div>
+          <label class="label" for="f_suburb">Suburb</label>
+          <input class="input" type="text" id="f_suburb" name="suburb" autocomplete="address-level2" placeholder="Suburb or postcode" required aria-describedby="err_suburb" />
+          <p class="err" id="err_suburb" role="alert"></p>
+        </div>
+
+        <div>
+          <label class="label" for="f_service">Service</label>
+          <select class="input select" id="f_service" name="service" required aria-describedby="err_service">
+            <option value="">Select a service</option>
+            {services.map((s) => <option>{s.title}</option>)}
+            <option>Other electrical work</option>
+          </select>
+          <p class="err" id="err_service" role="alert"></p>
+        </div>
+
+        <div>
+          <span class="label">Upload photos or video <span class="label__opt">(optional)</span></span>
+          <div class="filerow">
+            <label class="filebtn" for="f_files"><Icon name="upload" size={17} /> Upload files</label>
+            <input type="file" id="f_files" name="attachments" multiple accept="image/*,video/*" />
+            <span class="filehint" id="fileHint">Max file size 10MB</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="label" for="f_message">Message <span class="label__opt">(optional)</span></label>
+          <textarea class="input" id="f_message" name="message" placeholder="How can we help.."></textarea>
+        </div>
+
+        <button class="btn btn-ink btn-block" type="submit" id="submitBtn">Submit</button>
+        <p class="formnote">
+          <Icon name="lock" size={15} stroke={2.2} />
+          We only use your details to quote your job. No obligation to go ahead.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
