@@ -1,6 +1,16 @@
 ---
 import Icon from './Icon.astro';
 const { service } = Astro.props;
+
+// Each related service shows the photo already used for it elsewhere on the site.
+const PHOTO = {
+  'solar-battery': '/photos/solar-battery.webp',
+  'heat-pump-hot-water': '/photos/heat-pump.webp',
+  'switchboard-upgrade': '/photos/switchboard-test.webp',
+  'ev-charging': '/photos/ev-charger.webp',
+  'led-lighting': '/photos/downlight.webp',
+  'induction-cooking': '/photos/induction-cooktop.webp'
+};
 const related = service.relatedServices || [];
 const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : '');
 ---
@@ -14,7 +24,7 @@ const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : '');
         {related.map((r, i) => (
           <li class={`reveal ${delay(i)}`}>
             <a class="relcard" href={`/services/${r.slug}/`}>
-              <span class="relcard__tag">{r.title}</span>
+              {PHOTO[r.slug] && <img class="relcard__img" src={PHOTO[r.slug]} alt="" width="484" height="484" loading="lazy" />}
               <h3 class="relcard__title">{r.title}</h3>
               <p class="relcard__text">{r.summary}</p>
               <span class="relcard__more">More info <Icon name="chevron" size={14} stroke={2.6} /></span>

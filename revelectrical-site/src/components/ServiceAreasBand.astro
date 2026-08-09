@@ -1,0 +1,26 @@
+---
+import Icon from './Icon.astro';
+const { service, suburbs = [] } = Astro.props;
+const shown = suburbs.slice(0, 24);
+---
+<section class="section bg-cream" id="service-areas">
+  <div class="wrap areasband__inner">
+    <div class="reveal">
+      <p class="eyebrow">Service areas</p>
+      <h2 class="h2" style="margin-top:12px">EV charger installation across Melbourne.</h2>
+      <p class="lede" style="margin-top:18px;max-width:44ch">
+        We install home chargers across Melbourne's west, north and inner suburbs.
+        Not on the list? Send your postcode with your enquiry and we'll confirm.
+      </p>
+      <div class="btn-row" style="margin-top:26px">
+        <a class="btn btn-ink" href="#quote">Check your suburb <Icon name="chevron" size={15} stroke={2.6} /></a>
+      </div>
+    </div>
+
+    <ul class="areasband__list reveal reveal-d1">
+      {shown.map((s) => (
+        <li><strong>{s.name}</strong><span>{s.postcode}</span></li>
+      ))}
+    </ul>
+  </div>
+</section>

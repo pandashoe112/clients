@@ -280,7 +280,9 @@ button{font:inherit}
 /* ============================================================
    DIFFERENCE
    ============================================================ */
-.diff__head{display:block;max-width:70ch;margin:0 0 clamp(40px,4.6vw,60px)}
+.diff__head{display:block;max-width:none;margin:0 0 clamp(40px,4.6vw,60px)}
+.diff__head .h2{text-wrap:balance;max-width:24ch}
+.diff__head .lede{max-width:62ch}
 .diff__head .h2{margin-top:12px}
 .diffgrid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line-light);border:1px solid var(--line-light);border-radius:var(--r-lg);overflow:hidden}
 .diffitem{background:var(--deep);padding:clamp(26px,2.6vw,34px);transition:background-color .25s ease}
@@ -527,3 +529,19 @@ button{font:inherit}
 .typecard__text{margin:0;color:var(--muted);font-size:.9375rem;line-height:1.65}
 .typecard__meta{margin:0;font-weight:700;font-size:.8125rem;letter-spacing:.04em;text-transform:uppercase;color:var(--deep)}
 @media (max-width:900px){.types{grid-template-columns:1fr}}
+
+
+/* Related service cards with a photo */
+.relcard__img{width:100%;aspect-ratio:4/2.4;height:auto;object-fit:cover;border-radius:var(--r-sm);margin:0 0 16px;display:block}
+
+/* Service areas band */
+.areasband__inner{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);align-items:start}
+.areasband__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 22px}
+.areasband__list li{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:.875rem;
+  white-space:nowrap;padding-bottom:7px;border-bottom:1px solid var(--line)}
+.areasband__list strong{font-weight:600}
+.areasband__list span{color:var(--muted);font-size:.8125rem}
+@media (max-width:900px){
+  .areasband__inner{grid-template-columns:1fr}
+  .areasband__list{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
