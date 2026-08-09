@@ -1,0 +1,38 @@
+---
+import {Image} from 'astro:assets'
+import blackvue from '../assets/images/blackvue.png'
+import azdome from '../assets/images/azdome.png'
+import viofo from '../assets/images/viofo.png'
+import carplay from '../assets/images/apple-carplay-dashcam.png'
+import byo from '../assets/images/byo-dashcam.png'
+
+const shop = 'https://www.affordablecaraccessories.com.au/products-list/collections'
+
+const brands = [
+  {name: 'BlackVue', label: 'BlackVue', image: blackvue, href: `${shop}/blackvue`},
+  {name: 'Azdome', label: 'Azdome', image: azdome, href: `${shop}/azdome`},
+  {name: 'Viofo', label: 'Viofo', image: viofo, href: `${shop}/viofo`},
+  {name: 'Apple CarPlay Dashcam', label: 'Apple CarPlay', image: carplay, href: `${shop}/apple-carplay-dashcam`},
+  {name: 'BYO dashcam', label: 'BYO dashcam', image: byo, href: `${shop}/byo`},
+]
+---
+
+<section class="brands" id="brands">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Dashcam brands we supply</span>
+      <h2>Our recommended range of dashcams</h2>
+      <p>These are the brands we supply and install. Already bought one elsewhere? Bring your own and we will fit it for you.</p>
+    </div>
+    <div class="brow">
+      {
+        brands.map((brand) => (
+          <a class="brand" href={brand.href}>
+            <Image src={brand.image} alt={brand.name} widths={[180, 360]} sizes="180px" loading="lazy" />
+            <span>{brand.label}</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

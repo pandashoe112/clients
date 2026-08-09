@@ -1,0 +1,29 @@
+# Netlify reads this file from the site's base directory.
+#
+# In the Netlify UI this site's "Base directory" is sites/__SLUG__.
+# Dependencies still install from the repo root because that is where the npm
+# workspace lockfile lives — Netlify's monorepo detection handles that.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # Content lookup. PUBLIC_SITE_ID must match the Sanity document _id.
+  PUBLIC_SANITY_PROJECT_ID = "__PROJECT_ID__"
+  PUBLIC_SANITY_DATASET = "production"
+  PUBLIC_SITE_ID = "__SLUG__"
+
+# Astro fingerprints hashed assets, so they can be cached indefinitely.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"

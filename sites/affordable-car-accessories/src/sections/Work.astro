@@ -1,0 +1,47 @@
+---
+import {Image} from 'astro:assets'
+import azdomeInstall from '../assets/images/azdome-dashcam-install.jpg'
+import azdomeM550 from '../assets/images/azdome-m550-installed-behind-the-rear-view-mirror.jpg'
+import rearCam from '../assets/images/rear-dashcam-installed-on-rear-windscreen.jpg'
+import viofoInstalled from '../assets/images/viofo-dashcam-installed.jpg'
+import azdomeSupplied from '../assets/images/azdome-dashcam-supplied-and-installed.jpg'
+import thinkware from '../assets/images/thinkware-q1000-dashcam-install.jpg'
+import blackvueElite from '../assets/images/blackvue-elite-8-dual-2k-dashcam.jpg'
+import blackvueReady from '../assets/images/blackvue-dashcam-ready-for-install.jpg'
+
+const gallery = [
+  {image: azdomeInstall, alt: 'Azdome dashcam install'},
+  {image: azdomeM550, alt: 'Azdome M550 installed behind the rear view mirror'},
+  {image: rearCam, alt: 'Rear dashcam installed on rear windscreen'},
+  {image: viofoInstalled, alt: 'Viofo dashcam installed'},
+  {image: azdomeSupplied, alt: 'Azdome dashcam supplied and installed'},
+  {image: thinkware, alt: 'Thinkware Q1000 dashcam install'},
+  {image: blackvueElite, alt: 'BlackVue Elite 8 dual 2K dashcam'},
+  {image: blackvueReady, alt: 'BlackVue dashcam ready for install'},
+]
+---
+
+<section class="workbg" id="work">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Our work</span>
+      <h2>Recent dashcam installations across Melbourne</h2>
+      <p>Every product we offer is chosen to meet real driving needs, and every install is finished to the same standard whether it's one car or a whole fleet.</p>
+    </div>
+    <div class="gal">
+      {
+        gallery.map((item) => (
+          <figure>
+            <Image
+              src={item.image}
+              alt={item.alt}
+              widths={[300, 600]}
+              sizes="(max-width: 760px) 50vw, 290px"
+              loading="lazy"
+            />
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

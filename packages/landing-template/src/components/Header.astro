@@ -1,0 +1,53 @@
+---
+import type {LandingPage} from '../lib/types'
+import {telHref} from '../lib/types'
+import {urlFor} from '../lib/sanity'
+import Icon from './Icon.astro'
+
+interface Props {
+  page: LandingPage
+}
+
+const {page} = Astro.props
+const {header, business} = page
+
+// The logo is a fixed 40px tall in the header; 2x for retina.
+const logoSrc = urlFor(header.logo).height(80).auto('format').url()
+---
+
+<header class="header">
+  <div class="hrow">
+    <a class="hlogo" href="#top">
+      <img src={logoSrc} alt={header.logoAlt} width="220" height="40" />
+    </a>
+
+    {
+      header.navItems && header.navItems.length > 0 && (
+        <nav class="hnav">
+          {header.navItems.map((item) => (
+            <a href={`#${item.anchor}`}>{item.label}</a>
+          ))}
+        </nav>
+      )
+    }
+
+    <div class="hact">
+      {header.availabilityChip && (
+        <span class="livechip"><i></i>{header.availabilityChip}</span>
+      )}
+
+      <a class="callnow" href={telHref(business.phone)}>
+        <span class="ph"><Icon name="phone" /></span>
+        <span class="calltext">
+          <span class="lbl">Call us now!</span>
+          <span class="num">{business.phone}</span>
+        </span>
+      </a>
+
+      <a class="btn btn-royal" href="#quote">
+        {header.ctaLabel}
+        <Icon name="arrow" />
+      </a>
+    </div>
+  </div>
+</header>

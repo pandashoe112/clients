@@ -1,0 +1,43 @@
+---
+import {Image} from 'astro:assets'
+import alexInstalling from '../assets/images/alex-hardwiring-a-dashcam-at-a-customer-s-home.jpg'
+---
+
+<section class="about" id="why">
+  <div class="wrap">
+    <div class="aimg">
+      <Image
+        src={alexInstalling}
+        alt="Alex hardwiring a dashcam at a customer's home"
+        widths={[520, 780, 1040]}
+        sizes="(max-width: 980px) 100vw, 520px"
+        loading="lazy"
+      />
+      <div class="abadge"><div class="n">100s</div><small>of makes &amp; models</small></div>
+    </div>
+    <div>
+      <span class="eyebrow">Why choose us</span>
+      <h2 style="margin-top:16px">Why choose Affordable Car Accessories</h2>
+      <p class="lead" style="margin-top:16px">Anyone can stick a camera to a windscreen. We do the part that matters underneath the trim, and we do it in your driveway.</p>
+      <ul class="ulist">
+        <li>
+          <span class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg></span>
+          <div><h3>Clean, professional</h3><p>Every installation is hardwired directly to your vehicle's electrical system with hidden cables, secure mounting and no messy wiring visible. We treat your car with care and respect.</p></div>
+        </li>
+        <li>
+          <span class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg></span>
+          <div><h3>Mobile convenience</h3><p>No need to drive anywhere or disrupt your day. We bring the service to you at home, at work, or wherever your vehicle is parked. Perfect for busy individuals and fleet managers.</p></div>
+        </li>
+        <li>
+          <span class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg></span>
+          <div><h3>Experienced with all vehicles</h3><p>From sedans and SUVs to commercial vans and fleet vehicles, we've installed dashcams in hundreds of different makes and models. We know how to work with your specific vehicle.</p></div>
+        </li>
+        <li>
+          <span class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg></span>
+          <div><h3>For individuals, businesses &amp; fleets</h3><p>Whether you need one dashcam for personal use or installations across an entire fleet, we provide the same level of professionalism and attention to detail.</p></div>
+        </li>
+      </ul>
+      <div style="margin-top:32px"><a class="btn btn-ink" href="#quote">Get a free quote</a></div>
+    </div>
+  </div>
+</section>

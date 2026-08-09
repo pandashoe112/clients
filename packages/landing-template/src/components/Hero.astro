@@ -1,0 +1,84 @@
+---
+import type {LandingPage} from '../lib/types'
+import {telHref} from '../lib/types'
+import {urlFor} from '../lib/sanity'
+import Icon from './Icon.astro'
+import QuoteForm from './QuoteForm.astro'
+
+interface Props {
+  page: LandingPage
+}
+
+const {page} = Astro.props
+const {hero, form, business} = page
+
+const bg = hero.backgroundImage
+const bgUrl = (w: number) => urlFor(bg).width(w).quality(72).auto('format').url()
+const review = hero.review
+---
+
+<section class="hero">
+  <div class="hero-bg">
+    <img
+      src={bgUrl(1800)}
+      srcset={`${bgUrl(900)} 900w, ${bgUrl(1400)} 1400w, ${bgUrl(1800)} 1800w, ${bgUrl(2400)} 2400w`}
+      sizes="100vw"
+      alt={bg.alt ?? ''}
+      fetchpriority="high"
+      decoding="async"
+      width="1800"
+      height="1200"
+    />
+  </div>
+
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        {hero.eyebrow && <span class="eyebrow">{hero.eyebrow}</span>}
+
+        <h1>
+          {hero.headlineLines.map((line, i) => <span class={`l${i + 1}`}>{line}</span>)}
+        </h1>
+
+        <p class="hsub">{hero.subcopy}</p>
+
+        {
+          hero.ticks && hero.ticks.length > 0 && (
+            <ul class="hticks">
+              {hero.ticks.map((tick) => (
+                <li>
+                  <Icon name="tick" />
+                  {tick}
+                </li>
+              ))}
+            </ul>
+          )
+        }
+
+        {
+          review?.show && review.score != null && (
+            <div class="grev">
+              <Icon name="google" class="glogo" />
+              <span class="grev-score">{review.score.toFixed(1)}</span>
+              <span class="grev-stars" aria-hidden="true">★★★★★</span>
+              {review.count != null && <span class="grev-txt">{review.count} Google reviews</span>}
+            </div>
+          )
+        }
+
+        <div class="hbtns">
+          <a class="btn btn-white" href="#quote">{hero.primaryCtaLabel}</a>
+          {
+            hero.secondaryCtaLabel && (
+              <a class="btn btn-outline" href={telHref(business.phone)}>
+                {hero.secondaryCtaLabel}
+              </a>
+            )
+          }
+        </div>
+      </div>
+
+      <QuoteForm form={form} location="hero" id="quote" class="formcard hero-shift" />
+    </div>
+  </div>
+</section>

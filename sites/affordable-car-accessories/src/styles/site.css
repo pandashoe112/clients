@@ -1,0 +1,17 @@
+/* Per-site overrides.
+ *
+ * The shared template ships a default palette in
+ * packages/landing-template/src/styles/tokens.css. Redeclare any of those custom
+ * properties here to re-skin the entire page — buttons, headings, chips, the hero
+ * overlay and the footer all read from them.
+ *
+ * Example:
+ *   :root{
+ *     --ink:#1A1A2E;
+ *     --blue:#E94560;
+ *     --accent:#0F3460;
+ *   }
+ *
+ * This site uses the template defaults unchanged, so there is nothing to override
+ * yet. Section-specific styles for this client belong here too.
+ */

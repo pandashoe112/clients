@@ -1,0 +1,46 @@
+---
+import Base from '@dunk/landing-template/layouts/Base.astro'
+import Icon from '@dunk/landing-template/components/Icon.astro'
+import {getLandingPage} from '@dunk/landing-template/lib/sanity'
+import {telHref} from '@dunk/landing-template/lib/types'
+import '@dunk/landing-template/styles/base.css'
+import '@dunk/landing-template/styles/thank-you.css'
+import '../styles/site.css'
+
+const page = await getLandingPage()
+const {thankYou, business} = page
+
+// This page is the Google Ads conversion trigger. Its URL is /thank-you/ — set
+// that as the destination URL in Ads, and the conversion event fires from Base.astro.
+const location = [business.suburb, business.state].filter(Boolean).join(' ')
+const footerBits = [business.name, location, business.abn && `ABN ${business.abn}`].filter(Boolean)
+---
+
+<Base page={page} variant="thankYou" bodyClass="ty">
+  <main class="ty-card">
+    <div class="ty-tick"><Icon name="tick" /></div>
+
+    <h1>{thankYou.heading}</h1>
+    <p class="ty-sub">{thankYou.subcopy}</p>
+
+    {
+      thankYou.bullets && thankYou.bullets.length > 0 && (
+        <section class="ty-next">
+          <h2>What happens next</h2>
+          <ul>
+            {thankYou.bullets.map((bullet) => (
+              <li>{bullet}</li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <div class="ty-btns">
+      <a class="btn btn-royal" href={telHref(business.phone)}>Call {business.phone}</a>
+      <a class="btn btn-outline-dark" href="/">Back to the page</a>
+    </div>
+
+    <p class="ty-foot">{footerBits.join(' · ')}</p>
+  </main>
+</Base>

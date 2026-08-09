@@ -1,0 +1,27 @@
+---
+import Base from '@dunk/landing-template/layouts/Base.astro'
+import Header from '@dunk/landing-template/components/Header.astro'
+import Hero from '@dunk/landing-template/components/Hero.astro'
+import Footer from '@dunk/landing-template/components/Footer.astro'
+import StickyBar from '@dunk/landing-template/components/StickyBar.astro'
+import AttributionFields from '@dunk/landing-template/components/AttributionFields.astro'
+import {getLandingPage} from '@dunk/landing-template/lib/sanity'
+import '@dunk/landing-template/styles/base.css'
+import '../styles/site.css'
+
+// Add this site's own sections here. They are plain .astro files — write the
+// markup directly, reuse the class names in base.css, and keep the anchor ids
+// matching the nav items set in Sanity.
+import Example from '../sections/Example.astro'
+
+const page = await getLandingPage()
+---
+
+<Base page={page} variant="landing">
+  <Header page={page} />
+  <Hero page={page} />
+  <Example />
+  <Footer page={page} />
+  <StickyBar page={page} />
+  <AttributionFields />
+</Base>

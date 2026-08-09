@@ -1,0 +1,17 @@
+{
+  "name": "@sites/affordable-car-accessories",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@dunk/landing-template": "*",
+    "astro": "^5.13.0",
+    "sharp": "^0.33.5"
+  }
+}

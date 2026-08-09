@@ -1,0 +1,23 @@
+/* Brand tokens. Override any of these in sites/<slug>/src/styles/site.css
+   to re-skin the whole template without touching a component. */
+:root{
+  --ink:#12304F;
+  --ink2:#1B3C61;
+  --ink3:#254A7C;
+  --navy:#254A7C;
+  --deep:#007095;
+  --blue:#109BDC;
+  --blue-d:#0B82BB;
+  --sky:#1FABDF;
+  --light:#6FBEE5;
+  --pale:#9CD0E8;
+  --sand:#ECAC77;
+  --accent:#7CBFB6;
+  --accent-soft:#A9D7D0;
+  --paper:#F4F9FC;
+  --line:#DCE6EE;
+  --body:#55697F;
+  --muted:#7F93A8;
+  --live:#3EA96B;
+  --maxw:1240px;
+}

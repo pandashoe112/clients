@@ -1,0 +1,76 @@
+import {groq} from '@sanity/client'
+
+/**
+ * Everything the template renders, in one round trip.
+ *
+ * Explicit projections rather than `...` so that adding a field to the schema is a
+ * deliberate two-line change here, and so the shape stays in sync with types.ts.
+ */
+export const LANDING_PAGE_QUERY = groq`
+*[_type == "landingPage" && _id == $siteId][0]{
+  seo{
+    title,
+    description,
+    canonicalUrl,
+    noindex,
+    ogImage
+  },
+  tracking{
+    adsConversionId,
+    adsConversionLabel,
+    ga4Id
+  },
+  header{
+    logo,
+    logoAlt,
+    availabilityChip,
+    ctaLabel,
+    navItems[]{
+      label,
+      anchor
+    }
+  },
+  hero{
+    eyebrow,
+    headlineLines,
+    subcopy,
+    ticks,
+    backgroundImage,
+    primaryCtaLabel,
+    secondaryCtaLabel,
+    review{
+      show,
+      score,
+      count
+    }
+  },
+  form{
+    heading,
+    subcopy,
+    serviceOptions,
+    submitLabel,
+    footnote
+  },
+  thankYou{
+    heading,
+    subcopy,
+    bullets
+  },
+  business{
+    name,
+    phone,
+    email,
+    abn,
+    streetAddress,
+    suburb,
+    state,
+    postcode,
+    serviceArea,
+    about,
+    legalLinks[]{
+      label,
+      url
+    }
+  }
+}
+`

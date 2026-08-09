@@ -1,0 +1,16 @@
+---
+import type {LandingPage} from '../lib/types'
+import {telHref} from '../lib/types'
+
+interface Props {
+  page: LandingPage
+}
+
+const {page} = Astro.props
+const {hero, business} = page
+---
+
+<div class="sticky">
+  <a class="btn btn-white" href={telHref(business.phone)}>Call us now!</a>
+  <a class="btn btn-royal" href="#quote">{hero.primaryCtaLabel}</a>
+</div>

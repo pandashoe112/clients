@@ -1,0 +1,136 @@
+---
+import type {LandingPage} from '../lib/types'
+import {urlFor} from '../lib/sanity'
+import '../styles/tokens.css'
+
+interface Props {
+  page: LandingPage
+  /** Landing pages get indexed (unless muted in Sanity); the thank-you page never does. */
+  variant: 'landing' | 'thankYou'
+  bodyClass?: string
+}
+
+const {page, variant, bodyClass} = Astro.props
+const {seo, tracking, business} = page
+
+const base = seo.canonicalUrl.replace(/\/+$/, '')
+const canonical = variant === 'landing' ? `${base}/` : `${base}/thank-you/`
+const noindex = variant === 'thankYou' || seo.noindex === true
+
+const ogImage = seo.ogImage
+  ? urlFor(seo.ogImage).width(1200).height(630).fit('crop').auto('format').url()
+  : null
+
+const gtagId = tracking?.ga4Id || tracking?.adsConversionId || null
+const fireConversion =
+  variant === 'thankYou' && Boolean(tracking?.adsConversionId && tracking?.adsConversionLabel)
+
+// LocalBusiness structured data. Only emitted on the landing page, and only with
+// the fields that are actually filled in.
+const address = [business.streetAddress, business.suburb, business.state, business.postcode].filter(Boolean)
+const jsonLd =
+  variant === 'landing'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'LocalBusiness',
+        name: business.name,
+        url: `${base}/`,
+        ...(business.phone && {telephone: business.phone}),
+        ...(business.email && {email: business.email}),
+        ...(address.length && {
+          address: {
+            '@type': 'PostalAddress',
+            ...(business.streetAddress && {streetAddress: business.streetAddress}),
+            ...(business.suburb && {addressLocality: business.suburb}),
+            ...(business.state && {addressRegion: business.state}),
+            ...(business.postcode && {postalCode: business.postcode}),
+            addressCountry: 'AU',
+          },
+        }),
+        ...(page.hero.review?.show &&
+          page.hero.review.score != null &&
+          page.hero.review.count != null && {
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: page.hero.review.score,
+              reviewCount: page.hero.review.count,
+            },
+          }),
+      }
+    : null
+---
+
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{seo.title}</title>
+    <meta name="description" content={seo.description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={seo.title} />
+    <meta property="og:description" content={seo.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_AU" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+    {
+      gtagId && (
+        <>
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`} />
+          <script
+            is:inline
+            define:vars={{
+              ga4Id: tracking?.ga4Id ?? null,
+              adsId: tracking?.adsConversionId ?? null,
+            }}
+          >
+            window.dataLayer = window.dataLayer || []
+            function gtag() {
+              dataLayer.push(arguments)
+            }
+            window.gtag = gtag
+            gtag('js', new Date())
+            if (ga4Id) gtag('config', ga4Id)
+            if (adsId) gtag('config', adsId)
+          </script>
+        </>
+      )
+    }
+
+    {
+      fireConversion && (
+        <script
+          is:inline
+          define:vars={{sendTo: `${tracking!.adsConversionId}/${tracking!.adsConversionLabel}`}}
+        >
+          window.dataLayer = window.dataLayer || []
+          function gtag() {
+            dataLayer.push(arguments)
+          }
+          gtag('event', 'conversion', {send_to: sendTo})
+        </script>
+      )
+    }
+
+    <slot name="head" />
+  </head>
+
+  <body class={bodyClass} id="top">
+    <slot />
+  </body>
+</html>

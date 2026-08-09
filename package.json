@@ -1,0 +1,19 @@
+{
+  "name": "dunk-clients",
+  "private": true,
+  "version": "1.0.0",
+  "description": "DUNK landing page platform — Astro sites on Netlify, content in Sanity",
+  "workspaces": [
+    "packages/*",
+    "sites/*",
+    "studio"
+  ],
+  "scripts": {
+    "new-site": "node scripts/new-site.mjs",
+    "studio": "npm run dev --workspace=studio",
+    "studio:deploy": "npm run deploy --workspace=studio"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

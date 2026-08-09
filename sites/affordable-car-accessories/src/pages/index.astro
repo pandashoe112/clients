@@ -1,0 +1,39 @@
+---
+import Base from '@dunk/landing-template/layouts/Base.astro'
+import Header from '@dunk/landing-template/components/Header.astro'
+import Hero from '@dunk/landing-template/components/Hero.astro'
+import Footer from '@dunk/landing-template/components/Footer.astro'
+import StickyBar from '@dunk/landing-template/components/StickyBar.astro'
+import AttributionFields from '@dunk/landing-template/components/AttributionFields.astro'
+import {getLandingPage} from '@dunk/landing-template/lib/sanity'
+import '@dunk/landing-template/styles/base.css'
+import '../styles/site.css'
+
+// Sections below the hero are this site's own content, not Sanity-managed.
+import FeatureStrip from '../sections/FeatureStrip.astro'
+import About from '../sections/About.astro'
+import Services from '../sections/Services.astro'
+import Brands from '../sections/Brands.astro'
+import HowItWorks from '../sections/HowItWorks.astro'
+import Work from '../sections/Work.astro'
+import Reviews from '../sections/Reviews.astro'
+import FinalCta from '../sections/FinalCta.astro'
+
+const page = await getLandingPage()
+---
+
+<Base page={page} variant="landing">
+  <Header page={page} />
+  <Hero page={page} />
+  <FeatureStrip />
+  <About />
+  <Services />
+  <Brands />
+  <HowItWorks />
+  <Work />
+  <Reviews />
+  <FinalCta page={page} />
+  <Footer page={page} />
+  <StickyBar page={page} />
+  <AttributionFields />
+</Base>

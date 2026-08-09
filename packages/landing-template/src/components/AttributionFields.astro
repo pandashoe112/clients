@@ -1,0 +1,27 @@
+---
+/**
+ * Copies Google Ads click ID and UTM parameters off the URL into the hidden fields
+ * on every quote form, so the lead that lands in Netlify carries its own source.
+ *
+ * Values are written with `.value` rather than into markup, so nothing from the
+ * query string is ever interpreted as HTML.
+ */
+---
+
+<script is:inline>
+  ;(function () {
+    var q = new URLSearchParams(location.search)
+    var keys = ['gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term']
+
+    keys.forEach(function (key) {
+      var value = q.get(key) || ''
+      document.querySelectorAll('.f-' + key).forEach(function (el) {
+        el.value = value
+      })
+    })
+
+    document.querySelectorAll('.f-page_url').forEach(function (el) {
+      el.value = location.href
+    })
+  })()
+</script>

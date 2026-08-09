@@ -1,0 +1,36 @@
+---
+import QuoteForm from '@dunk/landing-template/components/QuoteForm.astro'
+import {telHref} from '@dunk/landing-template/lib/types'
+import type {LandingPage} from '@dunk/landing-template/lib/types'
+
+interface Props {
+  page: LandingPage
+}
+
+const {page} = Astro.props
+const {business} = page
+const phone = telHref(business.phone)
+---
+
+<section class="final">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <span class="eyebrow">Get a free quote</span>
+        <h2 style="margin-top:16px">Get a free quote today for your dashcam supply and installation</h2>
+        <p class="lead" style="margin-top:16px">Whether you've already bought a dashcam or need help picking the right one, we're here to help. Book your mobile installation anywhere across Melbourne.</p>
+        <ul class="ways">
+          <li><span class="n">1</span><div><h3>Call now</h3><p>Speak directly with us to discuss your needs and book an appointment. <a href={phone}>{business.phone}</a></p></div></li>
+          <li><span class="n">2</span><div><h3>Get a quote</h3><p>Request a detailed quote for installation or product bundles.</p></div></li>
+          <li><span class="n">3</span><div><h3>Shop online</h3><p>Browse dashcams and purchase directly from our <a href="https://www.affordablecaraccessories.com.au/products-list">online store</a>.</p></div></li>
+        </ul>
+      </div>
+
+      <QuoteForm form={page.form} location="footer" class="formlight">
+        <p class="fnote" slot="footnote">
+          Or call <a href={phone} class="fnote-call">{business.phone}</a>
+        </p>
+      </QuoteForm>
+    </div>
+  </div>
+</section>

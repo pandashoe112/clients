@@ -1,0 +1,18 @@
+/* Standalone /thank-you/ page. Kept separate from base.css so the conversion
+   page ships almost no CSS — it is the fastest page on the site by design. */
+body.ty{min-height:100vh;display:grid;place-items:center;padding:44px 24px;background:var(--paper)}
+.ty-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:56px 48px;max-width:660px;width:100%;
+         text-align:center;box-shadow:0 24px 60px rgba(18,48,79,.08)}
+.ty-tick{width:78px;height:78px;border-radius:50%;background:var(--accent);display:grid;place-items:center;margin:0 auto 28px}
+.ty-tick svg{width:38px;height:38px;color:#fff}
+.ty-card h1{font-weight:800;font-size:clamp(31px,3.6vw,44px);line-height:1.14}
+.ty-sub{margin-top:18px;color:var(--body);font-size:19px}
+.ty-next{margin-top:36px;padding-top:30px;border-top:1px solid var(--line);text-align:left}
+.ty-next h2{font-size:19px;font-weight:700;margin-bottom:14px}
+.ty-next ul{margin:0;padding-left:22px;color:var(--body);font-size:17px}
+.ty-next li{margin-bottom:9px}
+.ty-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.ty-foot{margin-top:32px;font-size:15px;color:var(--body)}
+.btn-outline-dark{background:#fff;color:var(--ink);border-color:var(--line)}
+.btn-outline-dark:hover{border-color:var(--ink)}
+@media(max-width:560px){.ty-card{padding:38px 26px}}

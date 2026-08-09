@@ -1,0 +1,86 @@
+---
+import type {LandingPage} from '../lib/types'
+import {telHref} from '../lib/types'
+import {urlFor} from '../lib/sanity'
+
+interface Props {
+  page: LandingPage
+}
+
+const {page} = Astro.props
+const {header, business} = page
+
+const logoSrc = urlFor(header.logo).height(80).auto('format').url()
+const year = new Date().getFullYear()
+const location = [business.suburb, business.state, business.postcode].filter(Boolean).join(' ')
+---
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid3">
+      <div>
+        <span class="flogo">
+          <img src={logoSrc} alt={header.logoAlt} width="220" height="40" loading="lazy" />
+        </span>
+        <h4>About {business.name}</h4>
+        {business.about && <p>{business.about}</p>}
+      </div>
+
+      <div>
+        <h4>Contact us</h4>
+        <p>
+          Phone: <a href={telHref(business.phone)}>{business.phone}</a>
+          {business.email && (
+            <>
+              <br />Email: <a href={`mailto:${business.email}`}>{business.email}</a>
+            </>
+          )}
+          {business.abn && (
+            <>
+              <br />ABN: {business.abn}
+            </>
+          )}
+        </p>
+      </div>
+
+      <div>
+        <h4>Location</h4>
+        <p>
+          {business.streetAddress && (
+            <>
+              {business.streetAddress}
+              <br />
+            </>
+          )}
+          {location}
+          {business.serviceArea && (
+            <>
+              <br /><br />{business.serviceArea}
+            </>
+          )}
+        </p>
+      </div>
+    </div>
+
+    <div class="fbot">
+      <span>Copyright &copy; {year} {business.name}. All rights reserved.</span>
+
+      {
+        business.legalLinks && business.legalLinks.length > 0 && (
+          <span class="fmid">
+            {business.legalLinks.map((link, i) => (
+              <>
+                {i > 0 && <>&nbsp;&middot;&nbsp;</>}
+                <a href={link.url}>{link.label}</a>
+              </>
+            ))}
+          </span>
+        )
+      }
+
+      <a class="dunk" href="https://dunk.agency">
+        Website made by <img src="/images/dunk.png" alt="DUNK" width="120" height="26" loading="lazy" />
+      </a>
+    </div>
+  </div>
+</footer>
