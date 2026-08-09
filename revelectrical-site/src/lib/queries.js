@@ -20,7 +20,7 @@ export const HOME_QUERY = /* groq */ `{
     contactHeading, contactIntro, contactImage
   },
   "services": *[_type == "service"] | order(order asc){
-    _id, title, slug, summary, icon
+    _id, title, slug, summary, icon, hasPage
   },
   "suburbs": *[_type == "suburb"] | order(order asc, name asc){
     _id, name, postcode
