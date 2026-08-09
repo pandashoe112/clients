@@ -1,7 +1,13 @@
 ---
 import Icon from './Icon.astro';
-import { img, alt } from '../lib/sanity.js';
-const { service, gallery = [] } = Astro.props;
+const { service } = Astro.props;
+
+// Photos of home charger installs, one per row.
+const PHOTOS = [
+  { src: '/photos/evnex_07.webp', alt: 'Home EV charger mounted beside a garage door' },
+  { src: '/photos/evnex_12.webp', alt: 'Charging an electric car from a wall-mounted home charger' },
+  { src: '/photos/evnex_10.webp', alt: 'Electric car charging on a home driveway' }
+];
 const items = service.diffItems || [];
 
 // Three rows, each pairing a photo with a group of the points. The rows
@@ -10,7 +16,7 @@ const perRow = Math.ceil(items.length / 3) || 1;
 const rows = [0, 1, 2]
   .map((i) => items.slice(i * perRow, (i + 1) * perRow))
   .filter((group) => group.length);
-const photo = (i) => gallery[i % Math.max(gallery.length, 1)];
+const photo = (i) => PHOTOS[i % PHOTOS.length];
 ---
 <section class="section bg-paper" id="why-us">
   <div class="wrap">
@@ -24,9 +30,7 @@ const photo = (i) => gallery[i % Math.max(gallery.length, 1)];
       {rows.map((group, r) => (
         <div class={`diffrow reveal ${r % 2 === 1 ? 'diffrow--flip' : ''}`}>
           <figure class="diffrow__media">
-            {photo(r) && (
-              <img src={img(photo(r).image, 900)} alt={alt(photo(r).image)} width="900" height="700" loading="lazy" />
-            )}
+            <img src={photo(r).src} alt={photo(r).alt} width="1600" height="1100" loading="lazy" />
           </figure>
           <ul class="difflist">
             {group.map((item) => (

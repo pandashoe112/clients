@@ -3,3 +3,4 @@ dist
 .astro
 .env
 cap.mjs
+opt.mjs
