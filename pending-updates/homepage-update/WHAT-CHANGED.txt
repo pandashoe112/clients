@@ -1,0 +1,19 @@
+Drag src/, public/ and sanity/ into revelectrical-site and let them overwrite.
+
+  src/styles/global.css              lime top bar restored with the CTA link
+                                     styled, hero background wash and grain,
+                                     bigger feature headings, panel copy
+                                     vertically centred, suburb column fix,
+                                     brand logo and review photo styles
+  src/components/AnnounceBar.astro   dot separator before the CTA link
+  src/components/Hero.astro          leaf pattern removed
+  src/components/ServiceAreas.astro  leaf pattern removed
+  src/components/BrandGrid.astro     renders logos instead of text
+  src/components/Reviews.astro       uses a profile photo when there is one
+  sanity/schemaTypes/review.ts       optional Profile photo field
+  public/brand-*.webp                five brand logos
+
+Then in the studio:
+  Homepage > Hero photo    swap to the downlight shot
+  Reviews > Brandon Grant, Chris Peers, Prab Pandher, Justin Fennessy
+                           upload their Google profile photos

@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+const { heading, text, suburbs, settings } = Astro.props;
+---
+<section class="section bg-ink areas" id="service-areas">
+  <div class="wrap areas__inner">
+    <div class="reveal">
+      <h2 class="h2">{heading}</h2>
+      <p class="lede lede-light measure" style="margin-top:22px">{text}</p>
+      <div class="btn-row" style="margin-top:32px">
+        <a class="btn btn-lime" href="#contact">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-glass js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+      </div>
+    </div>
+
+    <div class="areacard reveal reveal-d1">
+      <ul class="arealist">
+        {suburbs.map((s) => (
+          <li><strong>{s.name}</strong><span>{s.postcode}</span></li>
+        ))}
+      </ul>
+      <p class="areacard__note">Not on the list? Send your address through and we'll let you know if we can get to you.</p>
+    </div>
+  </div>
+</section>

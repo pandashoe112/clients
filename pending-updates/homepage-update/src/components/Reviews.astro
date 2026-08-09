@@ -1,0 +1,50 @@
+---
+import Icon from './Icon.astro';
+import Stars from './Stars.astro';
+import { img } from '../lib/sanity.js';
+const { settings, reviews } = Astro.props;
+
+const initials = (name) =>
+  name.split(' ').filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('');
+
+const formatDate = (value) =>
+  new Date(value).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<section class="section bg-cream" id="reviews">
+  <div class="wrap">
+    <div class="reviews__head reveal">
+      <div>
+        <h2 class="h2">What our customers say</h2>
+        <div class="scoreblock">
+          <span class="scoreblock__num">{settings.ratingValue}</span>
+          <div>
+            <Stars size={18} className="stars scoreblock__stars" />
+            <p class="scoreblock__meta">{settings.reviewCount} Google reviews</p>
+          </div>
+        </div>
+      </div>
+      <div class="revnav">
+        <button class="revbtn" type="button" id="revPrev" aria-label="Previous reviews"><Icon name="arrowLeft" size={18} stroke={2.4} /></button>
+        <button class="revbtn" type="button" id="revNext" aria-label="More reviews"><Icon name="arrowRight" size={18} stroke={2.4} /></button>
+      </div>
+    </div>
+
+    <div class="revtrack reveal reveal-d1" id="revTrack" tabindex="0" role="region" aria-label="Customer reviews, scrollable">
+      {reviews.map((r) => (
+        <article class="revcard">
+          <div class="revcard__top">
+            {r.avatar
+              ? <img class="revcard__photo" src={img(r.avatar, 112, 112)} alt="" width="112" height="112" loading="lazy" />
+              : <span class="revcard__avatar" aria-hidden="true">{initials(r.authorName)}</span>}
+            <div>
+              <p class="revcard__name">{r.authorName}</p>
+              <p class="revcard__date">{formatDate(r.reviewedAt)}</p>
+            </div>
+          </div>
+          <Stars size={14} label={`${r.rating} out of 5 stars`} count={r.rating} />
+          <p class="revcard__text">{r.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

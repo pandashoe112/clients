@@ -1,0 +1,39 @@
+---
+import Icon from './Icon.astro';
+const { heading, text, brands } = Astro.props;
+
+// Brand names in Sanity map to a logo in /public. Anything without a logo
+// falls back to its name as text, so the client can add a brand safely.
+const LOGOS = {
+  'evnex':     { file: 'brand-evnex.webp',     w: 520, h: 99 },
+  'zappi':     { file: 'brand-zappi.webp',     w: 253, h: 120 },
+  'fox':       { file: 'brand-fox.webp',       w: 158, h: 120 },
+  'foxess':    { file: 'brand-fox.webp',       w: 158, h: 120 },
+  'sigenergy': { file: 'brand-sigenergy.webp', w: 520, h: 103 },
+  'goodwe':    { file: 'brand-goodwe.webp',    w: 520, h: 82 }
+};
+const logoFor = (name) => LOGOS[name.toLowerCase().replace(/[^a-z]/g, '')];
+---
+<section class="section bg-paper">
+  <div class="wrap brands__inner">
+    <div class="reveal">
+      <h2 class="h2">{heading}</h2>
+      <p class="lede" style="margin-top:20px;max-width:44ch">{text}</p>
+      <div class="btn-row" style="margin-top:28px">
+        <a class="btn btn-ink" href="#contact">Talk to us <Icon name="chevron" size={15} stroke={2.6} /></a>
+      </div>
+    </div>
+    <ul class="brandgrid reveal reveal-d1">
+      {brands.map((name) => {
+        const logo = logoFor(name);
+        return (
+          <li>
+            {logo
+              ? <img class="brandlogo" src={`/${logo.file}`} alt={name} width={logo.w} height={logo.h} loading="lazy" />
+              : name}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
