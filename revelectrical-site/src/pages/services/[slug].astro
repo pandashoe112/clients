@@ -47,8 +47,8 @@ const description = service.seoDescription || service.summary;
     {service.slug === 'ev-charging' && <ChargerTypes service={service} />}
     <DiffGrid service={service} />
     <WorkGrid service={service} />
-    <BrandList service={service} brands={brands} settings={settings} />
-    <ServiceAreasBand service={service} suburbs={suburbs} />
+    {service.slug === 'ev-charging' && <BrandList service={service} brands={brands} settings={settings} />}
+    <ServiceAreasBand service={service} suburbs={suburbs} tone={service.slug === 'ev-charging' ? 'bg-cream' : 'bg-paper'} />
     <RelatedServices service={service} />
     <FaqList service={service} settings={settings} />
     <FinalCta service={service} settings={settings} />
