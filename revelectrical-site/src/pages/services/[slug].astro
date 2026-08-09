@@ -44,7 +44,7 @@ const description = service.seoDescription || service.summary;
     <ServiceHero service={service} settings={settings} services={services} />
     <GuaranteeBand service={service} settings={settings} />
     <ServiceSteps service={service} />
-    <ChargerTypes service={service} />
+    {service.slug === 'ev-charging' && <ChargerTypes service={service} />}
     <DiffGrid service={service} />
     <WorkGrid service={service} />
     <BrandList service={service} brands={brands} settings={settings} />
