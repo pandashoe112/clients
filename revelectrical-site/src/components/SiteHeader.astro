@@ -16,7 +16,7 @@ const { settings, services } = Astro.props;
         </button>
         <div class="dropdown" id="dd-services">
           {services.map((s) => (
-            <a class="dropdown__link" href={`#svc-${s.slug.current}`}>{s.title}</a>
+            <a class="dropdown__link" href={s.hasPage ? `/services/${s.slug.current}` : `#svc-${s.slug.current}`}>{s.title}</a>
           ))}
         </div>
       </div>

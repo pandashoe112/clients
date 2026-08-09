@@ -57,7 +57,7 @@ export const SERVICE_QUERY = /* groq */ `{
     ctaEyebrow, ctaHeading, ctaText,
     faqEyebrow, faqHeading, faqNote, faqs[]{ question, answer }
   },
-  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
   "brands": *[_type == "homePage"][0].brands,
   "gallery": *[_type == "galleryItem"] | order(order asc)[0...3]{ _id, caption, image }
 }`;
