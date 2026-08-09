@@ -1,12 +1,10 @@
-import {groq} from '@sanity/client'
-
 /**
  * Everything the template renders, in one round trip.
  *
  * Explicit projections rather than `...` so that adding a field to the schema is a
  * deliberate two-line change here, and so the shape stays in sync with types.ts.
  */
-export const LANDING_PAGE_QUERY = groq`
+export const LANDING_PAGE_QUERY = `
 *[_type == "landingPage" && _id == $siteId][0]{
   seo{
     title,
