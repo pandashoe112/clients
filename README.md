@@ -3,15 +3,21 @@
 Fast, static landing pages built with Astro, hosted on Netlify, with the hero and
 SEO content editable in Sanity by the team.
 
-One repo, one Sanity project, one Netlify site per client.
+One repo, one Sanity project, one Netlify project per client. After the one-time
+setup below, adding a client is one command and a push — no Netlify UI, no
+per-site webhook.
 
 ```
 packages/landing-template/   shared components, styles and Sanity client
   scaffold/                  what a new site is copied from
 studio/                      the Sanity Studio (schema lives here)
 sites/<slug>/                one folder per client site
+  site.json                  which Netlify project CI deploys it to
 scripts/new-site.mjs         spins up a new site
+.github/workflows/deploy.yml builds and deploys on push
 ```
+
+Studio: **https://dunk-landing.sanity.studio/**
 
 ## What the team can edit, and what they cannot
 
@@ -31,29 +37,74 @@ Everything below the hero — services, brands, process, gallery, reviews — is
 in `sites/<slug>/src/sections/`. That is deliberate. Those sections differ
 structurally per client, and making them editable turns this into a page builder.
 
-## Spinning up a new site
+## Adding a client
 
 ```bash
 npm run new-site -- --slug acme-plumbing --name "Acme Plumbing"
 npm install
 ```
 
-Then:
+That creates the site folder, the Netlify project, `site.json`, and the Sanity
+document. Then:
 
-1. **Sanity** — open the Studio, add the logo, hero image and real copy, publish.
-2. **Sections** — build `sites/<slug>/src/sections/` and wire them into
+1. Open the Studio, add the logo, hero image and real copy, publish.
+2. Build the sections in `sites/<slug>/src/sections/` and wire them into
    `src/pages/index.astro`. Delete `Example.astro`.
-3. **Netlify** — create a site from this repo with **base directory**
-   `sites/<slug>`. The build command, publish directory and environment variables
-   all come from that site's `netlify.toml`.
-4. **Rebuild on publish** — add a Netlify build hook, then a Sanity webhook
-   filtered to `_id == "<slug>"` pointing at it. Publishing that document rebuilds
-   only that site.
-5. **Go live** — point the domain, then turn off *Hide from search engines* in
-   Sanity.
+3. Commit and push. CI builds and deploys.
+4. Point the domain, then turn off *Hide from search engines* in Sanity.
 
 The slug is the single source of truth: folder name, npm workspace name,
 `PUBLIC_SITE_ID`, and the Sanity document `_id` are all the same string.
+
+## One-time setup
+
+Done once for the whole repo, not per site.
+
+**1. Local credentials**
+
+```bash
+netlify login
+export SANITY_WRITE_TOKEN=...   # Sanity → project → API → Tokens (Editor)
+```
+
+**2. Repository secret**
+
+`NETLIFY_AUTH_TOKEN` — Netlify → User settings → Applications → Personal access
+tokens. Add it under GitHub → Settings → Secrets and variables → Actions.
+
+**3. One Sanity webhook, covering every site**
+
+Sanity → API → Webhooks → Create webhook:
+
+| Field | Value |
+| --- | --- |
+| URL | `https://api.github.com/repos/pandashoe112/clients/dispatches` |
+| Method | `POST` |
+| Trigger on | Create, Update, Delete |
+| Filter | `_type == "landingPage"` |
+| Projection | `{"event_type": "sanity-publish", "client_payload": {"site": _id}}` |
+| Headers | `Authorization: Bearer <github-token>`<br>`Accept: application/vnd.github+json` |
+
+The GitHub token is a fine-grained PAT with **Contents: read and write** on this
+repo. Because the projection sends the document `_id` and the slug *is* the
+`_id`, this single webhook routes to the right site forever — new clients are
+covered automatically with nothing to configure.
+
+## How deploys work
+
+Deploys go through the Netlify CLI with a token rather than Netlify's Git
+integration, which is why adding a site never touches the Netlify UI.
+
+`.github/workflows/deploy.yml` runs on three triggers, and
+`.github/scripts/pick-sites.mjs` decides what to build:
+
+- **push to `main`** — only the sites the commit touched. A change under
+  `packages/` or to the lockfile rebuilds every site.
+- **`repository_dispatch`** — from the Sanity webhook above, rebuilds the one
+  site whose content was published.
+- **manual run** — a slug, or `all`.
+
+Sites are only eligible once `sites/<slug>/site.json` exists.
 
 ## Local development
 
@@ -68,13 +119,17 @@ read at build time only — nothing calls Sanity from the browser.
 
 ## The Studio
 
+Schema lives in `studio/schemaTypes/landingPage.ts`. After changing it:
+
 ```bash
-npm run studio          # local
-npm run studio:deploy   # deploys to dunk-landing.sanity.studio
+npm run studio:deploy
 ```
 
-Schema changes live in `studio/schemaTypes/landingPage.ts`. After changing it, run
-`npm run studio:deploy` so the hosted Studio picks it up.
+> The currently deployed Studio was published through the Sanity MCP connector as
+> a stopgap, so its schema is managed by Sanity rather than by this repo. Running
+> `npm run studio:deploy` once from a machine with `sanity login` makes this repo
+> authoritative again. Do that before changing the schema, otherwise edits here
+> and the live Studio will drift.
 
 ## Forms
 

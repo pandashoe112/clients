@@ -1,0 +1,80 @@
+name: Deploy landing sites
+
+# Deploys go through the Netlify CLI with a token rather than Netlify's Git
+# integration, so adding a new site never requires touching the Netlify UI.
+#
+# Required repository secret:
+#   NETLIFY_AUTH_TOKEN  — Netlify → User settings → Applications → Personal access tokens
+#
+# Content changes reach this workflow through a Sanity webhook that posts a
+# repository_dispatch event. See README.md.
+
+on:
+  push:
+    branches: [main]
+  repository_dispatch:
+    types: [sanity-publish]
+  workflow_dispatch:
+    inputs:
+      site:
+        description: 'Site slug to deploy, or "all"'
+        required: false
+        default: all
+
+permissions:
+  contents: read
+
+concurrency:
+  # Never let two deploys of the same site race each other.
+  group: deploy-${{ github.event.inputs.site || github.event.client_payload.site || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      sites: ${{ steps.pick.outputs.sites }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Two commits so a push can be diffed against its parent.
+          fetch-depth: 2
+      - id: pick
+        run: node .github/scripts/pick-sites.mjs
+
+  deploy:
+    needs: plan
+    if: needs.plan.outputs.sites != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        site: ${{ fromJson(needs.plan.outputs.sites) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build --workspace=@sites/${{ matrix.site }}
+
+      - name: Read Netlify project id
+        id: project
+        run: |
+          site_id=$(node -p "require('./sites/${{ matrix.site }}/site.json').netlifySiteId")
+          echo "id=$site_id" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          npx --yes netlify-cli@17 deploy \
+            --prod \
+            --dir "sites/${{ matrix.site }}/dist" \
+            --site "${{ steps.project.outputs.id }}" \
+            --message "${{ github.event_name }}: ${{ github.sha }}"
