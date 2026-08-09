@@ -11,7 +11,7 @@ const { page, settings } = Astro.props;
         {page.heroHeadingStart} <span class="hl">{page.heroHeadingHighlight}</span> {page.heroHeadingEnd}
       </h1>
 
-      <p class="lede measure homehero__lede">{page.heroIntro}</p>
+      <p class="lede lede-light measure homehero__lede">{page.heroIntro}</p>
 
       <ul class="heroticks">
         {page.heroTicks.map((t) => (
@@ -20,8 +20,8 @@ const { page, settings } = Astro.props;
       </ul>
 
       <div class="btn-row">
-        <a class="btn btn-ink" href="#contact">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
-        <a class="btn btn-outline js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+        <a class="btn btn-lime" href="#contact">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-glass js-call" href={settings.phoneHref}>Call {settings.phone}</a>
       </div>
 
       <div class="herorating">
