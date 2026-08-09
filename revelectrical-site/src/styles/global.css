@@ -78,9 +78,11 @@ button{font:inherit}
 .announce__rating{display:inline-flex;align-items:center;gap:9px;white-space:nowrap}
 .announce__stars{color:var(--ink)}
 .announce__msg{margin:0;text-align:center}
-.announce__msg a{font-weight:700}
+.announce__msg a{font-weight:700;color:var(--ink);text-decoration:none;border-bottom:2px solid rgba(3,47,53,.45);padding-bottom:1px;transition:border-color .16s ease}
+.announce__msg a:hover{border-bottom-color:var(--ink)}
+.announce__sep{opacity:.45;margin:0 4px}
 .announce__close{background:none;border:0;cursor:pointer;color:inherit;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;flex:none}
-.announce__close:hover{background:rgba(3,47,53,.1)}
+.announce__close:hover{background:rgba(3,47,53,.12)}
 .announce.is-hidden{display:none}
 
 /* ---------- header ---------- */
@@ -105,15 +107,20 @@ button{font:inherit}
 .callblock__num{display:block;white-space:nowrap;font-family:var(--font-display);font-weight:700;font-size:1.0625rem;letter-spacing:-.02em;line-height:1.25}
 
 /* ---------- hero ---------- */
-.hero{position:relative;background:var(--ink);color:var(--cream);overflow:hidden}
-.hero__pattern{position:absolute;inset:0;opacity:.5;background-repeat:repeat;background-size:132px 132px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'%3E%3Cpath d='M96 26c0 27-21 48-48 48 0-27 21-48 48-48Z' fill='%23ffffff' fill-opacity='0.035'/%3E%3C/svg%3E");pointer-events:none}
-.hero__inner{position:relative;display:grid;grid-template-columns:1.04fr .96fr;gap:clamp(34px,4.4vw,72px);align-items:center;padding-block:clamp(52px,6vw,88px)}
+.hero{position:relative;isolation:isolate;background:var(--ink);color:var(--cream);overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(100% 78% at 79% 4%, rgba(182,237,62,.09), rgba(182,237,62,0) 55%),
+  radial-gradient(62% 52% at 0% 104%, rgba(24,90,96,.30), rgba(24,90,96,0) 68%),
+  radial-gradient(145% 125% at 50% 46%, rgba(0,0,0,0) 46%, rgba(0,0,0,.26) 100%)}
+.hero::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E")}
+.hero__inner{position:relative;z-index:1;display:grid;grid-template-columns:1.04fr .96fr;gap:clamp(34px,4.4vw,72px);align-items:center;padding-block:clamp(52px,6vw,88px)}
 .hero__title{margin:0 0 28px}
 .heroticks{list-style:none;margin:0 0 32px;padding:0;display:flex;flex-wrap:wrap;gap:12px 26px}
 .heroticks li{display:flex;align-items:center;gap:10px;font-size:.9688rem;font-weight:600}
 .heroticks svg{flex:none;color:var(--lime)}
 .hero__figure{position:relative;margin:0}
-.hero__figure img{width:100%;aspect-ratio:4/4.1;height:auto;object-fit:cover;object-position:center 20%;border-radius:var(--r-lg)}
+.hero__figure img{width:100%;aspect-ratio:4/3.9;height:auto;object-fit:cover;object-position:center 34%;border-radius:var(--r-lg)}
 .ratingcard{position:absolute;left:-26px;bottom:26px;display:flex;align-items:center;gap:14px;background:rgba(3,47,53,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line-light);border-radius:var(--r-md);padding:14px 20px}
 .ratingcard__num{font-family:var(--font-display);font-weight:700;font-size:1.75rem;line-height:1;letter-spacing:-.03em;color:var(--cream)}
 .ratingcard__meta{margin:5px 0 0;font-size:.8125rem;color:var(--muted-light);font-weight:600}
@@ -121,7 +128,7 @@ button{font:inherit}
 /* ---------- feature strip ---------- */
 .featgrid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(22px,3vw,44px);text-align:center}
 .featitem__icon{width:52px;height:52px;margin:0 auto 18px;display:grid;place-items:center;color:var(--ink)}
-.featitem__title{margin:0 0 8px}
+.featitem__title{margin:0 0 10px;font-size:clamp(1.125rem,1.45vw,1.3125rem);line-height:1.22}
 .featitem__text{margin:0;color:var(--muted);font-size:.9375rem;line-height:1.6}
 
 /* ---------- services ---------- */
@@ -145,7 +152,7 @@ button{font:inherit}
 
 /* ---------- photo prompt panel ---------- */
 .promptpanel{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--r-lg);overflow:hidden}
-.promptpanel__body{background:var(--ink);color:var(--cream);padding:clamp(32px,4vw,56px)}
+.promptpanel__body{background:var(--ink);color:var(--cream);padding:clamp(32px,4vw,56px);display:flex;flex-direction:column;justify-content:center}
 .promptpanel__title{margin:0 0 16px}
 .promptpanel__text{margin:0 0 28px;color:var(--muted-light);font-size:.9688rem;line-height:1.7}
 .promptpanel__media{margin:0}
@@ -163,13 +170,12 @@ button{font:inherit}
 
 /* ---------- areas ---------- */
 .areas{position:relative;overflow:hidden}
-.areas__pattern{position:absolute;inset:0;opacity:.5;background-repeat:repeat;background-size:132px 132px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'%3E%3Cpath d='M96 26c0 27-21 48-48 48 0-27 21-48 48-48Z' fill='%23ffffff' fill-opacity='0.035'/%3E%3C/svg%3E");pointer-events:none}
 .areas__inner{position:relative;display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1fr);gap:clamp(34px,5vw,72px);align-items:center}
 .areacard{background:rgba(244,246,239,.06);border:1px solid var(--line-light);border-radius:var(--r-lg);padding:clamp(22px,2.4vw,30px)}
 .arealist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 18px}
-.arealist li{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:.875rem;white-space:nowrap;padding-bottom:8px;border-bottom:1px solid var(--line-light)}
-.arealist strong{font-weight:600}
-.arealist span{color:var(--muted-light);font-size:.8125rem}
+.arealist li{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:.875rem;padding-bottom:8px;border-bottom:1px solid var(--line-light)}
+.arealist strong{font-weight:600;min-width:0}
+.arealist span{color:var(--muted-light);font-size:.8125rem;white-space:nowrap;flex:none}
 .areacard__note{margin:20px 0 0;font-size:.875rem;color:var(--muted-light)}
 
 /* ---------- why choose ---------- */
@@ -191,7 +197,8 @@ button{font:inherit}
 /* ---------- brands ---------- */
 .brands__inner{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1fr);gap:clamp(30px,4.5vw,70px);align-items:center}
 .brandgrid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.brandgrid li{background:var(--cream);border-radius:var(--r-sm);min-height:82px;display:grid;place-items:center;font-family:var(--font-display);font-weight:600;font-size:1.125rem;letter-spacing:-.015em;color:var(--ink)}
+.brandgrid li{background:var(--cream);border-radius:var(--r-sm);min-height:92px;display:grid;place-items:center;padding:16px;font-family:var(--font-display);font-weight:600;font-size:1rem;letter-spacing:-.015em;color:var(--muted)}
+.brandlogo{max-width:76%;max-height:40px;width:auto;height:auto;object-fit:contain}
 
 /* ---------- reviews ---------- */
 .reviews__head{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between;margin:0 0 clamp(30px,3.6vw,44px)}
@@ -208,6 +215,7 @@ button{font:inherit}
 .revcard{scroll-snap-align:start;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-md);padding:26px;display:flex;flex-direction:column;gap:13px}
 .revcard__top{display:flex;align-items:center;gap:12px}
 .revcard__avatar{width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--lime);flex:none;display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:1rem}
+.revcard__photo{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none}
 .revcard__name{margin:0;font-family:var(--font-display);font-weight:600;font-size:.9688rem}
 .revcard__date{margin:2px 0 0;font-size:.8125rem;color:var(--muted)}
 .revcard__text{margin:0;font-size:.9375rem;line-height:1.65;color:var(--muted)}
