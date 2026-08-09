@@ -1,0 +1,29 @@
+---
+import Icon from './Icon.astro';
+const { service, settings } = Astro.props;
+const faqs = service.faqs || [];
+---
+<section class="section bg-cream" id="faq">
+  <div class="wrap faq__inner">
+    <div class="faq__aside reveal">
+      {service.faqEyebrow && <p class="eyebrow">{service.faqEyebrow}</p>}
+      <h2 class="h2">{service.faqHeading}</h2>
+      {service.faqNote && <p class="lede" style="margin-top:18px">{service.faqNote}</p>}
+      <div class="btn-row" style="margin-top:28px">
+        <a class="btn btn-ink js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+      </div>
+    </div>
+
+    <div class="faqlist reveal reveal-d1">
+      {faqs.map((f) => (
+        <details class="faqitem">
+          <summary class="faqitem__q">
+            {f.question}
+            <span class="faqitem__sign" aria-hidden="true"><Icon name="caret" size={15} stroke={2.6} /></span>
+          </summary>
+          <p class="faqitem__a">{f.answer}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

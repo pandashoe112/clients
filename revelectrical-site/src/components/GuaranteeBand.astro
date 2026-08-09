@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import { img, alt } from '../lib/sanity.js';
+const { service, settings } = Astro.props;
+---
+<section class="section bg-deep">
+  <div class="wrap guarantee__inner">
+    <div class="guarantee__body reveal">
+      {service.guaranteeEyebrow && <p class="eyebrow eyebrow-light">{service.guaranteeEyebrow}</p>}
+      <h2 class="h2 h2-lime">{service.guaranteeHeading}</h2>
+      <p class="lede lede-light" style="margin-top:20px">{service.guaranteeText}</p>
+      <div class="btn-row" style="margin-top:30px">
+        <a class="btn btn-lime" href="#quote">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-glass js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+      </div>
+    </div>
+    {service.guaranteeImage && (
+      <figure class="guarantee__figure reveal reveal-d1">
+        <img src={img(service.guaranteeImage, 800)} alt={alt(service.guaranteeImage)} width="800" height="800" loading="lazy" />
+      </figure>
+    )}
+  </div>
+</section>

@@ -1,0 +1,31 @@
+---
+import Icon from './Icon.astro';
+const { service } = Astro.props;
+const steps = service.processSteps || [];
+const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : i >= 3 ? 'reveal-d3' : '');
+---
+<section class="section bg-cream" id="how-it-works">
+  <div class="wrap">
+    <div class="process__head reveal">
+      {service.processEyebrow && <p class="eyebrow">{service.processEyebrow}</p>}
+      <h2 class="h2">{service.processHeading}</h2>
+    </div>
+
+    <ol class="steps" id="steps">
+      {steps.map((step, i) => (
+        <li class={`step reveal ${delay(i)}`}>
+          <span class="step__wire" aria-hidden="true"><span class="step__charge"></span></span>
+          <span class="step__node" aria-hidden="true">{i + 1}</span>
+          <div>
+            <h3 class="h3 step__title">{step.title}</h3>
+            <p class="step__text">{step.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <div class="btn-row process__cta reveal">
+      <a class="btn btn-ink" href="#quote">Start with a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+    </div>
+  </div>
+</section>

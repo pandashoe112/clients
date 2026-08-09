@@ -1,0 +1,21 @@
+---
+import { img, alt } from '../lib/sanity.js';
+const { service, items = [] } = Astro.props;
+const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : '');
+---
+<section class="section bg-cream" id="our-work">
+  <div class="wrap">
+    <div class="work__head reveal">
+      {service.workEyebrow && <p class="eyebrow">{service.workEyebrow}</p>}
+      <h2 class="h2">{service.workHeading}</h2>
+    </div>
+    <ul class="workgrid">
+      {items.map((item, i) => (
+        <li class={`workcard reveal ${delay(i)}`}>
+          <img class="workcard__img" src={img(item.image, 700, 700)} alt={alt(item.image)} width="700" height="700" loading="lazy" />
+          <span class="workcard__cap">{item.caption}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

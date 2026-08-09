@@ -1,0 +1,76 @@
+---
+import Icon from './Icon.astro';
+const { service, settings, services } = Astro.props;
+const ticks = service.heroTicks || [];
+---
+<section class="hero bg-cream">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="wrap hero__inner">
+    <div class="hero__col">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>{service.title}</span>
+      </nav>
+
+      <h1 class="h1 hero__title">{service.heroHeading || service.title}</h1>
+      <div class="hero__copy lede measure">{service.heroIntro}</div>
+
+      {ticks.length > 0 && (
+        <ul class="trustrow">
+          {ticks.map((t) => (
+            <li class="trustchip"><Icon name="checkCircle" size={17} stroke={2.2} />{t}</li>
+          ))}
+        </ul>
+      )}
+
+      <div class="btn-row hero__actions">
+        <a class="btn btn-ink" href="#quote">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-outline js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+      </div>
+    </div>
+
+    <div class="quotecard" id="quote">
+      <div class="quotecard__head">
+        <h2 class="quotecard__title">{service.quoteHeading || 'Get a free quote'}</h2>
+        <p class="quotecard__sub">{service.quoteText}</p>
+      </div>
+      <div class="quotecard__body">
+        <form class="formgrid" name="service-enquiry" method="POST" action="/thank-you"
+              data-netlify="true" netlify-honeypot="bot-field" id="quoteForm" novalidate>
+          <input type="hidden" name="form-name" value="service-enquiry" />
+          <input type="hidden" name="service_page" value={service.title} />
+          <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+          <div class="field">
+            <label class="label" for="f_name">Name</label>
+            <input class="input" type="text" id="f_name" name="name" autocomplete="name" placeholder="First and last name" required />
+          </div>
+          <div class="field">
+            <label class="label" for="f_email">Email</label>
+            <input class="input" type="email" id="f_email" name="email" autocomplete="email" placeholder="Email address" required />
+          </div>
+          <div class="field">
+            <label class="label" for="f_phone">Phone number</label>
+            <input class="input" type="tel" id="f_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
+          </div>
+          <div class="field">
+            <label class="label" for="f_suburb">Suburb</label>
+            <input class="input" type="text" id="f_suburb" name="suburb" autocomplete="address-level2" placeholder="Suburb or postcode" required />
+          </div>
+          <div class="field">
+            <label class="label" for="f_message">Message <span class="label__opt">(optional)</span></label>
+            <textarea class="input" id="f_message" name="message" placeholder="How can we help.."></textarea>
+          </div>
+
+          <button class="btn btn-ink btn-block" type="submit">Submit</button>
+          <p class="formnote">
+            <Icon name="lock" size={15} stroke={2.2} />
+            We only use your details to quote your job. No obligation to go ahead.
+          </p>
+          <p class="formcall">Prefer to talk? <a class="js-call" href={settings.phoneHref}>Call {settings.phone}</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+const { service } = Astro.props;
+const items = service.diffItems || [];
+---
+<section class="section bg-deep" id="why-us">
+  <div class="wrap">
+    <div class="diff__head reveal">
+      {service.diffEyebrow && <p class="eyebrow eyebrow-light">{service.diffEyebrow}</p>}
+      <h2 class="h2 h2-lime">{service.diffHeading}</h2>
+      {service.diffIntro && <p class="lede lede-light measure" style="margin-top:18px">{service.diffIntro}</p>}
+    </div>
+
+    <ul class="diffgrid reveal reveal-d1">
+      {items.map((item) => (
+        <li class="diffitem">
+          <span class="diffitem__icon" aria-hidden="true"><Icon name="check" size={18} stroke={2.6} /></span>
+          <h3 class="diffitem__title">{item.title}</h3>
+          <p class="diffitem__text">{item.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

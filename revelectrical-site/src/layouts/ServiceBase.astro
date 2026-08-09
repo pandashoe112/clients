@@ -1,0 +1,67 @@
+---
+import '../styles/service.css';
+const { title, description, canonical, settings, faqs = [] } = Astro.props;
+
+const base = 'https://www.revelectrical.com.au';
+
+// Two blocks: the business itself, and the FAQs so they can win a rich result.
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'Electrician',
+  name: settings.businessName,
+  legalName: 'Everything Electrification Pty Ltd',
+  foundingDate: String(settings.established),
+  telephone: settings.phoneHref.replace('tel:', ''),
+  email: settings.email,
+  url: base + '/',
+  identifier: settings.licence,
+  areaServed: [{ '@type': 'City', name: 'Melbourne' }],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: String(settings.ratingValue),
+    reviewCount: String(settings.reviewCount),
+    bestRating: '5'
+  }
+};
+
+const faqSchema = faqs.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer }
+      }))
+    }
+  : null;
+---
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta name="theme-color" content="#032F35" />
+  <link rel="icon" href="/favicon.webp" type="image/webp" />
+  <link rel="apple-touch-icon" href="/favicon.webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script type="application/ld+json" set:html={JSON.stringify(business)}></script>
+  {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>}
+</head>
+<body>
+  <a class="skiplink" href="#main">Skip to main content</a>
+  <slot />
+  <script>
+    import "../scripts/site.js";
+  </script>
+</body>
+</html>

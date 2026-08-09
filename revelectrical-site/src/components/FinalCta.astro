@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+const { service, settings } = Astro.props;
+---
+<section class="section bg-cream">
+  <div class="wrap">
+    <div class="finalcta__inner reveal">
+      {service.ctaEyebrow && <p class="eyebrow">{service.ctaEyebrow}</p>}
+      <h2 class="h2 finalcta__title">{service.ctaHeading}</h2>
+      <p class="lede" style="margin-top:18px">{service.ctaText}</p>
+      <div class="btn-row" style="margin-top:30px">
+        <a class="btn btn-ink" href="#quote">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-outline js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+      </div>
+    </div>
+  </div>
+</section>

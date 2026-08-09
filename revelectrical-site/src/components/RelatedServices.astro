@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+const { service } = Astro.props;
+const related = service.relatedServices || [];
+const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : '');
+---
+{related.length > 0 && (
+  <section class="section bg-deep">
+    <div class="wrap">
+      <div class="work__head reveal">
+        <h2 class="h2 h2-lime">{service.relatedHeading}</h2>
+      </div>
+      <ul class="relgrid">
+        {related.map((r, i) => (
+          <li class={`reveal ${delay(i)}`}>
+            <a class="relcard" href={`/services/${r.slug}/`}>
+              <span class="relcard__tag">{r.title}</span>
+              <h3 class="relcard__title">{r.title}</h3>
+              <p class="relcard__text">{r.summary}</p>
+              <span class="relcard__more">More info <Icon name="chevron" size={14} stroke={2.6} /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}

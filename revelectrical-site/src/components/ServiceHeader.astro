@@ -1,0 +1,39 @@
+---
+import Icon from './Icon.astro';
+const { settings, services } = Astro.props;
+---
+<div class="utilbar">
+  <div class="wrap utilbar__inner">
+    <span class="utilbar__lic">
+      <span class="utilbar__licfull">{settings.licence}</span>
+      <span class="utilbar__dot" aria-hidden="true">·</span>
+      Licensed and insured
+    </span>
+    <div class="utilbar__links">
+      <a class="utilbar__link js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+      <a class="utilbar__link utilbar__link-email" href={`mailto:${settings.email}?subject=quote%20enquiry`}>{settings.email}</a>
+    </div>
+  </div>
+</div>
+
+<header class="siteheader" id="siteheader">
+  <div class="wrap siteheader__inner">
+    <a class="siteheader__logo" href="/" aria-label={`${settings.businessName} home`}>
+      <img src="/logo.webp" alt={settings.businessName} width="178" height="29" />
+    </a>
+
+    <nav class="sitenav" aria-label="Main">
+      <a class="sitenav__link" href="#how-it-works">How it works</a>
+      <a class="sitenav__link" href="#why-us">Why us</a>
+      <a class="sitenav__link" href="#our-work">Our work</a>
+      <a class="sitenav__link" href="#faq">FAQs</a>
+    </nav>
+
+    <div class="siteheader__actions">
+      <a class="siteheader__phone js-call" href={settings.phoneHref}>
+        <Icon name="phone" size={18} stroke={2.2} />{settings.phone}
+      </a>
+      <a class="btn btn-ink btn-sm" href="#quote">Free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+    </div>
+  </div>
+</header>

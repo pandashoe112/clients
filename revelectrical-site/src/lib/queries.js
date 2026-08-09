@@ -32,3 +32,32 @@ export const HOME_QUERY = /* groq */ `{
     _id, caption, image
   }
 }`;
+
+// Every service that has its landing page switched on. Drives getStaticPaths.
+export const SERVICE_PATHS_QUERY = /* groq */ `
+  *[_type == "service" && hasPage == true && defined(slug.current)]{ "slug": slug.current }
+`;
+
+// One service landing page plus the shared lists it renders.
+export const SERVICE_QUERY = /* groq */ `{
+  "settings": *[_type == "siteSettings"][0]{
+    businessName, phone, phoneHref, email, licence, established,
+    ratingValue, reviewCount, instagramUrl, facebookUrl
+  },
+  "service": *[_type == "service" && slug.current == $slug][0]{
+    title, "slug": slug.current, summary, icon,
+    seoTitle, seoDescription,
+    heroHeading, heroIntro, heroTicks, quoteHeading, quoteText,
+    guaranteeEyebrow, guaranteeHeading, guaranteeText, guaranteeImage,
+    processEyebrow, processHeading, processSteps[]{ title, text },
+    diffEyebrow, diffHeading, diffIntro, diffItems[]{ title, text },
+    workEyebrow, workHeading,
+    brandsHeading, brandsText,
+    relatedHeading, relatedServices[]->{ title, "slug": slug.current, summary, icon },
+    ctaEyebrow, ctaHeading, ctaText,
+    faqEyebrow, faqHeading, faqNote, faqs[]{ question, answer }
+  },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon },
+  "brands": *[_type == "homePage"][0].brands,
+  "gallery": *[_type == "galleryItem"] | order(order asc)[0...3]{ _id, caption, image }
+}`;

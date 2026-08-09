@@ -1,0 +1,54 @@
+---
+import ServiceBase from '../../layouts/ServiceBase.astro';
+import ServiceHeader from '../../components/ServiceHeader.astro';
+import ServiceHero from '../../components/ServiceHero.astro';
+import GuaranteeBand from '../../components/GuaranteeBand.astro';
+import ServiceSteps from '../../components/ServiceSteps.astro';
+import DiffGrid from '../../components/DiffGrid.astro';
+import WorkGrid from '../../components/WorkGrid.astro';
+import BrandList from '../../components/BrandList.astro';
+import FaqList from '../../components/FaqList.astro';
+import RelatedServices from '../../components/RelatedServices.astro';
+import FinalCta from '../../components/FinalCta.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { sanity } from '../../lib/sanity.js';
+import { SERVICE_QUERY, SERVICE_PATHS_QUERY } from '../../lib/queries.js';
+
+// One template, one page per service that has its landing page switched on.
+export async function getStaticPaths() {
+  const { sanity } = await import('../../lib/sanity.js');
+  const { SERVICE_PATHS_QUERY } = await import('../../lib/queries.js');
+  const rows = await sanity.fetch(SERVICE_PATHS_QUERY);
+  return rows.map((r) => ({ params: { slug: r.slug } }));
+}
+
+const { slug } = Astro.params;
+const { settings, service, services, brands, gallery } = await sanity.fetch(SERVICE_QUERY, { slug });
+
+const canonical = `https://www.revelectrical.com.au/services/${service.slug}/`;
+const title = service.seoTitle || `${service.title} | ${settings.businessName}`;
+const description = service.seoDescription || service.summary;
+---
+<ServiceBase
+  title={title}
+  description={description}
+  canonical={canonical}
+  settings={settings}
+  faqs={service.faqs || []}
+>
+  <ServiceHeader settings={settings} services={services} />
+
+  <main id="main">
+    <ServiceHero service={service} settings={settings} services={services} />
+    <GuaranteeBand service={service} settings={settings} />
+    <ServiceSteps service={service} />
+    <DiffGrid service={service} />
+    <WorkGrid service={service} items={gallery} />
+    <BrandList service={service} brands={brands} settings={settings} />
+    <FaqList service={service} settings={settings} />
+    <RelatedServices service={service} />
+    <FinalCta service={service} settings={settings} />
+  </main>
+
+  <SiteFooter settings={settings} />
+</ServiceBase>
