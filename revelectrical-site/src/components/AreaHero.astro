@@ -1,10 +1,19 @@
 ---
 import Icon from './Icon.astro';
+import { img, alt } from '../lib/sanity.js';
 const { area, settings } = Astro.props;
 const ticks = area.heroTicks || [];
+const bg = area.heroImage;
 ---
-<section class="hero bg-cream">
-  <div class="hero__glow" aria-hidden="true"></div>
+<section class={bg ? 'hero hero--photo' : 'hero bg-cream'}>
+  {bg ? (
+    <>
+      <img class="hero__bg" src={img(bg, 2000)} alt={alt(bg) || ''} aria-hidden="true" />
+      <span class="hero__wash" aria-hidden="true"></span>
+    </>
+  ) : (
+    <div class="hero__glow" aria-hidden="true"></div>
+  )}
   <div class="wrap hero__inner">
     <div class="hero__col">
       <nav class="crumbs" aria-label="Breadcrumb">

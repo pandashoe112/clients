@@ -79,15 +79,19 @@ export const AREA_QUERY = `{
   "area": *[_type == "suburb" && slug.current == $slug][0]{
     name, postcode, "slug": slug.current,
     seoTitle, seoDescription,
+    heroImage,
     heroHeading, heroIntro, heroTicks,
     localHeading, localBody, localImage,
     servicesHeading, servicesIntro,
+    jobsHeading, jobsIntro,
+    commonJobs[]{ title, text, service->{ title, "slug": slug.current, hasPage } },
     nearbyHeading, nearby[]->{ name, "slug": slug.current, postcode, hasPage },
     ctaEyebrow, ctaHeading, ctaText,
     faqHeading, faqs[]{ question, answer }
   },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
-  "reviews": *[_type == "review"] | order(reviewedAt desc)[0...3]{ _id, authorName, reviewedAt, rating, body, photo },
+  "reviews": *[_type == "review"] | order(reviewedAt desc){ _id, authorName, reviewedAt, rating, body, photo },
+  "gallery": *[_type == "galleryItem"] | order(order asc){ _id, caption, image },
   "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current }
 }`;
 
