@@ -1,0 +1,91 @@
+---
+import ServiceBase from '../layouts/ServiceBase.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Icon from '../components/Icon.astro';
+import { sanity } from '../lib/sanity.js';
+import { AREAS_INDEX_QUERY } from '../lib/queries.js';
+
+const { settings, services, areas, suburbs } = await sanity.fetch(AREAS_INDEX_QUERY);
+const canonical = 'https://www.revelectrical.com.au/service-areas/';
+
+// Suburbs without a page of their own still belong on the list, so the page
+// shows the full coverage rather than only the six that are written up.
+const others = suburbs.filter((s) => !s.hasPage);
+---
+<ServiceBase
+  title={`Service Areas | Electrician Melbourne | ${settings.businessName}`}
+  description="Where Revelectrical works across Melbourne. Licensed electricians covering the inner north, north and inner west for EV chargers, solar batteries, hot water, switchboards and lighting."
+  canonical={canonical}
+  settings={settings}
+>
+  <SiteHeader settings={settings} services={services} areas={areas} />
+
+  <main id="main">
+    <section class="hero bg-cream">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">/</span>
+          <span>Service areas</span>
+        </nav>
+        <h1 class="h1" style="max-width:20ch">Electrician service areas across Melbourne</h1>
+        <p class="lede measure" style="margin-top:20px">
+          We're a licensed residential electrical contractor working across Melbourne's inner north,
+          north and inner west. Below are the suburbs we're called out to most, along with everywhere
+          else we cover.
+        </p>
+        <div class="btn-row" style="margin-top:28px">
+          <a class="btn btn-ink" href="/#contact">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+          <a class="btn btn-outline js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-paper">
+      <div class="wrap">
+        <div class="work__head reveal">
+          <p class="eyebrow">Suburb pages</p>
+          <h2 class="h2">Where we work most</h2>
+        </div>
+        <ul class="relgrid">
+          {areas.map((a, i) => (
+            <li class={`reveal ${i % 3 === 1 ? 'reveal-d1' : i % 3 === 2 ? 'reveal-d2' : ''}`}>
+              <a class="relcard" href={`/electrician-${a.slug}/`}>
+                <h3 class="relcard__title">Electrician {a.name}</h3>
+                <p class="relcard__text">{a.heroIntro}</p>
+                <span class="relcard__more">More info <Icon name="chevron" size={14} stroke={2.6} /></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    {others.length > 0 && (
+      <section class="section bg-cream">
+        <div class="wrap areasband__inner">
+          <div class="reveal">
+            <p class="eyebrow">Everywhere else</p>
+            <h2 class="h2" style="margin-top:12px">Other suburbs we cover.</h2>
+            <p class="lede" style="margin-top:18px;max-width:44ch">
+              We work well beyond the suburbs listed above. If yours isn't here, send your postcode
+              with your enquiry and we'll confirm.
+            </p>
+            <div class="btn-row" style="margin-top:26px">
+              <a class="btn btn-ink" href="/#contact">Check your suburb <Icon name="chevron" size={15} stroke={2.6} /></a>
+            </div>
+          </div>
+          <ul class="areasband__list reveal reveal-d1">
+            {others.map((s) => (
+              <li><strong>{s.name}</strong><span>{s.postcode}</span></li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+  </main>
+
+  <SiteFooter settings={settings} />
+</ServiceBase>

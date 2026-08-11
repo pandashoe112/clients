@@ -25,7 +25,7 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const { settings, service, services, brands, gallery, suburbs } = await sanity.fetch(SERVICE_QUERY, { slug });
+const { settings, service, services, brands, gallery, suburbs, areas } = await sanity.fetch(SERVICE_QUERY, { slug });
 
 const canonical = `https://www.revelectrical.com.au/services/${service.slug}/`;
 const title = service.seoTitle || `${service.title} | ${settings.businessName}`;
@@ -38,7 +38,7 @@ const description = service.seoDescription || service.summary;
   settings={settings}
   faqs={service.faqs || []}
 >
-  <SiteHeader settings={settings} services={services} />
+  <SiteHeader settings={settings} services={services} areas={areas} />
 
   <main id="main">
     <ServiceHero service={service} settings={settings} services={services} />

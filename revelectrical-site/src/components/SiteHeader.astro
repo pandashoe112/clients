@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-const { settings, services } = Astro.props;
+const { settings, services, areas = [] } = Astro.props;
 ---
 <div class="utilbar">
   <div class="wrap utilbar__inner">
@@ -33,7 +33,22 @@ const { settings, services } = Astro.props;
           ))}
         </div>
       </div>
-      <a class="navlink" href="/#service-areas">Service areas</a>
+      {areas.length > 0 ? (
+        <div class="navitem" data-dropdown>
+          <button class="navlink" type="button" aria-expanded="false" aria-controls="dd-areas">
+            Service areas
+            <span class="navlink__caret"><Icon name="caret" size={13} stroke={2.6} /></span>
+          </button>
+          <div class="dropdown" id="dd-areas">
+            {areas.map((a) => (
+              <a class="dropdown__link" href={`/electrician-${a.slug}/`}>{a.name} <span class="dropdown__pc">{a.postcode}</span></a>
+            ))}
+            <a class="dropdown__link dropdown__link--all" href="/service-areas/">All service areas</a>
+          </div>
+        </div>
+      ) : (
+        <a class="navlink" href="/#service-areas">Service areas</a>
+      )}
       <a class="navlink" href="/#about">About us</a>
       <a class="navlink" href="/#gallery">Gallery</a>
     </nav>
