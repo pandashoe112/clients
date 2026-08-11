@@ -1,6 +1,8 @@
 ---
 import Icon from './Icon.astro';
-const { settings, services, areas = [] } = Astro.props;
+// Pages carry their quote form under different ids, and some have none at all,
+// so the page says where the contact buttons should go.
+const { settings, services, areas = [], contactHref = '#contact' } = Astro.props;
 ---
 <div class="utilbar">
   <div class="wrap utilbar__inner">
@@ -47,7 +49,7 @@ const { settings, services, areas = [] } = Astro.props;
           </div>
         </div>
       ) : (
-        <a class="navlink" href="/#service-areas">Service areas</a>
+        <a class="navlink" href="/service-areas/">Service areas</a>
       )}
       <a class="navlink" href="/#about">About us</a>
       <a class="navlink" href="/#gallery">Gallery</a>
@@ -61,7 +63,7 @@ const { settings, services, areas = [] } = Astro.props;
           <span class="callblock__num">{settings.phone}</span>
         </span>
       </a>
-      <a class="btn btn-ink btn-sm siteheader__cta" href="#contact">Contact us <Icon name="chevron" size={15} stroke={2.6} /></a>
+      <a class="btn btn-ink btn-sm siteheader__cta" href={contactHref}>Contact us <Icon name="chevron" size={15} stroke={2.6} /></a>
 
       <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mobilenav">
         <span class="burger__bars" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -95,14 +97,14 @@ const { settings, services, areas = [] } = Astro.props;
           </div>
         </details>
       ) : (
-        <a class="mnav__link" href="/#service-areas">Service areas</a>
+        <a class="mnav__link" href="/service-areas/">Service areas</a>
       )}
 
       <a class="mnav__link" href="/#about">About us</a>
       <a class="mnav__link" href="/#gallery">Gallery</a>
 
       <div class="mnav__cta">
-        <a class="btn btn-ink btn-block" href="#contact">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-ink btn-block" href={contactHref}>Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
         <a class="btn btn-outline btn-block js-call" href={settings.phoneHref}>Call {settings.phone}</a>
       </div>
     </div>

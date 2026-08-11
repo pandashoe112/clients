@@ -38,7 +38,7 @@ const description = service.seoDescription || service.summary;
   settings={settings}
   faqs={service.faqs || []}
 >
-  <SiteHeader settings={settings} services={services} areas={areas} />
+  <SiteHeader settings={settings} services={services} areas={areas} contactHref="#quote" />
 
   <main id="main">
     <ServiceHero service={service} settings={settings} services={services} />
@@ -54,5 +54,5 @@ const description = service.seoDescription || service.summary;
     <FinalCta service={service} settings={settings} />
   </main>
 
-  <SiteFooter settings={settings} />
+  <SiteFooter settings={settings} contactHref="#quote" />
 </ServiceBase>

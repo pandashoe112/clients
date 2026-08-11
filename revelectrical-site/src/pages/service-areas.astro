@@ -19,7 +19,7 @@ const others = suburbs.filter((s) => !s.hasPage);
   canonical={canonical}
   settings={settings}
 >
-  <SiteHeader settings={settings} services={services} areas={areas} />
+  <SiteHeader settings={settings} services={services} areas={areas} contactHref="/#contact" />
 
   <main id="main">
     <section class="hero bg-cream">
@@ -87,5 +87,5 @@ const others = suburbs.filter((s) => !s.hasPage);
     )}
   </main>
 
-  <SiteFooter settings={settings} />
+  <SiteFooter settings={settings} contactHref="/#contact" />
 </ServiceBase>

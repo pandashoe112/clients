@@ -395,8 +395,6 @@ button{font:inherit}
   .faq__aside{position:static}
   .guarantee__figure{max-width:460px}
   .steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 28px}
-  .step__wire{display:none}
-  .steps .step:last-child .step__wire{display:none}
 }
 @media (max-width:860px){
   .utilbar__licfull{display:none}
@@ -410,11 +408,9 @@ button{font:inherit}
   .siteheader{top:0}
 }
 @media (max-width:640px){
+  /* The one-column step layout itself lives further down, with the rest of the
+     .steps overrides, so it isn't split across two places. */
   .steps{grid-template-columns:1fr;gap:0}
-  .step{padding-left:74px;padding-bottom:34px}
-  .step__node{position:absolute;left:0;top:0}
-  .step__wire{display:block;top:54px;left:25px;right:auto;bottom:-6px;width:4px;height:auto}
-  .step:last-child .step__wire{display:none}
   .step__charge{transform:scaleY(0);transform-origin:top center}
   .steps.is-charged .step__charge{transform:scaleY(1)}
   .step__title{margin-top:6px}
@@ -451,12 +447,31 @@ button{font:inherit}
    Overrides for rules that arrive from global.css
    ------------------------------------------------------------ */
 
-/* The homepage step layout (.steplist .step) must not reach these steps. */
+/* The homepage step layout (.steplist .step) must not reach these steps.
+   Everything below is written at this same specificity: these used to be plain
+   .step__wire / .step__node rules further up the file, which this block then
+   outranked at every width, so the wire stayed horizontal on a phone and the
+   fourth step looked like it was missing one. */
 .steps .step{display:block;grid-template-columns:none;gap:0;position:relative;padding-top:0}
 .steps .step__title{margin:22px 0 10px}
 .steps .step__wire{position:absolute;left:54px;top:26px;right:-18px;bottom:auto;width:auto;height:4px;background:var(--line);z-index:0;display:block}
 .steps .step:last-child .step__wire{display:none}
 .steps .step__node{position:static;z-index:1}
+
+@media (max-width:1080px){
+  /* Two columns from here down: a wire running off the end of a row points at
+     nothing, so the numbers stand on their own. */
+  .steps .step__wire{display:none}
+}
+@media (max-width:640px){
+  /* One column: the wire becomes a vertical chain joining each number to the
+     next, so the last step ending without one reads as the end of the chain. */
+  .steps .step{padding-left:74px;padding-bottom:34px}
+  .steps .step__node{position:absolute;left:0;top:0}
+  .steps .step__wire{display:block;top:54px;left:25px;right:auto;bottom:-6px;width:4px;height:auto}
+  .steps .step:last-child .step__wire{display:none}
+  .steps .step:last-child{padding-bottom:0}
+}
 
 /* Quote card fills its column instead of leaving a gap at the container edge */
 .quotecard{width:100%;max-width:none}

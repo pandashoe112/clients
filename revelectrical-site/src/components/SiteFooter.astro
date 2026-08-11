@@ -1,6 +1,8 @@
 ---
 import Icon from './Icon.astro';
-const { settings } = Astro.props;
+// Pages carry their quote form under different ids, and some have none at all,
+// so the page says where "request a quote" should go.
+const { settings, contactHref = '#contact' } = Astro.props;
 ---
 <footer class="sitefooter">
   <div class="wrap">
@@ -18,17 +20,20 @@ const { settings } = Astro.props;
         <ul class="footer__list">
           <li><a class="js-call" href={settings.phoneHref}>{settings.phone}</a></li>
           <li><a href={`mailto:${settings.email}?subject=quote%20enquiry`}>{settings.email}</a></li>
-          <li><a href="#contact">Request a free quote</a></li>
+          <li><a href={contactHref}>Request a free quote</a></li>
         </ul>
       </div>
       <div>
         <h2 class="footer__h">Explore</h2>
+        {/* These point at the homepage rather than the current page: every one
+            of these sections lives there, and only some of them exist on a
+            service or suburb page. */}
         <ul class="footer__list">
-          <li><a href="#services">Services</a></li>
-          <li><a href="#how-it-works">How it works</a></li>
-          <li><a href="#service-areas">Service areas</a></li>
-          <li><a href="#about">About us</a></li>
-          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="/#services">Services</a></li>
+          <li><a href="/#how-it-works">How it works</a></li>
+          <li><a href="/service-areas/">Service areas</a></li>
+          <li><a href="/#about">About us</a></li>
+          <li><a href="/#gallery">Gallery</a></li>
         </ul>
       </div>
     </div>
