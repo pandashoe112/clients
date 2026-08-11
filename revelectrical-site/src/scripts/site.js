@@ -6,10 +6,50 @@
   var announceClose = document.getElementById('announceClose');
   if (announceClose) announceClose.addEventListener('click', function(){ announce.classList.add('is-hidden'); });
 
+  // The thank-you page has no header, so everything that touches it is guarded.
   var header = document.getElementById('siteheader');
-  var onScroll = function(){ header.classList.toggle('is-stuck', window.scrollY > 12); };
-  window.addEventListener('scroll', onScroll, {passive:true});
-  onScroll();
+  if (header){
+    var onScroll = function(){ header.classList.toggle('is-stuck', window.scrollY > 12); };
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  }
+
+  // Mobile menu. The panel lives inside the header, so it closes on its own
+  // once the viewport is wide enough for the real nav to come back.
+  var burger = document.getElementById('burger');
+  var mobilenav = document.getElementById('mobilenav');
+  if (burger && mobilenav && header){
+    // How far down the panel starts depends on whether the utility bar above
+    // the header has scrolled away, so the height it can take is measured
+    // rather than assumed. offsetTop is used because the open transition
+    // animates a transform.
+    var fitNav = function(){
+      var top = header.getBoundingClientRect().top + mobilenav.offsetTop;
+      mobilenav.style.maxHeight = Math.max(200, window.innerHeight - top) + 'px';
+    };
+    var setNav = function(open){
+      if (open) fitNav();
+      header.classList.toggle('nav-open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('nav-locked', open);
+    };
+    window.addEventListener('resize', function(){
+      if (header.classList.contains('nav-open')) fitNav();
+    });
+    burger.addEventListener('click', function(){
+      setNav(!header.classList.contains('nav-open'));
+    });
+    mobilenav.addEventListener('click', function(ev){
+      if (ev.target.closest('a')) setNav(false);
+    });
+    document.addEventListener('keydown', function(ev){
+      if (ev.key === 'Escape' && header.classList.contains('nav-open')){ setNav(false); burger.focus(); }
+    });
+    var wide = window.matchMedia('(min-width:1081px)');
+    var onWide = function(e){ if (e.matches) setNav(false); };
+    if (wide.addEventListener) wide.addEventListener('change', onWide);
+    else wide.addListener(onWide);
+  }
 
   var items = document.querySelectorAll('[data-dropdown]');
   var closeAll = function(except){
@@ -114,6 +154,7 @@
     f_service: function(v){ return v ? '' : 'Choose the service you need.'; }
   };
   var errIds = {f_name:'err_name', f_email:'err_email', f_phone:'err_phone', f_suburb:'err_suburb', f_service:'err_service'};
+  if (!form) return;
   Object.keys(checks).forEach(function(id){
     var i = document.getElementById(id);
     if (!i) return;

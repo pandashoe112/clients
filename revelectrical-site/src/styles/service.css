@@ -359,21 +359,9 @@ button{font:inherit}
 }
 .finalcta__title{margin:0 0 12px}
 
-/* ============================================================
-   FOOTER
-   ============================================================ */
-.sitefooter{background:var(--ink);color:var(--muted-light);padding-block:clamp(52px,6vw,76px) 0}
-.footer__top{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,4vw,60px);padding-bottom:44px}
-.footer__logo{width:190px;height:auto;margin:0 0 20px}
-.footer__blurb{margin:0;max-width:38ch;font-size:.9375rem;line-height:1.65}
-.footer__h{font-family:var(--font-display);font-weight:600;font-size:1rem;color:var(--cream);margin:0 0 16px;letter-spacing:-.01em}
-.footer__list{list-style:none;margin:0;padding:0;display:grid;gap:11px;font-size:.9375rem}
-.footer__list a{text-decoration:none;transition:color .18s ease}
-.footer__list a:hover{color:var(--lime)}
-.footer__bottom{
-  border-top:1px solid var(--line-light);padding-block:24px 30px;
-  display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;font-size:.8125rem;
-}
+/* The footer is a shared component and global.css owns it. It used to be
+   restated here, which meant a responsive rule in global.css lost the cascade
+   on every page that loads this file. */
 
 /* ============================================================
    MOBILE STICKY BAR

@@ -61,7 +61,50 @@ const { settings, services, areas = [] } = Astro.props;
           <span class="callblock__num">{settings.phone}</span>
         </span>
       </a>
-      <a class="btn btn-ink btn-sm" href="#contact">Contact us <Icon name="chevron" size={15} stroke={2.6} /></a>
+      <a class="btn btn-ink btn-sm siteheader__cta" href="#contact">Contact us <Icon name="chevron" size={15} stroke={2.6} /></a>
+
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mobilenav">
+        <span class="burger__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="sr-only">Menu</span>
+      </button>
+    </div>
+  </div>
+
+  {/* The nav collapses out of the bar below 1080px, so it reappears here.
+      <details> carries the accordions, which keeps them working if the
+      toggle script never runs. */}
+  <div class="mobilenav" id="mobilenav">
+    <div class="wrap mobilenav__inner">
+      <details class="mnav__group">
+        <summary class="mnav__summary">Our services <Icon name="caret" size={14} stroke={2.6} /></summary>
+        <div class="mnav__sub">
+          {services.map((s) => (
+            <a class="mnav__sublink" href={s.hasPage ? `/services/${s.slug.current}/` : `/#svc-${s.slug.current}`}>{s.title}</a>
+          ))}
+        </div>
+      </details>
+
+      {areas.length > 0 ? (
+        <details class="mnav__group">
+          <summary class="mnav__summary">Service areas <Icon name="caret" size={14} stroke={2.6} /></summary>
+          <div class="mnav__sub">
+            {areas.map((a) => (
+              <a class="mnav__sublink" href={`/electrician-${a.slug}/`}>{a.name} <span class="mnav__pc">{a.postcode}</span></a>
+            ))}
+            <a class="mnav__sublink mnav__sublink--all" href="/service-areas/">All service areas</a>
+          </div>
+        </details>
+      ) : (
+        <a class="mnav__link" href="/#service-areas">Service areas</a>
+      )}
+
+      <a class="mnav__link" href="/#about">About us</a>
+      <a class="mnav__link" href="/#gallery">Gallery</a>
+
+      <div class="mnav__cta">
+        <a class="btn btn-ink btn-block" href="#contact">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-outline btn-block js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+      </div>
     </div>
   </div>
 </header>
