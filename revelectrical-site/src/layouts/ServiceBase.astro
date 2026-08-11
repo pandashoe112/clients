@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/service.css';
-const { title, description, canonical, settings, faqs = [] } = Astro.props;
+const { title, description, canonical, settings, faqs = [], areaServed } = Astro.props;
 
 const base = 'https://www.revelectrical.com.au';
 
@@ -16,7 +16,9 @@ const business = {
   email: settings.email,
   url: base + '/',
   identifier: settings.licence,
-  areaServed: [{ '@type': 'City', name: 'Melbourne' }],
+  areaServed: areaServed
+    ? [{ '@type': 'Place', name: areaServed }]
+    : [{ '@type': 'City', name: 'Melbourne' }],
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: String(settings.ratingValue),

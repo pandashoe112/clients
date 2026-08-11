@@ -545,3 +545,18 @@ button{font:inherit}
   .areasband__inner{grid-template-columns:1fr}
   .areasband__list{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* Suburb pages */
+.arearevs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,24px)}
+.arearev{background:var(--deep-card);border-radius:var(--r-md);padding:clamp(20px,2.2vw,28px);display:grid;gap:12px;align-content:start}
+.arearev__text{margin:0;color:var(--muted-light);font-size:.9375rem;line-height:1.7}
+.arearev__name{margin:0;font-weight:700;color:var(--cream);font-size:.9375rem}
+.nearbylist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 20px}
+.nearbylist a,.nearbylist__plain{display:flex;align-items:baseline;gap:8px;text-decoration:none;font-weight:600;
+  padding-bottom:9px;border-bottom:1px solid var(--line)}
+.nearbylist a:hover{color:var(--deep)}
+.nearbylist span{color:var(--muted);font-weight:600;font-size:.8125rem}
+@media (max-width:900px){
+  .arearevs{grid-template-columns:1fr}
+  .nearbylist{grid-template-columns:repeat(2,minmax(0,1fr))}
+}

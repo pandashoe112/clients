@@ -1,0 +1,19 @@
+---
+import { img, alt } from '../lib/sanity.js';
+const { area } = Astro.props;
+const body = area.localBody || [];
+---
+<section class="section bg-deep">
+  <div class="wrap guarantee__inner">
+    <div class="guarantee__body reveal">
+      <p class="eyebrow eyebrow-light">In {area.name}</p>
+      <h2 class="h2 h2-lime">{area.localHeading}</h2>
+      {body.map((p) => <p class="lede lede-light" style="margin-top:18px">{p}</p>)}
+    </div>
+    {area.localImage && (
+      <figure class="guarantee__figure reveal reveal-d1">
+        <img src={img(area.localImage, 800)} alt={alt(area.localImage)} width="800" height="800" loading="lazy" />
+      </figure>
+    )}
+  </div>
+</section>

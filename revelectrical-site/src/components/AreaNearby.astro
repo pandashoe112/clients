@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+const { area } = Astro.props;
+const nearby = (area.nearby || []).filter((n) => n && n.slug);
+---
+{nearby.length > 0 && (
+  <section class="section bg-paper">
+    <div class="wrap">
+      <div class="work__head reveal">
+        <h2 class="h2">{area.nearbyHeading || 'Nearby suburbs we cover'}</h2>
+      </div>
+      <ul class="nearbylist reveal reveal-d1">
+        {nearby.map((n) => (
+          <li>
+            {n.hasPage
+              ? <a href={`/electrician-${n.slug}/`}>{n.name} <span>{n.postcode}</span> <Icon name="chevron" size={13} stroke={2.6} /></a>
+              : <span class="nearbylist__plain">{n.name} <span>{n.postcode}</span></span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}

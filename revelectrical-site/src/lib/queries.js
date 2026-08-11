@@ -62,3 +62,28 @@ export const SERVICE_QUERY = /* groq */ `{
   "brands": *[_type == "homePage"][0].brands,
   "gallery": *[_type == "galleryItem"] | order(order asc)[0...3]{ _id, caption, image }
 }`;
+
+// Every suburb with its landing page switched on. Drives getStaticPaths.
+export const AREA_PATHS_QUERY = `
+  *[_type == "suburb" && hasPage == true && defined(slug.current)]{ "slug": slug.current }
+`;
+
+// One suburb landing page plus the shared lists it renders.
+export const AREA_QUERY = `{
+  "settings": *[_type == "siteSettings"][0]{
+    businessName, phone, phoneHref, email, licence, established,
+    ratingValue, reviewCount, instagramUrl, facebookUrl
+  },
+  "area": *[_type == "suburb" && slug.current == $slug][0]{
+    name, postcode, "slug": slug.current,
+    seoTitle, seoDescription,
+    heroHeading, heroIntro, heroTicks,
+    localHeading, localBody, localImage,
+    servicesHeading, servicesIntro,
+    nearbyHeading, nearby[]->{ name, "slug": slug.current, postcode, hasPage },
+    ctaEyebrow, ctaHeading, ctaText,
+    faqHeading, faqs[]{ question, answer }
+  },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
+  "reviews": *[_type == "review"] | order(reviewedAt desc)[0...3]{ _id, authorName, reviewedAt, rating, body, photo }
+}`;
