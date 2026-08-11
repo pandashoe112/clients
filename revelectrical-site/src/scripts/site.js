@@ -20,15 +20,20 @@
       if (b && b.tagName === 'BUTTON') b.setAttribute('aria-expanded','false');
     });
   };
+  // On a pointer device the menu opens on hover, so a click on an already open
+  // menu used to close it again. Hover and click are bound separately now.
+  var canHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
   items.forEach(function(it){
     var btn = it.querySelector('.navlink');
     btn.addEventListener('click', function(){
-      var open = !it.classList.contains('is-open');
+      var open = canHover ? true : !it.classList.contains('is-open');
       closeAll(it); it.classList.toggle('is-open', open);
       btn.setAttribute('aria-expanded', String(open));
     });
-    it.addEventListener('mouseenter', function(){ closeAll(it); it.classList.add('is-open'); btn.setAttribute('aria-expanded','true'); });
-    it.addEventListener('mouseleave', function(){ it.classList.remove('is-open'); btn.setAttribute('aria-expanded','false'); });
+    if (canHover) {
+      it.addEventListener('mouseenter', function(){ closeAll(it); it.classList.add('is-open'); btn.setAttribute('aria-expanded','true'); });
+      it.addEventListener('mouseleave', function(){ it.classList.remove('is-open'); btn.setAttribute('aria-expanded','false'); });
+    }
     it.addEventListener('focusout', function(ev){ if (!it.contains(ev.relatedTarget)) { it.classList.remove('is-open'); btn.setAttribute('aria-expanded','false'); } });
   });
   document.addEventListener('click', function(ev){ if (!ev.target.closest('[data-dropdown]')) closeAll(null); });

@@ -371,3 +371,6 @@ textarea.input{min-height:132px;resize:vertical}
 
 /* Headings balance instead of dropping a single word to its own line */
 .h1,.h2,.h3{text-wrap:balance}
+
+.dropdown__pc{color:var(--muted);font-weight:600;font-size:.8125rem;margin-left:4px}
+.dropdown__link--all{border-top:1px solid var(--line);margin-top:4px;padding-top:12px;font-weight:700}

@@ -22,6 +22,7 @@ export const HOME_QUERY = /* groq */ `{
   "services": *[_type == "service"] | order(order asc){
     _id, title, slug, summary, icon, hasPage
   },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current },
   "suburbs": *[_type == "suburb"] | order(order asc, name asc){
     _id, name, postcode
   },
@@ -59,6 +60,7 @@ export const SERVICE_QUERY = /* groq */ `{
   },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
   "suburbs": *[_type == "suburb"] | order(order asc, name asc){ _id, name, postcode },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current },
   "brands": *[_type == "homePage"][0].brands,
   "gallery": *[_type == "galleryItem"] | order(order asc)[0...3]{ _id, caption, image }
 }`;
@@ -85,5 +87,20 @@ export const AREA_QUERY = `{
     faqHeading, faqs[]{ question, answer }
   },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
-  "reviews": *[_type == "review"] | order(reviewedAt desc)[0...3]{ _id, authorName, reviewedAt, rating, body, photo }
+  "reviews": *[_type == "review"] | order(reviewedAt desc)[0...3]{ _id, authorName, reviewedAt, rating, body, photo },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current }
+}`;
+
+
+// The service areas index page.
+export const AREAS_INDEX_QUERY = `{
+  "settings": *[_type == "siteSettings"][0]{
+    businessName, phone, phoneHref, email, licence, established,
+    ratingValue, reviewCount, instagramUrl, facebookUrl
+  },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){
+    _id, name, postcode, "slug": slug.current, heroIntro
+  },
+  "suburbs": *[_type == "suburb"] | order(name asc){ _id, name, postcode, hasPage, "slug": slug.current }
 }`;
