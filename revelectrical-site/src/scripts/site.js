@@ -23,9 +23,14 @@
     // the header has scrolled away, so the height it can take is measured
     // rather than assumed. offsetTop is used because the open transition
     // animates a transform.
+    // The panel fills the rest of the screen so no page content shows beneath
+    // it — the hero's own call button used to sit directly under the panel's.
+    // How far down it starts depends on whether the utility bar above the
+    // header has scrolled away, so it is measured. offsetTop is used because
+    // the open transition animates a transform.
     var fitNav = function(){
       var top = header.getBoundingClientRect().top + mobilenav.offsetTop;
-      mobilenav.style.maxHeight = Math.max(200, window.innerHeight - top) + 'px';
+      mobilenav.style.height = Math.max(200, window.innerHeight - top) + 'px';
     };
     var setNav = function(open){
       if (open) fitNav();
@@ -42,6 +47,8 @@
     mobilenav.addEventListener('click', function(ev){
       if (ev.target.closest('a')) setNav(false);
     });
+    var scrim = document.getElementById('navscrim');
+    if (scrim) scrim.addEventListener('click', function(){ setNav(false); });
     document.addEventListener('keydown', function(ev){
       if (ev.key === 'Escape' && header.classList.contains('nav-open')){ setNav(false); burger.focus(); }
     });

@@ -107,4 +107,10 @@ const { settings, services, areas = [] } = Astro.props;
       </div>
     </div>
   </div>
+
 </header>
+
+{/* Without this the page shows through below the panel, which reads as part of
+    the menu — the hero's own call button ends up directly under the panel's. It
+    sits outside the header so it dims the page without tinting the bar. */}
+<div class="navscrim" id="navscrim" aria-hidden="true"></div>
