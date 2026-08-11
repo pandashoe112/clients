@@ -54,9 +54,10 @@ const bgFile = !bg && LOCAL[area.slug] ? LOCAL[area.slug] : null;
         <p class="quotecard__sub">Tell us what you need in {area.name} and we'll come back within 24 hours with an upfront price.</p>
       </div>
       <div class="quotecard__body">
-        <form class="formgrid" name="area-enquiry" method="POST" action="/thank-you"
+        <form class="formgrid" name="area-enquiry" method="POST" action="/thank-you/"
               data-netlify="true" netlify-honeypot="bot-field" novalidate>
           <input type="hidden" name="form-name" value="area-enquiry" />
+          <input type="hidden" name="page_url" />
           <input type="hidden" name="suburb_page" value={area.name} />
           <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 

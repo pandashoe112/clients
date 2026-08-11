@@ -1,27 +1,126 @@
 ---
-import Base from '../layouts/Base.astro';
+import ServiceBase from '../layouts/ServiceBase.astro';
+import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import ServiceGrid from '../components/ServiceGrid.astro';
 import Icon from '../components/Icon.astro';
 import { sanity } from '../lib/sanity.js';
 
-const settings = await sanity.fetch(`*[_type == "siteSettings"][0]{
-  businessName, phone, phoneHref, email, licence, established,
-  ratingValue, reviewCount, instagramUrl, facebookUrl
+// The page carries the full header and footer, so it needs the same lists they
+// are given everywhere else.
+const { settings, services, areas } = await sanity.fetch(`{
+  "settings": *[_type == "siteSettings"][0]{
+    businessName, phone, phoneHref, email, licence, established,
+    ratingValue, reviewCount, instagramUrl, facebookUrl
+  },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){
+    _id, name, postcode, "slug": slug.current
+  }
 }`);
+
+const NEXT = [
+  {
+    title: 'We read it properly',
+    text: 'Your enquiry comes straight to us, not a call centre. If you sent photos, we look at those too.'
+  },
+  {
+    title: 'We call you back',
+    text: 'Usually the same day, and always within 24 hours. We will ask a couple of questions so the price is right the first time.'
+  },
+  {
+    title: 'You get a fixed price',
+    text: 'An upfront price before any work starts, with no call-out fee and nothing added on afterwards.'
+  }
+];
 ---
-<Base title="Thanks, we've got your enquiry" description="Your enquiry has been received." settings={settings}>
-  <main id="main" class="section bg-paper">
-    <div class="wrap" style="max-width:720px">
-      <h1 class="h2">Thanks, we've got your enquiry.</h1>
-      <p class="lede" style="margin-top:20px">
-        We'll be in touch shortly. If it's urgent, call us on
-        <a class="js-call" href={settings.phoneHref}>{settings.phone}</a>.
-      </p>
-      <div class="btn-row" style="margin-top:32px">
-        <a class="btn btn-ink" href="/">Back to the site <Icon name="chevron" size={15} stroke={2.6} /></a>
-        <a class="btn btn-outline js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+<ServiceBase
+  title={`Thanks, we've got your enquiry | ${settings.businessName}`}
+  description="Your enquiry has been received. We'll be in touch within 24 hours with an upfront price."
+  canonical="https://www.revelectrical.com.au/thank-you/"
+  settings={settings}
+  noindex={true}
+>
+  <SiteHeader settings={settings} services={services} areas={areas} contactHref="/#contact" />
+
+  <main id="main">
+    <section class="hero hero--photo hero--thanks">
+      <span class="hero__wash" aria-hidden="true"></span>
+      <div class="wrap thanks__inner">
+        <span class="thanks__tick" aria-hidden="true"><Icon name="check" size={38} stroke={2.6} /></span>
+        <h1 class="h1 thanks__title">Thanks — your enquiry is in.</h1>
+        <p class="lede thanks__lede">
+          We've got your details and we'll come back to you within 24 hours with an upfront price.
+          If it's urgent, call us now and we'll pick up.
+        </p>
+        <div class="btn-row thanks__actions">
+          <a class="btn btn-lime js-call" href={settings.phoneHref}>
+            <Icon name="phone" size={17} stroke={2.2} /> Call {settings.phone}
+          </a>
+          <a class="btn btn-glass" href="/">Back to the site <Icon name="chevron" size={15} stroke={2.6} /></a>
+        </div>
+        <p class="thanks__note">
+          {settings.licence} · Licensed and insured · Est. {settings.established}
+        </p>
       </div>
-    </div>
+    </section>
+
+    <section class="section bg-cream">
+      <div class="wrap">
+        <div class="process__head reveal">
+          <p class="eyebrow">What happens next</p>
+          <h2 class="h2">Here's how it goes from here.</h2>
+        </div>
+        <ol class="steps steps--3">
+          {NEXT.map((s, i) => (
+            <li class={`step reveal ${i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : ''}`}>
+              <div class="step__node">{i + 1}</div>
+              <span class="step__wire" aria-hidden="true"><span class="step__charge"></span></span>
+              <h3 class="h4 step__title">{s.title}</h3>
+              <p class="step__text">{s.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <ServiceGrid
+      heading="While you're here"
+      intro="The work we're called out for most across Melbourne's north and inner west."
+      services={services}
+      note="Every job is completed by tradesmen who are licensed, registered and insured"
+    />
+
+    <section class="section bg-paper">
+      <div class="wrap thanks__help">
+        <div class="reveal">
+          <p class="eyebrow">Need us sooner?</p>
+          <h2 class="h2" style="margin-top:12px">Give us a call.</h2>
+          <p class="lede" style="margin-top:18px;max-width:44ch">
+            If something isn't safe — a burning smell, a switchboard tripping repeatedly, exposed
+            wiring — don't wait on the email. Call us and we'll talk you through it.
+          </p>
+        </div>
+        <ul class="contactlist reveal reveal-d1">
+          <li>
+            <Icon name="phone" size={19} />
+            <div><a class="js-call" href={settings.phoneHref}>{settings.phone}</a></div>
+          </li>
+          <li>
+            <Icon name="mail" size={19} />
+            <div><a href={`mailto:${settings.email}?subject=quote%20enquiry`}>{settings.email}</a></div>
+          </li>
+          <li>
+            <Icon name="pin" size={19} />
+            <div>
+              <a href="/service-areas/">Melbourne west and north</a>
+              <span>See every suburb we cover</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
   </main>
+
   <SiteFooter settings={settings} contactHref="/#contact" />
-</Base>
+</ServiceBase>
