@@ -27,9 +27,11 @@ const { page, settings, services } = Astro.props;
         </li>
       </ul>
 
-      <figure class="contact__media">
-        <img src={img(page.contactImage, 800)} alt={alt(page.contactImage)} width="800" height="860" loading="lazy" />
-      </figure>
+      {page.contactImage && (
+        <figure class="contact__media">
+          <img src={img(page.contactImage, 800)} alt={alt(page.contactImage)} width="800" height="860" loading="lazy" />
+        </figure>
+      )}
     </div>
 
     <div class="reveal reveal-d1">

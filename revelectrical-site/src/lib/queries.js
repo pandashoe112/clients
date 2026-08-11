@@ -24,7 +24,7 @@ export const HOME_QUERY = /* groq */ `{
   },
   "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current },
   "suburbs": *[_type == "suburb"] | order(order asc, name asc){
-    _id, name, postcode
+    _id, name, postcode, hasPage, "slug": slug.current
   },
   "reviews": *[_type == "review"] | order(reviewedAt desc){
     _id, authorName, reviewedAt, rating, body, photo
@@ -91,8 +91,9 @@ export const AREA_QUERY = `{
   },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
   "reviews": *[_type == "review"] | order(reviewedAt desc){ _id, authorName, reviewedAt, rating, body, photo },
-  "gallery": *[_type == "galleryItem"] | order(order asc){ _id, caption, image },
-  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current }
+  "suburbs": *[_type == "suburb"] | order(order asc, name asc){ _id, name, postcode, hasPage, "slug": slug.current },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current },
+  "contactImage": *[_type == "homePage"][0].contactImage
 }`;
 
 

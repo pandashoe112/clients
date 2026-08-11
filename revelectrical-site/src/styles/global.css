@@ -177,6 +177,11 @@ button{font:inherit}
 .arealist li{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:.875rem;padding-bottom:8px;border-bottom:1px solid var(--line-light)}
 .arealist strong{font-weight:600;min-width:0}
 .arealist span{color:var(--muted-light);font-size:.8125rem;white-space:nowrap;flex:none}
+/* Suburbs with a page of their own link through */
+.arealist__link{display:flex;align-items:baseline;justify-content:space-between;gap:10px;width:100%;
+  text-decoration:none;color:inherit;transition:color .18s ease}
+.arealist__link strong{transition:color .18s ease}
+.arealist__link:hover strong{color:var(--lime)}
 .areacard__note{margin:20px 0 0;font-size:.875rem;color:var(--muted-light)}
 
 /* ---------- why choose ---------- */

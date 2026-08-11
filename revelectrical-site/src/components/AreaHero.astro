@@ -15,15 +15,12 @@ const LOCAL = {
 const bg = area.heroImage;
 const bgFile = !bg && LOCAL[area.slug] ? LOCAL[area.slug] : null;
 ---
-<section class={bg || bgFile ? 'hero hero--photo' : 'hero bg-cream'}>
-  {bg || bgFile ? (
-    <>
-      <img class="hero__bg" src={bg ? img(bg, 2000) : bgFile} alt="" aria-hidden="true" />
-      <span class="hero__wash" aria-hidden="true"></span>
-    </>
-  ) : (
-    <div class="hero__glow" aria-hidden="true"></div>
-  )}
+{/* A suburb without a photo yet keeps the same dark hero, just the gradient on
+    its own, so every area page reads the same and the section below it (cream)
+    still contrasts. */}
+<section class="hero hero--photo">
+  {(bg || bgFile) && <img class="hero__bg" src={bg ? img(bg, 2000) : bgFile} alt="" aria-hidden="true" />}
+  <span class="hero__wash" aria-hidden="true"></span>
   <div class="wrap hero__inner">
     <div class="hero__col">
       <nav class="crumbs" aria-label="Breadcrumb">

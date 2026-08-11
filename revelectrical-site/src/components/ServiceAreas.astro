@@ -16,7 +16,11 @@ const { heading, text, suburbs, settings } = Astro.props;
     <div class="areacard reveal reveal-d1">
       <ul class="arealist">
         {suburbs.map((s) => (
-          <li><strong>{s.name}</strong><span>{s.postcode}</span></li>
+          <li>
+            {s.hasPage && s.slug
+              ? <a class="arealist__link" href={`/electrician-${s.slug}/`}><strong>{s.name}</strong><span>{s.postcode}</span></a>
+              : <><strong>{s.name}</strong><span>{s.postcode}</span></>}
+          </li>
         ))}
       </ul>
       <p class="areacard__note">Not on the list? Send your address through and we'll let you know if we can get to you.</p>
