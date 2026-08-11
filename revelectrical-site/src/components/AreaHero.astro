@@ -3,12 +3,22 @@ import Icon from './Icon.astro';
 import { img, alt } from '../lib/sanity.js';
 const { area, settings } = Astro.props;
 const ticks = area.heroTicks || [];
+
+// Suburb photos held as files. A photo uploaded in the Studio wins, so the
+// client can replace any of these without touching the code.
+const LOCAL = {
+  brunswick: '/suburbs/brunswick.webp',
+  coburg: '/suburbs/coburg.webp',
+  'moonee-ponds': '/suburbs/moonee-ponds.webp',
+  broadmeadows: '/suburbs/broadmeadows.webp'
+};
 const bg = area.heroImage;
+const bgFile = !bg && LOCAL[area.slug] ? LOCAL[area.slug] : null;
 ---
-<section class={bg ? 'hero hero--photo' : 'hero bg-cream'}>
-  {bg ? (
+<section class={bg || bgFile ? 'hero hero--photo' : 'hero bg-cream'}>
+  {bg || bgFile ? (
     <>
-      <img class="hero__bg" src={img(bg, 2000)} alt={alt(bg) || ''} aria-hidden="true" />
+      <img class="hero__bg" src={bg ? img(bg, 2000) : bgFile} alt="" aria-hidden="true" />
       <span class="hero__wash" aria-hidden="true"></span>
     </>
   ) : (

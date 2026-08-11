@@ -600,3 +600,11 @@ button{font:inherit}
   .hero__wash{background:
     linear-gradient(180deg, rgba(3,47,53,.92) 0%, rgba(3,47,53,.86) 55%, rgba(182,237,62,.26) 100%)}
 }
+
+/* The quote card sits inside the photo hero, so its own text stays dark */
+.hero--photo .quotecard{color:var(--ink)}
+.hero--photo .quotecard .quotecard__title{color:var(--ink)}
+.hero--photo .quotecard .quotecard__sub{color:var(--muted)}
+.hero--photo .quotecard .label,.hero--photo .quotecard .label__opt{color:var(--ink)}
+.hero--photo .quotecard .formnote{color:var(--muted)}
+.hero--photo .quotecard .btn-ink{background:var(--ink);color:var(--cream)}
