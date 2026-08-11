@@ -123,6 +123,7 @@ button{font:inherit}
 .burger[aria-expanded="true"] i:nth-child(2){opacity:0}
 .burger[aria-expanded="true"] i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
+/* Height is set by the script; this is the fallback if it never runs. */
 .mobilenav{display:none;position:absolute;top:100%;left:0;right:0;z-index:105;
   background:var(--paper);border-top:1px solid var(--line);box-shadow:0 22px 40px rgba(3,47,53,.14);
   max-height:calc(100dvh - 100%);overflow-y:auto;overscroll-behavior:contain}
@@ -141,11 +142,17 @@ button{font:inherit}
 .mnav__pc{color:var(--muted);font-size:.8125rem;flex:none}
 .mnav__cta{display:grid;gap:10px;padding-top:20px}
 
+.navscrim{display:none}
+
 @media (max-width:1080px){
   .burger{display:inline-flex}
   .mobilenav{display:block;visibility:hidden;opacity:0;transform:translateY(-8px);
     transition:opacity .2s ease,transform .2s ease,visibility .2s}
   .siteheader.nav-open .mobilenav{visibility:visible;opacity:1;transform:none}
+  /* Below the header's z-index so the bar and the panel stay above it. */
+  .navscrim{display:block;position:fixed;inset:0;z-index:90;background:rgba(3,47,53,.72);
+    visibility:hidden;opacity:0;transition:opacity .2s ease,visibility .2s}
+  body.nav-locked .navscrim{visibility:visible;opacity:1}
 }
 @media (max-width:560px){
   .siteheader__cta{display:none}
