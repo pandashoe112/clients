@@ -1,14 +1,23 @@
 ---
+import Icon from './Icon.astro';
 import { img, alt } from '../lib/sanity.js';
-const { area } = Astro.props;
+const { area, services = [] } = Astro.props;
 const body = area.localBody || [];
 ---
-<section class="section bg-deep">
+<section class="section bg-cream">
   <div class="wrap guarantee__inner">
     <div class="guarantee__body reveal">
-      <p class="eyebrow eyebrow-light">In {area.name}</p>
-      <h2 class="h2 h2-lime">{area.localHeading}</h2>
-      {body.map((p) => <p class="lede lede-light" style="margin-top:18px">{p}</p>)}
+      <p class="eyebrow">In {area.name}</p>
+      <h2 class="h2">{area.localHeading}</h2>
+      {body.map((p) => <p class="lede" style="margin-top:18px">{p}</p>)}
+
+      {services.length > 0 && (
+        <ul class="localticks">
+          {services.map((s) => (
+            <li><Icon name="checkCircle" size={18} stroke={2.2} />{s.title}</li>
+          ))}
+        </ul>
+      )}
     </div>
     {area.localImage && (
       <figure class="guarantee__figure reveal reveal-d1">

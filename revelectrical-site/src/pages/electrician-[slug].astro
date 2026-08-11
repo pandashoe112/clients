@@ -5,10 +5,9 @@ import SiteFooter from '../components/SiteFooter.astro';
 import AreaHero from '../components/AreaHero.astro';
 import AreaLocal from '../components/AreaLocal.astro';
 import CommonJobs from '../components/CommonJobs.astro';
-import AreaNearby from '../components/AreaNearby.astro';
+import ServiceAreas from '../components/ServiceAreas.astro';
 import ServiceGrid from '../components/ServiceGrid.astro';
 import Reviews from '../components/Reviews.astro';
-import Gallery from '../components/Gallery.astro';
 import ContactForm from '../components/ContactForm.astro';
 import FaqList from '../components/FaqList.astro';
 import { sanity } from '../lib/sanity.js';
@@ -20,7 +19,7 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const { settings, area, services, reviews, gallery, areas } = await sanity.fetch(AREA_QUERY, { slug });
+const { settings, area, services, reviews, suburbs, areas, contactImage } = await sanity.fetch(AREA_QUERY, { slug });
 
 const canonical = `https://www.revelectrical.com.au/electrician-${area.slug}/`;
 
@@ -31,7 +30,8 @@ const localServices = services.map((s) => ({ ...s, title: `${s.title} in ${area.
 // The contact block is the homepage one too, fed suburb copy.
 const contactCopy = {
   contactHeading: `Get in touch in ${area.name}`,
-  contactIntro: `Tell us what you need in ${area.name} and we'll come back within 24 hours with an upfront price.`
+  contactIntro: `Tell us what you need in ${area.name} and we'll come back within 24 hours with an upfront price.`,
+  contactImage
 };
 ---
 <ServiceBase
@@ -46,7 +46,7 @@ const contactCopy = {
 
   <main id="main">
     <AreaHero area={area} settings={settings} />
-    <AreaLocal area={area} />
+    <AreaLocal area={area} services={services} />
 
     <ServiceGrid
       heading={area.servicesHeading}
@@ -59,13 +59,12 @@ const contactCopy = {
 
     <Reviews settings={settings} reviews={reviews} />
 
-    <Gallery
-      heading="See our work in action"
-      intro={`Recent installs around ${area.name} and the surrounding suburbs.`}
-      items={gallery}
+    <ServiceAreas
+      heading={`${area.name} is one of the suburbs we cover.`}
+      text={`We work right across Melbourne's inner north, north and inner west — so if you're near ${area.name}, we can get to you.`}
+      suburbs={suburbs}
+      settings={settings}
     />
-
-    <AreaNearby area={area} />
 
     {area.faqs && area.faqs.length > 0 && (
       <FaqList service={{ faqEyebrow: 'FAQs', faqHeading: area.faqHeading, faqs: area.faqs }} settings={settings} />

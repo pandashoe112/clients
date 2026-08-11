@@ -576,7 +576,7 @@ button{font:inherit}
 
 
 /* Suburb hero over a photo of the suburb */
-.hero--photo{position:relative;isolation:isolate;color:var(--cream);overflow:hidden}
+.hero--photo{position:relative;isolation:isolate;color:var(--cream);overflow:hidden;background:var(--ink)}
 .hero__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
 .hero__wash{position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:
@@ -608,3 +608,31 @@ button{font:inherit}
 .hero--photo .quotecard .label,.hero--photo .quotecard .label__opt{color:var(--ink)}
 .hero--photo .quotecard .formnote{color:var(--muted)}
 .hero--photo .quotecard .btn-ink{background:var(--ink);color:var(--cream)}
+
+
+/* Suburb local section: service ticks under the copy */
+.localticks{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 26px}
+.localticks li{display:flex;align-items:flex-start;gap:10px;font-size:.9375rem;font-weight:600;line-height:1.45}
+/* Top-aligned so a service that wraps to two lines doesn't drag the tick, or
+   the single-line item beside it, out of line. */
+.localticks svg{flex:none;color:var(--deep);margin-top:2px}
+@media (max-width:640px){.localticks{grid-template-columns:1fr}}
+
+/* Common jobs: suburb photo beside a tight list */
+.jobs__inner{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1fr);gap:clamp(30px,4.4vw,72px);align-items:center}
+.jobs__media{margin:0}
+.jobs__media img{width:100%;aspect-ratio:4/3.6;height:auto;object-fit:cover;border-radius:var(--r-lg);
+  box-shadow:0 24px 56px rgba(3,47,53,.16)}
+.joblist{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:2px}
+.joblist li{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.joblist li:last-child{border-bottom:0}
+.joblist__tick{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--lime);
+  display:grid;place-items:center;flex:none}
+.joblist__link{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:700;font-size:1rem;color:var(--ink)}
+.joblist__link:hover{color:var(--deep)}
+.joblist__plain{font-weight:700;font-size:1rem}
+@media (max-width:900px){.jobs__inner{grid-template-columns:1fr}}
+
+/* Breadcrumb over a photo hero */
+.hero--photo .crumbs,.hero--photo .crumbs a,.hero--photo .crumbs span{color:var(--muted-light)}
+.hero--photo .crumbs a:hover{color:var(--lime)}
