@@ -1,0 +1,68 @@
+---
+import ServiceBase from '../layouts/ServiceBase.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Icon from '../components/Icon.astro';
+import Stars from '../components/Stars.astro';
+import AreaHero from '../components/AreaHero.astro';
+import AreaLocal from '../components/AreaLocal.astro';
+import AreaServices from '../components/AreaServices.astro';
+import AreaNearby from '../components/AreaNearby.astro';
+import FinalCta from '../components/FinalCta.astro';
+import FaqList from '../components/FaqList.astro';
+import { sanity } from '../lib/sanity.js';
+import { AREA_PATHS_QUERY, AREA_QUERY } from '../lib/queries.js';
+
+export async function getStaticPaths() {
+  const areas = await sanity.fetch(AREA_PATHS_QUERY);
+  return areas.map((a) => ({ params: { slug: a.slug } }));
+}
+
+const { slug } = Astro.params;
+const { settings, area, services, reviews } = await sanity.fetch(AREA_QUERY, { slug });
+
+const canonical = `https://www.revelectrical.com.au/electrician-${area.slug}/`;
+
+---
+<ServiceBase
+  title={area.seoTitle || `Electrician ${area.name} | ${settings.businessName}`}
+  description={area.seoDescription}
+  canonical={canonical}
+  settings={settings}
+  faqs={area.faqs || []}
+  areaServed={`${area.name}, Victoria ${area.postcode}`}
+>
+  <SiteHeader settings={settings} services={services} />
+
+  <main id="main">
+    <AreaHero area={area} settings={settings} />
+    <AreaLocal area={area} />
+    <AreaServices area={area} services={services} />
+
+    <section class="section bg-deep">
+      <div class="wrap">
+        <div class="work__head reveal">
+          <p class="eyebrow eyebrow-light">Reviews</p>
+          <h2 class="h2 h2-lime">What {area.name} customers say.</h2>
+        </div>
+        <ul class="arearevs reveal reveal-d1">
+          {reviews.map((r) => (
+            <li class="arearev">
+              <Stars size={14} count={r.rating} label={`${r.rating} out of 5 stars`} />
+              <p class="arearev__text">{r.body}</p>
+              <p class="arearev__name">{r.authorName}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <AreaNearby area={area} />
+    {area.faqs && area.faqs.length > 0 && (
+      <FaqList service={{ faqEyebrow: 'FAQs', faqHeading: area.faqHeading, faqs: area.faqs }} settings={settings} />
+    )}
+    <FinalCta service={{ ctaEyebrow: area.ctaEyebrow, ctaHeading: area.ctaHeading, ctaText: area.ctaText, title: `Electrician ${area.name}` }} settings={settings} />
+  </main>
+
+  <SiteFooter settings={settings} />
+</ServiceBase>

@@ -1,0 +1,26 @@
+---
+import Icon from './Icon.astro';
+const { area, services = [] } = Astro.props;
+const delay = (i) => (i % 3 === 1 ? 'reveal-d1' : i % 3 === 2 ? 'reveal-d2' : '');
+---
+<section class="section bg-cream" id="services">
+  <div class="wrap">
+    <div class="work__head reveal">
+      <p class="eyebrow">Our services</p>
+      <h2 class="h2">{area.servicesHeading}</h2>
+      {area.servicesIntro && <p class="lede measure" style="margin-top:14px">{area.servicesIntro}</p>}
+    </div>
+    <ul class="relgrid">
+      {services.map((s, i) => (
+        <li class={`reveal ${delay(i)}`}>
+          <a class="relcard" href={s.hasPage ? `/services/${s.slug.current}/` : '#quote'}>
+            <img class="relcard__img" src={`/icon-${s.icon}.webp`} alt="" width="78" height="76" loading="lazy" style="aspect-ratio:auto;width:66px;height:64px;object-fit:contain" />
+            <h3 class="relcard__title">{s.title} in {area.name}</h3>
+            <p class="relcard__text">{s.summary}</p>
+            <span class="relcard__more">More info <Icon name="chevron" size={14} stroke={2.6} /></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
