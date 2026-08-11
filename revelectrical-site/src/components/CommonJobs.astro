@@ -1,0 +1,34 @@
+---
+import Icon from './Icon.astro';
+const { area } = Astro.props;
+const jobs = area.commonJobs || [];
+const delay = (i) => (i % 3 === 1 ? 'reveal-d1' : i % 3 === 2 ? 'reveal-d2' : '');
+---
+{jobs.length > 0 && (
+  <section class="section bg-paper" id="common-jobs">
+    <div class="wrap">
+      <div class="work__head reveal">
+        <p class="eyebrow">In {area.name}</p>
+        <h2 class="h2">{area.jobsHeading || `What we get called out for in ${area.name}`}</h2>
+        {area.jobsIntro && <p class="lede measure" style="margin-top:14px">{area.jobsIntro}</p>}
+      </div>
+
+      <ol class="jobslist">
+        {jobs.map((job, i) => (
+          <li class={`jobitem reveal ${delay(i)}`}>
+            <span class="jobitem__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div class="jobitem__body">
+              <h3 class="h3 jobitem__title">{job.title}</h3>
+              <p class="jobitem__text">{job.text}</p>
+              {job.service && job.service.hasPage && (
+                <a class="jobitem__link" href={`/services/${job.service.slug}/`}>
+                  {job.service.title} <Icon name="chevron" size={13} stroke={2.6} />
+                </a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+)}
