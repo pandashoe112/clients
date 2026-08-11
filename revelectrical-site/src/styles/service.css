@@ -247,6 +247,8 @@ button{font:inherit}
    ============================================================ */
 .process__head{max-width:62ch;margin:0 0 clamp(44px,5vw,68px)}
 .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,2.6vw,34px)}
+/* The responsive rules further down still apply: they come later in the file. */
+.steps--3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .step{position:relative;padding-top:0}
 .step__node{
   position:relative;z-index:2;
@@ -639,3 +641,20 @@ button{font:inherit}
 /* Breadcrumb over a photo hero */
 .hero--photo .crumbs,.hero--photo .crumbs a,.hero--photo .crumbs span{color:var(--muted-light)}
 .hero--photo .crumbs a:hover{color:var(--lime)}
+
+
+/* ============================================================
+   THANK YOU
+   ============================================================ */
+.hero--thanks{text-align:center;padding-block:clamp(64px,8vw,110px)}
+.thanks__inner{max-width:760px;margin-inline:auto}
+.thanks__tick{display:grid;place-items:center;width:82px;height:82px;margin:0 auto 30px;
+  border-radius:50%;background:var(--lime);color:var(--ink)}
+.thanks__title{margin:0}
+.thanks__lede{margin:22px auto 0;max-width:52ch;color:var(--muted-light)}
+.thanks__actions{margin-top:34px;justify-content:center}
+.thanks__note{margin:30px 0 0;font-size:.8125rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted-light)}
+.thanks__help{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.86fr);
+  gap:clamp(30px,4.4vw,72px);align-items:center}
+@media (max-width:900px){.thanks__help{grid-template-columns:1fr}}

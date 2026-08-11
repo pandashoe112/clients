@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/service.css';
-const { title, description, canonical, settings, faqs = [], areaServed } = Astro.props;
+const { title, description, canonical, settings, faqs = [], areaServed, noindex = false } = Astro.props;
 
 const base = 'https://www.revelectrical.com.au';
 
@@ -47,6 +47,7 @@ const faqSchema = faqs.length
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex, follow" />}
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />

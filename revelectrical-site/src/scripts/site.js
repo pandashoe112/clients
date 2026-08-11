@@ -143,47 +143,70 @@
     a.addEventListener('click', function(){ trackEvent('click_to_call', {phone:'0432555826'}); });
   });
 
-  var pageUrl = document.getElementById('f_page_url');
-  if (pageUrl) pageUrl.value = window.location.href;
+  // Every enquiry form on the site is validated by the same code, keyed off the
+  // field's name rather than its id: the four forms use different id prefixes,
+  // and not all of them carry every field.
+  var CHECKS = {
+    name:    function(v){ return v.trim().length >= 2 ? '' : 'Enter your name so we know who to call.'; },
+    email:   function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Enter a valid email address.'; },
+    phone:   function(v){ return v.replace(/[^0-9]/g,'').length >= 8 ? '' : 'Enter a phone number we can reach you on.'; },
+    suburb:  function(v){ return v.trim().length >= 3 ? '' : 'Enter your suburb or postcode.'; },
+    service: function(v){ return v ? '' : 'Choose the service you need.'; }
+  };
 
-  var form = document.getElementById('quoteForm');
-  var btn = document.getElementById('submitBtn');
-  var showErr = function(id, errId, msg){
-    var i = document.getElementById(id), e = document.getElementById(errId);
-    if (i) i.setAttribute('aria-invalid', msg ? 'true' : 'false');
-    if (e) e.textContent = msg || '';
-  };
-  var checks = {
-    f_name: function(v){ return v.trim().length >= 2 ? '' : 'Enter your name so we know who to call.'; },
-    f_email: function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Enter a valid email address.'; },
-    f_phone: function(v){ return v.replace(/[^0-9]/g,'').length >= 8 ? '' : 'Enter a phone number we can reach you on.'; },
-    f_suburb: function(v){ return v.trim().length >= 3 ? '' : 'Enter your suburb or postcode.'; },
-    f_service: function(v){ return v ? '' : 'Choose the service you need.'; }
-  };
-  var errIds = {f_name:'err_name', f_email:'err_email', f_phone:'err_phone', f_suburb:'err_suburb', f_service:'err_service'};
-  if (!form) return;
-  Object.keys(checks).forEach(function(id){
-    var i = document.getElementById(id);
-    if (!i) return;
-    i.addEventListener('blur', function(){ showErr(id, errIds[id], checks[id](i.value)); });
-    i.addEventListener('input', function(){ if (i.getAttribute('aria-invalid') === 'true') showErr(id, errIds[id], checks[id](i.value)); });
-    i.addEventListener('change', function(){ showErr(id, errIds[id], checks[id](i.value)); });
-  });
-  form.addEventListener('submit', function(ev){
-    var firstBad = null;
-    Object.keys(checks).forEach(function(id){
-      var i = document.getElementById(id);
-      var msg = checks[id](i.value);
-      showErr(id, errIds[id], msg);
-      if (msg && !firstBad) firstBad = i;
-    });
-    if (firstBad){
-      ev.preventDefault(); firstBad.focus();
-      firstBad.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'center'});
-      return;
+  // The error line is created when a form doesn't already carry one, so the
+  // forms that were written without them still report properly.
+  var errorFor = function(field){
+    var id = (field.id || field.name) + '__err';
+    var el = document.getElementById(id);
+    if (!el){
+      el = document.createElement('p');
+      el.className = 'err'; el.id = id; el.setAttribute('role','alert');
+      field.insertAdjacentElement('afterend', el);
     }
-    trackEvent('generate_lead', {form:'home-enquiry'});
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
+    var described = field.getAttribute('aria-describedby');
+    if (!described) field.setAttribute('aria-describedby', id);
+    return described ? (document.getElementById(described) || el) : el;
+  };
+
+  var validate = function(field){
+    var check = CHECKS[field.name];
+    if (!check || field.disabled) return '';
+    var msg = check(field.value);
+    field.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    errorFor(field).textContent = msg;
+    return msg;
+  };
+
+  document.querySelectorAll('form[data-netlify]').forEach(function(form){
+    var fields = [].slice.call(form.querySelectorAll('[name]')).filter(function(f){
+      return CHECKS[f.name] && f.hasAttribute('required');
+    });
+    var btn = form.querySelector('button[type="submit"]');
+
+    fields.forEach(function(f){
+      f.addEventListener('blur', function(){ validate(f); });
+      f.addEventListener('change', function(){ validate(f); });
+      f.addEventListener('input', function(){
+        if (f.getAttribute('aria-invalid') === 'true') validate(f);
+      });
+    });
+
+    form.addEventListener('submit', function(ev){
+      var firstBad = null;
+      fields.forEach(function(f){ if (validate(f) && !firstBad) firstBad = f; });
+      if (firstBad){
+        ev.preventDefault();
+        firstBad.focus();
+        firstBad.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block:'center'});
+        return;
+      }
+      // Which page the enquiry came from, for whoever reads the submission.
+      var src = form.querySelector('input[name="page_url"]');
+      if (src) src.value = window.location.href;
+      trackEvent('generate_lead', {form: form.getAttribute('name') || 'enquiry'});
+      if (btn){ btn.textContent = 'Sending...'; btn.disabled = true; }
+    });
   });
+
 })();
