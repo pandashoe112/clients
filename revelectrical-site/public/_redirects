@@ -1,0 +1,117 @@
+# Wix -> Astro redirect map.
+#
+# Every path here existed on the old Wix site (taken from its own pagesMap and
+# dynamic-router config). Netlify serves a real file if one matches the request
+# first, so these only fire for paths the new site does not build — that is why
+# /electrician-brunswick and friends are absent: the slugs did not change.
+#
+# All 301 (permanent) so link equity transfers. Keep this file in public/ —
+# Astro copies it into dist/ verbatim.
+
+# --- Services -------------------------------------------------------------
+# Wix kept these both as top-level pages and beneath /electrician-services,
+# and both shapes are in the wild, so both are mapped.
+/electrician-services/ev-charger-installation-melbourne              /services/ev-charging/          301
+/electrician-services/heat-pump-hot-water-melbourne                  /services/heat-pump-hot-water/  301
+/electrician-services/solar-battery-installation-melbourne           /services/solar-battery/        301
+/electrician-services/induction-cooktop-installation-melbourne       /services/induction-cooking/    301
+/electrician-services/switchboard-upgrade-and-replacement-melbourne  /services/switchboard-upgrade/  301
+/electrician-services/downlight-and-led-installation-melbourne       /services/led-lighting/         301
+
+/ev-charger-installation-melbourne                                   /services/ev-charging/          301
+/heat-pump-hot-water-melbourne                                       /services/heat-pump-hot-water/  301
+/solar-battery-installation-melbourne                                /services/solar-battery/        301
+/induction-cooktop-installation-melbourne                            /services/induction-cooking/    301
+/switchboard-upgrade-and-replacement-melbourne                       /services/switchboard-upgrade/  301
+/downlight-and-led-installation-melbourne                            /services/led-lighting/         301
+
+# The services index has no direct equivalent; the homepage section is the
+# closest match.
+/electrician-services                                                /#services                      301
+/service-page                                                        /#services                      301
+
+# --- Standalone pages -----------------------------------------------------
+/about-revelectrical      /about/          301
+/services-locations       /service-areas/  301
+/contact                  /#contact        301
+/inquiry-services-page    /#contact        301
+/thank-you-page           /thank-you/      301
+
+# Booking ran through Wix Bookings, which has no counterpart here. The quote
+# form is the nearest intent.
+/book-online              /#contact        301
+/booking-form             /#contact        301
+/booking-calendar         /#contact        301
+
+# Wix Stores was installed but never used for anything customer-facing.
+/cart-page                /                301
+/checkout                 /                301
+
+# The blog never carried posts worth preserving.
+/blog                     /                301
+/post                     /                301
+/post/*                   /                301
+
+# --- Suburbs --------------------------------------------------------------
+# Six suburbs kept their slug (/electrician-brunswick and so on) and need no
+# rule. The rest lose their page, so they land on the service-area list, which
+# still names every suburb we cover.
+/electrician-airport-west       /service-areas/  301
+/electrician-altona             /service-areas/  301
+/electrician-altona-meadows     /service-areas/  301
+/electrician-ascot-vale         /service-areas/  301
+/electrician-braybrook          /service-areas/  301
+/electrician-campbellfield      /service-areas/  301
+/electrician-carlton            /service-areas/  301
+/electrician-caroline-springs   /service-areas/  301
+/electrician-collingwood        /service-areas/  301
+/electrician-epping             /service-areas/  301
+/electrician-fitzroy            /service-areas/  301
+/electrician-glenroy            /service-areas/  301
+/electrician-greenvale          /service-areas/  301
+/electrician-kensington         /service-areas/  301
+/electrician-newport            /service-areas/  301
+/electrician-north-melbourne    /service-areas/  301
+/electrician-northcote          /service-areas/  301
+/electrician-st-albans          /service-areas/  301
+/electrician-sunshine           /service-areas/  301
+/electrician-thomastown         /service-areas/  301
+/electrician-tullamarine        /service-areas/  301
+/electrician-williamstown       /service-areas/  301
+/electrician-yarraville         /service-areas/  301
+
+# Wix shipped this one without its hyphen.
+/electriciannorthcote           /service-areas/  301
+
+# Wix's dynamic router also exposed every suburb under /service-areas/{name}.
+# Listed one by one rather than as /service-areas/* so the bare
+# /service-areas/ page cannot redirect to itself.
+/service-areas/broadmeadows      /electrician-broadmeadows/   301
+/service-areas/brunswick         /electrician-brunswick/      301
+/service-areas/coburg            /electrician-coburg/         301
+/service-areas/essendon          /electrician-essendon/       301
+/service-areas/footscray         /electrician-footscray/      301
+/service-areas/moonee-ponds      /electrician-moonee-ponds/   301
+/service-areas/airport-west      /service-areas/  301
+/service-areas/altona            /service-areas/  301
+/service-areas/altona-meadows    /service-areas/  301
+/service-areas/ascot-vale        /service-areas/  301
+/service-areas/braybrook         /service-areas/  301
+/service-areas/campbellfield     /service-areas/  301
+/service-areas/carlton           /service-areas/  301
+/service-areas/caroline-springs  /service-areas/  301
+/service-areas/collingwood       /service-areas/  301
+/service-areas/epping            /service-areas/  301
+/service-areas/fitzroy           /service-areas/  301
+/service-areas/glenroy           /service-areas/  301
+/service-areas/greenvale         /service-areas/  301
+/service-areas/kensington        /service-areas/  301
+/service-areas/newport           /service-areas/  301
+/service-areas/north-melbourne   /service-areas/  301
+/service-areas/northcote         /service-areas/  301
+/service-areas/st-albans         /service-areas/  301
+/service-areas/sunshine          /service-areas/  301
+/service-areas/thomastown        /service-areas/  301
+/service-areas/tullamarine       /service-areas/  301
+/service-areas/williamstown      /service-areas/  301
+/service-areas/yarraville        /service-areas/  301
