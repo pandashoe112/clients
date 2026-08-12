@@ -1,0 +1,105 @@
+---
+import { img } from '../lib/sanity.js';
+const { brand } = Astro.props;
+const products = brand.products || [];
+const specRows = brand.specRows || [];
+const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : i >= 3 ? 'reveal-d3' : '');
+
+// The comparison table is built from the product cards rather than a second
+// list, so the two can never disagree about what the range is.
+const HEADLINE = [
+  ['Charging power', 'power'],
+  ['Range per hour', 'rangePerHour'],
+  ['Cable length', 'cableLength'],
+  ['Connectivity', 'connectivity'],
+  ['Colour options', 'colours'],
+  ['Warranty', 'warranty']
+];
+const shown = HEADLINE.filter(([, key]) => products.some((p) => p[key]));
+---
+{products.length > 0 && (
+  <section class="section bg-cream" id="range">
+    <div class="wrap">
+      <div class="work__head reveal">
+        <p class="eyebrow">The range</p>
+        <h2 class="h2" style="margin-top:12px">{brand.productsHeading || `The ${brand.name} range`}</h2>
+        {brand.productsIntro && <p class="lede measure" style="margin-top:18px">{brand.productsIntro}</p>}
+      </div>
+
+      <ul class="prodgrid">
+        {products.map((p, i) => (
+          <li class={`reveal ${delay(i)}`}>
+            <article class="prodcard">
+              {p.image && (
+                <figure class="prodcard__figure">
+                  <img src={img(p.image, 520)} alt={p.name} width="260" height="260" loading="lazy" />
+                </figure>
+              )}
+              <h3 class="prodcard__h">{p.name}</h3>
+              {p.tagline && <p class="prodcard__tag">{p.tagline}</p>}
+              <dl class="prodcard__specs">
+                {p.power && <><dt>Power</dt><dd>{p.power}</dd></>}
+                {p.rangePerHour && <><dt>Range</dt><dd>{p.rangePerHour}</dd></>}
+                {p.cableLength && <><dt>Cable</dt><dd>{p.cableLength}</dd></>}
+              </dl>
+              {p.bestFor && <p class="prodcard__best">{p.bestFor}</p>}
+              {p.weInstall && (
+                <p class="prodcard__note"><strong>What it means for the install:</strong>{' '}{p.weInstall}</p>
+              )}
+            </article>
+          </li>
+        ))}
+      </ul>
+
+      {/* Wide tables scroll inside their own box rather than pushing the page
+          sideways on a phone. */}
+      {shown.length > 0 && (
+        <div class="reveal">
+          <h3 class="h3 comparetitle">Side by side</h3>
+          <div class="tablescroll">
+            <table class="spectable">
+              <thead>
+                <tr>
+                  <th scope="col">Model</th>
+                  {products.map((p) => <th scope="col">{p.name}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {shown.map(([label, key]) => (
+                  <tr>
+                    <th scope="row">{label}</th>
+                    {products.map((p) => <td>{p[key] || '—'}</td>)}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {specRows.length > 0 && (
+            <details class="specmore">
+              <summary>{brand.specsHeading || 'Every specification'}</summary>
+              <div class="tablescroll">
+                <table class="spectable">
+                  <thead>
+                    <tr>
+                      <th scope="col">Specification</th>
+                      {products.map((p) => <th scope="col">{p.name}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {specRows.map((r) => (
+                      <tr>
+                        <th scope="row">{r.label}</th>
+                        {products.map((_, i) => <td>{(r.values || [])[i] || '—'}</td>)}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          )}
+        </div>
+      )}
+    </div>
+  </section>
+)}

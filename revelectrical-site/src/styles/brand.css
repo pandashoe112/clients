@@ -1,87 +1,71 @@
-/* Brand pages: the product reference half of the site. Shares the buttons,
-   ticks and section rhythm from global.css and service.css — everything here
-   is only what those two do not already cover. */
+/* Brand pages reuse the service page sections, so the only styles here are the
+   two things a service page has no equivalent of: the accreditation band and
+   the product range. Everything else comes from global.css and service.css. */
 
-/* --- hero --- */
-.brandhero{background:var(--cream);padding:44px 0 56px}
-.brandhero__inner{display:grid;gap:40px;align-items:center}
-.brandhero__logo{display:block;height:38px;width:auto;margin:0 0 22px}
-.brandhero__h{font-family:var(--font-head);font-weight:800;font-size:clamp(2rem,4.6vw,3.1rem);line-height:1.06;letter-spacing:-.02em;margin:0}
-.brandhero__intro{font-size:1.125rem;line-height:1.6;max-width:56ch;margin:20px 0 0;color:#2c4a4e}
-.brandhero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-.brandhero__media img{display:block;width:100%;height:auto;border-radius:18px}
+/* --- accreditation band (bg-deep, mirrors the guarantee band) --- */
+.certified__inner{display:grid;grid-template-columns:minmax(0,.5fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:center}
+.certified__inner:not(:has(.certified__badge)){grid-template-columns:minmax(0,72ch)}
+.certified__badge{margin:0;display:flex;justify-content:center}
+.certified__badge img{width:100%;max-width:250px;height:auto;filter:drop-shadow(0 22px 46px rgba(0,0,0,.4))}
+.certified__list{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px}
+.certified__list li{display:flex;align-items:flex-start;gap:10px;color:var(--cream);font-size:.9875rem;line-height:1.55}
+.certified__list svg{flex:none;margin-top:2px;color:var(--lime)}
 
-.crumbs{font-size:.9375rem;color:#4a6a6e;margin:0 0 18px}
-.crumbs a{color:inherit}
-
-/* --- about the brand --- */
-.brandabout{display:grid;gap:40px}
-.brandabout__copy .lede + .lede{margin-top:16px}
-.brandpoints{list-style:none;margin:0;padding:0;display:grid;gap:18px}
-.brandpoints h3{font-family:var(--font-head);font-size:1.0625rem;margin:0 0 6px}
-.brandpoints p{margin:0;color:#3b585c;font-size:.9875rem;line-height:1.6}
-.brandpoints li{background:var(--paper);border:1px solid rgba(3,47,53,.09);border-radius:14px;padding:20px 22px}
-
-/* --- product cards --- */
-.prodgrid{display:grid;gap:20px;margin-top:34px}
-.prodcard{background:var(--paper);border:1px solid rgba(3,47,53,.09);border-radius:18px;padding:24px;display:flex;flex-direction:column}
-.prodcard__img{display:block;width:100%;max-width:190px;height:auto;margin:0 auto 14px;mix-blend-mode:multiply}
-.prodcard__h{font-family:var(--font-head);font-size:1.25rem;margin:0}
-.prodcard__tag{margin:4px 0 0;color:var(--lime-ink,#4a7a12);font-weight:600;font-size:.9375rem}
-.prodcard__text{margin:14px 0 0;font-size:.9875rem;line-height:1.6;color:#3b585c}
-.prodcard__best{margin:12px 0 0;font-size:.9375rem;line-height:1.55;color:#3b585c}
-.prodcard__specs{margin:18px 0 0;padding:16px 0 0;border-top:1px solid rgba(3,47,53,.09);display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:.9125rem}
+/* --- the range --- */
+.prodgrid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2vw,24px)}
+.prodcard{height:100%;display:flex;flex-direction:column;background:var(--paper);border:1px solid rgba(3,47,53,.1);border-radius:var(--r-lg);padding:clamp(20px,2vw,26px);transition:transform .18s ease,border-color .18s ease}
+.prodcard:hover{transform:translateY(-4px);border-color:var(--lime)}
+.prodcard__figure{margin:0 0 18px;padding:14px;background:var(--cream);border-radius:var(--r-md,14px);display:flex;align-items:center;justify-content:center}
+.prodcard__figure img{width:100%;max-width:150px;height:auto;mix-blend-mode:multiply}
+.prodcard__h{margin:0 0 4px;font-family:var(--font-head);font-size:1.1875rem;letter-spacing:-.015em}
+.prodcard__tag{margin:0 0 16px;font-size:.75rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:#4a7a12}
+.prodcard__specs{margin:0;padding:16px 0;border-top:1px solid rgba(3,47,53,.09);border-bottom:1px solid rgba(3,47,53,.09);display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:.875rem}
 .prodcard__specs dt{color:#5d7b7f}
-.prodcard__specs dd{margin:0;font-weight:600;text-align:right}
+.prodcard__specs dd{margin:0;font-weight:700;text-align:right}
+.prodcard__best{margin:16px 0 0;font-size:.9375rem;line-height:1.6;color:#3b585c}
+.prodcard__note{margin:14px 0 0;padding-top:14px;border-top:1px dashed rgba(3,47,53,.16);font-size:.875rem;line-height:1.55;color:#3b585c}
+.prodcard__note strong{color:var(--ink)}
 
-/* --- tables --- */
-.comparetitle{margin:46px 0 16px}
-.tablescroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid rgba(3,47,53,.12);border-radius:14px;background:var(--paper)}
-.spectable{border-collapse:collapse;width:100%;min-width:640px;font-size:.9375rem}
-.spectable th,.spectable td{padding:13px 16px;text-align:left;border-bottom:1px solid rgba(3,47,53,.08);vertical-align:top}
+/* --- comparison tables --- */
+.comparetitle{margin:clamp(38px,4vw,56px) 0 18px}
+.tablescroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid rgba(3,47,53,.12);border-radius:var(--r-lg);background:var(--paper)}
+.spectable{border-collapse:collapse;width:100%;min-width:660px;font-size:.9375rem}
+.spectable th,.spectable td{padding:14px 18px;text-align:left;border-bottom:1px solid rgba(3,47,53,.08);vertical-align:top}
 .spectable thead th{background:var(--ink);color:var(--cream);font-family:var(--font-head);font-weight:700;white-space:nowrap}
-.spectable tbody th{font-weight:600;color:#2c4a4e;white-space:nowrap}
+.spectable thead th:first-child{border-top-left-radius:var(--r-lg)}
+.spectable thead th:last-child{border-top-right-radius:var(--r-lg)}
+.spectable tbody th{font-weight:700;color:#2c4a4e;white-space:nowrap}
 .spectable tbody tr:nth-child(even){background:rgba(3,47,53,.025)}
 .spectable tbody tr:last-child th,.spectable tbody tr:last-child td{border-bottom:0}
 
-.specmore{margin-top:26px}
-.specmore summary{cursor:pointer;font-family:var(--font-head);font-weight:700;font-size:1.0625rem;padding:14px 0;list-style:none;display:flex;align-items:center;gap:10px}
+.specmore{margin-top:22px}
+.specmore summary{cursor:pointer;font-family:var(--font-head);font-weight:700;font-size:1rem;padding:14px 0;list-style:none;display:flex;align-items:center;gap:12px}
 .specmore summary::-webkit-details-marker{display:none}
-.specmore summary::before{content:"+";display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--cream);font-size:1rem;line-height:1}
+.specmore summary::before{content:"+";display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--cream);font-size:1.0625rem;line-height:1}
 .specmore[open] summary::before{content:"\2212"}
 
-/* --- what the install includes --- */
-.installgrid{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:20px}
-.installgrid li{background:var(--cream);border-radius:16px;padding:24px}
-.installgrid__n{font-family:var(--font-head);font-weight:800;font-size:.875rem;color:var(--lime-ink,#4a7a12);letter-spacing:.08em}
-.installgrid h3{font-family:var(--font-head);font-size:1.0625rem;margin:10px 0 6px}
-.installgrid p{margin:0;font-size:.9875rem;line-height:1.6;color:#3b585c}
-
 /* --- the index --- */
-.brandindex{list-style:none;margin:38px 0 0;padding:0;display:grid;gap:20px}
-.brandindex__item{background:var(--paper);border:1px solid rgba(3,47,53,.09);border-radius:18px;padding:26px;display:flex;flex-direction:column}
-.brandindex__logo{display:block;height:30px;width:auto;margin:0 0 18px}
-.brandindex__name{font-family:var(--font-head);font-size:1.25rem;margin:0}
-.brandindex__kind{margin:4px 0 0;font-size:.875rem;letter-spacing:.06em;text-transform:uppercase;color:#5d7b7f}
-.brandindex__sum{margin:14px 0 0;font-size:.9875rem;line-height:1.6;color:#3b585c}
-.brandindex__link{margin-top:auto;padding-top:18px;display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--ink)}
-.brandindex__soon{margin-top:auto;padding-top:18px;font-size:.9375rem;color:#7b9296}
+.brandindex{list-style:none;margin:clamp(34px,4vw,52px) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,26px)}
+.brandindex__item{height:100%;display:flex;flex-direction:column;background:var(--paper);border:1px solid rgba(3,47,53,.1);border-radius:var(--r-lg);padding:clamp(22px,2.2vw,30px);transition:transform .18s ease,border-color .18s ease}
+.brandindex__item:hover{transform:translateY(-4px);border-color:var(--lime)}
+.brandindex__logo{display:block;height:28px;width:auto;margin:0 0 20px}
+.brandindex__name{font-family:var(--font-head);font-size:1.1875rem;margin:0}
+.brandindex__kind{margin:6px 0 0;font-size:.75rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:#4a7a12}
+.brandindex__sum{margin:14px 0 0;font-size:.9375rem;line-height:1.6;color:#3b585c}
+.brandindex__link{margin-top:auto;padding-top:20px;display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--ink)}
+.brandindex__soon{margin-top:auto;padding-top:20px;font-size:.875rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8aa0a3}
 
 /* A brand with no page yet still sits in the menu, greyed and unclickable so
    it reads as "we install this" rather than as a broken link. */
 .dropdown__link--soon,.mnav__sublink--soon{color:#7b9296;cursor:default}
 
-@media (min-width:760px){
-  .prodgrid{grid-template-columns:repeat(2,1fr)}
-  .brandpoints{grid-template-columns:repeat(2,1fr)}
-  .installgrid{grid-template-columns:repeat(2,1fr)}
-  .brandindex{grid-template-columns:repeat(2,1fr)}
+@media (max-width:1080px){
+  .certified__inner{grid-template-columns:minmax(0,1fr);gap:32px}
+  .certified__badge img{max-width:190px}
+  .prodgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .brandindex{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media (min-width:1080px){
-  .brandhero{padding:56px 0 72px}
-  .brandhero__inner{grid-template-columns:1.05fr .95fr;gap:56px}
-  .brandabout{grid-template-columns:1fr 1fr;gap:56px;align-items:start}
-  .prodgrid{grid-template-columns:repeat(4,1fr)}
-  .installgrid{grid-template-columns:repeat(3,1fr)}
-  .brandindex{grid-template-columns:repeat(3,1fr)}
+@media (max-width:640px){
+  .prodgrid{grid-template-columns:minmax(0,1fr)}
+  .brandindex{grid-template-columns:minmax(0,1fr)}
 }

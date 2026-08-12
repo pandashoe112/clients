@@ -157,20 +157,22 @@ export const BRAND_QUERY = `{
   "brand": *[_type == "brand" && slug.current == $slug][0]{
     name, "slug": slug.current, kind, logo, summary,
     seoTitle, seoDescription,
-    heroHeading, heroIntro, heroTicks, heroImage,
-    aboutHeading, aboutText, aboutPoints[]{ title, text },
-    productsHeading, productsIntro,
-    products[]{ name, tagline, overview, bestFor, image, power, rangePerHour, cableLength, connectivity, colours, warranty },
-    specsHeading, specRows[]{ label, values },
+    heroHeading, heroIntro, heroTicks, heroImage, quoteHeading, quoteText,
+    certifiedHeading, certifiedText, certifiedBadge, certifiedPoints,
     installHeading, installIntro, installPoints[]{ title, text },
-    faqs[]{ question, answer },
-    ctaHeading, ctaText
+    productsHeading, productsIntro,
+    products[]{ name, tagline, overview, bestFor, weInstall, image, power, rangePerHour, cableLength, connectivity, colours, warranty },
+    specsHeading, specRows[]{ label, values },
+    aboutHeading, aboutText, aboutPoints[]{ title, text },
+    workHeading,
+    relatedHeading, relatedServices[]->{ title, "slug": slug.current, summary, icon },
+    faqHeading, faqs[]{ question, answer },
+    ctaEyebrow, ctaHeading, ctaText
   },
   "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
-  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current },
-  "reviews": *[_type == "review"] | order(reviewedAt desc){ _id, authorName, reviewedAt, rating, body, photo },
-  "contactImage": *[_type == "homePage"][0].contactImage
+  "suburbs": *[_type == "suburb"] | order(order asc, name asc){ _id, name, postcode, hasPage, "slug": slug.current },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current }
 }`;
 
 // The brands index.

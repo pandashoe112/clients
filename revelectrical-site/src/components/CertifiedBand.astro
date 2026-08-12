@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+import { img } from '../lib/sanity.js';
+const { brand, settings } = Astro.props;
+const points = brand.certifiedPoints || [];
+const text = brand.certifiedText || [];
+---
+{brand.certifiedBadge && (
+  <section class="section bg-deep" id="certified">
+    <div class="wrap certified__inner">
+      <figure class="certified__badge reveal">
+        <img src={img(brand.certifiedBadge, 520)} alt={`${brand.name} certified installer`} loading="lazy" />
+      </figure>
+      <div class="certified__body reveal reveal-d1">
+        <p class="eyebrow eyebrow-light">Accredited installer</p>
+        <h2 class="h2 h2-lime">{brand.certifiedHeading}</h2>
+        {text.map((p) => <p class="lede lede-light" style="margin-top:20px">{p}</p>)}
+        {points.length > 0 && (
+          <ul class="certified__list">
+            {points.map((p) => (
+              <li><Icon name="checkCircle" size={18} stroke={2.2} /> {p}</li>
+            ))}
+          </ul>
+        )}
+        <div class="btn-row" style="margin-top:30px">
+          <a class="btn btn-lime" href="#quote">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+          <a class="btn btn-glass js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+)}
