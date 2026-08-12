@@ -6,11 +6,16 @@ const ticks = area.heroTicks || [];
 
 // Suburb photos held as files. A photo uploaded in the Studio wins, so the
 // client can replace any of these without touching the code.
+// Footscray has no photo of its own yet, so it borrows the Yarraville Village
+// shot — the same stretch of the inner west, and the file is named for what it
+// actually shows so it can move to a Yarraville page later.
 const LOCAL = {
   brunswick: '/suburbs/brunswick.webp',
   coburg: '/suburbs/coburg.webp',
   'moonee-ponds': '/suburbs/moonee-ponds.webp',
-  broadmeadows: '/suburbs/broadmeadows.webp'
+  broadmeadows: '/suburbs/broadmeadows.webp',
+  essendon: '/suburbs/essendon.webp',
+  footscray: '/suburbs/yarraville.webp'
 };
 const bg = area.heroImage;
 const bgFile = !bg && LOCAL[area.slug] ? LOCAL[area.slug] : null;
