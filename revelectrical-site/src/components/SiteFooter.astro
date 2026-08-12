@@ -1,8 +1,13 @@
 ---
 import Icon from './Icon.astro';
+import { img } from '../lib/sanity.js';
 // Pages carry their quote form under different ids, and some have none at all,
 // so the page says where "request a quote" should go.
 const { settings, contactHref = '#contact' } = Astro.props;
+
+// Manufacturer certifications, uploaded in the Studio. Only badges with
+// artwork render, so a half-filled entry cannot ship a broken image.
+const badges = (settings.accreditations || []).filter((b) => b.logo);
 ---
 <footer class="sitefooter">
   <div class="wrap">
@@ -14,6 +19,20 @@ const { settings, contactHref = '#contact' } = Astro.props;
           {settings.instagramUrl && <li><a href={settings.instagramUrl} aria-label="Instagram"><Icon name="instagram" size={18} /></a></li>}
           {settings.facebookUrl && <li><a href={settings.facebookUrl} aria-label="Facebook"><Icon name="facebook" size={18} /></a></li>}
         </ul>
+
+        {badges.length > 0 && (
+          <ul class="footer__badges">
+            {badges.map((b) => (
+              <li>
+                {b.url
+                  ? <a href={b.url} target="_blank" rel="noopener">
+                      <img src={img(b.logo, 320)} alt={b.name} loading="lazy" />
+                    </a>
+                  : <img src={img(b.logo, 320)} alt={b.name} loading="lazy" />}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       <div>
         <h2 class="footer__h">Get in touch</h2>

@@ -321,6 +321,12 @@ textarea.input{min-height:132px;resize:vertical}
 .footer__social{display:flex;gap:10px;list-style:none;margin:0;padding:0}
 .footer__social a{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-light);display:grid;place-items:center;transition:background-color .18s ease, color .18s ease, border-color .18s ease}
 .footer__social a:hover{background:var(--lime);color:var(--ink);border-color:var(--lime)}
+/* Certification badges come as finished artwork with their own background, so
+   they get height and nothing else — no border, no tint, no fixed aspect. */
+.footer__badges{display:flex;flex-wrap:wrap;align-items:flex-start;gap:16px;list-style:none;margin:26px 0 0;padding:0}
+.footer__badges img{display:block;height:92px;width:auto}
+.footer__badges a{display:block;transition:opacity .18s ease}
+.footer__badges a:hover{opacity:.85}
 .footer__h{font-family:var(--font-display);font-weight:600;font-size:1rem;color:var(--cream);margin:0 0 16px;letter-spacing:-.01em}
 .footer__list{list-style:none;margin:0;padding:0;display:grid;gap:11px;font-size:.9375rem}
 /* The email address is one long unbreakable token, so it has to be allowed to

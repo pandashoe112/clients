@@ -52,7 +52,8 @@ reference copy — the deployed schema wins, but keep the two in step.
 
 ### Document types
 
-- **siteSettings** — single doc. Business details, rating, announcement bar.
+- **siteSettings** — single doc. Business details, rating, announcement bar, and
+  the footer accreditation badges (`accreditations[]`: name, logo, optional url).
 - **homePage** — single doc, grouped into SEO / Hero / Page sections / Contact.
 - **service** — card fields plus a full landing-page set behind `hasPage`.
 - **review** — `authorName, reviewedAt, rating, body, photo`.
