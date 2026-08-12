@@ -204,6 +204,25 @@
       // Which page the enquiry came from, for whoever reads the submission.
       var src = form.querySelector('input[name="page_url"]');
       if (src) src.value = window.location.href;
+
+      // Netlify titles both the submission row and the notification email from
+      // a field called "subject". Without it both fall back to the message,
+      // so a list of leads reads as a column of half-sentences.
+      var subject = form.querySelector('input[name="subject"]');
+      if (subject){
+        var val = function(name){
+          var el = form.querySelector('[name="' + name + '"]');
+          return el && el.value ? el.value.trim() : '';
+        };
+        // The suburb forms carry no service field, so the job type is simply
+        // left out rather than padded with an empty separator.
+        var built = [val('name'), val('suburb'), val('service') || val('service_page')]
+          .filter(Boolean)
+          .join(' - ');
+        // Keep the markup's generic fallback if there was nothing to build
+        // from, so a lead never arrives under a blank subject.
+        if (built) subject.value = built;
+      }
       trackEvent('generate_lead', {form: form.getAttribute('name') || 'enquiry'});
       if (btn){ btn.textContent = 'Sending...'; btn.disabled = true; }
     });
