@@ -214,14 +214,15 @@
           var el = form.querySelector('[name="' + name + '"]');
           return el && el.value ? el.value.trim() : '';
         };
+        // The markup carries a label saying which form this is; the lead's own
+        // details get appended to it. With scripting off the label still
+        // arrives on its own, so a lead is never subjectless.
         // The suburb forms carry no service field, so the job type is simply
         // left out rather than padded with an empty separator.
-        var built = [val('name'), val('suburb'), val('service') || val('service_page')]
+        var details = [val('name'), val('suburb'), val('service') || val('service_page')]
           .filter(Boolean)
-          .join(' - ');
-        // Keep the markup's generic fallback if there was nothing to build
-        // from, so a lead never arrives under a blank subject.
-        if (built) subject.value = built;
+          .join(', ');
+        if (details) subject.value = subject.value + ' - ' + details;
       }
       trackEvent('generate_lead', {form: form.getAttribute('name') || 'enquiry'});
       if (btn){ btn.textContent = 'Sending...'; btn.disabled = true; }
