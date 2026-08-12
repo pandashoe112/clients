@@ -658,3 +658,33 @@ button{font:inherit}
 .thanks__help{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.86fr);
   gap:clamp(30px,4.4vw,72px);align-items:center}
 @media (max-width:900px){.thanks__help{grid-template-columns:1fr}}
+
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+.hero--about{padding-block:clamp(52px,6vw,88px)}
+.about__title{margin:0;max-width:18ch}
+.about__lede{margin:24px 0 0;max-width:56ch;color:var(--muted-light)}
+
+.about__biz{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.88fr);
+  gap:clamp(32px,4.6vw,72px);align-items:center}
+
+.bizpoints{list-style:none;margin:34px 0 0;padding:0;display:grid;gap:13px}
+.bizpoints li{display:flex;align-items:center;gap:13px;font-weight:600;font-size:.9375rem}
+.bizpoints__tick{width:24px;height:24px;border-radius:50%;background:var(--lime);color:var(--ink);
+  display:grid;place-items:center;flex:none}
+
+.bizcard{background:rgba(244,246,239,.06);border:1px solid var(--line-light);
+  border-radius:var(--r-lg);padding:clamp(24px,2.6vw,34px)}
+.bizcard__title{font-family:var(--font-display);font-weight:700;font-size:1.125rem;
+  letter-spacing:-.01em;margin:0 0 20px;color:var(--cream)}
+.bizlist{margin:0}
+.bizlist__row{display:grid;gap:3px;padding:14px 0;border-bottom:1px solid var(--line-light)}
+.bizlist__row:last-child{border-bottom:0;padding-bottom:0}
+.bizlist dt{font-size:.8125rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-light)}
+.bizlist dd{margin:0;font-weight:700;font-size:1.0625rem;color:var(--cream)}
+
+@media (max-width:900px){.about__biz{grid-template-columns:1fr}}
+.about__story--solo{grid-template-columns:1fr}
+.about__story--solo .lede{max-width:68ch}

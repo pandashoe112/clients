@@ -1,0 +1,105 @@
+---
+import ServiceBase from '../layouts/ServiceBase.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Reviews from '../components/Reviews.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { sanity, img, alt } from '../lib/sanity.js';
+import { ABOUT_QUERY } from '../lib/queries.js';
+
+const { settings, page, services, areas, reviews, contactImage } = await sanity.fetch(ABOUT_QUERY);
+const canonical = 'https://www.revelectrical.com.au/about/';
+
+const paragraphs = page.storyParagraphs || [];
+const rows = page.businessRows || [];
+const points = page.businessPoints || [];
+
+const contactCopy = {
+  contactHeading: page.contactHeading,
+  contactIntro: page.contactIntro,
+  contactImage
+};
+---
+<ServiceBase
+  title={page.seoTitle || `About | ${settings.businessName}`}
+  description={page.seoDescription}
+  canonical={canonical}
+  settings={settings}
+>
+  <SiteHeader settings={settings} services={services} areas={areas} />
+
+  <main id="main">
+    <section class="hero hero--photo hero--about">
+      <span class="hero__wash" aria-hidden="true"></span>
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">/</span>
+          <span>About</span>
+        </nav>
+        <p class="eyebrow eyebrow-light">{page.heroEyebrow}</p>
+        <h1 class="h1 about__title">{page.heroHeading}</h1>
+        <p class="lede about__lede">{page.heroIntro}</p>
+        <div class="btn-row" style="margin-top:32px">
+          <a class="btn btn-lime" href="#contact">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+          <a class="btn btn-glass js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-cream">
+      {/* Until a photo is uploaded the copy runs full width rather than sitting
+          in one half of an empty two-column grid. */}
+      <div class={`wrap guarantee__inner${page.storyImage ? '' : ' about__story--solo'}`}>
+        <div class="guarantee__body reveal">
+          <h2 class="h2">{page.storyHeading}</h2>
+          {paragraphs.map((p) => <p class="lede" style="margin-top:20px">{p}</p>)}
+        </div>
+        {page.storyImage && (
+          <figure class="guarantee__figure reveal reveal-d1">
+            <img src={img(page.storyImage, 900)} alt={alt(page.storyImage)} width="900" height="900" loading="lazy" />
+          </figure>
+        )}
+      </div>
+    </section>
+
+    <section class="section bg-ink">
+      <div class="wrap about__biz">
+        <div class="reveal">
+          <p class="eyebrow eyebrow-light">{page.businessEyebrow}</p>
+          <h2 class="h2">{page.businessHeading}</h2>
+          <p class="lede lede-light" style="margin-top:22px;max-width:48ch">{page.businessBody}</p>
+
+          {points.length > 0 && (
+            <ul class="bizpoints">
+              {points.map((t) => (
+                <li><span class="bizpoints__tick" aria-hidden="true"><Icon name="check" size={14} stroke={2.8} /></span>{t}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {rows.length > 0 && (
+          <div class="bizcard reveal reveal-d1">
+            <h3 class="bizcard__title">Business details</h3>
+            <dl class="bizlist">
+              {rows.map((r) => (
+                <div class="bizlist__row">
+                  <dt>{r.label}</dt>
+                  <dd>{r.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <Reviews settings={settings} reviews={reviews} />
+
+    <ContactForm page={contactCopy} settings={settings} services={services} />
+  </main>
+
+  <SiteFooter settings={settings} />
+</ServiceBase>
