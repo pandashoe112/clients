@@ -3,7 +3,8 @@ export const HOME_QUERY = /* groq */ `{
   "settings": *[_type == "siteSettings"][0]{
     businessName, phone, phoneHref, email, licence, established,
     ratingValue, reviewCount, instagramUrl, facebookUrl,
-    announcementText, announcementCtaLabel
+    announcementText, announcementCtaLabel,
+    accreditations[]{ name, url, logo }
   },
   "page": *[_type == "homePage"][0]{
     seoTitle, seoDescription,
@@ -43,7 +44,8 @@ export const SERVICE_PATHS_QUERY = /* groq */ `
 export const SERVICE_QUERY = /* groq */ `{
   "settings": *[_type == "siteSettings"][0]{
     businessName, phone, phoneHref, email, licence, established,
-    ratingValue, reviewCount, instagramUrl, facebookUrl
+    ratingValue, reviewCount, instagramUrl, facebookUrl,
+    accreditations[]{ name, url, logo }
   },
   "service": *[_type == "service" && slug.current == $slug][0]{
     title, "slug": slug.current, summary, icon,
@@ -74,7 +76,8 @@ export const AREA_PATHS_QUERY = `
 export const AREA_QUERY = `{
   "settings": *[_type == "siteSettings"][0]{
     businessName, phone, phoneHref, email, licence, established,
-    ratingValue, reviewCount, instagramUrl, facebookUrl
+    ratingValue, reviewCount, instagramUrl, facebookUrl,
+    accreditations[]{ name, url, logo }
   },
   "area": *[_type == "suburb" && slug.current == $slug][0]{
     name, postcode, "slug": slug.current,
@@ -101,7 +104,8 @@ export const AREA_QUERY = `{
 export const AREAS_INDEX_QUERY = `{
   "settings": *[_type == "siteSettings"][0]{
     businessName, phone, phoneHref, email, licence, established,
-    ratingValue, reviewCount, instagramUrl, facebookUrl
+    ratingValue, reviewCount, instagramUrl, facebookUrl,
+    accreditations[]{ name, url, logo }
   },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
   "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){
@@ -114,7 +118,8 @@ export const AREAS_INDEX_QUERY = `{
 export const ABOUT_QUERY = `{
   "settings": *[_type == "siteSettings"][0]{
     businessName, phone, phoneHref, email, licence, established,
-    ratingValue, reviewCount, instagramUrl, facebookUrl
+    ratingValue, reviewCount, instagramUrl, facebookUrl,
+    accreditations[]{ name, url, logo }
   },
   "page": *[_type == "aboutPage"][0]{
     seoTitle, seoDescription,

@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity';
+import { defineType, defineField, defineArrayMember } from 'sanity';
 
 export default defineType({
   name: 'siteSettings',
@@ -16,7 +16,20 @@ export default defineType({
     defineField({ name: 'announcementText', title: 'Announcement bar text', type: 'string' }),
     defineField({ name: 'announcementCtaLabel', title: 'Announcement link label', type: 'string' }),
     defineField({ name: 'instagramUrl', title: 'Instagram URL', type: 'url' }),
-    defineField({ name: 'facebookUrl', title: 'Facebook URL', type: 'url' })
+    defineField({ name: 'facebookUrl', title: 'Facebook URL', type: 'url' }),
+    defineField({
+      name: 'accreditations', title: 'Accreditation badges', type: 'array',
+      description: 'Shown in the footer. Upload the badge artwork exactly as the brand supplies it — it is displayed at its own aspect ratio, so do not crop or recolour it.',
+      of: [defineArrayMember({
+        type: 'object',
+        fields: [
+          defineField({ name: 'name', title: 'Name', type: 'string', description: 'Used as the image alt text, e.g. "Evnex Certified Installer".', validation: (r) => r.required() }),
+          defineField({ name: 'logo', title: 'Badge artwork', type: 'image', validation: (r) => r.required() }),
+          defineField({ name: 'url', title: 'Link', type: 'url', description: 'Optional. Links the badge to the certifying brand.' })
+        ],
+        preview: { select: { title: 'name', media: 'logo' } }
+      })]
+    })
   ],
   preview: { prepare: () => ({ title: 'Site settings' }) }
 });
