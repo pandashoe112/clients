@@ -18,7 +18,10 @@ interface Props {
 const {form, businessName, location, id, class: className} = Astro.props
 const uid = `${location}`
 
-const subject = form.emailSubject?.trim() || `New enquiry — ${businessName}`
+// Netlify's own UI has a subject setting, and a `subject` field in the page always
+// beats it. So when nobody has set one in Sanity, send no field at all and let the
+// Netlify setting apply — rather than silently overriding it with a generated line.
+const subject = form.emailSubject?.trim() || null
 
 // Netlify labels every value in the notification email with the input's `name`,
 // so these are written the way they should read in an inbox, not as code.
@@ -53,7 +56,7 @@ const AUTOCOMPLETE: Record<string, string | undefined> = {
     data-netlify="true"
     data-netlify-honeypot="bot-field"
     data-quote-form
-    data-subject-template={subject}
+    data-subject-template={subject ?? undefined}
   >
     <input type="hidden" name="form-name" value="quote" />
     <input type="hidden" name="Form Position" value={location === 'hero' ? 'Hero form' : 'Footer form'} />
@@ -61,7 +64,10 @@ const AUTOCOMPLETE: Record<string, string | undefined> = {
     {/* Sets the notification email subject and drops Netlify's [Netlify] prefix.
         Set here rather than in the Netlify UI so it is version controlled and a
         new site inherits it. */}
-    <input type="hidden" name="Subject" data-remove-prefix value={subject} data-subject />
+    {/* Must be lowercase `subject` — that exact name is what Netlify looks for to
+        override the subject line, and it takes precedence over the Netlify UI
+        setting. Netlify capitalises it to "Subject:" in the email body itself. */}
+    {subject && <input type="hidden" name="subject" data-remove-prefix value={subject} data-subject />}
 
     <p class="hp">
       <label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label>

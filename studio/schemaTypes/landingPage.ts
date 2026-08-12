@@ -323,7 +323,7 @@ export const landingPage = defineType({
                       .regex(/^[A-Za-z][A-Za-z0-9 ]*$/, {name: 'email label'})
                       .error('Letters, numbers and spaces only, starting with a letter.')
                       .custom((value) =>
-                        ['Subject', 'Google Click Id', 'Traffic Source', 'Campaign', 'Ad Group', 'Landing Page', 'Came From', 'Device', 'Submitted'].includes(
+                        ['subject', 'Google Click Id', 'Traffic Source', 'Campaign', 'Ad Group', 'Landing Page', 'Came From', 'Device', 'Submitted', 'Form Position'].includes(
                           value ?? '',
                         )
                           ? 'The form already sends that one automatically. Pick another.'
@@ -399,7 +399,7 @@ export const landingPage = defineType({
           title: 'Notification email subject',
           type: 'string',
           description:
-            'Subject line on the lead email. Put an answer in curly brackets to include it, using the "Label in the email" exactly — e.g. "Cleaning quote: {Business} - {Site type} - {Suburb}". Leave blank for "New enquiry — <business name>".',
+            'Subject line on the lead email. Leave blank to use whatever is set in Netlify under Notifications — anything typed here overrides that. Put an answer in curly brackets to include it, using the "Label in the email" exactly, e.g. "Cleaning quote: {Business} - {Site type} - {Suburb}".',
         }),
       ],
     }),
