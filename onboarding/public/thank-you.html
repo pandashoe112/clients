@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>DUNK &mdash; Thanks, we have it</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#120725; --panel:#1B0F3B; --text:#EDE9FB; --muted:#A79BD6;
+  --lime:#D7F24C; --line:rgba(255,255,255,0.10); --white:#fff;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"Manrope",system-ui,-apple-system,sans-serif;
+  background:var(--bg); color:var(--text);
+  font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  padding:32px 20px;
+}
+.card{
+  width:100%; max-width:560px; background:var(--panel);
+  border:1px solid var(--line); border-radius:24px; padding:44px 38px;
+}
+.tick{
+  width:56px; height:56px; border-radius:50%;
+  background:var(--lime); color:#120725;
+  display:flex; align-items:center; justify-content:center;
+  font-size:28px; font-weight:800; margin-bottom:26px;
+}
+h1{font-size:30px; line-height:1.2; margin:0 0 14px; font-weight:800; letter-spacing:-0.02em;}
+p{margin:0 0 16px; color:var(--muted);}
+p.lead{color:var(--text);}
+ul{margin:0; padding-left:0; list-style:none;}
+li{position:relative; padding-left:22px; margin-bottom:10px; color:var(--muted);}
+li::before{
+  content:''; position:absolute; left:0; top:9px;
+  width:6px; height:6px; border-radius:50%; background:var(--lime);
+}
+.rule{height:1px; background:var(--line); margin:28px 0;}
+.foot{font-size:13px; color:var(--muted); margin:0;}
+a{color:var(--lime);}
+@media (max-width:520px){
+  .card{padding:32px 24px; border-radius:20px;}
+  h1{font-size:25px;}
+}
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="tick" aria-hidden="true">&check;</div>
+    <h1>Thanks, we have everything</h1>
+    <p class="lead">Your answers have landed with your account manager. Nothing else is needed from you right now.</p>
+    <div class="rule"></div>
+    <p><strong>What happens next</strong></p>
+    <ul>
+      <li>We read through your answers and flag anything we want to talk through.</li>
+      <li>You will hear from us within one business day, either to confirm we are building or to ask a couple of follow ups.</li>
+      <li>Any access you said you would grant, we will chase separately if it has not come through.</li>
+    </ul>
+    <div class="rule"></div>
+    <p class="foot">Spotted a mistake in what you sent? Just reply to your account manager and we will fix it before anything goes live.</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "_source": "Pipedrive org 2754, person 5470 (Joshua Meli), deal 3790 'CH Secure: Google Ads', won 2026-08-12. Web form note 1389.",
+
+  "client": "ch-secure",
+
+  "name": "Joshua Meli",
+  "email": "josh@chsecure.com.au",
+  "phone": "0426719412",
+  "biz": "CH Secure",
+  "web": "chsecure.com.au",
+
+  "_inferred": "type=leads is the one value not stated anywhere in the CRM. CH Secure sells and installs security systems, so enquiries rather than an online store. It shows as a Prefilled chip the client can change. Delete this line and rebuild if you would rather they chose it themselves.",
+  "type": "leads",
+
+  "_deliberately_blank": [
+    "budget - the CRM has 'Monthly Marketing Spend: $10,000+', which is their whole marketing budget across channels, not the Google Ads figure. Deal value $600 is our fee, not ad spend. Asking is safer than guessing.",
+    "adphone, inbox - not captured on the web form.",
+    "loc - CH Secure's service area is not in the CRM."
+  ]
+}
