@@ -22,9 +22,9 @@ const { service, settings } = Astro.props;
     </div>
 
     <div class="ctaform reveal reveal-d1">
-      <form class="formgrid" name="service-enquiry-footer" method="POST" action="/thank-you/"
+      <form class="formgrid" name="quote-request-service-footer" method="POST" action="/thank-you/"
             data-netlify="true" netlify-honeypot="bot-field" novalidate>
-        <input type="hidden" name="form-name" value="service-enquiry-footer" />
+        <input type="hidden" name="form-name" value="quote-request-service-footer" />
           <input type="hidden" name="page_url" />
         <input type="hidden" name="service_page" value={service.title} />
         <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>

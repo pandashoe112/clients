@@ -36,9 +36,9 @@ const ticks = service.heroTicks || [];
         <p class="quotecard__sub">{service.quoteText}</p>
       </div>
       <div class="quotecard__body">
-        <form class="formgrid" name="service-enquiry" method="POST" action="/thank-you/"
+        <form class="formgrid" name="quote-request-service-hero" method="POST" action="/thank-you/"
               data-netlify="true" netlify-honeypot="bot-field" id="quoteForm" novalidate>
-          <input type="hidden" name="form-name" value="service-enquiry" />
+          <input type="hidden" name="form-name" value="quote-request-service-hero" />
           <input type="hidden" name="page_url" />
           <input type="hidden" name="service_page" value={service.title} />
           <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
