@@ -69,3 +69,8 @@
   .prodgrid{grid-template-columns:minmax(0,1fr)}
   .brandindex{grid-template-columns:minmax(0,1fr)}
 }
+
+/* The manufacturer's mark above the h1, sized to sit under the heading rather
+   than compete with it. Only the brand pages pass a logo to the hero. */
+.brandmark{display:inline-flex;align-items:center;margin:0 0 18px;padding:9px 15px;background:var(--paper);border:1px solid rgba(3,47,53,.14);border-radius:999px;line-height:0}
+.brandmark img{height:17px;width:auto;display:block}

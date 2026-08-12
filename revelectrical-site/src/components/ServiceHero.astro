@@ -1,6 +1,9 @@
 ---
 import Icon from './Icon.astro';
-const { service, settings, services } = Astro.props;
+import { img } from '../lib/sanity.js';
+// brandLogo and parent are only passed by the brand pages, which sit a level
+// deeper than a service and lead with the manufacturer's mark.
+const { service, settings, services, brandLogo, parent } = Astro.props;
 const ticks = service.heroTicks || [];
 ---
 <section class="hero bg-cream">
@@ -10,8 +13,18 @@ const ticks = service.heroTicks || [];
       <nav class="crumbs" aria-label="Breadcrumb">
         <a href="/">Home</a>
         <span aria-hidden="true">/</span>
+        {parent && (
+          <>
+            <a href={parent.href}>{parent.label}</a>
+            <span aria-hidden="true">/</span>
+          </>
+        )}
         <span>{service.title}</span>
       </nav>
+
+      {brandLogo && (
+        <p class="brandmark"><img src={img(brandLogo, 260)} alt={service.title} loading="eager" /></p>
+      )}
 
       <h1 class="h1 hero__title">{service.heroHeading || service.title}</h1>
       <div class="hero__copy lede measure">{service.heroIntro}</div>

@@ -71,7 +71,13 @@ const asService = {
   <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} contactHref="#quote" />
 
   <main id="main">
-    <ServiceHero service={asService} settings={settings} services={services} />
+    <ServiceHero
+      service={asService}
+      settings={settings}
+      services={services}
+      brandLogo={brand.logo}
+      parent={{ href: '/brands/', label: 'Brands we install' }}
+    />
     <CertifiedBand brand={brand} settings={settings} />
     <ServiceSteps service={asService} />
     <BrandRange brand={brand} />
