@@ -1,0 +1,212 @@
+---
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import Icon from '../../components/Icon.astro';
+import FaqList from '../../components/FaqList.astro';
+import { sanity, img } from '../../lib/sanity.js';
+import { BRAND_PATHS_QUERY, BRAND_QUERY } from '../../lib/queries.js';
+import '../../styles/service.css';
+import '../../styles/brand.css';
+
+export async function getStaticPaths() {
+  const brands = await sanity.fetch(BRAND_PATHS_QUERY);
+  return brands.map((b) => ({ params: { slug: b.slug } }));
+}
+
+const { slug } = Astro.params;
+const { settings, brand, services, areas, navBrands, contactImage } = await sanity.fetch(BRAND_QUERY, { slug });
+
+const canonical = `https://www.revelectrical.com.au/brands/${brand.slug}/`;
+const products = brand.products || [];
+const specRows = brand.specRows || [];
+
+// The comparison table is built from the product cards rather than a second
+// list, so the two can never disagree about what the range is.
+const HEADLINE = [
+  ['Charging power', 'power'],
+  ['Range per hour', 'rangePerHour'],
+  ['Cable length', 'cableLength'],
+  ['Connectivity', 'connectivity'],
+  ['Colour options', 'colours'],
+  ['Warranty', 'warranty']
+];
+
+const faqSchema = (brand.faqs || []).length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: brand.faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.question,
+    acceptedAnswer: { '@type': 'Answer', text: f.answer }
+  }))
+} : null;
+---
+<Base title={brand.seoTitle || `${brand.name} | ${settings.businessName}`} description={brand.seoDescription} settings={settings}>
+  <link slot="head" rel="canonical" href={canonical} />
+  <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} contactHref="#contact" />
+
+  <main id="main">
+    <section class="brandhero">
+      <div class="wrap brandhero__inner">
+        <div class="brandhero__copy">
+          <p class="crumbs"><a href="/">Home</a> / <a href="/brands/">Brands we install</a> / <strong>{brand.name}</strong></p>
+          {brand.logo && <img class="brandhero__logo" src={img(brand.logo, 420)} alt={brand.name} loading="eager" />}
+          <h1 class="brandhero__h">{brand.heroHeading || brand.name}</h1>
+          {brand.heroIntro && <p class="brandhero__intro">{brand.heroIntro}</p>}
+          {(brand.heroTicks || []).length > 0 && (
+            <ul class="heroticks">
+              {brand.heroTicks.map((t) => (
+                <li><Icon name="check" size={17} stroke={2.4} /> {t}</li>
+              ))}
+            </ul>
+          )}
+          <div class="brandhero__cta">
+            <a class="btn btn-lime" href="#contact">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+            <a class="btn btn-outline js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+          </div>
+        </div>
+        {brand.heroImage && (
+          <div class="brandhero__media">
+            <img src={img(brand.heroImage, 1000)} alt={`${brand.name} range`} loading="eager" />
+          </div>
+        )}
+      </div>
+    </section>
+
+    {(brand.aboutText || []).length > 0 && (
+      <section class="section bg-paper">
+        <div class="wrap brandabout">
+          <div class="brandabout__copy">
+            <h2 class="h2">{brand.aboutHeading}</h2>
+            {brand.aboutText.map((p) => <p class="lede">{p}</p>)}
+          </div>
+          {(brand.aboutPoints || []).length > 0 && (
+            <ul class="brandpoints">
+              {brand.aboutPoints.map((p) => (
+                <li>
+                  <h3>{p.title}</h3>
+                  <p>{p.text}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+    )}
+
+    {products.length > 0 && (
+      <section class="section bg-cream" id="range">
+        <div class="wrap">
+          <h2 class="h2">{brand.productsHeading || `The ${brand.name} range`}</h2>
+          {brand.productsIntro && <p class="lede">{brand.productsIntro}</p>}
+
+          <div class="prodgrid">
+            {products.map((p) => (
+              <article class="prodcard">
+                {p.image && <img class="prodcard__img" src={img(p.image, 520)} alt={p.name} loading="lazy" />}
+                <h3 class="prodcard__h">{p.name}</h3>
+                {p.tagline && <p class="prodcard__tag">{p.tagline}</p>}
+                {p.overview && <p class="prodcard__text">{p.overview}</p>}
+                {p.bestFor && (
+                  <p class="prodcard__best"><strong>Best for:</strong> {p.bestFor}</p>
+                )}
+                <dl class="prodcard__specs">
+                  {p.power && <><dt>Power</dt><dd>{p.power}</dd></>}
+                  {p.rangePerHour && <><dt>Range</dt><dd>{p.rangePerHour}</dd></>}
+                  {p.cableLength && <><dt>Cable</dt><dd>{p.cableLength}</dd></>}
+                  {p.connectivity && <><dt>Connectivity</dt><dd>{p.connectivity}</dd></>}
+                </dl>
+              </article>
+            ))}
+          </div>
+
+          {/* Wide tables scroll inside their own box rather than pushing the
+              page sideways on a phone. */}
+          <h3 class="h3 comparetitle">Compare the range</h3>
+          <div class="tablescroll">
+            <table class="spectable">
+              <thead>
+                <tr>
+                  <th scope="col">Model</th>
+                  {products.map((p) => <th scope="col">{p.name}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {HEADLINE.filter(([, key]) => products.some((p) => p[key])).map(([label, key]) => (
+                  <tr>
+                    <th scope="row">{label}</th>
+                    {products.map((p) => <td>{p[key] || '—'}</td>)}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {specRows.length > 0 && (
+            <details class="specmore">
+              <summary>{brand.specsHeading || 'Detailed specifications'}</summary>
+              <div class="tablescroll">
+                <table class="spectable">
+                  <thead>
+                    <tr>
+                      <th scope="col">Specification</th>
+                      {products.map((p) => <th scope="col">{p.name}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {specRows.map((r) => (
+                      <tr>
+                        <th scope="row">{r.label}</th>
+                        {products.map((_, i) => <td>{(r.values || [])[i] || '—'}</td>)}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          )}
+        </div>
+      </section>
+    )}
+
+    {(brand.installPoints || []).length > 0 && (
+      <section class="section bg-paper">
+        <div class="wrap">
+          <h2 class="h2">{brand.installHeading}</h2>
+          {brand.installIntro && <p class="lede">{brand.installIntro}</p>}
+          <ul class="installgrid">
+            {brand.installPoints.map((p, i) => (
+              <li>
+                <span class="installgrid__n">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{p.title}</h3>
+                <p>{p.text}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    {(brand.faqs || []).length > 0 && (
+      <FaqList
+        service={{ faqHeading: `${brand.name} questions we get asked`, faqs: brand.faqs }}
+        settings={settings}
+      />
+    )}
+
+    <ContactForm
+      page={{
+        contactHeading: brand.ctaHeading || `Get a price for your ${brand.name} installation`,
+        contactIntro: brand.ctaText,
+        contactImage
+      }}
+      settings={settings}
+      services={services}
+    />
+  </main>
+
+  <SiteFooter settings={settings} contactHref="#contact" />
+  {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>}
+</Base>

@@ -20,6 +20,7 @@ export const HOME_QUERY = /* groq */ `{
     brandsHeading, brandsText, brands,
     contactHeading, contactIntro, contactImage
   },
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
   "services": *[_type == "service"] | order(order asc){
     _id, title, slug, summary, icon, hasPage
   },
@@ -60,6 +61,7 @@ export const SERVICE_QUERY = /* groq */ `{
     ctaEyebrow, ctaHeading, ctaText,
     faqEyebrow, faqHeading, faqNote, faqs[]{ question, answer }
   },
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
   "suburbs": *[_type == "suburb"] | order(order asc, name asc){ _id, name, postcode },
   "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current },
@@ -92,6 +94,7 @@ export const AREA_QUERY = `{
     ctaEyebrow, ctaHeading, ctaText,
     faqHeading, faqs[]{ question, answer }
   },
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
   "reviews": *[_type == "review"] | order(reviewedAt desc){ _id, authorName, reviewedAt, rating, body, photo },
   "suburbs": *[_type == "suburb"] | order(order asc, name asc){ _id, name, postcode, hasPage, "slug": slug.current },
@@ -107,6 +110,7 @@ export const AREAS_INDEX_QUERY = `{
     ratingValue, reviewCount, instagramUrl, facebookUrl,
     accreditations[]{ name, url, logo }
   },
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
   "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){
     _id, name, postcode, "slug": slug.current, heroIntro
@@ -128,10 +132,59 @@ export const ABOUT_QUERY = `{
     businessEyebrow, businessHeading, businessBody, businessRows[]{ label, value }, businessPoints,
     contactEyebrow, contactHeading, contactIntro
   },
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
   "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){
     _id, name, postcode, "slug": slug.current
   },
   "reviews": *[_type == "review"] | order(reviewedAt desc){ _id, authorName, reviewedAt, rating, body, photo },
+  "contactImage": *[_type == "homePage"][0].contactImage
+}`;
+
+// Every brand with its page switched on. Drives getStaticPaths.
+export const BRAND_PATHS_QUERY = `
+  *[_type == "brand" && hasPage == true && defined(slug.current)]{ "slug": slug.current }
+`;
+
+// One brand page. The page is half product reference and half our own pitch,
+// so it pulls the brand's own content plus the shared lists the chrome needs.
+export const BRAND_QUERY = `{
+  "settings": *[_type == "siteSettings"][0]{
+    businessName, phone, phoneHref, email, licence, established,
+    ratingValue, reviewCount, instagramUrl, facebookUrl,
+    accreditations[]{ name, url, logo }
+  },
+  "brand": *[_type == "brand" && slug.current == $slug][0]{
+    name, "slug": slug.current, kind, logo, summary,
+    seoTitle, seoDescription,
+    heroHeading, heroIntro, heroTicks, heroImage,
+    aboutHeading, aboutText, aboutPoints[]{ title, text },
+    productsHeading, productsIntro,
+    products[]{ name, tagline, overview, bestFor, image, power, rangePerHour, cableLength, connectivity, colours, warranty },
+    specsHeading, specRows[]{ label, values },
+    installHeading, installIntro, installPoints[]{ title, text },
+    faqs[]{ question, answer },
+    ctaHeading, ctaText
+  },
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current },
+  "reviews": *[_type == "review"] | order(reviewedAt desc){ _id, authorName, reviewedAt, rating, body, photo },
+  "contactImage": *[_type == "homePage"][0].contactImage
+}`;
+
+// The brands index.
+export const BRANDS_INDEX_QUERY = `{
+  "settings": *[_type == "siteSettings"][0]{
+    businessName, phone, phoneHref, email, licence, established,
+    ratingValue, reviewCount, instagramUrl, facebookUrl,
+    accreditations[]{ name, url, logo }
+  },
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
+  "brands": *[_type == "brand"] | order(order asc, name asc){
+    _id, name, kind, hasPage, summary, logo, "slug": slug.current
+  },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current },
   "contactImage": *[_type == "homePage"][0].contactImage
 }`;

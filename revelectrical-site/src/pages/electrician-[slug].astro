@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const { settings, area, services, reviews, suburbs, areas, contactImage } = await sanity.fetch(AREA_QUERY, { slug });
+const { settings, area, services, reviews, suburbs, areas, contactImage, navBrands } = await sanity.fetch(AREA_QUERY, { slug });
 
 const canonical = `https://www.revelectrical.com.au/electrician-${area.slug}/`;
 
@@ -42,7 +42,7 @@ const contactCopy = {
   faqs={area.faqs || []}
   areaServed={`${area.name}, Victoria ${area.postcode}`}
 >
-  <SiteHeader settings={settings} services={services} areas={areas} />
+  <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} />
 
   <main id="main">
     <AreaHero area={area} settings={settings} />

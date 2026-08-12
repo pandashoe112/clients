@@ -8,7 +8,8 @@ import { sanity } from '../lib/sanity.js';
 
 // The page carries the full header and footer, so it needs the same lists they
 // are given everywhere else.
-const { settings, services, areas } = await sanity.fetch(`{
+const { settings, services, areas, navBrands } = await sanity.fetch(`{
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
   "settings": *[_type == "siteSettings"][0]{
     businessName, phone, phoneHref, email, licence, established,
     ratingValue, reviewCount, instagramUrl, facebookUrl
@@ -41,7 +42,7 @@ const NEXT = [
   settings={settings}
   noindex={true}
 >
-  <SiteHeader settings={settings} services={services} areas={areas} contactHref="/#contact" />
+  <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} contactHref="/#contact" />
 
   <main id="main">
     <section class="hero hero--photo hero--thanks">

@@ -8,7 +8,7 @@ import Icon from '../components/Icon.astro';
 import { sanity, img, alt } from '../lib/sanity.js';
 import { ABOUT_QUERY } from '../lib/queries.js';
 
-const { settings, page, services, areas, reviews, contactImage } = await sanity.fetch(ABOUT_QUERY);
+const { settings, page, services, areas, reviews, contactImage, navBrands } = await sanity.fetch(ABOUT_QUERY);
 const canonical = 'https://www.revelectrical.com.au/about/';
 
 const paragraphs = page.storyParagraphs || [];
@@ -27,7 +27,7 @@ const contactCopy = {
   canonical={canonical}
   settings={settings}
 >
-  <SiteHeader settings={settings} services={services} areas={areas} />
+  <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} />
 
   <main id="main">
     <section class="hero hero--photo hero--about">

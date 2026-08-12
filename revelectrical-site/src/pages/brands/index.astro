@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import Icon from '../../components/Icon.astro';
+import { sanity, img } from '../../lib/sanity.js';
+import { BRANDS_INDEX_QUERY } from '../../lib/queries.js';
+import '../../styles/brand.css';
+
+const { settings, brands, services, areas, navBrands, contactImage } = await sanity.fetch(BRANDS_INDEX_QUERY);
+const canonical = 'https://www.revelectrical.com.au/brands/';
+
+const KIND = { charger: 'EV chargers', battery: 'Solar batteries', both: 'Chargers and batteries' };
+---
+<Base
+  title={`Brands we install | ${settings.businessName}`}
+  description="The EV charger and home battery brands we supply and install across Melbourne, and why we picked them."
+  settings={settings}
+>
+  <link slot="head" rel="canonical" href={canonical} />
+  <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} contactHref="#contact" />
+
+  <main id="main">
+    <section class="section bg-cream">
+      <div class="wrap">
+        <p class="crumbs"><a href="/">Home</a> / <strong>Brands we install</strong></p>
+        <h1 class="h1">Brands we install</h1>
+        <p class="lede">
+          We work across the major EV charger and home battery brands, so you get the unit that
+          suits your home and your car rather than the one we happen to stock. Every install is
+          done by a licensed electrician and comes with an upfront price.
+        </p>
+
+        <ul class="brandindex">
+          {brands.map((b) => (
+            <li class="brandindex__item">
+              {b.logo && <img class="brandindex__logo" src={img(b.logo, 320)} alt={b.name} loading="lazy" />}
+              <h2 class="brandindex__name">{b.name}</h2>
+              <p class="brandindex__kind">{KIND[b.kind]}</p>
+              {b.summary && <p class="brandindex__sum">{b.summary}</p>}
+              {b.hasPage
+                ? <a class="brandindex__link" href={`/brands/${b.slug}/`}>About {b.name} <Icon name="chevron" size={14} stroke={2.6} /></a>
+                : <span class="brandindex__soon">Page coming soon</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <ContactForm
+      page={{
+        contactHeading: 'Not sure which brand suits your home?',
+        contactIntro: 'Tell us your car, your setup and your suburb. We will recommend the unit that fits and quote it upfront — including the installation.',
+        contactImage
+      }}
+      settings={settings}
+      services={services}
+    />
+  </main>
+
+  <SiteFooter settings={settings} contactHref="#contact" />
+</Base>

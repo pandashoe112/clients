@@ -2,7 +2,11 @@
 import Icon from './Icon.astro';
 // Pages carry their quote form under different ids, and some have none at all,
 // so the page says where the contact buttons should go.
-const { settings, services, areas = [], contactHref = '#contact' } = Astro.props;
+const { settings, services, areas = [], brands = [], contactHref = '#contact' } = Astro.props;
+
+// A brand without a page still belongs in the menu — it says what we install.
+// It renders as plain text rather than a dead link.
+const KIND = { charger: 'EV chargers', battery: 'Batteries', both: 'Chargers and batteries' };
 ---
 <div class="utilbar">
   <div class="wrap utilbar__inner">
@@ -20,7 +24,7 @@ const { settings, services, areas = [], contactHref = '#contact' } = Astro.props
 <header class="siteheader" id="siteheader">
   <div class="wrap siteheader__inner">
     <a class="siteheader__logo" href="/" aria-label={`${settings.businessName} home`}>
-      <img src="/logo.webp" alt={settings.businessName} width="178" height="29" />
+      <img src="/logo.webp" alt={settings.businessName} width="178" height="28" />
     </a>
 
     <nav class="sitenav" aria-label="Main">
@@ -35,6 +39,22 @@ const { settings, services, areas = [], contactHref = '#contact' } = Astro.props
           ))}
         </div>
       </div>
+      {brands.length > 0 && (
+        <div class="navitem" data-dropdown>
+          <button class="navlink" type="button" aria-expanded="false" aria-controls="dd-brands">
+            Brands we install
+            <span class="navlink__caret"><Icon name="caret" size={13} stroke={2.6} /></span>
+          </button>
+          <div class="dropdown" id="dd-brands">
+            {brands.map((b) => (
+              b.hasPage
+                ? <a class="dropdown__link" href={`/brands/${b.slug}/`}>{b.name} <span class="dropdown__pc">{KIND[b.kind]}</span></a>
+                : <span class="dropdown__link dropdown__link--soon">{b.name} <span class="dropdown__pc">Coming soon</span></span>
+            ))}
+            <a class="dropdown__link dropdown__link--all" href="/brands/">All brands we install</a>
+          </div>
+        </div>
+      )}
       {areas.length > 0 ? (
         <div class="navitem" data-dropdown>
           <button class="navlink" type="button" aria-expanded="false" aria-controls="dd-areas">
@@ -84,6 +104,20 @@ const { settings, services, areas = [], contactHref = '#contact' } = Astro.props
           ))}
         </div>
       </details>
+
+      {brands.length > 0 && (
+        <details class="mnav__group">
+          <summary class="mnav__summary">Brands we install <Icon name="caret" size={14} stroke={2.6} /></summary>
+          <div class="mnav__sub">
+            {brands.map((b) => (
+              b.hasPage
+                ? <a class="mnav__sublink" href={`/brands/${b.slug}/`}>{b.name} <span class="mnav__pc">{KIND[b.kind]}</span></a>
+                : <span class="mnav__sublink mnav__sublink--soon">{b.name} <span class="mnav__pc">Coming soon</span></span>
+            ))}
+            <a class="mnav__sublink mnav__sublink--all" href="/brands/">All brands we install</a>
+          </div>
+        </details>
+      )}
 
       {areas.length > 0 ? (
         <details class="mnav__group">

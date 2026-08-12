@@ -16,10 +16,10 @@ import SiteFooter from '../components/SiteFooter.astro';
 import { sanity } from '../lib/sanity.js';
 import { HOME_QUERY } from '../lib/queries.js';
 
-const { settings, page, services, areas, suburbs, reviews, gallery } = await sanity.fetch(HOME_QUERY);
+const { settings, page, services, areas, suburbs, reviews, gallery, navBrands } = await sanity.fetch(HOME_QUERY);
 ---
 <Base title={page.seoTitle} description={page.seoDescription} settings={settings}>
-  <SiteHeader settings={settings} services={services} areas={areas} />
+  <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} />
 
   <main id="main">
     <Hero page={page} settings={settings} />

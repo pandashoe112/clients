@@ -4,9 +4,10 @@ import { sanity } from '../lib/sanity.js';
 // its landing page switched on in the Studio appears here on the next build.
 // /thank-you/ is left out deliberately: it is noindex.
 export async function GET() {
-  const { services, areas } = await sanity.fetch(`{
+  const { services, areas, brands } = await sanity.fetch(`{
     "services": *[_type == "service" && hasPage == true && defined(slug.current)]{ "slug": slug.current },
-    "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)]{ "slug": slug.current }
+    "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)]{ "slug": slug.current },
+    "brands": *[_type == "brand" && hasPage == true && defined(slug.current)]{ "slug": slug.current }
   }`);
 
   const base = 'https://www.revelectrical.com.au';
@@ -14,8 +15,10 @@ export async function GET() {
     { loc: '/', priority: '1.0' },
     { loc: '/about/', priority: '0.7' },
     { loc: '/service-areas/', priority: '0.8' },
+    { loc: '/brands/', priority: '0.7' },
     ...services.map((s) => ({ loc: `/services/${s.slug}/`, priority: '0.9' })),
-    ...areas.map((a) => ({ loc: `/electrician-${a.slug}/`, priority: '0.8' }))
+    ...areas.map((a) => ({ loc: `/electrician-${a.slug}/`, priority: '0.8' })),
+    ...brands.map((b) => ({ loc: `/brands/${b.slug}/`, priority: '0.8' }))
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
