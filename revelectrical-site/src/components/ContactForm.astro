@@ -63,9 +63,9 @@ const { page, settings, services } = Astro.props;
         </div>
 
         <div>
-          <label class="label" for="f_suburb">Suburb</label>
-          <input class="input" type="text" id="f_suburb" name="suburb" autocomplete="address-level2" placeholder="Suburb or postcode" required aria-describedby="err_suburb" />
-          <p class="err" id="err_suburb" role="alert"></p>
+          <label class="label" for="f_address">Address</label>
+          <input class="input" type="text" id="f_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required aria-describedby="err_address" />
+          <p class="err" id="err_address" role="alert"></p>
         </div>
 
         <div>

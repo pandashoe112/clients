@@ -80,8 +80,8 @@ const bgFile = !bg && LOCAL[area.slug] ? LOCAL[area.slug] : null;
             <input class="input" type="tel" id="a_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
           </div>
           <div class="field">
-            <label class="label" for="a_suburb">Suburb</label>
-            <input class="input" type="text" id="a_suburb" name="suburb" autocomplete="address-level2" placeholder="Suburb or postcode" value={area.name} required />
+            <label class="label" for="a_address">Address</label>
+            <input class="input" type="text" id="a_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
           </div>
           <div class="field">
             <label class="label" for="a_message">Message <span class="label__opt">(optional)</span></label>

@@ -150,7 +150,13 @@
     name:    function(v){ return v.trim().length >= 2 ? '' : 'Enter your name so we know who to call.'; },
     email:   function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Enter a valid email address.'; },
     phone:   function(v){ return v.replace(/[^0-9]/g,'').length >= 8 ? '' : 'Enter a phone number we can reach you on.'; },
-    suburb:  function(v){ return v.trim().length >= 3 ? '' : 'Enter your suburb or postcode.'; },
+    // A street number and name is what makes the address usable for sizing a
+    // job from the map, so a bare suburb is not enough to pass.
+    address: function(v){
+      var s = v.trim();
+      if (s.length < 8 || !/\d/.test(s)) return 'Enter your full street address so we can size the job.';
+      return '';
+    },
     service: function(v){ return v ? '' : 'Choose the service you need.'; }
   };
 
@@ -219,7 +225,7 @@
         // arrives on its own, so a lead is never subjectless.
         // The suburb forms carry no service field, so the job type is simply
         // left out rather than padded with an empty separator.
-        var details = [val('name'), val('suburb'), val('service') || val('service_page')]
+        var details = [val('name'), val('suburb_page') || val('address'), val('service') || val('service_page')]
           .filter(Boolean)
           .join(', ');
         if (details) subject.value = subject.value + ' - ' + details;
