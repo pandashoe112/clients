@@ -314,17 +314,19 @@ export const landingPage = defineType({
                 }),
                 defineField({
                   name: 'name',
-                  title: 'Field name',
+                  title: 'Label in the email',
                   type: 'string',
                   description:
-                    'The column name in the Netlify inbox, e.g. business_name. Lowercase, no spaces. Changing this on a live page splits your submission history.',
+                    'How this answer is labelled in the notification email and the CSV export, e.g. "Contact name" or "Site type". Write it the way you want to read it at 7am. Changing it on a live page splits your submission history.',
                   validation: (Rule) =>
                     Rule.required()
-                      .regex(/^[a-z][a-z0-9_]*$/, {name: 'field name'})
-                      .error('Lowercase letters, numbers and underscores only, starting with a letter.')
+                      .regex(/^[A-Za-z][A-Za-z0-9 ]*$/, {name: 'email label'})
+                      .error('Letters, numbers and spaces only, starting with a letter.')
                       .custom((value) =>
-                        ['form-name', 'form_location', 'bot-field', 'gclid', 'page_url'].includes(value ?? '')
-                          ? 'That name is reserved by the form itself. Pick another.'
+                        ['Subject', 'Google Click Id', 'Traffic Source', 'Campaign', 'Ad Group', 'Landing Page', 'Came From', 'Device', 'Submitted'].includes(
+                          value ?? '',
+                        )
+                          ? 'The form already sends that one automatically. Pick another.'
                           : true,
                       ),
                 }),
@@ -391,6 +393,13 @@ export const landingPage = defineType({
           title: 'Footnote',
           type: 'string',
           description: 'The small print under the button, e.g. a privacy reassurance.',
+        }),
+        defineField({
+          name: 'emailSubject',
+          title: 'Notification email subject',
+          type: 'string',
+          description:
+            'Subject line on the lead email. Put an answer in curly brackets to include it, using the "Label in the email" exactly — e.g. "Cleaning quote: {Business} - {Site type} - {Suburb}". Leave blank for "New enquiry — <business name>".',
         }),
       ],
     }),

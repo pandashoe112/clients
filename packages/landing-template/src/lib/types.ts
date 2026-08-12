@@ -67,6 +67,8 @@ export interface QuoteForm {
   fields: FormField[]
   submitLabel: string
   footnote?: string
+  /** Subject line on the Netlify notification email. */
+  emailSubject?: string
 }
 
 export interface ThankYou {

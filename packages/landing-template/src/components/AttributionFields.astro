@@ -1,27 +1,94 @@
 ---
 /**
- * Copies Google Ads click ID and UTM parameters off the URL into the hidden fields
- * on every quote form, so the lead that lands in Netlify carries its own source.
+ * Fills in the hidden fields on every quote form, and builds the subject line.
  *
- * Values are written with `.value` rather than into markup, so nothing from the
- * query string is ever interpreted as HTML.
+ * Netlify writes each hidden field into the notification email using its `name`,
+ * and skips nothing — so a blank gclid becomes an empty line in the email. Every
+ * value here therefore falls back to a plain-English answer instead.
+ *
+ * Values are written with `.value`, never into markup, so nothing from the query
+ * string or the referrer is ever interpreted as HTML.
  */
 ---
 
 <script is:inline>
   ;(function () {
-    var q = new URLSearchParams(location.search)
-    var keys = ['gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term']
+    var params = new URLSearchParams(location.search)
 
-    keys.forEach(function (key) {
-      var value = q.get(key) || ''
-      document.querySelectorAll('.f-' + key).forEach(function (el) {
-        el.value = value
-      })
+    function param(key) {
+      var value = params.get(key)
+      return value && value.trim() ? value.trim() : null
+    }
+
+    function device() {
+      var ua = navigator.userAgent
+      if (/iPad|Android(?!.*Mobile)|Tablet/i.test(ua)) return 'Tablet'
+      if (/Mobi|iPhone|Android/i.test(ua)) return 'Mobile'
+      return 'Desktop'
+    }
+
+    function submittedAt() {
+      try {
+        return new Date().toLocaleString('en-AU', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
+        })
+      } catch (e) {
+        return new Date().toISOString()
+      }
+    }
+
+    function referrer() {
+      if (!document.referrer) return null
+      try {
+        // A referrer from this same site is noise — it just means they scrolled.
+        if (new URL(document.referrer).hostname === location.hostname) return null
+      } catch (e) {
+        /* malformed referrer, fall through and report it as-is */
+      }
+      return document.referrer
+    }
+
+    var values = {
+      gclid: param('gclid') || 'No gclid, not from an ad click',
+      utm_source: param('utm_source') || 'Direct or organic',
+      utm_campaign: param('utm_campaign') || 'Not set',
+      utm_term: param('utm_term') || 'Not set',
+      page_url: location.href,
+      referrer: referrer() || 'Not set',
+      device: device(),
+      submitted: submittedAt(),
+    }
+
+    document.querySelectorAll('[data-track]').forEach(function (el) {
+      var key = el.getAttribute('data-track')
+      if (key in values) el.value = values[key]
     })
 
-    document.querySelectorAll('.f-page_url').forEach(function (el) {
-      el.value = location.href
+    // Subject template: "Cleaning quote: {Business} - {Site type}". Each token is
+    // matched against a field's name, and filled in as the visitor types.
+    document.querySelectorAll('[data-quote-form]').forEach(function (form) {
+      var template = form.getAttribute('data-subject-template') || ''
+      var target = form.querySelector('[data-subject]')
+      if (!target || template.indexOf('{') === -1) return
+
+      function render() {
+        target.value = template.replace(/\{([^}]+)\}/g, function (whole, token) {
+          var field = form.elements[token.trim()]
+          if (!field) return whole
+          var value = (field.value || '').trim()
+          return value || 'Not given'
+        })
+      }
+
+      form.addEventListener('input', render)
+      form.addEventListener('change', render)
+      form.addEventListener('submit', render)
+      render()
     })
   })()
 </script>

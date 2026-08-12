@@ -26,7 +26,7 @@ const phone = telHref(business.phone)
         </ul>
       </div>
 
-      <QuoteForm form={page.form} location="footer" class="formlight">
+      <QuoteForm form={page.form} businessName={business.name} location="footer" class="formlight">
         <p class="fnote" slot="footnote">
           Or call <a href={phone} class="fnote-call">{business.phone}</a>
         </p>

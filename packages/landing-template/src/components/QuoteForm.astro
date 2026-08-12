@@ -3,6 +3,8 @@ import type {QuoteForm} from '../lib/types'
 
 interface Props {
   form: QuoteForm
+  /** Business name, used to build the notification email subject. */
+  businessName: string
   /**
    * Both forms post into the same Netlify inbox under the name "quote"; this value
    * rides along in a hidden field so you can still tell which one converted.
@@ -13,10 +15,26 @@ interface Props {
   class?: string
 }
 
-const {form, location, id, class: className} = Astro.props
+const {form, businessName, location, id, class: className} = Astro.props
 const uid = `${location}`
 
-// Let browsers offer saved details where the field type makes that unambiguous.
+const subject = form.emailSubject?.trim() || `New enquiry — ${businessName}`
+
+// Netlify labels every value in the notification email with the input's `name`,
+// so these are written the way they should read in an inbox, not as code.
+// Values are filled in by AttributionFields.astro, with a plain-English fallback
+// rather than a blank line.
+const TRACKING = [
+  {name: 'Google Click Id', key: 'gclid'},
+  {name: 'Traffic Source', key: 'utm_source'},
+  {name: 'Campaign', key: 'utm_campaign'},
+  {name: 'Ad Group', key: 'utm_term'},
+  {name: 'Landing Page', key: 'page_url'},
+  {name: 'Came From', key: 'referrer'},
+  {name: 'Device', key: 'device'},
+  {name: 'Submitted', key: 'submitted'},
+]
+
 const AUTOCOMPLETE: Record<string, string | undefined> = {
   tel: 'tel',
   email: 'email',
@@ -34,24 +52,26 @@ const AUTOCOMPLETE: Record<string, string | undefined> = {
     action="/thank-you/"
     data-netlify="true"
     data-netlify-honeypot="bot-field"
+    data-quote-form
+    data-subject-template={subject}
   >
     <input type="hidden" name="form-name" value="quote" />
-    <input type="hidden" name="form_location" value={location} />
+    <input type="hidden" name="Form Position" value={location === 'hero' ? 'Hero form' : 'Footer form'} />
+
+    {/* Sets the notification email subject and drops Netlify's [Netlify] prefix.
+        Set here rather than in the Netlify UI so it is version controlled and a
+        new site inherits it. */}
+    <input type="hidden" name="Subject" data-remove-prefix value={subject} data-subject />
 
     <p class="hp">
       <label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
     </p>
 
-    <input type="hidden" name="gclid" class="f-gclid" />
-    <input type="hidden" name="utm_source" class="f-utm_source" />
-    <input type="hidden" name="utm_medium" class="f-utm_medium" />
-    <input type="hidden" name="utm_campaign" class="f-utm_campaign" />
-    <input type="hidden" name="utm_term" class="f-utm_term" />
-    <input type="hidden" name="page_url" class="f-page_url" />
+    {TRACKING.map((item) => <input type="hidden" name={item.name} data-track={item.key} />)}
 
     {
       form.fields.map((field) => {
-        const id = `${field.name}-${uid}`
+        const id = `${field.name.replace(/\s+/g, '-').toLowerCase()}-${uid}`
         return (
           <>
             <label for={id}>{field.label}</label>

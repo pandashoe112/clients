@@ -47,6 +47,7 @@ export const LANDING_PAGE_QUERY = `
     subcopy,
     submitLabel,
     footnote,
+    emailSubject,
     fields[]{
       label,
       name,
