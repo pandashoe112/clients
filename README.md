@@ -89,6 +89,55 @@ Sanity → API → Webhooks → Create webhook:
 
 The filter is what stops one client's edits rebuilding everyone else's site.
 
+## Conventions
+
+Things that must be true on every site, so two clients never drift apart.
+
+**Naming.** The slug is one string used four ways: the folder under `sites/`, the
+npm workspace name, `PUBLIC_SITE_ID`, and the Sanity document `_id`. Netlify
+project names are *not* guaranteed to match — `.netlify.app` subdomains are
+globally unique, so a name may already be taken. `sites/<slug>/site.json` records
+which Netlify project a site actually belongs to.
+
+**Form questions.** Set the page label and the email label to the same text
+unless there is a reason not to. Netlify labels the notification email with the
+`<label>` when there is one and only falls back to the field name, so a label
+that differs from the email label means the email label is quietly ignored.
+
+**Email subject.** Either set it in Sanity or set it in Netlify's Notifications —
+never both. A `subject` field in the page always wins, so a subject set in the
+Netlify UI while the page also sends one will look broken. Blank in Sanity means
+no field is sent and the Netlify setting applies.
+
+**Tracking.** Blank means no scripts load at all. Use GA4 and Ads IDs *or* a GTM
+container, not both — if the container already fires GA4 and Ads, filling in the
+fields above loads them twice and double counts.
+
+**Indexing.** Paid-traffic-only pages should have *Hide from search engines* on.
+Turn it off only when the page is meant to rank.
+
+**Canonical URL.** Must be the real live domain before launch. A `.netlify.app`
+address in the canonical tag tells Google the temporary URL is the real one.
+
+**Images.** Logo, hero and social share image come from Sanity. Section images
+live in `sites/<slug>/src/assets/images/` and go through Astro's `<Image>`.
+Nothing is ever inlined as a base64 data URI.
+
+## Launch checklist
+
+Per site, before pointing a campaign at it:
+
+- [ ] Logo, hero image and all copy published in Sanity
+- [ ] Canonical URL set to the real domain
+- [ ] Social share image set (defaults to the hero if nothing better exists)
+- [ ] Ads conversion ID and label, or GTM container, filled in
+- [ ] Form questions match what the client actually needs to quote
+- [ ] Email notification configured in Netlify so leads reach a human
+- [ ] Test submission sent, and the lead email checked for readability
+- [ ] Repo connected to the Netlify project, and a Sanity webhook pointed at its
+      build hook
+- [ ] Domain pointed, then *Hide from search engines* turned off if it should rank
+
 ## How deploys work
 
 Netlify builds from the repo itself — the standard Git integration, same as the

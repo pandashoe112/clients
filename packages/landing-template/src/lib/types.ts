@@ -28,6 +28,7 @@ export interface Tracking {
   adsConversionId?: string
   adsConversionLabel?: string
   ga4Id?: string
+  gtmId?: string
 }
 
 export interface Header {

@@ -112,6 +112,15 @@ export const landingPage = defineType({
           validation: (Rule) =>
             Rule.regex(/^G-[A-Z0-9]+$/, {name: 'GA4 measurement ID'}).error('Must look like G-ABCD1234.'),
         }),
+        defineField({
+          name: 'gtmId',
+          title: 'Google Tag Manager container ID',
+          type: 'string',
+          description:
+            'Starts with GTM- , e.g. GTM-ABC1234. Use this when the client\'s tags are managed in GTM. If GA4 or Ads are already firing from inside the container, leave the fields above blank — filling in both loads the same tags twice and double counts.',
+          validation: (Rule) =>
+            Rule.regex(/^GTM-[A-Z0-9]+$/, {name: 'GTM container ID'}).error('Must look like GTM-ABC1234.'),
+        }),
       ],
     }),
 

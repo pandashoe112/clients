@@ -16,7 +16,8 @@ export const LANDING_PAGE_QUERY = `
   tracking{
     adsConversionId,
     adsConversionLabel,
-    ga4Id
+    ga4Id,
+    gtmId
   },
   header{
     logo,
