@@ -109,3 +109,24 @@ export const AREAS_INDEX_QUERY = `{
   },
   "suburbs": *[_type == "suburb"] | order(name asc){ _id, name, postcode, hasPage, "slug": slug.current }
 }`;
+
+// The about page plus the shared lists the header and footer render.
+export const ABOUT_QUERY = `{
+  "settings": *[_type == "siteSettings"][0]{
+    businessName, phone, phoneHref, email, licence, established,
+    ratingValue, reviewCount, instagramUrl, facebookUrl
+  },
+  "page": *[_type == "aboutPage"][0]{
+    seoTitle, seoDescription,
+    heroEyebrow, heroHeading, heroIntro,
+    storyHeading, storyParagraphs, storyImage,
+    businessEyebrow, businessHeading, businessBody, businessRows[]{ label, value }, businessPoints,
+    contactEyebrow, contactHeading, contactIntro
+  },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){
+    _id, name, postcode, "slug": slug.current
+  },
+  "reviews": *[_type == "review"] | order(reviewedAt desc){ _id, authorName, reviewedAt, rating, body, photo },
+  "contactImage": *[_type == "homePage"][0].contactImage
+}`;
