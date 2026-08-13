@@ -12,8 +12,8 @@
 
 /* ── tokens ───────────────────────────────────────────────────────────── */
 :root{
-  --ink:#0B0818;
-  --ink-2:#131028;
+  --ink:#150A2E;
+  --ink-2:#1D0F3E;
   --panel:#221347;
   --panel-2:#2A1258;
   --violet:#6D28D9;
@@ -89,6 +89,8 @@ a{color:inherit;text-decoration:none}
 }
 .btn__arrow{transition:transform .25s cubic-bezier(.2,.7,.3,1)}
 .btn:hover .btn__arrow{transform:translateX(4px)}
+.btn--primary{background:linear-gradient(135deg,#6D28D9,#8B5CF6);color:#fff}
+.btn--primary:hover{transform:translateY(-2px);box-shadow:0 14px 34px -12px rgba(139,92,246,.65)}
 .btn--signal{background:var(--signal);color:#0B0818}
 .btn--signal:hover{transform:translateY(-2px);box-shadow:0 12px 34px -12px rgba(215,242,76,.55)}
 .btn--ghost{border-color:rgba(199,190,230,.32);color:var(--on-dark)}
@@ -136,9 +138,9 @@ a{color:inherit;text-decoration:none}
 
 /* ── hero — full-bleed macro field ────────────────────────────────────── */
 .hero{
-  position:relative;min-height:100svh;display:flex;flex-direction:column;
+  position:relative;display:flex;flex-direction:column;
   overflow:hidden;
-  background:#0A0714;
+  background:linear-gradient(175deg,#261148 0%,#1A0C36 55%,#150A2E 100%);
 }
 .hero__art{position:absolute;inset:-4%;pointer-events:none}
 .hero__art i{position:absolute;border-radius:50%;filter:blur(70px)}
@@ -160,38 +162,63 @@ a{color:inherit;text-decoration:none}
 .hero__vin{position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(180deg,rgba(10,7,20,.55),transparent 30%,transparent 62%,rgba(10,7,20,.82))}
 
-.hero__mid{position:relative;flex:1;display:flex;align-items:center;padding-block:120px 40px}
+.hero__grid{
+  position:relative;display:grid;gap:clamp(36px,4vw,56px);
+  padding-block:clamp(140px,16vh,180px) clamp(56px,7vw,88px);
+  align-items:center;
+}
+@media(min-width:1060px){.hero__grid{grid-template-columns:1.02fr .98fr;gap:clamp(40px,4.5vw,84px)}}
 .hero__status{
   font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(255,255,255,.75);display:flex;align-items:center;gap:10px;margin:0 0 30px;
+  color:rgba(255,255,255,.75);display:flex;align-items:center;gap:10px;margin:0 0 26px;
 }
 .hero__status i{width:7px;height:7px;border-radius:50%;background:var(--signal);
-  box-shadow:0 0 0 4px rgba(215,242,76,.18);font-style:normal}
+  box-shadow:0 0 0 4px rgba(215,242,76,.18);font-style:normal;flex:none}
 .hero h1{
   font-family:var(--display);font-weight:700;
-  font-size:clamp(52px,9.6vw,124px);
-  line-height:.94;letter-spacing:-.02em;
-  margin:0 0 40px;max-width:14ch;
+  font-size:clamp(44px,5.6vw,76px);
+  line-height:.96;letter-spacing:-.015em;
+  margin:0 0 22px;
 }
-.hero h1 .dim{color:rgba(255,255,255,.44)}
-.hero__actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
-
-.hero__foot{position:relative;display:grid;gap:26px;padding-bottom:40px;align-items:end}
-@media(min-width:900px){.hero__foot{grid-template-columns:1fr auto}}
-.hero__blurb{margin:0;max-width:44ch;font-size:15.5px;line-height:1.6;color:rgba(255,255,255,.8)}
-.hero__cred{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.hero__para{margin:0 0 24px;max-width:52ch;font-size:clamp(15.5px,1.2vw,17.5px);line-height:1.6;color:var(--on-dark-soft)}
+.checks{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:13px}
+.checks li{display:flex;align-items:center;gap:12px;font-size:15.5px;color:var(--on-dark-soft)}
+.checks li b{color:#fff;font-weight:800}
+.checks li::before{
+  content:"✓";flex:none;width:24px;height:24px;border-radius:50%;
+  background:linear-gradient(135deg,#6D28D9,#8B5CF6);
+  display:grid;place-items:center;font-size:12px;font-weight:800;color:#fff;
+}
+.hook{
+  font-family:var(--display);font-weight:700;font-size:clamp(18px,1.6vw,22px);
+  color:var(--signal);margin:0 0 26px;
+}
+.hero__ctarow{display:flex;flex-wrap:wrap;align-items:center;gap:16px 18px}
+.cred{display:inline-flex;align-items:center;gap:10px}
 .avs{display:flex}
-.avs img{width:38px;height:38px;border-radius:50%;border:2px solid rgba(11,8,24,.9);margin-left:-11px;background:#221347}
+.avs img{width:38px;height:38px;border-radius:50%;border:2px solid rgba(21,10,46,.95);margin-left:-11px;background:#221347}
 .avs img:first-child{margin-left:0}
-.hero__stars{color:var(--signal);letter-spacing:2px;font-size:14px}
-.hero__cred b{font-weight:800;font-size:15px}
-.hero__cred small{display:block;font-size:12.5px;color:rgba(255,255,255,.62)}
-.hero__scroll{
-  position:relative;display:inline-flex;gap:10px;align-items:center;margin-top:34px;
-  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);
+.cred__num{font-weight:800;font-size:16px}
+.cred__num small{font-weight:600;font-size:12px;color:rgba(255,255,255,.65);margin-left:2px}
+.hero__dash{
+  background:linear-gradient(160deg,rgba(139,92,246,.16),rgba(42,10,94,.3));
+  border:1px solid rgba(196,181,253,.2);border-radius:26px;
+  padding:clamp(10px,1.2vw,16px);
 }
-@media(prefers-reduced-motion:no-preference){.hero__scroll b{animation:bob 1.8s ease-in-out infinite}}
-@keyframes bob{50%{transform:translateY(4px)}}
+
+/* ── ticker ───────────────────────────────────────────────────────────── */
+.ticker{background:var(--signal);overflow:hidden;padding:15px 0}
+.ticker__track{display:flex;width:max-content}
+.ticker__track span{
+  display:inline-flex;align-items:center;white-space:nowrap;
+  padding:0 clamp(18px,2.4vw,34px);
+  font-weight:800;font-size:15px;color:#0B0818;letter-spacing:-.01em;
+}
+.ticker__track .ticker__dup{padding:0}
+@media(prefers-reduced-motion:no-preference){
+  .ticker__track{animation:tick 32s linear infinite}
+}
+@keyframes tick{to{transform:translateX(-50%)}}
 
 /* ── services — light grid with art cards ─────────────────────────────── */
 .svchead{display:grid;gap:26px;margin-bottom:clamp(40px,5vw,64px);align-items:end}
@@ -252,9 +279,8 @@ a{color:inherit;text-decoration:none}
   content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(44rem 30rem at 85% 10%,rgba(109,40,217,.22),transparent 70%);
 }
-.proofgrid{position:relative;display:grid;gap:clamp(36px,5vw,72px);align-items:center}
-@media(min-width:1000px){.proofgrid{grid-template-columns:.9fr 1.1fr}}
-.proofcopy .h2{max-width:12ch}
+.proofhead{position:relative;display:grid;gap:26px;margin-bottom:clamp(8px,2vw,20px)}
+@media(min-width:1000px){.proofhead{grid-template-columns:1.05fr .95fr;align-items:end;gap:72px}}
 .prooflist{list-style:none;margin:26px 0 30px;padding:0;display:grid;gap:14px}
 .prooflist li{display:flex;gap:14px;font-size:15.5px;line-height:1.5;color:var(--on-dark-soft)}
 .prooflist li::before{content:"→";color:var(--signal);font-family:var(--display);font-weight:700;flex:none}
@@ -390,7 +416,7 @@ a{color:inherit;text-decoration:none}
 .cta__mail:hover{color:#fff;border-color:#fff}
 
 /* ── footer (ref: newsletter + mega wordmark) ─────────────────────────── */
-.foot{background:#080612;padding-top:clamp(56px,6vw,88px);overflow:hidden}
+.foot{background:#0D0621;padding-top:clamp(56px,6vw,88px);overflow:hidden}
 .foot__top{display:grid;gap:clamp(36px,4vw,64px);padding-bottom:clamp(44px,5vw,68px)}
 @media(min-width:900px){.foot__top{grid-template-columns:1.3fr .7fr .7fr .8fr}}
 .foot__sell h3{font-family:var(--display);font-weight:700;font-size:clamp(24px,2.6vw,32px);letter-spacing:0;line-height:1.05;margin:0 0 20px;max-width:18ch}
@@ -465,36 +491,121 @@ a{color:inherit;text-decoration:none}
           <a href="/contact">Contact</a>
         </nav>
       </details>
-      <a class="btn btn--signal nav__cta" href="/contact">Let's talk <span class="btn__arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn--primary nav__cta" href="/contact">Book a growth call <span class="btn__arrow" aria-hidden="true">→</span></a>
     </div>
   </header>
 
-  <div class="wrap hero__mid">
-    <div class="seq">
+  <div class="wrap hero__grid">
+    <div class="hero__copy seq">
       <p class="hero__status"><i></i>Melbourne growth agency — taking on clients</p>
-      <h1>Enquiries.<br><span class="dim">— not impressions.</span></h1>
-      <div class="hero__actions">
-        <a class="btn btn--signal" href="/contact">Let's talk <span class="btn__arrow" aria-hidden="true">→</span></a>
-        <a class="tlink" href="#services">View our services <span aria-hidden="true">→</span></a>
+      <h1>Enquiries.<br>Not impressions.</h1>
+      <p class="hero__para">
+        Most agencies run your marketing like a pokie machine — keep feeding it and hope.
+        We run SEO, Google Ads, Meta and link building as one system, inside your own
+        accounts, measured on the enquiries it produces.
+      </p>
+      <ul class="checks">
+        <li><b>$$$ Millions</b>&nbsp;— ad revenue managed</li>
+        <li><b>No bloat</b>&nbsp;— more ad spend, less agency fees</li>
+        <li><b>No contracts</b>&nbsp;— stay because you want to</li>
+      </ul>
+      <p class="hook">Get started from just $139/week</p>
+      <div class="hero__ctarow">
+        <a class="btn btn--primary" href="/contact">Book a Free Growth Call <span class="btn__arrow" aria-hidden="true">→</span></a>
+        <span class="cred"><span class="avs" aria-hidden="true"><img src="data:image/webp;base64,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" alt="" width="38" height="38" loading="lazy"><img src="data:image/webp;base64,UklGRv4GAABXRUJQVlA4IPIGAABQHQCdASpAAEAAPl0mj0UjoiGYDAZ8OAXEsQBf8d7Ig1yCif87M3oz26HO7ehbeZd6Krlz7J4F+Dr1f7fcXfmzzF/kP3U/J8Jfvv/pfUC9d/6DeOwAfU7/d+E1qR92fRZ/Ov9L6n/6PwrvHfYD/P3/a9SHPW9L/+n3Cv1h/53Yn9FX9gG+2ydOg+Lrmf/C7/31zUak9WgKjKM2ZNhttRPl81AFGoq1f/Agdl5+kFFyAaPHmMDrj2kXJqx3yzx7FDaG0/QHz29d7LqrIFKgfKHFBOjzAe25acq3qRs7uTVjiT0GlYkktZeqisXiFcfwyRpFKwAA/v/+GFdhbq1+FlyM1kICt/XRETgzrhbiMoD4TEa6JFOdL0wizTYA7SOwBgRgyr+mN5rz3arfOOO3IaekyE0D/FXjhz9x+ZxkgVdMcM88lloWAFp63aQyKgxhKdM95Vq1/HJ9oOIfW2ycGWGPgomdZaeFFzD/cUw/ebEfTB1ijsL/8qFnrIoH87shrC3PU7jEjwCB7un74ByqyL/Qqw19syTQke8Q7jE9eBP/U7qrMxvs8DAgPs298lQoum4yCpTcxmSH8je7TYf4Kr/ntrhDCjXD1+XXsAiFF2hz5Mfvb3YaDMDPWMl7qAzoPVaOl4+YkjYfvLv8gbx46hzfnRPPOAxkIMOdfYYb8WH1RuVsz+e9fz9e++o4t7oXtJ45wpCqIi9q8FfS9TeHmU0Z/8EF19e/r/mlpoHjDeuII5l2IhR0rw+NylFsZLK2i+qb9iA6voeTSKV1khEYXkJkGUpuBrIoar6oHs4ZNrBTpzznB6A6u0fIr+XJEZef/dkvAJ/wuxbHnKl1q9RvxhMktoHcFloc5ojHltLHrvkwr9aP3OeO3uU6Iq/p5Fzt7U99jRwz5B/+FzBVnyeV+ym+76ENIAWoJrx1wubM7ViQc4X6ez3FwDyPDUV+UX8/z703ifCfx3rbvRUrlTS8/m670Fg0GVWRRzEs2MgXPriiOlPm689uOuY5imdse0nSGV0mfztVa1GR4vaLv9ttfOcHSxcOAw8lGcaRBWp1SCs+2b5rxggHIZ+yl/9xQRe22Er4mkvChXOpGnE/SGH8Ro67fhnDHqI7viUPNWgh1G2OH4vlLn0Za1dBkMAv5RBLnaTVzFzTkO38Ho+8WDvsxeu4hRoFV6cSRtaJhbhuTBDS07hDG/O2jvny0i2S9VNCpivG0rp8Y8oICZLRJ5rbtB95jb2ml5LPU4GTTzdgSOKmriQi5fyCGI3216uzqtEm0OLbgfjSBxKsj3aSIHZnDI2QVlGZDtMaVPcFzFNC3ieRB5QoeJ2dbOcU3IbWae/oytvP/klEs4JxgRXF1QH6fzrgapW97Gpk9b0IyKdXjqbcRZrb72rfZ+hbIgQ9xYSXEcEbgfTSZbu2FVChgoNpXRC6JeVgKzc65KN6cfiUwdAyBxhWP3eNMV5W4OHnt4au44jqKuu5rDhFg+mMdlwf/83D3864VPbbEcrQJZy4Pn5/X7BR7sZTzg71YWrLd8iNfGodFTPKv1qMH1O3HinmCunWbE923zySEziqd027O9ck17z1er1KOA/V0tHUcTt/9pa/aQh24jRp6ttRIa4bJg6lR7Ds4wqwpU8LyniMCow+sJvSn2E3qiNkwasxHkpfMdp6ltKKer+ye6FZ0JPLYl92LwC8jOSHsEmX3mtM5ef7n+dPKWdlwAyMBubimtYzC8fBJHOewFs/VOdxpL+/uK6Az2wUYMRvYRqNmlm4MGAePZ4LAvWTqOCwEtcSBMWjcaTMaCNYhxN9NDE6fw4/TitHZQeWI1Dzsqlky9wcLAPta4t0iVvWwG/9sjKiccliN+lQurub4qF2x873vtdjUy+/2+6wLxy1FNaUmT6JlyM0lBm3MX+UzwpT0OrRqfqHipfMGZFEfLJSugPaTo+G01KDoF7LuefTteb5WJEMzvcu74oHokVGQPszu0SIV9+DWz8EIJBaHVDo06X+aZmcJ079bg+c/UGKFvjZaNDzC345kB79cgO7O2w8RleHRPR3bJNiC4d4FhqI3LamLlaouJ9BKLTl1IuFa1mu79nfwMBnI2TCkXZxBImWNyS2BP5ZT6zdlo8+RDNn8UAvNLvXhS6/i63T+ZBVFpZSRuztp+CHrkGBJKrDW+9TovDjoIqj2aYEICTGTql3Z1HvzL/7zsL983AgmPRvW0mVta3ksfD7V5DfdiLLyxcHQep+yi1rtcLlgktPX/NLKcRQAV6IPZWRlUvxDJT4rguat1ZCFF5G0WsMTD3tkf1UdZC+j3zhIBcH3MgZsySSNSxFedCb+QL+/tnGNYkRmGlTDF9DhgIs2O6yMNHkBXeAVqEkkqOEsAAAAA==" alt="" width="38" height="38" loading="lazy"><img src="data:image/webp;base64,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" alt="" width="38" height="38" loading="lazy"><img src="data:image/webp;base64,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" alt="" width="38" height="38" loading="lazy"></span>
+        <span class="hero__stars" aria-hidden="true">★★★★★</span>
+        <span class="cred__num">4.9 <small>Google rating</small></span></span>
+      </div>
+    </div>
+
+    <div class="hero__dash rv is-in">
+      <div class="dash rv" role="img" aria-label="Example client dashboard: cost per enquiry falling 52% over six months; 847 enquiries, up 19%; average return on ad spend 10x, up 120%">
+        <div class="dash__main">
+          <div class="dash__head">
+            <span class="dash__ico" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 12.5 7 7l3.5 3.5L16 4.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.5 4.5H16V9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="dash__title">Cost per enquiry<small>Client dashboard — live</small></span>
+            <span class="dash__range">Last 6 months ▾</span>
+          </div>
+          <span class="dash__delta">↓ 52% and still falling</span>
+          <svg viewBox="0 0 720 300" preserveAspectRatio="none" style="width:100%;height:auto" aria-hidden="true">
+            <defs>
+              <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#8B5CF6" stop-opacity=".38"/>
+                <stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <g stroke="rgba(196,181,253,.22)" stroke-dasharray="3 6">
+              <line x1="70" y1="30"  x2="712" y2="30"/><line x1="70" y1="90"  x2="712" y2="90"/>
+              <line x1="70" y1="150" x2="712" y2="150"/><line x1="70" y1="210" x2="712" y2="210"/>
+              <line x1="70" y1="270" x2="712" y2="270"/>
+            </g>
+            <g fill="#C4B5FD" font-family="IBM Plex Mono,monospace" font-size="16">
+              <text x="58" y="36"  text-anchor="end">$120</text><text x="58" y="96"  text-anchor="end">$90</text>
+              <text x="58" y="156" text-anchor="end">$60</text><text x="58" y="216" text-anchor="end">$30</text>
+              <text x="58" y="276" text-anchor="end">$0</text>
+              <text x="82"  y="296">Mar</text><text x="208" y="296">Apr</text><text x="334" y="296">May</text>
+              <text x="460" y="296">Jun</text><text x="586" y="296">Jul</text><text x="682" y="296">Aug</text>
+            </g>
+            <path d="M82 62 C130 54,158 76,206 84 S300 96,340 118 S430 172,478 168 S560 176,600 190 S668 176,690 178 L690 270 L82 270 Z" fill="url(#area)"/>
+            <path class="line" d="M82 62 C130 54,158 76,206 84 S300 96,340 118 S430 172,478 168 S560 176,600 190 S668 176,690 178" fill="none" stroke="#C4B5FD" stroke-width="3.5" stroke-linecap="round"/>
+            <circle cx="690" cy="178" r="7" fill="#2A1258" stroke="#D7F24C" stroke-width="3"/>
+          </svg>
+        </div>
+
+        <div class="dash__tiles">
+          <div class="tile">
+            <div class="tile__row">
+              <span class="tile__ico" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13h2.5V8H2v5Zm4.75 0h2.5V3h-2.5v10Zm4.75 0H14V6h-2.5v7Z" fill="#fff"/></svg></span>
+              <span class="tile__lab">Avg. ROAS<span class="tile__up">↑ 120%</span></span>
+              <span class="tile__num">10x</span>
+            </div>
+            <svg viewBox="0 0 300 64" preserveAspectRatio="none" style="width:100%;height:52px" aria-hidden="true">
+              <path d="M4 54 C40 50,60 40,92 38 S150 34,182 24 S250 16,296 8" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="296" cy="8" r="4.5" fill="#221347" stroke="#fff" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <div class="tile">
+            <div class="tile__row">
+              <span class="tile__ico" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="#fff" stroke-width="1.8"/><path d="M2.5 13.5c.8-2.6 3-4 5.5-4s4.7 1.4 5.5 4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+              <span class="tile__lab">Enquiries<span class="tile__up">↑ 19%</span></span>
+              <span class="tile__num">847</span>
+            </div>
+            <svg viewBox="0 0 300 64" preserveAspectRatio="none" style="width:100%;height:52px" aria-hidden="true">
+              <defs>
+                <pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                  <rect width="6" height="6" fill="#D7F24C" opacity=".25"/><line x1="0" y1="0" x2="0" y2="6" stroke="#D7F24C" stroke-width="2.4"/>
+                </pattern>
+              </defs>
+              <g fill="url(#hatch)">
+                <rect x="8"   y="38" width="26" height="26" rx="3"/><rect x="44"  y="28" width="26" height="36" rx="3"/>
+                <rect x="80"  y="34" width="26" height="30" rx="3"/><rect x="116" y="18" width="26" height="46" rx="3"/>
+                <rect x="152" y="6"  width="26" height="58" rx="3"/><rect x="188" y="24" width="26" height="40" rx="3"/>
+                <rect x="224" y="14" width="26" height="50" rx="3"/><rect x="260" y="20" width="26" height="44" rx="3"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="cert">
+          <span class="cert__ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5 15 4v4.5c0 3.6-2.4 6.6-6 8-3.6-1.4-6-4.4-6-8V4l6-2.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m6.2 9 2 2 3.6-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div><b>Certified across Google &amp; Meta</b><p>Managing millions in ad spend with proven results.</p></div>
+          <span class="cert__mark">Google Partner<br>Meta Business Partner</span>
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="wrap hero__foot">
-    <div>
-      <p class="hero__blurb">
-        SEO, Google Ads, Meta Ads and link building, run as one connected system —
-        built inside your accounts, measured on the enquiries it produces.
-      </p>
-      <span class="hero__scroll"><b aria-hidden="true">↓</b> Scroll</span>
-    </div>
-    <div class="hero__cred">
-      <span class="avs" aria-hidden="true"><img src="data:image/webp;base64,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" alt="" width="38" height="38" loading="lazy"><img src="data:image/webp;base64,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" alt="" width="38" height="38" loading="lazy"><img src="data:image/webp;base64,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" alt="" width="38" height="38" loading="lazy"><img src="data:image/webp;base64,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" alt="" width="38" height="38" loading="lazy"></span>
-      <span class="hero__stars" aria-hidden="true">★★★★★</span>
-      <span><b>4.9 Google rating</b><small>300+ businesses helped</small></span>
-    </div>
-  </div>
 </section>
+
+<!-- ══ ticker ═══════════════════════════════════════════════════════════ -->
+<div class="ticker" aria-label="DUNK in numbers">
+  <div class="ticker__track">
+    <span>★ 4.9 Google Rating</span><span>◆ Millions Managed in Ad Spend</span><span>★ 300+ Businesses Helped Grow</span><span>◆ 10x Average ROAS</span><span>★ No Lock-In Contracts</span>
+    <!-- duplicate for seamless loop -->
+    <span aria-hidden="true" class="ticker__dup"><span>★ 4.9 Google Rating</span><span>◆ Millions Managed in Ad Spend</span><span>★ 300+ Businesses Helped Grow</span><span>◆ 10x Average ROAS</span><span>★ No Lock-In Contracts</span></span>
+  </div>
+</div>
 
 <main>
 
@@ -544,7 +655,7 @@ a{color:inherit;text-decoration:none}
       </div>
       <div class="svchead__right">
         <p>Most agencies sell you a channel. A channel only ever covers part of your market — so we map the whole buying journey, then put budget where it earns.</p>
-        <a class="btn btn--signal" href="/services">All services <span class="btn__arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn--primary" href="/services">All services <span class="btn__arrow" aria-hidden="true">→</span></a>
       </div>
     </div>
 
@@ -712,93 +823,19 @@ a{color:inherit;text-decoration:none}
 ════════════════════════════════════════════════════════════════════════ -->
 <section class="band proofband" id="results">
   <div class="wrap">
-    <div class="proofgrid">
-      <div class="proofcopy rv">
+    <div class="proofhead">
+      <div class="rv">
         <p class="slash">proof</p>
         <h2 class="h2">You see what we see.</h2>
         <p class="lead">Every client gets the same live view we work from. No monthly PDF theatre, no reach reports — just the numbers that decide whether this is working.</p>
+      </div>
+      <div class="rv">
         <ul class="prooflist">
           <li><b>Enquiries and cost per enquiry,</b> not clicks and impressions.</li>
           <li><b>What we changed and why,</b> in plain English, every month.</li>
           <li><b>Your accounts, your data.</b> Walk away with everything, any time.</li>
         </ul>
         <a class="tlink" href="/contact" style="color:#fff;border-color:var(--signal)">Get a free account audit <span aria-hidden="true">→</span></a>
-      </div>
-
-      <div class="dash rv" role="img" aria-label="Example client dashboard: cost per enquiry falling 52% over six months; 847 enquiries, up 19%; average return on ad spend 10x, up 120%">
-        <div class="dash__main">
-          <div class="dash__head">
-            <span class="dash__ico" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 12.5 7 7l3.5 3.5L16 4.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.5 4.5H16V9" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-            <span class="dash__title">Cost per enquiry<small>Client dashboard — live</small></span>
-            <span class="dash__range">Last 6 months ▾</span>
-          </div>
-          <span class="dash__delta">↓ 52% and still falling</span>
-          <svg viewBox="0 0 720 300" preserveAspectRatio="none" style="width:100%;height:auto" aria-hidden="true">
-            <defs>
-              <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#8B5CF6" stop-opacity=".38"/>
-                <stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <g stroke="rgba(196,181,253,.22)" stroke-dasharray="3 6">
-              <line x1="70" y1="30"  x2="712" y2="30"/><line x1="70" y1="90"  x2="712" y2="90"/>
-              <line x1="70" y1="150" x2="712" y2="150"/><line x1="70" y1="210" x2="712" y2="210"/>
-              <line x1="70" y1="270" x2="712" y2="270"/>
-            </g>
-            <g fill="#C4B5FD" font-family="IBM Plex Mono,monospace" font-size="16">
-              <text x="58" y="36"  text-anchor="end">$120</text><text x="58" y="96"  text-anchor="end">$90</text>
-              <text x="58" y="156" text-anchor="end">$60</text><text x="58" y="216" text-anchor="end">$30</text>
-              <text x="58" y="276" text-anchor="end">$0</text>
-              <text x="82"  y="296">Mar</text><text x="208" y="296">Apr</text><text x="334" y="296">May</text>
-              <text x="460" y="296">Jun</text><text x="586" y="296">Jul</text><text x="682" y="296">Aug</text>
-            </g>
-            <path d="M82 62 C130 54,158 76,206 84 S300 96,340 118 S430 172,478 168 S560 176,600 190 S668 176,690 178 L690 270 L82 270 Z" fill="url(#area)"/>
-            <path class="line" d="M82 62 C130 54,158 76,206 84 S300 96,340 118 S430 172,478 168 S560 176,600 190 S668 176,690 178" fill="none" stroke="#C4B5FD" stroke-width="3.5" stroke-linecap="round"/>
-            <circle cx="690" cy="178" r="7" fill="#2A1258" stroke="#D7F24C" stroke-width="3"/>
-          </svg>
-        </div>
-
-        <div class="dash__tiles">
-          <div class="tile">
-            <div class="tile__row">
-              <span class="tile__ico" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13h2.5V8H2v5Zm4.75 0h2.5V3h-2.5v10Zm4.75 0H14V6h-2.5v7Z" fill="#fff"/></svg></span>
-              <span class="tile__lab">Avg. ROAS<span class="tile__up">↑ 120%</span></span>
-              <span class="tile__num">10x</span>
-            </div>
-            <svg viewBox="0 0 300 64" preserveAspectRatio="none" style="width:100%;height:52px" aria-hidden="true">
-              <path d="M4 54 C40 50,60 40,92 38 S150 34,182 24 S250 16,296 8" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="296" cy="8" r="4.5" fill="#221347" stroke="#fff" stroke-width="2.5"/>
-            </svg>
-          </div>
-          <div class="tile">
-            <div class="tile__row">
-              <span class="tile__ico" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="#fff" stroke-width="1.8"/><path d="M2.5 13.5c.8-2.6 3-4 5.5-4s4.7 1.4 5.5 4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-              <span class="tile__lab">Enquiries<span class="tile__up">↑ 19%</span></span>
-              <span class="tile__num">847</span>
-            </div>
-            <svg viewBox="0 0 300 64" preserveAspectRatio="none" style="width:100%;height:52px" aria-hidden="true">
-              <defs>
-                <pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-                  <rect width="6" height="6" fill="#D7F24C" opacity=".25"/><line x1="0" y1="0" x2="0" y2="6" stroke="#D7F24C" stroke-width="2.4"/>
-                </pattern>
-              </defs>
-              <g fill="url(#hatch)">
-                <rect x="8"   y="38" width="26" height="26" rx="3"/><rect x="44"  y="28" width="26" height="36" rx="3"/>
-                <rect x="80"  y="34" width="26" height="30" rx="3"/><rect x="116" y="18" width="26" height="46" rx="3"/>
-                <rect x="152" y="6"  width="26" height="58" rx="3"/><rect x="188" y="24" width="26" height="40" rx="3"/>
-                <rect x="224" y="14" width="26" height="50" rx="3"/><rect x="260" y="20" width="26" height="44" rx="3"/>
-              </g>
-            </svg>
-          </div>
-        </div>
-
-        <div class="cert">
-          <span class="cert__ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5 15 4v4.5c0 3.6-2.4 6.6-6 8-3.6-1.4-6-4.4-6-8V4l6-2.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m6.2 9 2 2 3.6-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <div><b>Certified across Google &amp; Meta</b><p>Managing millions in ad spend with proven results.</p></div>
-          <span class="cert__mark">Google Partner<br>Meta Business Partner</span>
-        </div>
       </div>
     </div>
 
