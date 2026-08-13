@@ -369,6 +369,45 @@ a{color:inherit;text-decoration:none}
 }
 .path:hover .path__go i{background:var(--signal);border-color:var(--signal);color:#10091F;transform:rotate(45deg)}
 
+/* ── who we work with ─────────────────────────────────────────────────── */
+.clients__head{display:grid;gap:26px;align-items:end;margin-bottom:clamp(40px,4.6vw,64px)}
+@media(min-width:940px){.clients__head{grid-template-columns:1fr .9fr;gap:clamp(40px,5vw,80px)}}
+.clients__intro{margin:0;font-size:clamp(15.5px,1.25vw,17.5px);line-height:1.65;color:var(--on-paper-soft)}
+.clients__grid{display:grid;gap:clamp(22px,2.6vw,36px) clamp(28px,3.4vw,56px)}
+@media(min-width:700px){.clients__grid{grid-template-columns:1fr 1fr}}
+.cli{display:flex;gap:16px;align-items:flex-start}
+.cli__tick{
+  width:30px;height:30px;border-radius:50%;flex:none;margin-top:2px;
+  display:grid;place-items:center;color:#fff;
+  background:linear-gradient(135deg,var(--violet),var(--violet-2));
+}
+.cli__tick svg{width:16px;height:16px}
+.cli h3{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(18px,1.65vw,21px);line-height:1.2;letter-spacing:-.005em;
+  margin:0 0 9px;
+}
+.cli p{margin:0;font-size:15px;line-height:1.62;color:var(--on-paper-soft);max-width:44ch}
+
+/* ── how we work ──────────────────────────────────────────────────────── */
+.hww{background:#120726}
+.hww__head{margin-bottom:clamp(34px,4vw,56px)}
+.hww__h{color:var(--signal)}
+.hww__rows{display:grid}
+.hww__row{
+  display:grid;gap:12px clamp(30px,4vw,72px);
+  padding-block:clamp(28px,3.2vw,44px);
+  border-top:var(--rule);
+}
+.hww__row:last-child{border-bottom:var(--rule)}
+@media(min-width:880px){.hww__row{grid-template-columns:.86fr 1.14fr;align-items:start}}
+.hww__row h3{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(21px,2.2vw,30px);line-height:1.14;letter-spacing:-.01em;
+  margin:0;color:#fff;
+}
+.hww__row p{margin:0;font-size:clamp(15px,1.22vw,17px);line-height:1.66;color:var(--on-dark-soft);max-width:62ch}
+
 /* ── case studies ─────────────────────────────────────────────────────── */
 .cs{background:var(--ink)}
 .cs__top{display:grid;gap:26px;align-items:end;margin-bottom:clamp(48px,5.5vw,80px)}
@@ -640,7 +679,7 @@ a{color:inherit;text-decoration:none}
       <a class="nav__mark" href="/" aria-label="DUNK home"><svg fill="currentColor" id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 443.12 158.68"><g id="Layer_1-2"><g><path d="M438.05,137.29l-13.27-55.95h-12.08c-4.19,0-5.98-3.39-5.98-7.17h17.86l13.47-69.59,.44-2.29,.44-2.29h-49.44l-.32,2.29-9.84,69.67h-2.99V0h-47.44V158.68h47.44V82.33h2.99l14.35,76.34h49.44l-5.07-21.39Z"/><path d="M71.77,0H0V158.68H71.77c16.14,0,29.5-13.36,29.5-29.5V29.51c0-16.15-13.36-29.51-29.5-29.51Zm-17.55,119.61c0,3.78-3.59,5.78-6.97,5.78V29.51c3.38,0,6.97,1.99,6.97,5.97V119.61Z"/><path d="M163.32,114.42c0,4.59-3.39,5.98-7.18,5.98V0h-46.84V128.98c0,17.94,17.55,29.7,34.89,29.7h37.84c15.65,0,28.33-12.68,28.33-28.33V0h-47.04V114.42Z"/><polygon points="275.98 68.98 272.99 68.98 263.25 0 218.39 0 218.39 158.68 262.52 158.68 262.52 89.82 265.51 89.82 275.24 158.68 320.86 158.68 320.86 0 275.98 0 275.98 68.98"/></g></g></svg></a>
       <nav class="nav__links" aria-label="Primary">
         <a class="nav__link" href="#services">What We Do</a>
-        <a class="nav__link" href="#about">Who We Are</a>
+        <a class="nav__link" href="#who-we-work-with">Who We Work With</a>
         <a class="nav__link" href="#results">Case Studies</a>
         <a class="nav__link" href="#reviews">Reviews</a>
         <a class="nav__link" href="#faqs">FAQs</a>
@@ -796,6 +835,48 @@ a{color:inherit;text-decoration:none}
           </span>
         </p>
         <a class="tlink greview__link" href="#reviews">Read the reviews <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ who we work with ══════════════════════════════════════════════════ -->
+<section class="band band--paper clients" id="who-we-work-with">
+  <div class="wrap">
+    <div class="clients__head rv">
+      <div>
+        <p class="slash">Who we work with</p>
+        <h2 class="h2">The businesses we work best with.</h2>
+      </div>
+      <p class="clients__intro">We work with Australian small businesses that are ready to spend
+      properly on marketing but can&rsquo;t justify a big-agency retainer &mdash; and don&rsquo;t want the
+      layers that come with one. If you want one team handling search, paid and the pages
+      in between, that&rsquo;s us.</p>
+    </div>
+    <div class="clients__grid rv">
+      <div class="cli">
+        <span class="cli__tick" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.4 6.2 11.6 13 4.8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Owners who&rsquo;ve been burned before</h3><p>You&rsquo;ve paid an agency, sat through the reports, and still couldn&rsquo;t say whether it worked. You want someone who shows you the numbers and explains them in plain English.</p></div>
+      </div>
+      <div class="cli">
+        <span class="cli__tick" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.4 6.2 11.6 13 4.8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Small businesses ready to scale</h3><p>The business already works. You need more of the right customers coming through the door consistently, without guessing which month will be quiet.</p></div>
+      </div>
+      <div class="cli">
+        <span class="cli__tick" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.4 6.2 11.6 13 4.8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Businesses that don&rsquo;t know where to start</h3><p>You know you need marketing. You don&rsquo;t know whether that means Google, Meta, SEO or all three. We work that out first and tell you why.</p></div>
+      </div>
+      <div class="cli">
+        <span class="cli__tick" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.4 6.2 11.6 13 4.8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Owners doing it themselves</h3><p>You&rsquo;ve been running your own ads between jobs. It works just enough to be frustrating, and you&rsquo;d rather hand it to someone who does this every day.</p></div>
+      </div>
+      <div class="cli">
+        <span class="cli__tick" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.4 6.2 11.6 13 4.8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Trades, retail and service businesses</h3><p>Local service businesses, eCommerce brands and B2B operators who measure marketing in enquiries and sales, not brand awards.</p></div>
+      </div>
+      <div class="cli">
+        <span class="cli__tick" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.4 6.2 11.6 13 4.8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>Businesses without a marketing team</h3><p>No internal marketer, no time to become one. We act as the marketing department you don&rsquo;t have, at a fraction of the cost of hiring one.</p></div>
       </div>
     </div>
   </div>
@@ -998,6 +1079,34 @@ a{color:inherit;text-decoration:none}
         </a>
       </div>
     </article>
+  </div>
+</section>
+
+<!-- ══ how we work ═══════════════════════════════════════════════════════ -->
+<section class="band hww" id="how-we-work">
+  <div class="wrap">
+    <div class="hww__head rv">
+      <p class="slash">How we work</p>
+      <h2 class="h2 hww__h">How we work with you.</h2>
+    </div>
+    <div class="hww__rows rv">
+      <div class="hww__row">
+        <h3>We start with your business, not a brief</h3>
+        <p>Before anything goes live we work out what you sell, who buys it, what a customer is actually worth and where the money is currently leaking. The plan comes out of that, not off a template.</p>
+      </div>
+      <div class="hww__row">
+        <h3>You work directly with the person doing the work</h3>
+        <p>No account manager relaying questions to someone you never meet. The senior strategist who builds your plan is the one running your campaigns and answering your emails.</p>
+      </div>
+      <div class="hww__row">
+        <h3>We report on revenue, not activity</h3>
+        <p>Enquiries, cost per enquiry and sales &mdash; plus what we changed and what it produced. Short enough that you&rsquo;ll actually read it, honest enough to tell you when something didn&rsquo;t work.</p>
+      </div>
+      <div class="hww__row">
+        <h3>We&rsquo;re built for the long game</h3>
+        <p>No lock-in contracts, but clients stay for years because the work compounds. Campaigns get cheaper to run and rankings get harder to shift the longer we&rsquo;re at it.</p>
+      </div>
+    </div>
   </div>
 </section>
 
