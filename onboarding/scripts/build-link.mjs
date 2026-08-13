@@ -18,7 +18,7 @@ const PARAMS = new Set([
   'adphone', 'inbox', 'loc', 'budget', 'start', 'services', 'exclude',
   'jobvalue', 'winrate', 'capacity',
   'products', 'catex', 'aov', 'shipping',
-  'diff', 'hesitate', 'terms', 'negatives', 'offers', 'season',
+  'diff', 'hesitate', 'terms', 'offers', 'season',
   'volume', 'cpl', 'handling', 'badlead',
   'cid', 'platform', 'notes',
   'type', 'ads',
