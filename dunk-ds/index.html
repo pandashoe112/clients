@@ -1,0 +1,518 @@
+<title>DUNK Design System</title>
+<meta name="description" content="Brand book and component library for DUNK — tokens, type, components and the rules that keep them consistent.">
+<link rel="stylesheet" href="dunk-fonts.css">
+<link rel="stylesheet" href="dunk.css">
+<style>
+/* ── documentation chrome only — not part of the system ───────────────── */
+body{margin:0}
+.doc{display:grid;grid-template-columns:1fr;background:var(--dk-ink)}
+@media(min-width:1040px){.doc{grid-template-columns:236px 1fr}}
+.doc__nav{
+  position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto;
+  padding:34px 26px;border-right:var(--dk-rule);display:none;
+}
+@media(min-width:1040px){.doc__nav{display:block}}
+.doc__nav h4{font-weight:800;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dk-on-dark-mute);margin:26px 0 10px}
+.doc__nav h4:first-child{margin-top:0}
+.doc__nav a{display:block;padding:7px 0;font-size:14px;color:var(--dk-on-dark-soft)}
+.doc__nav a:hover{color:var(--dk-signal)}
+.doc__main{min-width:0}
+.sec{min-width:0;padding:clamp(40px,4.6vw,68px) clamp(22px,3.4vw,56px);border-bottom:var(--dk-rule)}
+.sec>h2{font-family:var(--dk-display);font-weight:700;font-size:clamp(24px,2.6vw,34px);letter-spacing:-.018em;margin:0 0 8px}
+.sec>p.note{margin:0 0 30px;max-width:70ch;font-size:15px;line-height:1.65;color:var(--dk-on-dark-soft)}
+.demo{min-width:0;background:var(--dk-ink-3);border:var(--dk-rule);border-radius:var(--dk-r-lg);padding:clamp(22px,2.6vw,36px);margin-bottom:14px}
+.demo--light{background:var(--dk-paper);color:var(--dk-on-paper);border-color:rgba(22,22,38,.12)}
+.demo--mist{background:var(--dk-mist);color:var(--dk-on-paper);border-color:rgba(22,22,38,.12)}
+.demo--violet{background:linear-gradient(162deg,#2A0A5E,#4C1D95 74%,#5B21B6);border-color:rgba(255,255,255,.14)}
+.row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;overflow-wrap:anywhere;
+  background:rgba(255,255,255,.08);color:var(--dk-lav);padding:2px 7px;border-radius:6px}
+.demo--light code,.demo--mist code{background:rgba(22,22,38,.07);color:var(--dk-violet)}
+.sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(146px,1fr));gap:14px}
+.sw>div{border-radius:14px;overflow:hidden;border:var(--dk-rule)}
+.sw i{display:block;height:74px}
+.sw b{display:block;padding:10px 12px 3px;font-size:13px;font-weight:800}
+.sw small{display:block;padding:0 12px 12px;font-size:11.5px;color:var(--dk-on-dark-mute);font-family:ui-monospace,monospace}
+.rules{margin:0;padding:0;list-style:none;display:grid;gap:11px;max-width:min(78ch,100%)}
+.rules li{display:flex;gap:12px;font-size:15px;line-height:1.6;color:var(--dk-on-dark-soft);min-width:0;overflow-wrap:anywhere}
+.rules li::before{content:"";flex:none;width:16px;height:16px;margin-top:4px;border-radius:5px;background:var(--dk-signal)}
+.rules li.no::before{background:#EF4444}
+.rules li b{color:#fff;font-weight:700}
+.grid3{display:grid;gap:16px}
+@media(min-width:760px){.grid3{grid-template-columns:repeat(3,1fr)}}
+.scale{display:grid;gap:18px}
+.scale div{display:flex;gap:20px;align-items:baseline;flex-wrap:wrap;min-width:0}
+.scale div>*{min-width:0;max-width:100%;overflow-wrap:anywhere}
+.scale span{flex:none;width:78px;font-size:11.5px;font-family:ui-monospace,monospace;color:var(--dk-on-dark-mute)}
+</style>
+
+<body class="dk">
+<div class="doc">
+
+  <nav class="doc__nav">
+    <h4>Brand</h4>
+    <a href="#colour">Colour</a>
+    <a href="#type">Typography</a>
+    <a href="#voice">Voice &amp; copy rules</a>
+    <a href="#marks">Brand marks</a>
+    <a href="#rhythm">Layout &amp; rhythm</a>
+    <h4>Components</h4>
+    <a href="#eyebrow">Eyebrow</a>
+    <a href="#buttons">Buttons</a>
+    <a href="#pills">Pills &amp; tags</a>
+    <a href="#cards">Cards</a>
+    <a href="#photocard">Photo card</a>
+    <a href="#stats">Stat row</a>
+    <a href="#rows">Numbered rows</a>
+    <a href="#faq">Accordion</a>
+    <a href="#ticker">Ticker &amp; rails</a>
+    <a href="#forms">Forms</a>
+    <a href="#avatars">Avatars</a>
+    <h4>Build</h4>
+    <a href="#motion">Motion</a>
+    <a href="#start">Getting started</a>
+  </nav>
+
+  <main class="doc__main">
+
+    <!-- ── intro ─────────────────────────────────────────────────────── -->
+    <section class="sec">
+      <span class="dk-eyebrow">Design system v1.0</span>
+      <h2 class="dk-h2" style="margin-bottom:16px">DUNK brand book &amp; component library.</h2>
+      <p class="dk-lead">Two files, no dependencies, no build step. <code>dunk-fonts.css</code> carries
+      the embedded brand faces; <code>dunk.css</code> carries the tokens and every component below.
+      Drop both into any project and the classes work.</p>
+    </section>
+
+    <!-- ── colour ────────────────────────────────────────────────────── -->
+    <section class="sec" id="colour">
+      <h2>Colour</h2>
+      <p class="note">Violet is the brand. Lime is a <em>signal</em> — it marks the thing you want
+      clicked or read, never a decoration. Pale lime is the quieter version used for eyebrows,
+      highlighter and the ticker. Gold appears only in star ratings.</p>
+
+      <div class="demo">
+        <div class="sw">
+          <div><i style="background:#6D28D9"></i><b>Violet</b><small>--dk-violet · #6D28D9</small></div>
+          <div><i style="background:#8B5CF6"></i><b>Violet light</b><small>--dk-violet-2 · #8B5CF6</small></div>
+          <div><i style="background:#4C1D95"></i><b>Violet deep</b><small>--dk-violet-deep · #4C1D95</small></div>
+          <div><i style="background:#2A0A5E"></i><b>Violet ink</b><small>--dk-violet-ink · #2A0A5E</small></div>
+          <div><i style="background:#D7F24C"></i><b>Signal</b><small>--dk-signal · #D7F24C</small></div>
+          <div><i style="background:#F3F8A6"></i><b>Wash</b><small>--dk-wash · #F3F8A6</small></div>
+          <div><i style="background:#F9CE34"></i><b>Gold</b><small>--dk-gold · #F9CE34</small></div>
+          <div><i style="background:#C4B5FD"></i><b>Lavender</b><small>--dk-lav · #C4B5FD</small></div>
+        </div>
+      </div>
+
+      <p class="note" style="margin:22px 0 14px"><b style="color:#fff">Grounds.</b> Alternate these so no two
+      adjacent sections share one — it's the single easiest way to keep a long page legible.</p>
+      <div class="demo">
+        <div class="sw">
+          <div><i style="background:#150A2E"></i><b>Ink</b><small>--dk-ink · #150A2E</small></div>
+          <div><i style="background:#1D0F3E"></i><b>Ink raised</b><small>--dk-ink-2 · #1D0F3E</small></div>
+          <div><i style="background:#120726"></i><b>Ink deep</b><small>--dk-ink-3 · #120726</small></div>
+          <div><i style="background:#F6F6F9"></i><b>Paper</b><small>--dk-paper · #F6F6F9</small></div>
+          <div><i style="background:#ECEBF3"></i><b>Paper raised</b><small>--dk-paper-2 · #ECEBF3</small></div>
+          <div><i style="background:#E7EAF3"></i><b>Mist</b><small>--dk-mist · #E7EAF3</small></div>
+        </div>
+      </div>
+
+      <ul class="rules" style="margin-top:24px">
+        <li><b>Do</b> use lime for the primary action, live figures and the ticker.</li>
+        <li class="no"><b>Don't</b> use lime for body copy, large fills or backgrounds behind text.</li>
+        <li class="no"><b>Don't</b> put two sections with the same ground next to each other.</li>
+      </ul>
+    </section>
+
+    <!-- ── type ──────────────────────────────────────────────────────── -->
+    <section class="sec" id="type">
+      <h2>Typography</h2>
+      <p class="note"><b style="color:#fff">Sahar</b> for headings, big numbers and the wordmark.
+      <b style="color:#fff">Manrope</b> for body, labels, buttons and eyebrows. There is no third
+      face — no mono anywhere.</p>
+
+      <div class="demo">
+        <div class="scale">
+          <div><span>dk-h1</span><span class="dk-h1" style="width:auto;font-size:clamp(30px,3.4vw,50px)">Marketing you don't have to manage.</span></div>
+          <div><span>dk-h2</span><span class="dk-h2" style="width:auto;margin:0;font-size:clamp(26px,3vw,42px)">Section heading</span></div>
+          <div><span>dk-h3</span><span class="dk-h3" style="width:auto;margin:0">Card or row heading</span></div>
+          <div><span>dk-lead</span><p class="dk-lead" style="margin:0">Section intro — one or two sentences, capped around 54 characters per line.</p></div>
+          <div><span>dk-body</span><p class="dk-body" style="margin:0;max-width:52ch">Body copy sits at 15px with 1.62 line height. Keep paragraphs under three lines; long blocks don't get read.</p></div>
+        </div>
+      </div>
+
+      <div class="demo demo--light">
+        <p class="dk-h3" style="margin:0 0 6px">Accent devices</p>
+        <p class="dk-body" style="margin:0 0 20px">Two ways to lift a phrase. Use one per section, never both.</p>
+        <p class="dk-h2 is-lit" style="margin:0;font-size:clamp(22px,2.4vw,32px);color:var(--dk-on-paper)">
+          A heading with <em class="dk-em" style="color:var(--dk-violet)">an accent word</em>, or a
+          <span class="dk-mark">highlighted phrase</span> inside it.</p>
+        <p style="margin:16px 0 0"><code>.dk-em</code> <code>.dk-mark</code> + <code>.is-lit</code></p>
+      </div>
+    </section>
+
+    <!-- ── voice ─────────────────────────────────────────────────────── -->
+    <section class="sec" id="voice">
+      <h2>Voice &amp; copy rules</h2>
+      <p class="note">These are non-negotiable — they're what keeps the brand sounding like a
+      business rather than an agency brochure.</p>
+      <ul class="rules">
+        <li><b>Headings are objective and literal.</b> A heading says what the section is:
+          "Our digital marketing services", "Client results", "What are you looking to achieve?"</li>
+        <li class="no"><b>No wordplay headings.</b> "Four services. One system." / "The proof's in the
+          pipeline." — these get rejected every time.</li>
+        <li><b>The descriptive line is the heading.</b> The eyebrow is the boring category label
+          above it ("Get started", "Services", "Results"). Never swap them.</li>
+        <li><b>Use the client's exact words</b> when they supply headings, labels or list items.
+          Don't rewrite them into something punchier.</li>
+        <li><b>Plain over clever.</b> Short declaratives. No jargon, no filler, no reach reports.</li>
+        <li><b>Every claim must be defensible.</b> If a number can't be backed, cut it rather than
+          soften it.</li>
+      </ul>
+    </section>
+
+    <!-- ── marks ─────────────────────────────────────────────────────── -->
+    <section class="sec" id="marks">
+      <h2>Brand marks</h2>
+      <p class="note">Three geometric marks, always in lime or pale lime, always breaking a
+      container corner. One or two per section — they lose their charm in a crowd.</p>
+      <div class="demo" style="display:flex;gap:clamp(30px,6vw,80px);flex-wrap:wrap;align-items:center;padding-block:44px">
+        <div style="text-align:center">
+          <svg viewBox="0 0 100 100" style="width:74px"><g fill="#D7F24C">
+            <rect x="0" y="0" width="25" height="25"/><rect x="50" y="0" width="25" height="25"/>
+            <rect x="25" y="25" width="25" height="25"/><rect x="75" y="25" width="25" height="25"/>
+            <rect x="0" y="50" width="25" height="25"/><rect x="50" y="50" width="25" height="25"/>
+            <rect x="25" y="75" width="25" height="25"/></g></svg>
+          <p style="margin:14px 0 0;font-size:12.5px;color:var(--dk-on-dark-mute)">Pixel</p>
+        </div>
+        <div style="text-align:center">
+          <svg viewBox="0 0 100 100" style="width:74px" fill="none" stroke="#D7F24C" stroke-width="5" stroke-linecap="round">
+            <path d="M50 8v84M8 50h84M20.5 20.5l59 59M79.5 20.5l-59 59"/></svg>
+          <p style="margin:14px 0 0;font-size:12.5px;color:var(--dk-on-dark-mute)">Asterisk</p>
+        </div>
+        <div style="text-align:center">
+          <svg viewBox="0 0 100 100" style="width:74px" fill="none" stroke="#D7F24C" stroke-width="19" stroke-linecap="butt">
+            <path d="M20 80 76 24"/><path d="M44 18h38v38"/></svg>
+          <p style="margin:14px 0 0;font-size:12.5px;color:var(--dk-on-dark-mute)">Arrow</p>
+        </div>
+      </div>
+      <p style="margin:0"><code>.dk-mark-glitch</code> <code>.dk-mark-star</code> <code>.dk-mark-arrow</code>
+        + a corner: <code>.dk-tl</code> <code>.dk-tr</code> <code>.dk-br</code> <code>.dk-bl</code>
+        — on a <code>position:relative</code> parent.</p>
+    </section>
+
+    <!-- ── rhythm ────────────────────────────────────────────────────── -->
+    <section class="sec" id="rhythm">
+      <h2>Layout &amp; rhythm</h2>
+      <p class="note">One container, one section padding, one gutter. Everything else is a grid
+      inside <code>.dk-wrap</code>.</p>
+      <ul class="rules">
+        <li><b>Max width 1280px</b> — <code>--dk-max</code>, applied by <code>.dk-wrap</code>.</li>
+        <li><b>Gutter</b> <code>clamp(20px, 5vw, 72px)</code> — never a fixed value.</li>
+        <li><b>Section padding</b> <code>clamp(84px, 10.5vw, 152px)</code> via <code>.dk-band</code>.</li>
+        <li><b>Every size scales with clamp().</b> No breakpoint-only font sizes.</li>
+        <li><b>Wide content scrolls inside itself</b> — the page body never scrolls sideways.</li>
+      </ul>
+    </section>
+
+    <!-- ── eyebrow ───────────────────────────────────────────────────── -->
+    <section class="sec" id="eyebrow">
+      <h2>Eyebrow</h2>
+      <p class="note">A pale-lime pill in Manrope 800. It labels the section; it never carries the
+      idea.</p>
+      <div class="demo"><span class="dk-eyebrow" style="margin:0">Client results</span></div>
+      <div class="demo demo--light"><span class="dk-eyebrow" style="margin:0">Get started</span></div>
+      <p style="margin:0"><code>.dk-eyebrow</code></p>
+    </section>
+
+    <!-- ── buttons ───────────────────────────────────────────────────── -->
+    <section class="sec" id="buttons">
+      <h2>Buttons</h2>
+      <p class="note">One primary action per section. The circular arrow rotates 45° on hover — it's
+      the system's signature interaction, so keep it.</p>
+      <div class="demo">
+        <div class="row">
+          <a class="dk-btn dk-btn--signal" href="#">Book a free call
+            <i><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a>
+          <a class="dk-btn dk-btn--violet" href="#">Secondary action
+            <i><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a>
+          <a class="dk-btn dk-btn--outline" href="#">See all case studies
+            <svg width="13" height="13" viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="demo demo--light">
+        <div class="row">
+          <a class="dk-btn dk-btn--block" href="#">Get your quote <span>&rarr;</span></a>
+          <a class="dk-link" href="#" style="color:var(--dk-on-paper)">Explore SEO <span>&rarr;</span></a>
+        </div>
+      </div>
+      <p style="margin:0"><code>.dk-btn</code> + <code>--signal</code> <code>--violet</code>
+        <code>--outline</code> <code>--block</code>, and <code>.dk-link</code></p>
+    </section>
+
+    <!-- ── pills ─────────────────────────────────────────────────────── -->
+    <section class="sec" id="pills">
+      <h2>Pills &amp; tags</h2>
+      <div class="demo">
+        <div class="row">
+          <span class="dk-pill">01 <i style="opacity:.5;font-style:normal">/</i> Leads</span>
+          <span class="dk-pill dk-pill--dark">Quick turnaround</span>
+          <span class="dk-pill dk-pill--ghost">Google Partner</span>
+        </div>
+        <ul class="dk-tags" style="margin-top:18px">
+          <li>Google Ads</li><li>Lead generation</li><li>Conversion tracking</li>
+        </ul>
+      </div>
+      <p style="margin:0"><code>.dk-pill</code> <code>--dark</code> <code>--ghost</code> · <code>.dk-tags</code></p>
+    </section>
+
+    <!-- ── cards ─────────────────────────────────────────────────────── -->
+    <section class="sec" id="cards">
+      <h2>Cards</h2>
+      <div class="demo demo--light">
+        <div class="grid3">
+          <div class="dk-card">
+            <h3 class="dk-h3">Light card</h3>
+            <p class="dk-body" style="margin:0">Lifts 5px and picks up a violet border on hover.</p>
+          </div>
+          <div class="dk-card">
+            <h3 class="dk-h3">Consistent radius</h3>
+            <p class="dk-body" style="margin:0">24px on cards, 18px on inner panels, pill on actions.</p>
+          </div>
+          <div class="dk-card">
+            <h3 class="dk-h3">One shadow</h3>
+            <p class="dk-body" style="margin:0">Wide, soft, low-opacity. Never a hard drop shadow.</p>
+          </div>
+        </div>
+      </div>
+      <div class="demo">
+        <div class="grid3">
+          <div class="dk-card dk-card--dark"><h3 class="dk-h3">Dark card</h3><p class="dk-body" style="margin:0">Same shape, lime border on hover.</p></div>
+          <div class="dk-card dk-card--dark"><h3 class="dk-h3">Use on ink</h3><p class="dk-body" style="margin:0">For proof, metrics and results.</p></div>
+          <div class="dk-card dk-card--dark"><h3 class="dk-h3">Keep it quiet</h3><p class="dk-body" style="margin:0">One accent per card, at most.</p></div>
+        </div>
+      </div>
+      <p style="margin:0"><code>.dk-card</code> <code>.dk-card--dark</code></p>
+    </section>
+
+    <!-- ── photo card ────────────────────────────────────────────────── -->
+    <section class="sec" id="photocard">
+      <h2>Photo card</h2>
+      <p class="note">The workhorse. Full-bleed photo, pills floating over its lower edge, white
+      panel anchoring the content. Keep the panel copy to one short line so the image still reads.</p>
+      <div class="demo demo--light">
+        <div class="grid3">
+          <a class="dk-photocard" href="#" style="min-height:340px">
+            <span style="position:absolute;inset:0;z-index:-1;background:linear-gradient(160deg,#6D28D9,#2A0A5E)"></span>
+            <span class="dk-photocard__pills">
+              <span class="dk-pill">01 <i style="opacity:.5;font-style:normal">/</i> Leads</span>
+              <span class="dk-pill dk-pill--dark">Quick turnaround</span>
+            </span>
+            <span class="dk-photocard__panel">
+              <span class="dk-h3" style="font-size:19px;margin-bottom:10px">I'm looking to generate leads</span>
+              <span style="font-size:14px;line-height:1.55;color:var(--dk-on-paper-soft);margin-bottom:18px">One short line. Never a paragraph.</span>
+              <span class="dk-btn dk-btn--block" style="align-self:flex-start">Get your quote <span>&rarr;</span></span>
+            </span>
+          </a>
+          <div class="dk-frame" style="align-self:start">
+            <div style="width:100%;aspect-ratio:5/4;border-radius:var(--dk-r-lg);background:linear-gradient(150deg,#8B5CF6,#2A0A5E)"></div>
+            <svg class="dk-mark-glitch dk-tl" viewBox="0 0 100 100"><g fill="#D7F24C">
+              <rect x="0" y="0" width="25" height="25"/><rect x="50" y="0" width="25" height="25"/>
+              <rect x="25" y="25" width="25" height="25"/><rect x="75" y="25" width="25" height="25"/>
+              <rect x="0" y="50" width="25" height="25"/><rect x="50" y="50" width="25" height="25"/>
+              <rect x="25" y="75" width="25" height="25"/></g></svg>
+            <p class="dk-body" style="margin:18px 0 0">Framed photo with a corner mark.</p>
+          </div>
+        </div>
+      </div>
+      <p style="margin:0"><code>.dk-photocard</code> <code>__bg</code> <code>__pills</code> <code>__panel</code> · <code>.dk-frame</code></p>
+    </section>
+
+    <!-- ── stats ─────────────────────────────────────────────────────── -->
+    <section class="sec" id="stats">
+      <h2>Stat row</h2>
+      <p class="note">Thin-stroke outline icons, centred, with a generous gap down to the heading.
+      No icon tiles, no fills.</p>
+      <div class="demo demo--mist">
+        <div class="dk-stats">
+          <div class="dk-stat">
+            <span class="dk-stat__ico"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32h28M11 26v-9M20 26V12M29 26v-15"/></svg></span>
+            <h3>10x average return</h3><p>One short supporting line, two lines at most.</p>
+          </div>
+          <div class="dk-stat">
+            <span class="dk-stat__ico"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="14" r="5"/><circle cx="26.5" cy="16.5" r="3.8"/><path d="M6 32c1.1-5.3 4.7-8.2 9-8.2s7.9 2.9 9 8.2"/><path d="M25 23.8c3 .2 5.2 2.5 6 8.2"/></svg></span>
+            <h3>One partner</h3><p>Not four suppliers pointing at each other.</p>
+          </div>
+          <div class="dk-stat">
+            <span class="dk-stat__ico"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="14" r="5.6"/><path d="M8.5 33c1.5-6 5.7-9.4 11.5-9.4S30 27 31.5 33"/></svg></span>
+            <h3>Senior people</h3><p>The person who plans it is the one who runs it.</p>
+          </div>
+          <div class="dk-stat">
+            <span class="dk-stat__ico"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="18" width="22" height="15" rx="4.5"/><path d="M14 18v-4.5A6 6 0 0 1 26 12.4"/><circle cx="20" cy="25.5" r="1.9"/></svg></span>
+            <h3>No lock-in</h3><p>Month to month. Clients stay because it works.</p>
+          </div>
+        </div>
+      </div>
+      <p style="margin:0"><code>.dk-stats</code> <code>.dk-stat</code> <code>.dk-stat__ico</code></p>
+    </section>
+
+    <!-- ── rows ──────────────────────────────────────────────────────── -->
+    <section class="sec" id="rows">
+      <h2>Numbered rows</h2>
+      <p class="note">For a process or an argument. The number tile rotates on hover. Works on
+      either ground.</p>
+      <div class="demo demo--light">
+        <div class="dk-rows">
+          <div class="dk-row"><span class="dk-row__n">1</span><div><h3>We look at your business first</h3><p>Plain-English step description, one or two lines.</p></div></div>
+          <div class="dk-row"><span class="dk-row__n">2</span><div><h3>We tell you what we'd do</h3><p>Which channels, what it costs, what to expect.</p></div></div>
+          <div class="dk-row"><span class="dk-row__n">3</span><div><h3>We build it and run it</h3><p>Managed by the person who wrote the plan.</p></div></div>
+        </div>
+      </div>
+      <p style="margin:0"><code>.dk-rows</code> <code>.dk-row</code> <code>.dk-row__n</code></p>
+    </section>
+
+    <!-- ── faq ───────────────────────────────────────────────────────── -->
+    <section class="sec" id="faq">
+      <h2>Accordion</h2>
+      <p class="note">Native <code>&lt;details&gt;</code> — no JavaScript, keyboard accessible by
+      default.</p>
+      <div class="demo demo--light">
+        <div style="display:grid;gap:12px">
+          <details class="dk-faq" open><summary><span>How long does this take?</span><i></i></summary><p>Answer copy sits at 15.5px over a comfortable measure, capped around 74 characters.</p></details>
+          <details class="dk-faq"><summary><span>Do you work with existing accounts?</span><i></i></summary><p>Almost always, yes.</p></details>
+        </div>
+      </div>
+      <p style="margin:0"><code>.dk-faq</code></p>
+    </section>
+
+    <!-- ── ticker ────────────────────────────────────────────────────── -->
+    <section class="sec" id="ticker">
+      <h2>Ticker &amp; rails</h2>
+      <p class="note">Slim marquee in Sahar. Duplicate the track contents so the loop is seamless.
+      Both pause under reduced motion; rails also pause on hover and focus.</p>
+      <div class="demo" style="padding:0;overflow:hidden">
+        <div class="dk-ticker">
+          <div class="dk-ticker__track">
+            <span><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L1.6 7.7l5.8-.8z"/></svg>4.9 Google Rating</span>
+            <span><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.7c3.3 0 6 2.6 6 5.9 0 4.2-6 10.7-6 10.7S4 11.8 4 7.6c0-3.3 2.7-5.9 6-5.9z"/></svg>Melbourne Based</span>
+            <span><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L1.6 7.7l5.8-.8z"/></svg>300+ Businesses Helped</span>
+            <span><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.7c3.3 0 6 2.6 6 5.9 0 4.2-6 10.7-6 10.7S4 11.8 4 7.6c0-3.3 2.7-5.9 6-5.9z"/></svg>Dedicated Strategists</span>
+            <span><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L1.6 7.7l5.8-.8z"/></svg>4.9 Google Rating</span>
+            <span><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.7c3.3 0 6 2.6 6 5.9 0 4.2-6 10.7-6 10.7S4 11.8 4 7.6c0-3.3 2.7-5.9 6-5.9z"/></svg>Melbourne Based</span>
+            <span><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L1.6 7.7l5.8-.8z"/></svg>300+ Businesses Helped</span>
+            <span><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.7c3.3 0 6 2.6 6 5.9 0 4.2-6 10.7-6 10.7S4 11.8 4 7.6c0-3.3 2.7-5.9 6-5.9z"/></svg>Dedicated Strategists</span>
+          </div>
+        </div>
+      </div>
+      <p style="margin:0"><code>.dk-ticker</code> · <code>.dk-rail</code> <code>.dk-rail--rev</code></p>
+    </section>
+
+    <!-- ── forms ─────────────────────────────────────────────────────── -->
+    <section class="sec" id="forms">
+      <h2>Forms</h2>
+      <p class="note">Designed for a violet or dark ground. Wrap in <code>.dk-panel</code> to give
+      the form its own container.</p>
+      <div class="demo demo--violet">
+        <div class="dk-panel">
+          <form class="dk-form" onsubmit="return false">
+            <div class="dk-form__row">
+              <label>Name<input type="text"></label>
+              <label>Company<input type="text"></label>
+            </div>
+            <label>What are you looking to achieve?
+              <select><option>Choose one…</option><option>Generate leads</option><option>Build awareness</option></select>
+            </label>
+            <label>Anything else?<textarea rows="2"></textarea></label>
+            <button class="dk-btn dk-btn--signal" style="justify-self:start" type="submit">Send enquiry
+              <i><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i></button>
+          </form>
+        </div>
+      </div>
+      <p style="margin:0"><code>.dk-form</code> <code>.dk-form__row</code> <code>.dk-panel</code></p>
+    </section>
+
+    <!-- ── avatars ───────────────────────────────────────────────────── -->
+    <section class="sec" id="avatars">
+      <h2>Avatar cluster</h2>
+      <div class="demo">
+        <div class="row">
+          <span class="dk-avatars">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%236D28D9'/%3E%3C/svg%3E" alt="">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%238B5CF6'/%3E%3C/svg%3E" alt="">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23C4B5FD'/%3E%3C/svg%3E" alt="">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%234C1D95'/%3E%3C/svg%3E" alt="">
+          </span>
+          <b style="font-size:14.5px">An expert team based in Melbourne</b>
+        </div>
+      </div>
+      <p style="margin:0"><code>.dk-avatars</code></p>
+    </section>
+
+    <!-- ── motion ────────────────────────────────────────────────────── -->
+    <section class="sec" id="motion">
+      <h2>Motion</h2>
+      <p class="note">One curve, three durations. Motion confirms an action or reveals content —
+      it never decorates.</p>
+      <ul class="rules">
+        <li><b>Curve</b> <code>cubic-bezier(.2,.7,.3,1)</code> for everything.</li>
+        <li><b>Durations</b> <code>.22s</code> hover · <code>.3s</code> cards · <code>.6s</code> images and reveals.</li>
+        <li><b>Hover lift</b> is <code>translateY(-5px)</code> on cards, <code>-2px</code> on buttons. Never more.</li>
+        <li><b>Reveals</b> — add <code>.dk-rv</code>, toggle <code>.is-in</code> with an IntersectionObserver.</li>
+        <li><b>Reduced motion is honoured globally</b> — the system disables animation and shows
+          revealed states immediately.</li>
+      </ul>
+      <div class="demo" style="margin-top:20px">
+        <pre style="margin:0;overflow:auto"><code style="display:block;padding:16px;line-height:1.7">const io = new IntersectionObserver(es =&gt; es.forEach(e =&gt; {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('is-in');
+  io.unobserve(e.target);
+}), { rootMargin: '0px 0px -10% 0px', threshold: .12 });
+document.querySelectorAll('.dk-rv').forEach(el =&gt; io.observe(el));</code></pre>
+      </div>
+    </section>
+
+    <!-- ── start ─────────────────────────────────────────────────────── -->
+    <section class="sec" id="start" style="border-bottom:0">
+      <h2>Getting started</h2>
+      <div class="demo">
+        <pre style="margin:0;overflow:auto"><code style="display:block;padding:16px;line-height:1.7">&lt;link rel="stylesheet" href="dunk-fonts.css"&gt;
+&lt;link rel="stylesheet" href="dunk.css"&gt;
+
+&lt;body class="dk"&gt;
+  &lt;section class="dk-band dk-paper"&gt;
+    &lt;div class="dk-wrap"&gt;
+      &lt;p class="dk-eyebrow"&gt;Services&lt;/p&gt;
+      &lt;h2 class="dk-h2"&gt;Our digital marketing services.&lt;/h2&gt;
+      &lt;p class="dk-lead"&gt;One or two sentences.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/body&gt;</code></pre>
+      </div>
+      <ul class="rules" style="margin-top:22px">
+        <li><b><code>.dk</code> on the body</b> sets the base font, colour and ground.</li>
+        <li><b>Section = <code>.dk-band</code> + a ground class</b>, content inside <code>.dk-wrap</code>.</li>
+        <li><b>Fonts are embedded</b> in <code>dunk-fonts.css</code> — no network request, no FOUT.</li>
+        <li><b>To rebrand</b>, override the tokens in <code>:root</code>. Nothing else needs touching.</li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.dk-rv').forEach(el => el.classList.add('is-in'));
+    return;
+  }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('is-in');
+      io.unobserve(e.target);
+    });
+  },{rootMargin:'0px 0px -10% 0px',threshold:.12});
+  document.querySelectorAll('.dk-rv').forEach(function(el){io.observe(el)});
+})();
+</script>
+</body>

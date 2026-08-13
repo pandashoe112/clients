@@ -1,0 +1,326 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   DUNK Design System — v1.0
+   Pair with dunk-fonts.css (Sahar + Manrope, base64 woff2).
+
+     <link rel="stylesheet" href="dunk-fonts.css">
+     <link rel="stylesheet" href="dunk.css">
+
+   Everything is plain CSS. No build step, no framework, no dependencies.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. TOKENS ────────────────────────────────────────────────────────── */
+:root{
+  /* brand */
+  --dk-violet:#6D28D9;        /* primary        */
+  --dk-violet-2:#8B5CF6;      /* primary light  */
+  --dk-violet-deep:#4C1D95;   /* primary dark   */
+  --dk-violet-ink:#2A0A5E;    /* deepest violet */
+  --dk-lav:#C4B5FD;           /* violet tint    */
+  --dk-signal:#D7F24C;        /* acid lime — CTAs and live data ONLY */
+  --dk-wash:#F3F8A6;          /* pale lime — eyebrows, highlighter, tickers */
+  --dk-gold:#F9CE34;          /* star ratings only */
+
+  /* grounds — alternate these so no two adjacent sections match */
+  --dk-ink:#150A2E;           /* primary dark  */
+  --dk-ink-2:#1D0F3E;         /* raised dark   */
+  --dk-ink-3:#120726;         /* deepest dark  */
+  --dk-paper:#F6F6F9;         /* primary light */
+  --dk-paper-2:#ECEBF3;       /* raised light  */
+  --dk-mist:#E7EAF3;          /* cool light    */
+  --dk-white:#FFFFFF;
+
+  /* text */
+  --dk-on-dark:#FFFFFF;
+  --dk-on-dark-soft:#C7BEE6;
+  --dk-on-dark-mute:#8B84A8;
+  --dk-on-paper:#161626;
+  --dk-on-paper-soft:#55516B;
+
+  /* type */
+  --dk-display:'Sahar',ui-sans-serif,system-ui,sans-serif;  /* headings, numbers, wordmark */
+  --dk-body:'Manrope',ui-sans-serif,system-ui,sans-serif;   /* everything else */
+  /* No third face. Serif is permitted only as a deliberate one-off accent. */
+
+  /* rhythm */
+  --dk-gut:clamp(20px,5vw,72px);      /* page gutter        */
+  --dk-band:clamp(84px,10.5vw,152px); /* section padding-y  */
+  --dk-max:1280px;                    /* content max-width  */
+
+  /* surface */
+  --dk-r-sm:12px; --dk-r-md:18px; --dk-r-lg:24px; --dk-r-pill:999px;
+  --dk-rule:1px solid rgba(199,190,230,.14);   /* on dark  */
+  --dk-rule-paper:1px solid rgba(22,22,38,.12);/* on light */
+  --dk-shadow:0 34px 70px -44px rgba(22,22,38,.45);
+  --dk-shadow-dark:0 40px 84px -46px rgba(0,0,0,.8);
+
+  /* motion — one curve, three durations */
+  --dk-ease:cubic-bezier(.2,.7,.3,1);
+  --dk-fast:.22s; --dk-mid:.3s; --dk-slow:.6s;
+}
+
+/* ── 2. BASE ──────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box}
+button,input,select,textarea{font-family:inherit}
+.dk{
+  margin:0;background:var(--dk-ink);color:var(--dk-on-dark);
+  font-family:var(--dk-body);font-weight:400;
+  font-size:clamp(16px,1.05vw,17px);line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.dk img,.dk svg{max-width:100%;display:block}
+.dk a{color:inherit;text-decoration:none}
+.dk :focus-visible{outline:2px solid var(--dk-signal);outline-offset:3px;border-radius:4px}
+
+/* ── 3. LAYOUT ────────────────────────────────────────────────────────── */
+.dk-wrap{width:100%;max-width:var(--dk-max);margin-inline:auto;padding-inline:var(--dk-gut)}
+.dk-band{padding-block:var(--dk-band)}
+.dk-band--tight{padding-block:calc(var(--dk-band) * .6)}
+
+/* grounds */
+.dk-ink{background:var(--dk-ink);color:var(--dk-on-dark)}
+.dk-ink-3{background:var(--dk-ink-3);color:var(--dk-on-dark)}
+.dk-paper{background:var(--dk-paper);color:var(--dk-on-paper)}
+.dk-paper-2{background:var(--dk-paper-2);color:var(--dk-on-paper)}
+.dk-mist{background:var(--dk-mist);color:var(--dk-on-paper)}
+.dk-white{background:var(--dk-white);color:var(--dk-on-paper)}
+.dk-violet{background:linear-gradient(162deg,var(--dk-violet-ink) 0%,#3F1487 40%,var(--dk-violet-deep) 74%,#5B21B6 100%);color:var(--dk-on-dark)}
+
+/* ── 4. TYPE ──────────────────────────────────────────────────────────── */
+.dk-h1{font-family:var(--dk-display);font-weight:700;font-size:clamp(33px,3.65vw,53px);line-height:1.1;letter-spacing:-.015em;margin:0}
+.dk-h2{font-family:var(--dk-display);font-weight:700;font-size:clamp(35px,5.1vw,68px);line-height:1;letter-spacing:-.018em;margin:0 0 24px}
+.dk-h3{font-family:var(--dk-display);font-weight:700;font-size:clamp(20px,1.95vw,26px);line-height:1.16;letter-spacing:-.014em;margin:0 0 12px}
+.dk-lead{font-size:clamp(16px,1.32vw,19px);line-height:1.6;max-width:54ch;margin:0;color:var(--dk-on-dark-soft)}
+.dk-paper .dk-lead,.dk-white .dk-lead,.dk-mist .dk-lead,.dk-paper-2 .dk-lead{color:var(--dk-on-paper-soft)}
+.dk-body{font-size:15px;line-height:1.62;color:var(--dk-on-dark-soft)}
+.dk-paper .dk-body,.dk-white .dk-body{color:var(--dk-on-paper-soft)}
+/* accent word inside a heading */
+.dk-em{font-style:normal;color:var(--dk-signal)}
+/* highlighter — add .is-lit (e.g. on scroll) to sweep it in */
+.dk-mark{
+  color:#0B0818;background-image:linear-gradient(var(--dk-wash),var(--dk-wash));
+  background-repeat:no-repeat;background-size:0% 100%;
+  padding:.04em .14em;margin-inline:-.14em;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+  transition:background-size .85s cubic-bezier(.6,0,.2,1) .15s;
+}
+.is-lit .dk-mark{background-size:100% 100%}
+
+/* ── 5. EYEBROW ───────────────────────────────────────────────────────── */
+/* Always a plain category label. The descriptive line is the heading. */
+.dk-eyebrow{
+  display:inline-flex;align-items:center;
+  background:var(--dk-wash);color:#141026;
+  font-family:var(--dk-body);font-weight:800;
+  font-size:12.5px;letter-spacing:.11em;text-transform:uppercase;
+  padding:10px 18px;border-radius:var(--dk-r-pill);
+  margin:0 0 clamp(20px,2.2vw,26px);
+}
+
+/* ── 6. BUTTONS ───────────────────────────────────────────────────────── */
+.dk-btn{
+  display:inline-flex;align-items:center;gap:14px;white-space:nowrap;
+  font-family:var(--dk-body);font-weight:800;
+  font-size:14.5px;letter-spacing:.03em;text-transform:uppercase;
+  padding:8px 8px 8px 26px;border:1px solid transparent;border-radius:var(--dk-r-pill);
+  cursor:pointer;transition:transform var(--dk-fast) var(--dk-ease),box-shadow var(--dk-fast),background-color var(--dk-fast),color var(--dk-fast);
+}
+.dk-btn i{ /* circular arrow slot */
+  width:38px;height:38px;border-radius:50%;flex:none;font-style:normal;
+  display:grid;place-items:center;
+  transition:transform var(--dk-fast) var(--dk-ease);
+}
+.dk-btn:hover{transform:translateY(-2px)}
+.dk-btn:hover i{transform:rotate(45deg)}
+
+.dk-btn--signal{background:var(--dk-signal);color:#10091F}
+.dk-btn--signal i{background:#10091F;color:#fff}
+.dk-btn--signal:hover{box-shadow:0 14px 32px -14px rgba(215,242,76,.55)}
+
+.dk-btn--violet{background:linear-gradient(135deg,var(--dk-violet),var(--dk-violet-2));color:#fff}
+.dk-btn--violet i{background:rgba(0,0,0,.28);color:#fff}
+.dk-btn--violet:hover{box-shadow:0 14px 34px -12px rgba(139,92,246,.6)}
+
+.dk-btn--outline{border-color:rgba(255,255,255,.24);color:#fff;padding:14px 24px;gap:9px}
+.dk-btn--outline:hover{background:var(--dk-signal);border-color:var(--dk-signal);color:#10091F}
+
+/* solid rectangular action, used inside photo cards */
+.dk-btn--block{
+  background:var(--dk-on-paper);color:#fff;gap:10px;
+  padding:12px 17px;border-radius:11px;
+  font-size:11.5px;letter-spacing:.06em;
+}
+.dk-btn--block:hover{background:var(--dk-violet)}
+
+/* underlined text link */
+.dk-link{
+  display:inline-flex;align-items:center;gap:9px;
+  font-weight:800;font-size:15px;
+  border-bottom:2px solid var(--dk-signal);padding-bottom:4px;
+}
+.dk-link span{transition:transform var(--dk-fast) var(--dk-ease)}
+.dk-link:hover span{transform:translate(3px,-1px)}
+
+/* ── 7. PILLS + TAGS ──────────────────────────────────────────────────── */
+.dk-pill{
+  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  background:var(--dk-signal);color:#10091F;
+  font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  padding:9px 14px;border-radius:var(--dk-r-pill);
+}
+.dk-pill--dark{background:rgba(11,6,26,.85);color:var(--dk-signal);backdrop-filter:blur(6px)}
+.dk-pill--ghost{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.85)}
+.dk-tags{display:flex;flex-wrap:wrap;gap:7px;margin:0;padding:0;list-style:none}
+.dk-tags li{
+  font-weight:700;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;
+  padding:7px 13px;border-radius:var(--dk-r-pill);
+  background:rgba(215,242,76,.13);color:var(--dk-signal);border:1px solid rgba(215,242,76,.22);
+}
+.dk-paper .dk-tags li,.dk-white .dk-tags li{background:var(--dk-paper-2);color:#4A4660;border-color:transparent}
+
+/* ── 8. BRAND MARKS ───────────────────────────────────────────────────── */
+/* Use sparingly: one or two per section, breaking a container corner. */
+.dk-mark-glitch,.dk-mark-star,.dk-mark-arrow{position:absolute;pointer-events:none;z-index:2}
+.dk-mark-glitch{width:clamp(46px,4.6vw,72px);height:auto}
+.dk-mark-star{width:clamp(52px,5.4vw,82px);height:auto}
+.dk-mark-arrow{width:clamp(56px,5.4vw,80px);height:auto}
+.dk-tl{top:clamp(-26px,-2.2vw,-16px);left:clamp(-16px,-1.6vw,-10px)}
+.dk-tr{top:clamp(-24px,-2.2vw,-16px);right:clamp(-20px,-1.8vw,-12px)}
+.dk-br{bottom:clamp(-26px,-2.2vw,-16px);right:clamp(-12px,-1.2vw,-8px)}
+.dk-bl{bottom:clamp(-26px,-2.2vw,-16px);left:clamp(-16px,-1.6vw,-10px)}
+
+/* ── 9. CARDS ─────────────────────────────────────────────────────────── */
+.dk-card{
+  background:var(--dk-white);border:var(--dk-rule-paper);border-radius:var(--dk-r-lg);
+  padding:clamp(22px,2.4vw,32px);
+  transition:transform var(--dk-mid) var(--dk-ease),box-shadow var(--dk-mid),border-color var(--dk-mid);
+}
+.dk-card:hover{transform:translateY(-5px);box-shadow:var(--dk-shadow);border-color:rgba(109,40,217,.4)}
+.dk-card--dark{background:var(--dk-ink-2);border:var(--dk-rule);color:var(--dk-on-dark)}
+.dk-card--dark:hover{border-color:rgba(215,242,76,.42);box-shadow:var(--dk-shadow-dark)}
+
+/* photo card — image fills, pills float, white panel anchors the bottom */
+.dk-photocard{
+  position:relative;isolation:isolate;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  min-height:clamp(430px,44vw,560px);padding:clamp(14px,1.5vw,18px);
+  border-radius:var(--dk-r-lg);border:1.5px solid var(--dk-on-paper);
+  transition:transform var(--dk-mid) var(--dk-ease),box-shadow var(--dk-mid);
+}
+.dk-photocard:hover{transform:translateY(-6px);box-shadow:0 32px 62px -34px rgba(22,22,38,.5)}
+.dk-photocard__bg{position:absolute;inset:0;z-index:-1;width:100%;height:100%;object-fit:cover;transition:transform var(--dk-slow) var(--dk-ease)}
+.dk-photocard:hover .dk-photocard__bg{transform:scale(1.05)}
+.dk-photocard__pills{display:flex;flex-wrap:nowrap;gap:7px;align-items:center;margin:0 0 -17px 8px;position:relative;z-index:2}
+.dk-photocard__panel{background:#fff;border-radius:var(--dk-r-md);padding:clamp(18px,1.9vw,23px);display:flex;flex-direction:column;color:var(--dk-on-paper)}
+
+/* framed photo with a mark on the corner */
+.dk-frame{position:relative}
+.dk-frame img{width:100%;object-fit:cover;border-radius:var(--dk-r-lg);box-shadow:var(--dk-shadow)}
+
+/* ── 10. STAT ITEM ────────────────────────────────────────────────────── */
+/* Thin-stroke outline icon, centred, generous gap. No icon tiles. */
+.dk-stats{display:grid;gap:clamp(34px,3.6vw,52px)}
+@media(min-width:620px){.dk-stats{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.dk-stats{grid-template-columns:repeat(4,1fr)}}
+.dk-stat{text-align:center;display:flex;flex-direction:column;align-items:center}
+.dk-stat__ico{display:block;margin-bottom:clamp(22px,2.4vw,30px);color:currentColor}
+.dk-stat__ico svg{width:clamp(40px,3.6vw,50px);height:auto}
+.dk-stat h3{font-family:var(--dk-display);font-weight:700;font-size:clamp(20px,1.95vw,26px);line-height:1.16;letter-spacing:-.014em;margin:0 0 14px}
+.dk-stat p{margin:0 auto;font-size:15px;line-height:1.62;max-width:29ch;opacity:.72}
+
+/* ── 11. NUMBERED ROWS ────────────────────────────────────────────────── */
+.dk-rows{display:grid;gap:1px;background:rgba(22,22,38,.1);border-radius:var(--dk-r-md);overflow:hidden}
+.dk-ink .dk-rows,.dk-ink-3 .dk-rows{background:rgba(199,190,230,.14)}
+.dk-row{display:flex;gap:clamp(16px,1.8vw,24px);align-items:flex-start;background:var(--dk-paper);padding:clamp(22px,2.4vw,30px);transition:background-color var(--dk-mid)}
+.dk-row:hover{background:var(--dk-white)}
+.dk-ink .dk-row,.dk-ink-3 .dk-row{background:var(--dk-ink)}
+.dk-ink .dk-row:hover,.dk-ink-3 .dk-row:hover{background:var(--dk-ink-2)}
+.dk-row__n{
+  flex:none;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+  background:var(--dk-violet-deep);color:#fff;
+  font-family:var(--dk-display);font-weight:700;font-size:16px;
+  transition:background-color var(--dk-mid),transform var(--dk-mid) var(--dk-ease);
+}
+.dk-row:hover .dk-row__n{background:var(--dk-violet-ink);transform:rotate(-8deg)}
+.dk-row h3{font-family:var(--dk-display);font-weight:700;font-size:clamp(18px,1.7vw,21px);line-height:1.2;margin:0 0 7px}
+.dk-row p{margin:0;font-size:14.5px;line-height:1.6;max-width:52ch;opacity:.72}
+
+/* ── 12. ACCORDION ────────────────────────────────────────────────────── */
+.dk-faq{background:#fff;border:var(--dk-rule-paper);border-radius:var(--dk-r-md);overflow:hidden;color:var(--dk-on-paper)}
+.dk-faq summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:18px;
+  padding:clamp(18px,2vw,24px);
+  font-family:var(--dk-display);font-weight:700;font-size:clamp(17px,1.6vw,21px);line-height:1.24;
+}
+.dk-faq summary::-webkit-details-marker{display:none}
+.dk-faq summary i{margin-left:auto;flex:none;position:relative;width:26px;height:26px;border-radius:9px;background:var(--dk-wash);transition:background-color var(--dk-fast),transform var(--dk-fast)}
+.dk-faq summary i::before,.dk-faq summary i::after{content:"";position:absolute;left:50%;top:50%;background:#141026;border-radius:2px;transform:translate(-50%,-50%)}
+.dk-faq summary i::before{width:12px;height:2.4px}
+.dk-faq summary i::after{width:2.4px;height:12px;transition:opacity var(--dk-fast)}
+.dk-faq[open] summary i{background:var(--dk-violet);transform:rotate(90deg)}
+.dk-faq[open] summary i::before,.dk-faq[open] summary i::after{background:#fff}
+.dk-faq[open] summary i::after{opacity:0}
+.dk-faq p{margin:0;padding:0 clamp(18px,2vw,24px) clamp(20px,2.2vw,26px);font-size:15.5px;line-height:1.68;color:var(--dk-on-paper-soft);max-width:74ch}
+
+/* ── 13. MARQUEE ──────────────────────────────────────────────────────── */
+/* Keep it slim. Sahar, uppercase, one icon per item. */
+.dk-ticker{background:var(--dk-wash);overflow:hidden;padding:11px 0}
+.dk-ticker__track{display:flex;align-items:center;width:max-content}
+.dk-ticker__track span{
+  display:inline-flex;align-items:center;white-space:nowrap;
+  padding:0 clamp(15px,1.7vw,26px);
+  font-family:var(--dk-display);font-weight:700;font-size:clamp(14px,1.15vw,17px);
+  text-transform:uppercase;color:#1A1A2E;
+}
+.dk-ticker__track span svg{width:16px;height:16px;flex:none;margin-right:9px;opacity:.7}
+@media(prefers-reduced-motion:no-preference){.dk-ticker__track{animation:dk-roll 32s linear infinite}}
+@keyframes dk-roll{to{transform:translateX(-50%)}}
+
+/* review rail — duplicate the track's contents so the loop is seamless */
+.dk-rail{overflow:hidden;padding-inline:var(--dk-gut);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.dk-rail__track{display:flex;gap:20px;width:max-content}
+@media(prefers-reduced-motion:no-preference){
+  .dk-rail__track{animation:dk-roll 60s linear infinite}
+  .dk-rail:hover .dk-rail__track,.dk-rail:focus-within .dk-rail__track{animation-play-state:paused}
+  .dk-rail--rev .dk-rail__track{animation-direction:reverse;animation-duration:78s}
+}
+
+/* ── 14. FORMS ────────────────────────────────────────────────────────── */
+.dk-form{display:grid;gap:16px}
+.dk-form__row{display:grid;gap:16px}
+@media(min-width:560px){.dk-form__row{grid-template-columns:1fr 1fr}}
+.dk-form label{display:block;font-weight:700;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.78)}
+.dk-form input,.dk-form select,.dk-form textarea{
+  width:100%;margin-top:9px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:14px;
+  padding:14px 16px;color:#fff;
+  font-weight:500;font-size:15.5px;letter-spacing:normal;text-transform:none;
+  transition:border-color var(--dk-fast),background-color var(--dk-fast);
+}
+.dk-form textarea{resize:vertical;min-height:92px}
+.dk-form input::placeholder{color:rgba(255,255,255,.45)}
+.dk-form :is(input,select,textarea):focus{outline:none;border-color:var(--dk-signal);background:rgba(255,255,255,.16)}
+.dk-form select{appearance:none;cursor:pointer;padding-right:44px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5l5-5' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 18px center}
+.dk-form select option{color:#161626}
+/* glass panel to house a form on a violet ground */
+.dk-panel{background:rgba(11,6,26,.34);border:1px solid rgba(255,255,255,.16);border-radius:26px;padding:clamp(26px,3vw,46px);backdrop-filter:blur(6px)}
+
+/* ── 15. AVATAR CLUSTER ───────────────────────────────────────────────── */
+.dk-avatars{display:inline-flex;flex:none}
+.dk-avatars img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--dk-ink);margin-left:-12px;background:var(--dk-violet-deep)}
+.dk-avatars img:first-child{margin-left:0}
+.dk-paper .dk-avatars img,.dk-white .dk-avatars img,.dk-paper-2 .dk-avatars img{border-color:#fff}
+
+/* ── 16. REVEAL ───────────────────────────────────────────────────────── */
+/* Add .dk-rv, then toggle .is-in with an IntersectionObserver. */
+.dk-rv{opacity:0;transform:translateY(18px);transition:opacity .7s var(--dk-ease),transform .7s var(--dk-ease)}
+.dk-rv.is-in{opacity:1;transform:none}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .dk-rv{opacity:1;transform:none}
+  .dk-mark{background-size:100% 100%}
+}
