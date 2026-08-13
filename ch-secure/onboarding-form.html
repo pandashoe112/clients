@@ -1,0 +1,1208 @@
+<title>CH Secure Onboarding</title>
+
+<style>
+  :root {
+    --ground: #eef0f3;
+    --surface: #ffffff;
+    --surface-sunk: #f5f6f8;
+    --ink: #10151b;
+    --ink-soft: #4b5663;
+    --ink-faint: #6f7a87;
+    --line: #d6dbe2;
+    --line-soft: #e4e8ed;
+    --accent: #12604f;
+    --accent-soft: #e6f1ed;
+    --accent-line: #9dc7ba;
+    --signal: #8a5709;
+    --signal-soft: #fbf1de;
+    --signal-line: #e3c489;
+    --focus: #12604f;
+    --shadow: 0 1px 2px rgba(16, 21, 27, .05), 0 8px 24px -16px rgba(16, 21, 27, .28);
+
+    --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Roboto Mono", Menlo, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0e1216;
+      --surface: #161b21;
+      --surface-sunk: #11161b;
+      --ink: #e7ecf1;
+      --ink-soft: #b3bdc8;
+      --ink-faint: #8b96a2;
+      --line: #2a323b;
+      --line-soft: #212832;
+      --accent: #3fbfa0;
+      --accent-soft: #12241f;
+      --accent-line: #2b6455;
+      --signal: #e0a23c;
+      --signal-soft: #241c0f;
+      --signal-line: #6b5122;
+      --focus: #3fbfa0;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 30px -20px rgba(0, 0, 0, .9);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0e1216;
+    --surface: #161b21;
+    --surface-sunk: #11161b;
+    --ink: #e7ecf1;
+    --ink-soft: #b3bdc8;
+    --ink-faint: #8b96a2;
+    --line: #2a323b;
+    --line-soft: #212832;
+    --accent: #3fbfa0;
+    --accent-soft: #12241f;
+    --accent-line: #2b6455;
+    --signal: #e0a23c;
+    --signal-soft: #241c0f;
+    --signal-line: #6b5122;
+    --focus: #3fbfa0;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 30px -20px rgba(0, 0, 0, .9);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 20px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 4px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+
+  h1 {
+    font-size: clamp(30px, 5.4vw, 44px);
+    line-height: 1.08;
+    letter-spacing: -.022em;
+    font-weight: 680;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .standfirst {
+    margin: 0;
+    max-width: 60ch;
+    color: var(--ink-soft);
+    font-size: 17px;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    align-items: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+
+  .swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex: none;
+  }
+
+  .swatch.known { background: var(--accent); }
+  .swatch.needed { background: var(--signal); }
+
+  /* ---------- cards ---------- */
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 26px 26px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sec-head {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .sec-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .1em;
+    color: var(--accent);
+    flex: none;
+    padding-top: 3px;
+  }
+
+  .sec-title {
+    margin: 0;
+    font-size: 21px;
+    letter-spacing: -.012em;
+    font-weight: 640;
+    line-height: 1.25;
+  }
+
+  .sec-note {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--ink-faint);
+    max-width: 62ch;
+  }
+
+  /* ---------- engagement record ---------- */
+
+  .record { background: var(--surface-sunk); }
+
+  .record-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px 24px;
+  }
+
+  .rec-key {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 4px;
+  }
+
+  .rec-val {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 560;
+    letter-spacing: -.005em;
+  }
+
+  .rec-val small {
+    display: block;
+    font-weight: 420;
+    font-size: 13px;
+    color: var(--ink-faint);
+    letter-spacing: 0;
+  }
+
+  /* ---------- fields ---------- */
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 20px;
+  }
+
+  .grid > .wide { grid-column: 1 / -1; }
+
+  @media (max-width: 620px) {
+    .grid { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .lab {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .hint {
+    font-size: 13px;
+    color: var(--ink-faint);
+    margin: -1px 0 2px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--accent-line);
+    background: var(--accent-soft);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 9px 11px;
+    transition: border-color .12s ease, box-shadow .12s ease;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 78px;
+    line-height: 1.5;
+  }
+
+  select { appearance: none; padding-right: 30px; }
+
+  .select-wrap { position: relative; }
+
+  .select-wrap::after {
+    content: "";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    margin-top: -5px;
+    border-right: 1.5px solid var(--ink-faint);
+    border-bottom: 1.5px solid var(--ink-faint);
+    transform: rotate(45deg);
+    pointer-events: none;
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  button:focus-visible,
+  .opt:focus-within {
+    outline: 2px solid var(--focus);
+    outline-offset: 1px;
+    border-color: var(--focus);
+  }
+
+  /* prefilled from Pipedrive */
+  .known input:not([type="radio"]):not([type="checkbox"]),
+  .known textarea,
+  .known select {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+  }
+
+  /* still blank */
+  .field:not(.known) input:placeholder-shown,
+  .field:not(.known) textarea:placeholder-shown {
+    border-left: 3px solid var(--signal-line);
+  }
+
+  /* ---------- choice groups ---------- */
+
+  .opts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 7px 11px;
+    font-size: 14px;
+    cursor: pointer;
+    background: var(--surface);
+    transition: border-color .12s ease, background .12s ease;
+  }
+
+  .opt:hover { border-color: var(--accent-line); }
+
+  .opt input { accent-color: var(--accent); margin: 0; }
+
+  .opt:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 540;
+  }
+
+  /* ---------- access table ---------- */
+
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 620px;
+    font-size: 14px;
+  }
+
+  th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 500;
+    padding: 11px 12px;
+    background: var(--surface-sunk);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--line-soft);
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td { border-bottom: 0; }
+
+  .plat { font-weight: 550; white-space: nowrap; }
+  .plat small { display: block; font-weight: 400; color: var(--ink-faint); font-size: 12.5px; }
+
+  td .opts { gap: 6px; }
+  td .opt { padding: 4px 9px; font-size: 13px; }
+  td input[type="text"] { font-family: var(--mono); font-size: 13px; padding: 6px 9px; }
+
+  /* ---------- callout ---------- */
+
+  .callout {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--signal-line);
+    background: var(--signal-soft);
+    border-radius: 5px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .callout strong { color: var(--ink); }
+
+  .callout .bar {
+    width: 3px;
+    border-radius: 2px;
+    background: var(--signal);
+    flex: none;
+  }
+
+  /* ---------- actions ---------- */
+
+  .actions {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+  }
+
+  button {
+    font: inherit;
+    font-size: 14px;
+    font-weight: 560;
+    padding: 9px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color .12s ease, background .12s ease;
+  }
+
+  button:hover { border-color: var(--accent); }
+
+  button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--surface);
+  }
+
+  :root[data-theme="dark"] button.primary,
+  :root:not([data-theme="light"]) button.primary { color: var(--surface); }
+
+  button.primary:hover { filter: brightness(1.08); }
+
+  .counter {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: var(--signal);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .counter.done { color: var(--accent); }
+
+  .colophon {
+    font-size: 13px;
+    color: var(--ink-faint);
+    text-align: center;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ---------- copy dialog ---------- */
+
+  dialog {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--ink);
+    padding: 20px;
+    max-width: min(680px, 92vw);
+    width: 100%;
+    box-shadow: var(--shadow);
+  }
+
+  dialog::backdrop { background: rgba(8, 11, 14, .55); }
+
+  dialog textarea {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    min-height: 46vh;
+  }
+
+  .dlg-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .dlg-head p { margin: 0; font-size: 14px; color: var(--ink-soft); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .wrap { padding: 0; max-width: none; }
+    .actions, .legend { display: none; }
+    .card { box-shadow: none; break-inside: avoid; page-break-inside: avoid; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">DUNK &middot; client onboarding &middot; Google Ads</p>
+    <h1>Welcome aboard, CH&nbsp;Secure</h1>
+    <p class="standfirst">
+      Everything below feeds straight into your Google Ads build. We&rsquo;ve filled in what we
+      already have from your enquiry and your call with Ollie &mdash; please check those, correct
+      anything wrong, and answer the rest. Fifteen minutes now saves a fortnight of guesswork later.
+    </p>
+    <div class="legend">
+      <span><i class="swatch known"></i> Already answered &mdash; just confirm it</span>
+      <span><i class="swatch needed"></i> We need this from you</span>
+    </div>
+  </header>
+
+  <section class="card record">
+    <div class="sec-head">
+      <span class="sec-num">&#9679;</span>
+      <div>
+        <h2 class="sec-title">Your engagement</h2>
+        <p class="sec-note">For reference &mdash; taken from the agreement confirmed on 12 August 2026.</p>
+      </div>
+    </div>
+    <div class="record-grid">
+      <div>
+        <p class="rec-key">Client</p>
+        <p class="rec-val">CH Secure<small>chsecure.com.au</small></p>
+      </div>
+      <div>
+        <p class="rec-key">Service</p>
+        <p class="rec-val">Google Ads<small>Setup &amp; ongoing management</small></p>
+      </div>
+      <div>
+        <p class="rec-key">Management fee</p>
+        <p class="rec-val">$600 AUD<small>per month</small></p>
+      </div>
+      <div>
+        <p class="rec-key">Primary contact</p>
+        <p class="rec-val">Joshua Meli<small>josh@chsecure.com.au</small></p>
+      </div>
+      <div>
+        <p class="rec-key">Your strategist</p>
+        <p class="rec-val">Oliver Wales<small>DUNK</small></p>
+      </div>
+      <div>
+        <p class="rec-key">Start date</p>
+        <p class="rec-val">12 August 2026<small>Reference PD-3790</small></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <div>
+        <h2 class="sec-title">Your details</h2>
+        <p class="sec-note">Who we deal with day to day, and who gets the invoice.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field known">
+        <label class="lab" for="contact-name">Primary contact <span class="tag">Prefilled</span></label>
+        <input type="text" id="contact-name" name="contact_name" value="Joshua Meli">
+      </div>
+      <div class="field">
+        <label class="lab" for="contact-role">Role at CH Secure</label>
+        <input type="text" id="contact-role" name="contact_role" placeholder="e.g. Director" data-ask>
+      </div>
+      <div class="field known">
+        <label class="lab" for="contact-email">Email <span class="tag">Prefilled</span></label>
+        <input type="email" id="contact-email" name="contact_email" value="josh@chsecure.com.au">
+      </div>
+      <div class="field known">
+        <label class="lab" for="contact-phone">Mobile <span class="tag">Prefilled</span></label>
+        <input type="tel" id="contact-phone" name="contact_phone" value="0426 719 412">
+      </div>
+      <div class="field known">
+        <label class="lab" for="company-name">Business name <span class="tag">Prefilled</span></label>
+        <input type="text" id="company-name" name="company_name" value="CH Secure">
+      </div>
+      <div class="field">
+        <label class="lab" for="abn">Legal entity &amp; ABN</label>
+        <input type="text" id="abn" name="abn" placeholder="Trading entity + ABN" data-ask>
+      </div>
+      <div class="field known">
+        <label class="lab" for="website">Website <span class="tag">Prefilled</span></label>
+        <input type="url" id="website" name="website" value="https://chsecure.com.au">
+      </div>
+      <div class="field">
+        <label class="lab" for="billing">Billing contact</label>
+        <p class="hint">Leave blank if it&rsquo;s you.</p>
+        <input type="text" id="billing" name="billing_contact" placeholder="Name and email for invoices">
+      </div>
+      <div class="field wide">
+        <label class="lab" for="address">Business address</label>
+        <input type="text" id="address" name="address" placeholder="Street, suburb, state, postcode" data-ask>
+      </div>
+      <div class="field wide known">
+        <span class="lab">Best way to reach you <span class="tag">Prefilled</span></span>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="contact_pref" value="Phone"> Phone</label>
+          <label class="opt"><input type="radio" name="contact_pref" value="Email"> Email</label>
+          <label class="opt"><input type="radio" name="contact_pref" value="Either" checked> Either</label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <div>
+        <h2 class="sec-title">About the business</h2>
+        <p class="sec-note">This is what we write the ads from, so specifics beat polish.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field wide">
+        <label class="lab" for="what-you-do">In one sentence, what does CH Secure do?</label>
+        <input type="text" id="what-you-do" name="what_you_do" placeholder="How you'd describe it to a stranger" data-ask>
+      </div>
+      <div class="field wide">
+        <label class="lab" for="services">Services to advertise, most profitable first</label>
+        <p class="hint">Number them. We&rsquo;ll weight budget the same way.</p>
+        <textarea id="services" name="services" placeholder="1.&#10;2.&#10;3." data-ask></textarea>
+      </div>
+      <div class="field">
+        <label class="lab" for="areas">Where you work</label>
+        <p class="hint">Suburbs, a radius, or whole states.</p>
+        <textarea id="areas" name="areas" placeholder="Areas you'll travel to, and any you won't" data-ask></textarea>
+      </div>
+      <div class="field">
+        <label class="lab" for="customer">Your ideal customer</label>
+        <textarea id="customer" name="ideal_customer" placeholder="Who they are, what job they call you for" data-ask></textarea>
+      </div>
+      <div class="field wide">
+        <span class="lab">Who you sell to</span>
+        <div class="opts">
+          <label class="opt"><input type="checkbox" name="segment" value="Residential"> Residential</label>
+          <label class="opt"><input type="checkbox" name="segment" value="Commercial"> Commercial</label>
+          <label class="opt"><input type="checkbox" name="segment" value="Industrial"> Industrial</label>
+          <label class="opt"><input type="checkbox" name="segment" value="Government"> Government</label>
+          <label class="opt"><input type="checkbox" name="segment" value="Strata / body corporate"> Strata</label>
+        </div>
+      </div>
+      <div class="field wide">
+        <label class="lab" for="usp">Why customers pick you over the next quote</label>
+        <p class="hint">Response time, licensing, warranty, brands you install, years in the trade &mdash; whatever is genuinely true and hard to copy.</p>
+        <textarea id="usp" name="usp" placeholder="Three or four reasons" data-ask></textarea>
+      </div>
+      <div class="field">
+        <label class="lab" for="competitors">Competitors you rate</label>
+        <p class="hint">Names or URLs. We check what they&rsquo;re bidding on.</p>
+        <textarea id="competitors" name="competitors" placeholder="Up to three" data-ask></textarea>
+      </div>
+      <div class="field">
+        <label class="lab" for="out-of-scope">Work you don&rsquo;t want</label>
+        <p class="hint">We&rsquo;ll block these so you stop paying for the wrong clicks.</p>
+        <textarea id="out-of-scope" name="out_of_scope" placeholder="Jobs, sectors or areas to exclude" data-ask></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <div>
+        <h2 class="sec-title">Goals &amp; numbers</h2>
+        <p class="sec-note">Without these we can report activity but not whether it worked.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field wide">
+        <span class="lab">What Google Ads has to deliver</span>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="objective" value="Phone calls"> Phone calls</label>
+          <label class="opt"><input type="radio" name="objective" value="Quote requests"> Quote requests</label>
+          <label class="opt"><input type="radio" name="objective" value="Booked jobs"> Booked jobs</label>
+          <label class="opt"><input type="radio" name="objective" value="Online sales"> Online sales</label>
+          <label class="opt"><input type="radio" name="objective" value="Brand awareness"> Awareness</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="lab" for="lead-target">Leads you want per month</label>
+        <input type="text" id="lead-target" name="lead_target" placeholder="A number you'd be happy with" data-ask>
+      </div>
+      <div class="field">
+        <label class="lab" for="cpl">Most you'd pay for one lead</label>
+        <input type="text" id="cpl" name="target_cpl" placeholder="$" data-ask>
+      </div>
+      <div class="field">
+        <label class="lab" for="job-value">Average job value</label>
+        <input type="text" id="job-value" name="job_value" placeholder="$" data-ask>
+      </div>
+      <div class="field">
+        <label class="lab" for="close-rate">Quotes you win</label>
+        <p class="hint">Roughly, out of ten.</p>
+        <input type="text" id="close-rate" name="close_rate" placeholder="e.g. 4 in 10" data-ask>
+      </div>
+      <div class="field known">
+        <label class="lab" for="revenue">Monthly revenue <span class="tag">Prefilled</span></label>
+        <div class="select-wrap">
+          <select id="revenue" name="revenue">
+            <option>Under $50K</option>
+            <option>$50K &ndash; $100K</option>
+            <option selected>$100K &ndash; $250K</option>
+            <option>$250K &ndash; $500K</option>
+            <option>$500K+</option>
+          </select>
+        </div>
+      </div>
+      <div class="field known">
+        <label class="lab" for="spend">Monthly marketing spend <span class="tag">Prefilled</span></label>
+        <div class="select-wrap">
+          <select id="spend" name="marketing_spend">
+            <option>Under $2,000</option>
+            <option>$2,000 &ndash; $5,000</option>
+            <option>$5,000 &ndash; $10,000</option>
+            <option selected>$10,000+</option>
+          </select>
+        </div>
+      </div>
+      <div class="field wide">
+        <label class="lab" for="budget">Of that, what goes to Google Ads?</label>
+        <p class="hint">Media budget only &mdash; separate from our $600 management fee, and paid straight to Google.</p>
+        <input type="text" id="budget" name="google_budget" placeholder="$ per month" data-ask>
+      </div>
+      <div class="field wide">
+        <label class="lab" for="current-spend">Where the rest of the budget goes today</label>
+        <textarea id="current-spend" name="current_channels" placeholder="Meta, SEO, print, sponsorships, referral fees — and roughly how much each" data-ask></textarea>
+      </div>
+      <div class="field wide known">
+        <label class="lab" for="challenge">Biggest marketing frustration <span class="tag">Prefilled</span></label>
+        <p class="hint">From your call with Ollie. Add anything that&rsquo;s changed.</p>
+        <textarea id="challenge" name="challenge">No Google Ads running at the moment.</textarea>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <div>
+        <h2 class="sec-title">Accounts &amp; access</h2>
+        <p class="sec-note">Tell us what exists. We&rsquo;ll send access requests to josh@chsecure.com.au for you to approve.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <i class="bar"></i>
+      <p style="margin:0"><strong>Never send us a password.</strong> Every platform below grants access by invitation &mdash; you keep ownership of the accounts, and you can revoke us in one click if we ever part ways.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table data-collect>
+        <thead>
+          <tr>
+            <th scope="col">Platform</th>
+            <th scope="col">Do you have one?</th>
+            <th scope="col">Account ID / login email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-row="Google Ads">
+            <td class="plat">Google Ads<small>Where the campaigns live</small></td>
+            <td>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="has_gads" value="Yes"> Yes</label>
+                <label class="opt"><input type="radio" name="has_gads" value="No"> No</label>
+                <label class="opt"><input type="radio" name="has_gads" value="Not sure"> Not sure</label>
+              </div>
+            </td>
+            <td><input type="text" name="id_gads" placeholder="000-000-0000"></td>
+          </tr>
+          <tr data-row="Google Analytics 4">
+            <td class="plat">Google Analytics 4<small>Behaviour after the click</small></td>
+            <td>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="has_ga4" value="Yes"> Yes</label>
+                <label class="opt"><input type="radio" name="has_ga4" value="No"> No</label>
+                <label class="opt"><input type="radio" name="has_ga4" value="Not sure"> Not sure</label>
+              </div>
+            </td>
+            <td><input type="text" name="id_ga4" placeholder="Property ID"></td>
+          </tr>
+          <tr data-row="Google Tag Manager">
+            <td class="plat">Google Tag Manager<small>How we track conversions</small></td>
+            <td>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="has_gtm" value="Yes"> Yes</label>
+                <label class="opt"><input type="radio" name="has_gtm" value="No"> No</label>
+                <label class="opt"><input type="radio" name="has_gtm" value="Not sure"> Not sure</label>
+              </div>
+            </td>
+            <td><input type="text" name="id_gtm" placeholder="GTM-XXXXXXX"></td>
+          </tr>
+          <tr data-row="Google Business Profile">
+            <td class="plat">Google Business Profile<small>Your map listing</small></td>
+            <td>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="has_gbp" value="Yes"> Yes</label>
+                <label class="opt"><input type="radio" name="has_gbp" value="No"> No</label>
+                <label class="opt"><input type="radio" name="has_gbp" value="Not sure"> Not sure</label>
+              </div>
+            </td>
+            <td><input type="text" name="id_gbp" placeholder="Login email"></td>
+          </tr>
+          <tr data-row="Google Search Console">
+            <td class="plat">Search Console<small>Organic search data</small></td>
+            <td>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="has_gsc" value="Yes"> Yes</label>
+                <label class="opt"><input type="radio" name="has_gsc" value="No"> No</label>
+                <label class="opt"><input type="radio" name="has_gsc" value="Not sure"> Not sure</label>
+              </div>
+            </td>
+            <td><input type="text" name="id_gsc" placeholder="Login email"></td>
+          </tr>
+          <tr data-row="Meta Business Manager">
+            <td class="plat">Meta Business Manager<small>Facebook &amp; Instagram</small></td>
+            <td>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="has_meta" value="Yes"> Yes</label>
+                <label class="opt"><input type="radio" name="has_meta" value="No"> No</label>
+                <label class="opt"><input type="radio" name="has_meta" value="Not sure"> Not sure</label>
+              </div>
+            </td>
+            <td><input type="text" name="id_meta" placeholder="Business ID"></td>
+          </tr>
+          <tr data-row="Website CMS / hosting">
+            <td class="plat">Website &amp; hosting<small>To add tracking code</small></td>
+            <td>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="has_cms" value="Yes"> Yes</label>
+                <label class="opt"><input type="radio" name="has_cms" value="No"> No</label>
+                <label class="opt"><input type="radio" name="has_cms" value="Not sure"> Not sure</label>
+              </div>
+            </td>
+            <td><input type="text" name="id_cms" placeholder="Platform + who manages it"></td>
+          </tr>
+          <tr data-row="Domain / DNS">
+            <td class="plat">Domain &amp; DNS<small>Registrar for chsecure.com.au</small></td>
+            <td>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="has_dns" value="Yes"> Yes</label>
+                <label class="opt"><input type="radio" name="has_dns" value="No"> No</label>
+                <label class="opt"><input type="radio" name="has_dns" value="Not sure"> Not sure</label>
+              </div>
+            </td>
+            <td><input type="text" name="id_dns" placeholder="Registrar"></td>
+          </tr>
+          <tr data-row="CRM / job management">
+            <td class="plat">CRM or job software<small>Where leads end up</small></td>
+            <td>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="has_crm" value="Yes"> Yes</label>
+                <label class="opt"><input type="radio" name="has_crm" value="No"> No</label>
+                <label class="opt"><input type="radio" name="has_crm" value="Not sure"> Not sure</label>
+              </div>
+            </td>
+            <td><input type="text" name="id_crm" placeholder="e.g. simPRO, ServiceM8, HubSpot"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="field">
+      <label class="lab" for="past-agency">Anyone else holding the keys?</label>
+      <p class="hint">A previous agency, a web developer, a family member who set it up years ago.</p>
+      <textarea id="past-agency" name="past_agency" placeholder="Who they are and what they still have access to"></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <div>
+        <h2 class="sec-title">Leads &amp; how you handle them</h2>
+        <p class="sec-note">Ads only pay for themselves if the enquiry gets answered. Be honest here.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field wide">
+        <span class="lab">What counts as a lead worth paying for</span>
+        <div class="opts">
+          <label class="opt"><input type="checkbox" name="conversion" value="Phone call"> Phone call</label>
+          <label class="opt"><input type="checkbox" name="conversion" value="Contact form"> Contact form</label>
+          <label class="opt"><input type="checkbox" name="conversion" value="Quote request"> Quote request</label>
+          <label class="opt"><input type="checkbox" name="conversion" value="Online booking"> Online booking</label>
+          <label class="opt"><input type="checkbox" name="conversion" value="Email click"> Email click</label>
+          <label class="opt"><input type="checkbox" name="conversion" value="Live chat"> Live chat</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="lab" for="who-answers">Who answers the phone</label>
+        <input type="text" id="who-answers" name="who_answers" placeholder="Name or team" data-ask>
+      </div>
+      <div class="field">
+        <label class="lab" for="hours">Hours you take calls</label>
+        <p class="hint">We can pause ads outside them.</p>
+        <input type="text" id="hours" name="hours" placeholder="e.g. Mon–Fri 7am–5pm" data-ask>
+      </div>
+      <div class="field">
+        <label class="lab" for="after-hours">After-hours enquiries</label>
+        <input type="text" id="after-hours" name="after_hours" placeholder="Voicemail, answering service, 24/7 callout?" data-ask>
+      </div>
+      <div class="field">
+        <label class="lab" for="response-time">How fast you reply</label>
+        <input type="text" id="response-time" name="response_time" placeholder="Target time to first contact" data-ask>
+      </div>
+      <div class="field">
+        <label class="lab" for="lead-dest">Where form leads should land</label>
+        <input type="text" id="lead-dest" name="lead_destination" placeholder="Inbox or CRM" data-ask>
+      </div>
+      <div class="field">
+        <span class="lab">Happy for us to use tracking numbers?</span>
+        <p class="hint">A swapped phone number that records which ad produced the call.</p>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="call_tracking" value="Yes"> Yes</label>
+          <label class="opt"><input type="radio" name="call_tracking" value="No"> No</label>
+          <label class="opt"><input type="radio" name="call_tracking" value="Tell me more"> Tell me more</label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <div>
+        <h2 class="sec-title">Ads, offers &amp; the fine print</h2>
+        <p class="sec-note">What we can say, what we can&rsquo;t, and what we can show.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field wide">
+        <span class="lab">Brand assets you can send us</span>
+        <div class="opts">
+          <label class="opt"><input type="checkbox" name="assets" value="Logo files"> Logo files</label>
+          <label class="opt"><input type="checkbox" name="assets" value="Brand colours & fonts"> Colours &amp; fonts</label>
+          <label class="opt"><input type="checkbox" name="assets" value="Job photography"> Job photos</label>
+          <label class="opt"><input type="checkbox" name="assets" value="Team photos"> Team photos</label>
+          <label class="opt"><input type="checkbox" name="assets" value="Video"> Video</label>
+          <label class="opt"><input type="checkbox" name="assets" value="Nothing yet"> Nothing yet</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="lab" for="licences">Licences &amp; accreditations</label>
+        <p class="hint">Anything you&rsquo;re required to display, or that earns trust in an ad.</p>
+        <textarea id="licences" name="licences" placeholder="Licence numbers, memberships, certifications" data-ask></textarea>
+      </div>
+      <div class="field">
+        <label class="lab" for="claims">Claims we must avoid</label>
+        <p class="hint">Industry rules, insurer wording, guarantees you can&rsquo;t make.</p>
+        <textarea id="claims" name="claims" placeholder="Anything legal or regulatory we should know"></textarea>
+      </div>
+      <div class="field">
+        <label class="lab" for="offers">Offers we can advertise</label>
+        <textarea id="offers" name="offers" placeholder="Free quotes, seasonal deals, finance, price guarantees" data-ask></textarea>
+      </div>
+      <div class="field">
+        <label class="lab" for="brands">Brands you stock or install</label>
+        <p class="hint">Some manufacturers restrict bidding on their name &mdash; tell us if you&rsquo;re a dealer.</p>
+        <textarea id="brands" name="brands" placeholder="Brand names, and any dealer agreements"></textarea>
+      </div>
+      <div class="field wide">
+        <span class="lab">Where should the ads send people?</span>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="landing" value="Existing website pages"> Existing site pages</label>
+          <label class="opt"><input type="radio" name="landing" value="New landing pages by DUNK"> New landing pages</label>
+          <label class="opt"><input type="radio" name="landing" value="Not sure — advise us"> Not sure, advise us</label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <div>
+        <h2 class="sec-title">Working together</h2>
+        <p class="sec-note">How often you hear from us, and who else should be in the loop.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field">
+        <span class="lab">Reporting rhythm</span>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="reporting" value="Monthly"> Monthly</label>
+          <label class="opt"><input type="radio" name="reporting" value="Fortnightly"> Fortnightly</label>
+          <label class="opt"><input type="radio" name="reporting" value="Weekly"> Weekly</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="lab" for="report-to">Who gets the reports</label>
+        <input type="text" id="report-to" name="report_to" placeholder="Names and email addresses">
+      </div>
+      <div class="field">
+        <label class="lab" for="meeting-time">Best day and time for a catch-up</label>
+        <input type="text" id="meeting-time" name="meeting_time" placeholder="e.g. Tuesday mornings">
+      </div>
+      <div class="field">
+        <label class="lab" for="busy">Busy or quiet periods to plan around</label>
+        <input type="text" id="busy" name="seasonality" placeholder="Seasonal peaks, shutdowns, holidays" data-ask>
+      </div>
+      <div class="field wide">
+        <label class="lab" for="anything-else">Anything else we should know</label>
+        <textarea id="anything-else" name="anything_else" placeholder="Past campaigns that flopped, things you never want to see in an ad, plans for the next twelve months"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head">
+      <span class="sec-num">08</span>
+      <div>
+        <h2 class="sec-title">Authorisation</h2>
+        <p class="sec-note">So we can act on your behalf inside your ad accounts.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field wide">
+        <label class="opt" style="align-items:flex-start; padding:12px 14px">
+          <input type="checkbox" name="authorised" style="margin-top:4px">
+          <span>I authorise DUNK to create and manage Google Ads campaigns for CH Secure, to request access to the accounts listed above, and to publish advertising using the assets and claims I&rsquo;ve provided. Media spend is billed by Google directly to our nominated card.</span>
+        </label>
+      </div>
+      <div class="field">
+        <label class="lab" for="sign-name">Signed</label>
+        <input type="text" id="sign-name" name="signed_name" placeholder="Full name" data-ask>
+      </div>
+      <div class="field">
+        <label class="lab" for="sign-date">Date</label>
+        <input type="date" id="sign-date" name="signed_date">
+      </div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button type="button" class="primary" id="copy">Copy my answers</button>
+    <button type="button" id="print">Print / save as PDF</button>
+    <span class="counter" id="counter"></span>
+  </div>
+
+  <p class="colophon">
+    Prepared for CH Secure by DUNK &middot; 13 August 2026<br>
+    Prefilled from your enquiry form and strategy call. Questions? Reply to Ollie or call the office.
+  </p>
+</div>
+
+<dialog id="dlg">
+  <div class="dlg-head">
+    <p>Copy this and email it back to us.</p>
+    <button type="button" id="dlg-close">Close</button>
+  </div>
+  <textarea id="dump" readonly></textarea>
+</dialog>
+
+<script>
+  (function () {
+    var counter = document.getElementById('counter');
+
+    function updateCounter() {
+      var asks = document.querySelectorAll('[data-ask]');
+      var blank = 0;
+      asks.forEach(function (el) { if (!el.value.trim()) blank++; });
+      if (blank === 0) {
+        counter.textContent = 'All key questions answered';
+        counter.classList.add('done');
+      } else {
+        counter.textContent = blank + ' of ' + asks.length + ' key questions still to answer';
+        counter.classList.remove('done');
+      }
+    }
+
+    document.addEventListener('input', updateCounter);
+    updateCounter();
+
+    function groupValue(name, scope) {
+      var boxes = (scope || document).querySelectorAll('[name="' + name + '"]');
+      var picked = [];
+      boxes.forEach(function (b) { if (b.checked) picked.push(b.value); });
+      return picked.join(', ');
+    }
+
+    function fieldValue(field) {
+      var controls = field.querySelectorAll('input, select, textarea');
+      if (!controls.length) return '';
+      var first = controls[0];
+      if (first.type === 'radio' || first.type === 'checkbox') {
+        return groupValue(first.name, field);
+      }
+      var parts = [];
+      controls.forEach(function (c) { if (c.value.trim()) parts.push(c.value.trim()); });
+      return parts.join(' / ');
+    }
+
+    function labelText(field) {
+      var lab = field.querySelector('.lab');
+      if (lab) return lab.textContent.replace(/Prefilled/g, '').replace(/\s+/g, ' ').trim();
+      var span = field.querySelector('span');
+      return span ? span.textContent.replace(/\s+/g, ' ').trim() : 'Question';
+    }
+
+    function collect() {
+      var out = ['CH SECURE — ONBOARDING RESPONSES', 'Google Ads · DUNK · reference PD-3790', ''];
+
+      document.querySelectorAll('section.card').forEach(function (sec) {
+        if (sec.classList.contains('record')) return;
+        var num = sec.querySelector('.sec-num').textContent.trim();
+        var title = sec.querySelector('.sec-title').textContent.trim();
+        out.push('--- ' + num + '  ' + title.toUpperCase() + ' ---');
+
+        sec.querySelectorAll('.field').forEach(function (f) {
+          if (f.closest('td')) return;
+          out.push(labelText(f) + ': ' + (fieldValue(f) || '—'));
+        });
+
+        var table = sec.querySelector('table[data-collect]');
+        if (table) {
+          table.querySelectorAll('tbody tr').forEach(function (row) {
+            var radio = row.querySelector('input[type="radio"]');
+            var text = row.querySelector('input[type="text"]');
+            var have = radio ? groupValue(radio.name, row) : '';
+            out.push(row.dataset.row + ': ' + (have || '—') +
+              (text && text.value.trim() ? '  |  ' + text.value.trim() : ''));
+          });
+        }
+
+        out.push('');
+      });
+
+      var auth = document.querySelector('[name="authorised"]');
+      out.push('Authorisation given: ' + (auth && auth.checked ? 'Yes' : 'Not yet'));
+      return out.join('\n');
+    }
+
+    var dlg = document.getElementById('dlg');
+    var dump = document.getElementById('dump');
+
+    document.getElementById('copy').addEventListener('click', function () {
+      var text = collect();
+      dump.value = text;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          var btn = document.getElementById('copy');
+          btn.textContent = 'Copied';
+          setTimeout(function () { btn.textContent = 'Copy my answers'; }, 1800);
+        }).catch(function () { dlg.showModal(); dump.select(); });
+      } else {
+        dlg.showModal();
+        dump.select();
+      }
+    });
+
+    document.getElementById('dlg-close').addEventListener('click', function () { dlg.close(); });
+    document.getElementById('print').addEventListener('click', function () { window.print(); });
+  })();
+</script>
