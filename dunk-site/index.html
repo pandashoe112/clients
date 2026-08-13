@@ -111,12 +111,12 @@ a{color:inherit;text-decoration:none}
 .nav__in{display:flex;align-items:center;gap:clamp(14px,2vw,32px);height:clamp(84px,7vw,110px)}
 .nav__right{margin-left:auto;display:flex;align-items:center;gap:clamp(10px,1.2vw,20px)}
 .nav__call{
-  display:none;align-items:center;gap:11px;
-  padding-right:clamp(10px,1.2vw,20px);
+  display:none;align-items:center;gap:10px;
+  padding-right:clamp(14px,1.4vw,22px);
   border-right:1px solid rgba(255,255,255,.14);
 }
 .nav__pulse{
-  position:relative;width:8px;height:8px;border-radius:50%;flex:none;
+  position:relative;width:9px;height:9px;border-radius:50%;flex:none;align-self:center;
   background:var(--signal);
 }
 .nav__pulse::after{
@@ -131,11 +131,13 @@ a{color:inherit;text-decoration:none}
   70%,100%{transform:scale(1.5);opacity:0}
 }
 .nav__callbody small{
-  display:block;font-weight:700;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
-  color:rgba(255,255,255,.58);margin-bottom:2px;
+  display:block;white-space:nowrap;
+  font-weight:700;font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-bottom:3px;line-height:1;
 }
 .nav__callbody b{
-  display:block;font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:-.01em;
+  display:block;white-space:nowrap;line-height:1;
+  font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:-.01em;
   color:#fff;transition:color .22s;
 }
 .nav__call:hover .nav__callbody b{color:var(--signal)}
@@ -312,12 +314,12 @@ a{color:inherit;text-decoration:none}
 .ticker__track{display:flex;align-items:center;width:max-content}
 .ticker__track span{
   display:inline-flex;align-items:center;white-space:nowrap;
-  padding:0 clamp(22px,2.6vw,40px);
-  font-weight:800;font-size:clamp(16px,1.4vw,20px);
+  padding:0 clamp(18px,2.2vw,34px);
+  font-weight:800;font-size:clamp(15px,1.3vw,19px);
   text-transform:uppercase;letter-spacing:.01em;
   color:#1A1A2E;
 }
-.ticker__track b{color:rgba(22,22,38,.32);font-weight:400;font-size:17px}
+.ticker__track span svg{width:19px;height:19px;flex:none;margin-right:11px;color:#141026;opacity:.72}
 @media(prefers-reduced-motion:no-preference){
   .ticker__track{animation:tick 32s linear infinite}
 }
@@ -362,22 +364,23 @@ a{color:inherit;text-decoration:none}
 }
 .svc .tlink{color:var(--on-paper);border-color:var(--violet);font-size:14px}
 
-/* ── the model ───────────────────────────────────────────────────────── */
-.model{position:relative;overflow:hidden;background:var(--ink)}
-.model__glow{position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(44rem 30rem at 84% -12%,rgba(124,104,214,.24),transparent 68%)}
-.model .wrap{position:relative}
-.model__head{max-width:66ch;margin-bottom:clamp(38px,4.4vw,60px)}
-.model__head .h2{color:#fff;max-width:26ch}
-.model__head .lead{color:var(--on-dark-soft);max-width:60ch}
-.model__grid{display:grid;gap:1px;background:rgba(199,190,230,.14);border-radius:22px;overflow:hidden}
-@media(min-width:680px){.model__grid{grid-template-columns:1fr 1fr}}
-@media(min-width:1040px){.model__grid{grid-template-columns:repeat(3,1fr)}}
-.mstep{background:#150A2E;padding:clamp(24px,2.6vw,34px);transition:background-color .3s}
-.mstep:hover{background:#1D0F3E}
-.mstep__n{display:block;font-family:var(--display);font-weight:700;font-size:clamp(24px,2.4vw,32px);line-height:1;color:rgba(215,242,76,.4);margin-bottom:16px}
-.mstep h3{font-family:var(--display);font-weight:700;font-size:clamp(18px,1.7vw,21px);line-height:1.18;margin:0 0 9px;color:#fff}
-.mstep p{margin:0;font-size:14.5px;line-height:1.6;color:var(--on-dark-soft)}
+/* ── what happens ────────────────────────────────────────────────────── */
+.happens{background:var(--ink)}
+.happens__grid{display:grid;gap:clamp(34px,4vw,68px);align-items:start}
+@media(min-width:960px){.happens__grid{grid-template-columns:.84fr 1.16fr}}
+.happens__head .h2{color:#fff;max-width:20ch}
+.happens__head .lead{color:var(--on-dark-soft);max-width:44ch;margin-bottom:clamp(26px,3vw,34px)}
+.happens__list{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:rgba(199,190,230,.14);border-radius:20px;overflow:hidden}
+.wstep{display:flex;gap:clamp(16px,1.8vw,24px);align-items:flex-start;background:#150A2E;padding:clamp(22px,2.4vw,30px);transition:background-color .28s}
+.wstep:hover{background:#1D0F3E}
+.wstep__n{
+  flex:none;width:40px;height:40px;border-radius:13px;
+  display:grid;place-items:center;
+  background:var(--wash);color:#141026;
+  font-family:var(--display);font-weight:700;font-size:17px;
+}
+.wstep h3{font-family:var(--display);font-weight:700;font-size:clamp(18px,1.7vw,21px);line-height:1.2;margin:0 0 7px;color:#fff}
+.wstep p{margin:0;font-size:14.5px;line-height:1.6;color:var(--on-dark-soft);max-width:52ch}
 
 /* ── capability combinations ──────────────────────────────────────────── */
 .combos{margin-top:clamp(44px,5vw,72px);border-top:var(--rule-paper);padding-top:clamp(34px,4vw,52px)}
@@ -404,10 +407,15 @@ a{color:inherit;text-decoration:none}
 .statband__grid{display:grid;gap:clamp(26px,3vw,44px)}
 @media(min-width:620px){.statband__grid{grid-template-columns:1fr 1fr}}
 @media(min-width:1000px){.statband__grid{grid-template-columns:repeat(4,1fr)}}
-.stat__ico{width:34px;height:34px;display:block;margin-bottom:16px;color:var(--violet)}
+.stat__ico{
+  width:52px;height:52px;border-radius:16px;margin-bottom:18px;
+  display:grid;place-items:center;color:#fff;
+  background:linear-gradient(135deg,var(--violet),var(--violet-2));
+}
+.stat__ico svg{width:26px;height:26px}
 .stat h3{
   font-family:var(--display);font-weight:700;
-  font-size:clamp(19px,1.85vw,23px);line-height:1.14;letter-spacing:-.01em;
+  font-size:clamp(18px,1.7vw,21px);line-height:1.14;letter-spacing:-.01em;
   margin:0 0 10px;color:var(--on-paper);
 }
 .stat p{margin:0;font-size:14.5px;line-height:1.6;color:var(--on-paper-soft);max-width:32ch}
@@ -843,14 +851,13 @@ a{color:inherit;text-decoration:none}
           <button class="nav__link nav__toggle" type="button" aria-expanded="false">Who We Work With <svg class="nav__chev" width="10" height="7" viewBox="0 0 10 7" fill="none" aria-hidden="true"><path d="M1 1.5 5 5.5l4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="nav__drop"><a href="#who-we-work-with">Small business owners</a><a href="#who-we-work-with">eCommerce brands</a><a href="#who-we-work-with">Trade &amp; service businesses</a></div>
         </div>
-        <a class="nav__link" href="#how-we-work">How We Work</a>
         <a class="nav__link" href="#about">Who We Are</a>
       </nav>
       <div class="nav__right">
         <a class="nav__call" href="tel:0396994585">
           <span class="nav__pulse" aria-hidden="true"></span>
           <span class="nav__callbody">
-            <small>Call us now &mdash; we&rsquo;re available</small>
+            <small>Call us &mdash; available now</small>
             <b>03 9699 4585</b>
           </span>
         </a>
@@ -907,8 +914,8 @@ a{color:inherit;text-decoration:none}
 
 <div class="ticker" aria-label="DUNK in numbers">
   <div class="ticker__track">
-    <span>4.9 Google Rating</span><b aria-hidden="true">★</b><span>312 Reviews</span><b aria-hidden="true">★</b><span>300+ Businesses Helped Grow</span><b aria-hidden="true">★</b><span>Melbourne Based</span><b aria-hidden="true">★</b><span>Dedicated Strategists</span><b aria-hidden="true">★</b>
-    <span>4.9 Google Rating</span><b aria-hidden="true">★</b><span>312 Reviews</span><b aria-hidden="true">★</b><span>300+ Businesses Helped Grow</span><b aria-hidden="true">★</b><span>Melbourne Based</span><b aria-hidden="true">★</b><span>Dedicated Strategists</span><b aria-hidden="true">★</b>
+    <span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L1.6 7.7l5.8-.8z"/></svg>4.9 Google Rating</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2c4.6 0 8.3 3 8.3 6.8s-3.7 6.8-8.3 6.8c-.9 0-1.8-.1-2.6-.3L3 18l1.2-3.4C2.5 13.3 1.7 11.2 1.7 8.8 1.7 5 5.4 2 10 2z"/></svg>312 Reviews</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="7.4" cy="7" r="3"/><circle cx="14" cy="8.4" r="2.4"/><path d="M1.6 17c.7-3.3 2.9-5.1 5.8-5.1S12.5 13.7 13.2 17z"/><path d="M14.4 12.2c2 .2 3.4 1.7 3.9 4.8h-3.1z"/></svg>300+ Businesses Helped Grow</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.7c3.3 0 6 2.6 6 5.9 0 4.2-6 10.7-6 10.7S4 11.8 4 7.6c0-3.3 2.7-5.9 6-5.9zm0 3.4a2.6 2.6 0 1 0 0 5.2 2.6 2.6 0 0 0 0-5.2z"/></svg>Melbourne Based</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.6l2.3 1.5 2.7-.3 1 2.6 2.3 1.5-1 2.6 1 2.6-2.3 1.5-1 2.6-2.7-.3L10 17.9l-2.3-1.5-2.7.3-1-2.6L1.7 12.6l1-2.6-1-2.6L4 5.9l1-2.6 2.7.3z"/></svg>Dedicated Strategists</span>
+    <span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L1.6 7.7l5.8-.8z"/></svg>4.9 Google Rating</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2c4.6 0 8.3 3 8.3 6.8s-3.7 6.8-8.3 6.8c-.9 0-1.8-.1-2.6-.3L3 18l1.2-3.4C2.5 13.3 1.7 11.2 1.7 8.8 1.7 5 5.4 2 10 2z"/></svg>312 Reviews</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="7.4" cy="7" r="3"/><circle cx="14" cy="8.4" r="2.4"/><path d="M1.6 17c.7-3.3 2.9-5.1 5.8-5.1S12.5 13.7 13.2 17z"/><path d="M14.4 12.2c2 .2 3.4 1.7 3.9 4.8h-3.1z"/></svg>300+ Businesses Helped Grow</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.7c3.3 0 6 2.6 6 5.9 0 4.2-6 10.7-6 10.7S4 11.8 4 7.6c0-3.3 2.7-5.9 6-5.9zm0 3.4a2.6 2.6 0 1 0 0 5.2 2.6 2.6 0 0 0 0-5.2z"/></svg>Melbourne Based</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.6l2.3 1.5 2.7-.3 1 2.6 2.3 1.5-1 2.6 1 2.6-2.3 1.5-1 2.6-2.7-.3L10 17.9l-2.3-1.5-2.7.3-1-2.6L1.7 12.6l1-2.6-1-2.6L4 5.9l1-2.6 2.7.3z"/></svg>Dedicated Strategists</span>
   </div>
 </div>
 
@@ -918,71 +925,25 @@ a{color:inherit;text-decoration:none}
     <h2 class="statband__h rv">Real numbers from real client partnerships.</h2>
     <div class="statband__grid rv">
       <div class="stat">
-        <svg class="stat__ico" viewBox="0 0 90 90" aria-hidden="true"><g fill="currentColor"><rect x="0" y="60" width="30" height="30" rx="8"/><rect x="30" y="30" width="30" height="30" rx="8"/><rect x="60" y="0" width="30" height="30" rx="8"/><rect x="60" y="30" width="30" height="30" rx="8"/></g></svg>
-        <h3>10x average ROAS</h3>
+        <span class="stat__ico" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M4 26h24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><rect x="6" y="16" width="4.6" height="7" rx="1.6" fill="currentColor"/><rect x="13.7" y="11" width="4.6" height="12" rx="1.6" fill="currentColor"/><rect x="21.4" y="5" width="4.6" height="18" rx="1.6" fill="currentColor"/></svg></span>
+        <h3>10x average return on ad spend</h3>
         <p>Across the Google and Meta accounts we manage day to day.</p>
       </div>
       <div class="stat">
-        <svg class="stat__ico" viewBox="0 0 90 90" aria-hidden="true"><g fill="currentColor"><rect x="0" y="0" width="30" height="30" rx="8"/><rect x="60" y="0" width="30" height="30" rx="8"/><rect x="30" y="30" width="30" height="30" rx="8"/><rect x="0" y="60" width="30" height="30" rx="8"/><rect x="60" y="60" width="30" height="30" rx="8"/></g></svg>
-        <h3>Search &amp; paid together</h3>
-        <p>Planned as one system, so the channels stop competing for the same customer.</p>
+        <span class="stat__ico" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><circle cx="11.5" cy="11" r="4.4" stroke="currentColor" stroke-width="2.4"/><circle cx="21.5" cy="13" r="3.4" stroke="currentColor" stroke-width="2.4"/><path d="M4 26c.9-4.3 3.9-6.6 7.5-6.6S18.1 21.7 19 26" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M21 19.6c2.6.2 4.5 2.1 5 6.4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+        <h3>One team for search and ads</h3>
+        <p>Instead of two agencies blaming each other for the same result.</p>
       </div>
       <div class="stat">
-        <svg class="stat__ico" viewBox="0 0 90 90" aria-hidden="true"><g fill="currentColor"><rect x="30" y="0" width="30" height="30" rx="8"/><rect x="0" y="30" width="30" height="30" rx="8"/><rect x="60" y="30" width="30" height="30" rx="8"/><rect x="30" y="60" width="30" height="30" rx="8"/></g></svg>
-        <h3>Senior people only</h3>
-        <p>The strategist who plans your account is the one who runs it.</p>
+        <span class="stat__ico" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="10.5" r="5" stroke="currentColor" stroke-width="2.4"/><path d="M6.5 27c1.3-5.3 5-8.2 9.5-8.2s8.2 2.9 9.5 8.2" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M22.5 5.5l1.4 2.9 3.1.5-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.5z" fill="currentColor"/></svg></span>
+        <h3>You deal with senior people</h3>
+        <p>The person who plans your account is the person who runs it.</p>
       </div>
       <div class="stat">
-        <svg class="stat__ico" viewBox="0 0 90 90" aria-hidden="true"><g fill="currentColor"><rect x="0" y="0" width="30" height="30" rx="8"/><rect x="30" y="0" width="30" height="30" rx="8"/><rect x="0" y="30" width="30" height="30" rx="8"/><rect x="30" y="60" width="30" height="30" rx="8"/><rect x="60" y="60" width="30" height="30" rx="8"/></g></svg>
+        <span class="stat__ico" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><rect x="6" y="14" width="20" height="13" rx="4" stroke="currentColor" stroke-width="2.4"/><path d="M11 14V9.5A5 5 0 0 1 21 8.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="20.5" r="2" fill="currentColor"/></svg></span>
         <h3>No lock-in contracts</h3>
-        <p>Month to month, 60 days notice. Clients stay because it works.</p>
+        <p>Month to month with 60 days notice. Clients stay because it works.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ the model ═════════════════════════════════════════════════════════ -->
-<section class="band model" id="how-we-think">
-  <div class="model__glow" aria-hidden="true"></div>
-  <div class="wrap">
-    <div class="model__head rv">
-      <p class="slash">Our model</p>
-      <h2 class="h2">You don&rsquo;t have to work out what marketing you need.</h2>
-      <p class="lead">That&rsquo;s the job you&rsquo;re hiring us for. Most agencies wait for a brief and sell you
-      the channel they&rsquo;re best at. We start with your business, work out where the growth actually
-      is, then bring the right capabilities to it &mdash; and stay accountable for what they produce.</p>
-    </div>
-    <div class="model__grid rv">
-        <div class="mstep">
-          <span class="mstep__n">01</span>
-          <h3>Understand the business</h3>
-          <p>Margins, what a customer is worth, where enquiries already leak. Before any channel talk.</p>
-        </div>
-        <div class="mstep">
-          <span class="mstep__n">02</span>
-          <h3>Find the opportunity</h3>
-          <p>Where the cheapest growth actually is right now &mdash; which is rarely where you&rsquo;d guess.</p>
-        </div>
-        <div class="mstep">
-          <span class="mstep__n">03</span>
-          <h3>Decide what matters</h3>
-          <p>Which of search, paid, content and authority earn a place. And which don&rsquo;t, yet.</p>
-        </div>
-        <div class="mstep">
-          <span class="mstep__n">04</span>
-          <h3>Execute it</h3>
-          <p>The senior person who built the plan runs it. Nothing gets handed down a chain.</p>
-        </div>
-        <div class="mstep">
-          <span class="mstep__n">05</span>
-          <h3>Measure what counts</h3>
-          <p>Leads, sales and revenue. Not impressions, not rankings for their own sake.</p>
-        </div>
-        <div class="mstep">
-          <span class="mstep__n">06</span>
-          <h3>Improve monthly</h3>
-          <p>Double down on what moved. Cut what didn&rsquo;t. Tell you plainly which was which.</p>
-        </div>
     </div>
   </div>
 </section>
@@ -1081,6 +1042,58 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
     </div>
+  </div>
+</section>
+
+<!-- ══ what happens ══════════════════════════════════════════════════════ -->
+<section class="band happens" id="how-we-work">
+  <div class="wrap happens__grid">
+    <div class="happens__head rv">
+      <p class="slash">What happens next</p>
+      <h2 class="h2">What working with us actually looks like.</h2>
+      <p class="lead">You don&rsquo;t need to know whether you need SEO, Google Ads or Meta before you
+      call. Telling you that is our job &mdash; here&rsquo;s how it goes.</p>
+      <a class="btn--pill happens__cta" href="https://calendly.com/dunk-agency/growth-call">Start with step one
+        <i aria-hidden="true"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i>
+      </a>
+    </div>
+    <ol class="happens__list rv">
+        <li class="wstep">
+          <span class="wstep__n">1</span>
+          <div>
+            <h3>We look at your business first</h3>
+            <p>How you make money, what a customer is worth, and where you&rsquo;re losing enquiries right now.</p>
+          </div>
+        </li>
+        <li class="wstep">
+          <span class="wstep__n">2</span>
+          <div>
+            <h3>We tell you what we&rsquo;d do</h3>
+            <p>A plain-English plan: which channels, what it costs, what to expect and roughly when.</p>
+          </div>
+        </li>
+        <li class="wstep">
+          <span class="wstep__n">3</span>
+          <div>
+            <h3>We build it and run it</h3>
+            <p>Campaigns, pages and content, set up and managed by the same person who wrote the plan.</p>
+          </div>
+        </li>
+        <li class="wstep">
+          <span class="wstep__n">4</span>
+          <div>
+            <h3>We report in plain English</h3>
+            <p>How many enquiries you got, what each one cost, and what we changed that month.</p>
+          </div>
+        </li>
+        <li class="wstep">
+          <span class="wstep__n">5</span>
+          <div>
+            <h3>We adjust as we go</h3>
+            <p>More budget where it&rsquo;s working, less where it isn&rsquo;t. You&rsquo;ll always know why.</p>
+          </div>
+        </li>
+    </ol>
   </div>
 </section>
 
@@ -1463,8 +1476,8 @@ a{color:inherit;text-decoration:none}
 
 <div class="ticker" aria-label="DUNK in numbers">
   <div class="ticker__track">
-    <span>4.9 Google Rating</span><b aria-hidden="true">★</b><span>312 Reviews</span><b aria-hidden="true">★</b><span>300+ Businesses Helped Grow</span><b aria-hidden="true">★</b><span>Melbourne Based</span><b aria-hidden="true">★</b><span>Dedicated Strategists</span><b aria-hidden="true">★</b>
-    <span>4.9 Google Rating</span><b aria-hidden="true">★</b><span>312 Reviews</span><b aria-hidden="true">★</b><span>300+ Businesses Helped Grow</span><b aria-hidden="true">★</b><span>Melbourne Based</span><b aria-hidden="true">★</b><span>Dedicated Strategists</span><b aria-hidden="true">★</b>
+    <span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L1.6 7.7l5.8-.8z"/></svg>4.9 Google Rating</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2c4.6 0 8.3 3 8.3 6.8s-3.7 6.8-8.3 6.8c-.9 0-1.8-.1-2.6-.3L3 18l1.2-3.4C2.5 13.3 1.7 11.2 1.7 8.8 1.7 5 5.4 2 10 2z"/></svg>312 Reviews</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="7.4" cy="7" r="3"/><circle cx="14" cy="8.4" r="2.4"/><path d="M1.6 17c.7-3.3 2.9-5.1 5.8-5.1S12.5 13.7 13.2 17z"/><path d="M14.4 12.2c2 .2 3.4 1.7 3.9 4.8h-3.1z"/></svg>300+ Businesses Helped Grow</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.7c3.3 0 6 2.6 6 5.9 0 4.2-6 10.7-6 10.7S4 11.8 4 7.6c0-3.3 2.7-5.9 6-5.9zm0 3.4a2.6 2.6 0 1 0 0 5.2 2.6 2.6 0 0 0 0-5.2z"/></svg>Melbourne Based</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.6l2.3 1.5 2.7-.3 1 2.6 2.3 1.5-1 2.6 1 2.6-2.3 1.5-1 2.6-2.7-.3L10 17.9l-2.3-1.5-2.7.3-1-2.6L1.7 12.6l1-2.6-1-2.6L4 5.9l1-2.6 2.7.3z"/></svg>Dedicated Strategists</span>
+    <span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L1.6 7.7l5.8-.8z"/></svg>4.9 Google Rating</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2c4.6 0 8.3 3 8.3 6.8s-3.7 6.8-8.3 6.8c-.9 0-1.8-.1-2.6-.3L3 18l1.2-3.4C2.5 13.3 1.7 11.2 1.7 8.8 1.7 5 5.4 2 10 2z"/></svg>312 Reviews</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><circle cx="7.4" cy="7" r="3"/><circle cx="14" cy="8.4" r="2.4"/><path d="M1.6 17c.7-3.3 2.9-5.1 5.8-5.1S12.5 13.7 13.2 17z"/><path d="M14.4 12.2c2 .2 3.4 1.7 3.9 4.8h-3.1z"/></svg>300+ Businesses Helped Grow</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.7c3.3 0 6 2.6 6 5.9 0 4.2-6 10.7-6 10.7S4 11.8 4 7.6c0-3.3 2.7-5.9 6-5.9zm0 3.4a2.6 2.6 0 1 0 0 5.2 2.6 2.6 0 0 0 0-5.2z"/></svg>Melbourne Based</span><span><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.6l2.3 1.5 2.7-.3 1 2.6 2.3 1.5-1 2.6 1 2.6-2.3 1.5-1 2.6-2.7-.3L10 17.9l-2.3-1.5-2.7.3-1-2.6L1.7 12.6l1-2.6-1-2.6L4 5.9l1-2.6 2.7.3z"/></svg>Dedicated Strategists</span>
   </div>
 </div>
 
