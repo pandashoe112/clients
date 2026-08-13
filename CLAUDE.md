@@ -114,3 +114,25 @@ snapshot goes stale, so treat it as a fallback, not a source of truth.
 `BrandGrid` were **not** applied: the repo versions are newer, reading the live
 `photo` field and pulling brand logos from Sanity rather than `/public`. The
 folder is kept only as a record.
+
+## Copy rules — applies to every client, permanently
+
+**Use the words the client gives you.** When Oliver supplies headings, labels,
+questions or list items, put those exact words on the page. Do not rewrite them
+into something punchier, shorter, or more clever. If a supplied line genuinely
+cannot work as-is (it breaks the layout, or it is factually wrong), say so and
+ask — never silently substitute your own version.
+
+**Headings must be objective and literal.** A heading says what the section is:
+"Our digital marketing services", "Client results", "What are you looking to
+achieve?". It is not a slogan, a pun, or a mood line. Wordplay headings —
+"Four services. One system.", "The proof's in the pipeline.", "Fewer layers.
+Straighter answers." — are wrong for this brand and get rejected every time.
+
+**Never swap the eyebrow and the heading.** The recurring mistake: writing the
+good, descriptive line into the small eyebrow and inventing a clever line for
+the H2. The descriptive line IS the heading. The eyebrow is the plain, boring
+category label above it ("Get started", "Services", "Results").
+
+**Fonts:** Sahar for headings and display, Manrope for body, labels, eyebrows
+and buttons. No third face — no mono anywhere.
