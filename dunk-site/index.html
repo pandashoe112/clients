@@ -352,6 +352,84 @@ a{color:inherit;text-decoration:none}
 .bignum__go{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#fff}
 .bignums__note{grid-column:1/-1;margin:22px 0 0;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--on-dark-mute)}
 
+
+/* ── case studies ─────────────────────────────────────────────────────── */
+.cs{background:var(--ink)}
+.cs__top{display:grid;gap:22px;align-items:end;margin-bottom:clamp(34px,4vw,52px)}
+@media(min-width:840px){.cs__top{grid-template-columns:1fr auto}}
+.btn--outline{
+  display:inline-flex;align-items:center;gap:9px;
+  border:1px solid rgba(255,255,255,.24);border-radius:999px;
+  padding:13px 22px;color:#fff;
+  font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
+  transition:background-color .25s,border-color .25s,color .25s,transform .25s cubic-bezier(.2,.7,.3,1);
+}
+.btn--outline:hover{background:var(--signal);border-color:var(--signal);color:#10091F;transform:translateY(-1px)}
+
+.cs__grid{display:grid;gap:clamp(28px,3.4vw,56px);align-items:start}
+@media(min-width:1000px){.cs__grid{grid-template-columns:1fr 1fr}}
+
+.cs__panels{position:relative;min-height:420px}
+.cs__panel{
+  margin:0;padding:clamp(22px,2.4vw,32px);
+  background:linear-gradient(165deg,#2A1258,#1A0D38 72%);
+  border:1px solid rgba(196,181,253,.18);border-radius:22px;
+  box-shadow:0 40px 80px -50px rgba(0,0,0,.9);
+  display:none;
+}
+.cs__panel.is-on{display:block;animation:fadeup .45s cubic-bezier(.2,.7,.3,1)}
+@keyframes fadeup{from{opacity:0;transform:translateY(10px)}}
+.cs__panelhead{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:26px}
+.cs__client{font-family:var(--display);font-weight:700;font-size:19px;color:#fff}
+.cs__sector{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--lav)}
+.cs__metrics{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
+.cs__metrics b{
+  display:block;font-family:var(--display);font-weight:700;
+  font-size:clamp(34px,3.8vw,50px);line-height:1;letter-spacing:-.02em;color:var(--signal);
+}
+.cs__metrics span{display:block;margin-top:8px;font-size:13.5px;line-height:1.4;color:var(--on-dark-soft)}
+.cs__chart{width:100%;height:clamp(120px,14vw,170px);display:block;margin-bottom:22px}
+.cs__quote{
+  margin:0;padding-top:20px;border-top:var(--rule);
+  font-size:15px;line-height:1.6;color:rgba(255,255,255,.9);
+}
+.cs__quote cite{
+  display:block;margin-top:10px;font-style:normal;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-dark-mute);
+}
+
+.cs__item{border-bottom:var(--rule)}
+.cs__item:first-child{border-top:var(--rule)}
+.cs__head{
+  width:100%;display:flex;gap:clamp(14px,1.8vw,26px);align-items:baseline;
+  background:none;border:0;cursor:pointer;text-align:left;
+  padding:24px 0;color:inherit;font-family:inherit;
+}
+.cs__n{
+  font-family:var(--display);font-weight:700;font-size:19px;flex:none;
+  color:var(--on-dark-mute);transition:color .25s;
+}
+.cs__title{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(19px,1.9vw,25px);line-height:1.15;letter-spacing:-.005em;
+  color:rgba(255,255,255,.62);transition:color .25s;
+}
+.cs__head:hover .cs__title{color:#fff}
+.cs__item.is-open .cs__n{color:#fff}
+.cs__item.is-open .cs__title{color:var(--signal)}
+.cs__body{display:none;padding:0 0 30px}
+.cs__item.is-open .cs__body{display:block}
+.cs__body p{margin:0 0 18px;font-size:15.5px;line-height:1.6;color:var(--on-dark-soft);max-width:52ch}
+.cs__tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px;padding:0;list-style:none}
+.cs__tags li{
+  font-weight:700;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;
+  padding:7px 13px;border-radius:999px;
+  background:rgba(215,242,76,.14);color:var(--signal);border:1px solid rgba(215,242,76,.24);
+}
+.cs__cta{font-size:12.5px;padding:7px 7px 7px 22px}
+.cs__cta i{width:34px;height:34px}
+@media(prefers-reduced-motion:reduce){.cs__panel.is-on{animation:none}}
+
 /* ── who we are ───────────────────────────────────────────────────────── */
 
 .who__statement{
@@ -690,11 +768,141 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
+<!-- ══ case studies ═════════════════════════════════════════════════════
+     Metrics for 01 come from the DUNK Google Ads page; 02 and 03 are drawn
+     from named client testimonials rather than verified analytics exports.
+════════════════════════════════════════════════════════════════════════ -->
+<section class="band cs" id="results">
+  <div class="wrap">
+    <div class="cs__top rv">
+      <div>
+        <p class="slash">latest case studies</p>
+        <h2 class="h2">The proof&rsquo;s in the pipeline.</h2>
+      </div>
+      <a class="btn--outline" href="#contact">See all case studies
+        <svg width="13" height="13" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="cs__grid rv">
+      <div class="cs__panels">
+      <figure class="cs__panel is-on" data-panel="1">
+        <div class="cs__panelhead">
+          <span class="cs__client">Independent trade business</span>
+          <span class="cs__sector">Google Ads &middot; Lead generation</span>
+        </div>
+        <div class="cs__metrics">
+          <div><b>104%</b><span>Year-on-year leads</span></div>
+          <div><b>9x</b><span>Return on ad spend</span></div>
+        </div>
+        <svg class="cs__chart" viewBox="0 0 560 220" preserveAspectRatio="none" aria-hidden="true">
+          <defs><linearGradient id="csg1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#D7F24C" stop-opacity=".26"/><stop offset="1" stop-color="#D7F24C" stop-opacity="0"/>
+          </linearGradient></defs>
+          <g stroke="rgba(196,181,253,.16)" stroke-dasharray="3 7">
+            <line x1="20" y1="40" x2="540" y2="40"/><line x1="20" y1="105" x2="540" y2="105"/><line x1="20" y1="170" x2="540" y2="170"/>
+          </g>
+          <polygon points="40,182 144,158 248,142 352,116 456,80 560,48 560,220 40,220" fill="url(#csg1)"/>
+          <polyline points="40,182 144,158 248,142 352,116 456,80 560,48" fill="none" stroke="#D7F24C" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="40" cy="182" r="4.5" fill="#D7F24C"/><circle cx="144" cy="158" r="4.5" fill="#D7F24C"/><circle cx="248" cy="142" r="4.5" fill="#D7F24C"/><circle cx="352" cy="116" r="4.5" fill="#D7F24C"/><circle cx="456" cy="80" r="4.5" fill="#D7F24C"/><circle cx="560" cy="48" r="4.5" fill="#D7F24C"/>
+        </svg>
+        <figcaption class="cs__quote">&ldquo;Without the leads generated by DUNK, our transition from a franchisee to an independent business wouldn&rsquo;t have been possible.&rdquo;<cite>Owner &mdash; independent trade business</cite></figcaption>
+      </figure>
+      <figure class="cs__panel" data-panel="2">
+        <div class="cs__panelhead">
+          <span class="cs__client">Marttini By Lana</span>
+          <span class="cs__sector">Google Ads &amp; Meta &middot; eCommerce</span>
+        </div>
+        <div class="cs__metrics">
+          <div><b>2x</b><span>Online revenue</span></div>
+          <div><b>4.9</b><span>Client rating</span></div>
+        </div>
+        <svg class="cs__chart" viewBox="0 0 560 220" preserveAspectRatio="none" aria-hidden="true">
+          <defs><linearGradient id="csg2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#D7F24C" stop-opacity=".26"/><stop offset="1" stop-color="#D7F24C" stop-opacity="0"/>
+          </linearGradient></defs>
+          <g stroke="rgba(196,181,253,.16)" stroke-dasharray="3 7">
+            <line x1="20" y1="40" x2="540" y2="40"/><line x1="20" y1="105" x2="540" y2="105"/><line x1="20" y1="170" x2="540" y2="170"/>
+          </g>
+          <polygon points="40,178 144,162 248,130 352,104 456,72 560,40 560,220 40,220" fill="url(#csg2)"/>
+          <polyline points="40,178 144,162 248,130 352,104 456,72 560,40" fill="none" stroke="#D7F24C" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="40" cy="178" r="4.5" fill="#D7F24C"/><circle cx="144" cy="162" r="4.5" fill="#D7F24C"/><circle cx="248" cy="130" r="4.5" fill="#D7F24C"/><circle cx="352" cy="104" r="4.5" fill="#D7F24C"/><circle cx="456" cy="72" r="4.5" fill="#D7F24C"/><circle cx="560" cy="40" r="4.5" fill="#D7F24C"/>
+        </svg>
+        <figcaption class="cs__quote">&ldquo;The results have been amazing &mdash; we have doubled our online revenue since being with these guys. Would recommend to any eCommerce brand.&rdquo;<cite>Alana &mdash; Marttini By Lana</cite></figcaption>
+      </figure>
+      <figure class="cs__panel" data-panel="3">
+        <div class="cs__panelhead">
+          <span class="cs__client">BISSELL Australia</span>
+          <span class="cs__sector">SEO &amp; Google Ads &middot; Retail</span>
+        </div>
+        <div class="cs__metrics">
+          <div><b>2 yrs</b><span>Ongoing partnership</span></div>
+          <div><b>+</b><span>Steady growth &amp; ROI</span></div>
+        </div>
+        <svg class="cs__chart" viewBox="0 0 560 220" preserveAspectRatio="none" aria-hidden="true">
+          <defs><linearGradient id="csg3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#D7F24C" stop-opacity=".26"/><stop offset="1" stop-color="#D7F24C" stop-opacity="0"/>
+          </linearGradient></defs>
+          <g stroke="rgba(196,181,253,.16)" stroke-dasharray="3 7">
+            <line x1="20" y1="40" x2="540" y2="40"/><line x1="20" y1="105" x2="540" y2="105"/><line x1="20" y1="170" x2="540" y2="170"/>
+          </g>
+          <polygon points="40,174 144,154 248,138 352,108 456,82 560,54 560,220 40,220" fill="url(#csg3)"/>
+          <polyline points="40,174 144,154 248,138 352,108 456,82 560,54" fill="none" stroke="#D7F24C" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="40" cy="174" r="4.5" fill="#D7F24C"/><circle cx="144" cy="154" r="4.5" fill="#D7F24C"/><circle cx="248" cy="138" r="4.5" fill="#D7F24C"/><circle cx="352" cy="108" r="4.5" fill="#D7F24C"/><circle cx="456" cy="82" r="4.5" fill="#D7F24C"/><circle cx="560" cy="54" r="4.5" fill="#D7F24C"/>
+        </svg>
+        <figcaption class="cs__quote">&ldquo;In a relatively short period, they have delivered great results in both SEO and Google Ads, and we continue to see steady growth and fantastic ROI.&rdquo;<cite>Mia &mdash; BISSELL Australia</cite></figcaption>
+      </figure>
+      </div>
+      <div class="cs__list">
+      <div class="cs__item is-open" data-item="1">
+        <button class="cs__head" type="button" aria-expanded="true">
+          <span class="cs__n">01</span>
+          <span class="cs__title">How a franchisee went independent on Google Ads leads</span>
+        </button>
+        <div class="cs__body">
+          <p>Rebuilt the account around high-intent local searches, fixed conversion tracking so bidding had real signal, and pointed spend at the services that actually closed. Leads doubled year on year at 9x return on ad spend.</p>
+          <ul class="cs__tags"><li>Google Ads</li><li>Lead generation</li><li>Conversion tracking</li><li>Landing pages</li></ul>
+          <a class="btn--pill cs__cta" href="#contact">See exactly how we did it
+            <i aria-hidden="true"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i>
+          </a>
+        </div>
+      </div>
+      <div class="cs__item" data-item="2">
+        <button class="cs__head" type="button" aria-expanded="false">
+          <span class="cs__n">02</span>
+          <span class="cs__title">An eCommerce brand that doubled online revenue</span>
+        </button>
+        <div class="cs__body">
+          <p>Brand and non-brand separated for budget control, shopping feed cleaned up, and Meta retargeting layered over search so the two channels stopped competing for the same customer.</p>
+          <ul class="cs__tags"><li>Google Ads</li><li>Meta Ads</li><li>Shopping</li><li>Retargeting</li></ul>
+          <a class="btn--pill cs__cta" href="#contact">See exactly how we did it
+            <i aria-hidden="true"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i>
+          </a>
+        </div>
+      </div>
+      <div class="cs__item" data-item="3">
+        <button class="cs__head" type="button" aria-expanded="false">
+          <span class="cs__n">03</span>
+          <span class="cs__title">Two years of compounding growth for a retail name</span>
+        </button>
+        <div class="cs__body">
+          <p>SEO and Google Ads planned together from the start: paid captured demand while organic built the pages that now rank without spend behind them.</p>
+          <ul class="cs__tags"><li>SEO</li><li>Google Ads</li><li>Technical SEO</li><li>Reporting</li></ul>
+          <a class="btn--pill cs__cta" href="#contact">See exactly how we did it
+            <i aria-hidden="true"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i>
+          </a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ══ dashboard proof ══════════════════════════════════════════════════
      PLACEHOLDER FIGURES — example values from the brief. Replace every
      number and explanation with verified campaign data before launch.
 ════════════════════════════════════════════════════════════════════════ -->
-<section class="band proofband" id="results">
+<section class="band proofband" id="reporting">
   <div class="wrap">
     <div class="proofgrid2">
       <div class="dash rv" role="img" aria-label="Example client dashboard: cost per enquiry falling 52% over six months; 847 enquiries, up 19%; average return on ad spend 10x, up 120%">
@@ -785,29 +993,7 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
 
-    <div class="bignums rv">
-      <h3 class="bignums__h">Results from recent campaigns</h3>
-      <a class="bignum" href="/services/seo">
-        <span class="bignum__svc">SEO</span>
-        <span class="bignum__n">+184%</span>
-        <p>Organic leads in 12 months — technical clean-up, then content built around terms that convert.</p>
-        <span class="bignum__go">Full breakdown →</span>
-      </a>
-      <a class="bignum" href="/services/google-ads">
-        <span class="bignum__svc">Google Ads</span>
-        <span class="bignum__n">−42%</span>
-        <p>Cost per lead — account rebuilt around commercial intent, tracking fixed so bidding could learn.</p>
-        <span class="bignum__go">Full breakdown →</span>
-      </a>
-      <a class="bignum" href="/services/meta-ads">
-        <span class="bignum__svc">Meta Ads</span>
-        <span class="bignum__n">3.2x</span>
-        <p>ROAS — prospecting, lookalikes and retargeting separated so each did one job well.</p>
-        <span class="bignum__go">Full breakdown →</span>
-      </a>
-      <p class="bignums__note">Campaign detail lives on each service page.</p>
-    </div>
-  </div>
+      </div>
 </section>
 
 <!-- ══ why work with us ═════════════════════════════════════════════════ -->
@@ -915,6 +1101,20 @@ a{color:inherit;text-decoration:none}
     ev.preventDefault();
     var em=nf.querySelector('input').value;
     location.href='mailto:sales@dunk.agency?subject='+encodeURIComponent('Newsletter signup')+'&body='+encodeURIComponent('Please add me to the list: '+em);
+  });
+  document.querySelectorAll('.cs__head').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var item=btn.closest('.cs__item'), n=item.getAttribute('data-item');
+      var root=item.closest('.cs');
+      root.querySelectorAll('.cs__item').forEach(function(i){
+        var on=i===item;
+        i.classList.toggle('is-open',on);
+        i.querySelector('.cs__head').setAttribute('aria-expanded',on?'true':'false');
+      });
+      root.querySelectorAll('.cs__panel').forEach(function(pn){
+        pn.classList.toggle('is-on',pn.getAttribute('data-panel')===n);
+      });
+    });
   });
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var items = document.querySelectorAll('.rv, .dash__main');
