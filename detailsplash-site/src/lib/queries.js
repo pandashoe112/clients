@@ -14,7 +14,6 @@ export const HOME_QUERY = /* groq */ `{
 
     introHeading, introLead, introImage, introImageAlt, introStatLabel,
     introFeatures[]{ icon, title, text },
-    includedHeading, includedText, includedItems,
 
     servicesHeading, servicesIntro,
     services[]{ title, text, icon },

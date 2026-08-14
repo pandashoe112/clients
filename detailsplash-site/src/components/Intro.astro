@@ -1,6 +1,5 @@
 ---
 import Icon from './Icon.astro';
-import Tick from './Tick.astro';
 import { img } from '../lib/sanity.js';
 
 const { page = {}, settings = {} } = Astro.props;
@@ -32,17 +31,6 @@ const { page = {}, settings = {} } = Astro.props;
         <a class="btn btn-blue" href="#book">Book a detail <span class="chev">→</span></a>
         <a class="btn btn-outline-ink" href="#packages">See packages and prices</a>
       </div>
-    </div>
-  </div>
-  <div class="wrap">
-    <div class="intro-covers">
-      <div class="ic-head">
-        <h3>{page.includedHeading}</h3>
-        <p>{page.includedText}</p>
-      </div>
-      <ul class="split-list">
-        {(page.includedItems || []).map((i) => <li><Tick /><span>{i}</span></li>)}
-      </ul>
     </div>
   </div>
 </section>

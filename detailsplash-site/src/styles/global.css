@@ -829,3 +829,13 @@ footer ul a:hover{color:var(--blue-pale)}
 .incl-note{margin-top:44px;font-size:15.5px;color:rgba(255,255,255,.6);max-width:70ch}
 .incl-note a{color:#fff;text-decoration:underline;text-underline-offset:3px}
 .incl-note a:hover{color:var(--accent)}
+
+/* ---------- mobile spacing ---------- */
+/* The hero is a section, so it took the 106px section padding on top of the
+   96px on .hero-inner. That is around 200px above the heading on a phone. */
+@media(max-width:760px){
+  section{padding:70px 0}
+  .hero{padding:0}
+  .hero-inner{padding:64px 0 72px}
+  .incl{padding:74px 0 68px}
+}
