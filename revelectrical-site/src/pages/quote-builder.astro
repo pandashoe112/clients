@@ -9,25 +9,37 @@ import '../styles/quote.css';
 
 const { settings, quote, items, services, areas, navBrands } = await sanity.fetch(QUOTE_BUILDER_QUERY);
 
-// The builder is a fixed landscape panel rather than a page you scroll, so the
-// work is deciding what belongs on each screen. A step draws from one or more
-// categories; the order within a step is the item's own order field, so the
-// client still controls the running order from the Studio.
-const STEPS = [
-  { key: 'chargers', title: 'Chargers', lead: 'Which charger are you after?',
-    blurb: 'Supplied and installed, or install only if you have already bought one.',
-    icon: '/icon-ev.webp', cats: ['ev'] },
-  { key: 'batteries', title: 'Batteries', lead: 'Storing your own power?',
-    blurb: 'The electrical side of a home battery, and keeping the essentials on when the grid drops.',
-    icon: '/icon-battery.webp', cats: ['battery'] },
-  { key: 'accessories', title: 'Accessories', lead: 'Anything else while we are there?',
-    blurb: 'The small jobs that cost a fraction of what they do as their own callout.',
-    icon: '/icon-lighting.webp', cats: ['lighting', 'home'] },
-  { key: 'safety', title: 'Safety', lead: 'Worth doing at the same time',
-    blurb: 'The compliance work most Melbourne homes are overdue for.',
-    icon: '/icon-switchboard.webp', cats: ['switchboard'] }
-].map((s) => ({ ...s, items: items.filter((i) => s.cats.includes(i.category)) }))
- .filter((s) => s.items.length > 0);
+// Nobody quotes a battery and downlights and a switchboard in one sitting, so
+// the builder asks what the job is first and only shows that. Everything else
+// comes back once, at the end, as extras worth doing while we are on site -
+// which is also where the margin is.
+const JOBS = [
+  { key: 'ev', title: 'EV charging', blurb: 'A charger supplied and installed, or install only.',
+    icon: '/icon-ev.webp', cats: ['ev'], lead: 'Which charger are you after?',
+    sub: 'Supplied and installed, or install only if you have already bought one.' },
+  { key: 'battery', title: 'Solar battery', blurb: 'Battery install, backup circuits and switchboard tie-in.',
+    icon: '/icon-battery.webp', cats: ['battery'], lead: 'What do you need for the battery?',
+    sub: 'The electrical side of a home battery, and keeping the essentials on when the grid drops.' },
+  { key: 'switchboard', title: 'Switchboard and safety', blurb: 'Upgrades, safety switches and smoke alarms.',
+    icon: '/icon-switchboard.webp', cats: ['switchboard'], lead: 'What needs doing?',
+    sub: 'The compliance work most Melbourne homes are overdue for.' },
+  { key: 'lighting', title: 'Lighting', blurb: 'Downlights, replacements and outdoor sensors.',
+    icon: '/icon-lighting.webp', cats: ['lighting'], lead: 'What lighting are you after?',
+    sub: 'Replacements, new points and outdoor sensor lights.' },
+  { key: 'home', title: 'Around the home', blurb: 'Power points, fans, hot water and the rest.',
+    icon: '/icon-induction.webp', cats: ['home'], lead: 'What can we sort out?',
+    sub: 'The jobs worth booking while an electrician is coming anyway.' }
+].map((j) => ({ ...j, items: items.filter((i) => j.cats.includes(i.category)) }))
+ .filter((j) => j.items.length > 0);
+
+// Extras are simply everything outside the chosen job, so adding a category in
+// the Studio feeds both halves without anyone maintaining a second list.
+const jobConfig = Object.fromEntries(JOBS.map((j) => [
+  j.key,
+  { title: j.title, lead: j.lead, sub: j.sub, cats: j.cats,
+    extras: items.filter((i) => !j.cats.includes(i.category)).map((i) => i.category)
+      .filter((c, k, a) => a.indexOf(c) === k) }
+]));
 
 const gst = quote?.gstRate ?? 10;
 const validDays = quote?.validDays ?? 30;
@@ -36,15 +48,17 @@ const priceData = items.map((i) => ({
   id: i._id, name: i.name, price: i.price, unit: i.unit || '', allowQty: !!i.allowQty
 }));
 
-// The steps as the browser sees them: the item panes, then details, then the
-// finished document.
-const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
-                  { key: 'details', title: 'Details' },
-                  { key: 'quote', title: 'Your quote' }];
+const stepMeta = [
+  { key: 'job', title: 'Your job' },
+  { key: 'main', title: 'Options' },
+  { key: 'extras', title: 'Extras' },
+  { key: 'details', title: 'Details' },
+  { key: 'quote', title: 'Your quote' }
+];
 ---
 <ServiceBase
   title={`Build your own quote | ${settings.businessName}`}
-  description="Tick what you need and get a written quote you can download, priced on our standard rates."
+  description="Pick what you need and get a written quote you can download, priced on our standard rates."
   canonical="https://www.revelectrical.com.au/quote-builder/"
   settings={settings}
   noindex={true}
@@ -54,8 +68,6 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
   <main id="main">
     <section class="section bg-cream qbpage" id="builder">
       <div class="wrap">
-        {/* Kept to one compact row so the panel itself starts above the fold
-            rather than after a scroll. */}
         <div class="qbpage__head noprint">
           <div>
             <p class="eyebrow">Instant estimate</p>
@@ -65,13 +77,12 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
         </div>
 
         <div class="wiz" id="wiz">
-          {/* ---------------- rail ---------------- */}
           <nav class="wiz__rail noprint" aria-label="Quote steps">
             <ol class="wizrail">
               {stepMeta.map((s, i) => (
                 <li class="wizrail__item" data-rail={s.key}>
                   <span class="wizrail__dot">{i + 1}</span>
-                  <span class="wizrail__label">{s.title}</span>
+                  <span class="wizrail__label" data-rail-label={s.key}>{s.title}</span>
                 </li>
               ))}
             </ol>
@@ -83,62 +94,85 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
             </div>
           </nav>
 
-          {/* ---------------- stage ---------------- */}
           <div class="wiz__stage">
-            {STEPS.map((s, si) => (
-              <section class="wizpane" data-pane={s.key} hidden={si !== 0}>
-                <header class="wizpane__head noprint">
-                  <span class="wizpane__icon"><img src={s.icon} alt="" width="26" height="26" /></span>
-                  <div class="wizpane__headtext">
-                    <h2 class="wizpane__title">{s.lead}</h2>
-                    <p class="wizpane__blurb">{s.blurb}</p>
-                  </div>
-                  <span class="wizpane__count">Step {si + 1} of {stepMeta.length}</span>
-                </header>
-
-                <div class="wizpane__body">
-                  <ul class="qbitems">
-                    {s.items.map((it) => (
-                      <li class="qbitem__wrap">
-                        <label class="qbitem" for={`it-${it._id}`}>
-                          <input class="qbitem__check" type="checkbox" id={`it-${it._id}`} data-item={it._id} />
-                          <span class="qbitem__box" aria-hidden="true"><Icon name="check" size={14} stroke={3} /></span>
-                          {it.image && (
-                            <span class="qbitem__shot"><img src={img(it.image, 220)} alt="" loading="lazy" /></span>
-                          )}
-                          <span class="qbitem__body">
-                            <span class="qbitem__name">
-                              {it.name}
-                              {it.popular && <span class="qbitem__pop">Popular</span>}
-                            </span>
-                            {it.blurb && <span class="qbitem__blurb">{it.blurb}</span>}
-                            <span class="qbitem__price">
-                              {it.priceNote && <span class="qbitem__from">{it.priceNote}</span>}
-                              <span data-price-display={it._id}></span>
-                              {it.unit && <span class="qbitem__unit">{it.unit}</span>}
-                            </span>
-                          </span>
-                        </label>
-                        {it.allowQty && (
-                          <div class="qbqty" data-qty-for={it._id} hidden>
-                            <button class="qbqty__btn" type="button" data-step="-1" aria-label="Fewer">−</button>
-                            <input class="qbqty__input" type="number" min="1" max={it.maxQty || 20} value="1"
-                                   data-qty-input={it._id} aria-label={`Quantity for ${it.name}`} />
-                            <button class="qbqty__btn" type="button" data-step="1" aria-label="More">+</button>
-                          </div>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                  <p class="wizpane__skip">Nothing here for you? Skip straight past it.</p>
+            {/* ---------------- 1. pick the job ---------------- */}
+            <section class="wizpane" data-pane="job">
+              <header class="wizpane__head noprint">
+                <span class="wizpane__icon wizpane__icon--glyph"><Icon name="tag" size={22} /></span>
+                <div class="wizpane__headtext">
+                  <h2 class="wizpane__title">What are you after a quote for?</h2>
+                  <p class="wizpane__blurb">Pick one. You can add the smaller jobs at the end.</p>
                 </div>
-              </section>
-            ))}
+                <span class="wizpane__count">Step 1 of {stepMeta.length}</span>
+              </header>
+              <div class="wizpane__body">
+                <ul class="jobgrid">
+                  {JOBS.map((j) => (
+                    <li>
+                      <button class="jobcard" type="button" data-job={j.key}>
+                        <span class="jobcard__icon"><img src={j.icon} alt="" width="30" height="30" /></span>
+                        <span class="jobcard__name">{j.title}</span>
+                        <span class="jobcard__blurb">{j.blurb}</span>
+                        <span class="jobcard__go">Choose <Icon name="chevron" size={14} stroke={2.6} /></span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
 
-            {/* details */}
+            {/* ---------------- 2 and 3. one list, filtered ---------------- */}
+            <section class="wizpane" data-pane="picker" hidden>
+              <header class="wizpane__head noprint">
+                <span class="wizpane__icon"><img data-picker="icon" src="/icon-ev.webp" alt="" width="26" height="26" /></span>
+                <div class="wizpane__headtext">
+                  <h2 class="wizpane__title" data-picker="lead">Which charger are you after?</h2>
+                  <p class="wizpane__blurb" data-picker="sub"></p>
+                </div>
+                <span class="wizpane__count" data-picker="count"></span>
+              </header>
+              <div class="wizpane__body">
+                <ul class="qbitems">
+                  {items.map((it) => (
+                    <li class="qbitem__wrap" data-cat={it.category} hidden>
+                      <label class="qbitem" for={`it-${it._id}`}>
+                        <input class="qbitem__check" type="checkbox" id={`it-${it._id}`} data-item={it._id} />
+                        <span class="qbitem__box" aria-hidden="true"><Icon name="check" size={14} stroke={3} /></span>
+                        {it.image && (
+                          <span class="qbitem__shot"><img src={img(it.image, 220)} alt="" loading="lazy" /></span>
+                        )}
+                        <span class="qbitem__body">
+                          <span class="qbitem__name">
+                            {it.name}
+                            {it.popular && <span class="qbitem__pop">Popular</span>}
+                          </span>
+                          {it.blurb && <span class="qbitem__blurb">{it.blurb}</span>}
+                          <span class="qbitem__price">
+                            {it.priceNote && <span class="qbitem__from">{it.priceNote}</span>}
+                            <span data-price-display={it._id}></span>
+                            {it.unit && <span class="qbitem__unit">{it.unit}</span>}
+                          </span>
+                        </span>
+                      </label>
+                      {it.allowQty && (
+                        <div class="qbqty" data-qty-for={it._id} hidden>
+                          <button class="qbqty__btn" type="button" data-step="-1" aria-label="Fewer">−</button>
+                          <input class="qbqty__input" type="number" min="1" max={it.maxQty || 20} value="1"
+                                 data-qty-input={it._id} aria-label={`Quantity for ${it.name}`} />
+                          <button class="qbqty__btn" type="button" data-step="1" aria-label="More">+</button>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+                <p class="wizpane__skip" data-picker="skip">Nothing here for you? Skip straight past it.</p>
+              </div>
+            </section>
+
+            {/* ---------------- 4. details ---------------- */}
             <section class="wizpane" data-pane="details" hidden>
               <header class="wizpane__head noprint">
-                <span class="wizpane__icon wizpane__icon--glyph"><Icon name="document" size={24} /></span>
+                <span class="wizpane__icon wizpane__icon--glyph"><Icon name="document" size={22} /></span>
                 <div class="wizpane__headtext">
                   <h2 class="wizpane__title">Who is this quote for?</h2>
                   <p class="wizpane__blurb">Your quote appears straight away and you can download it. We get a copy so we can confirm it.</p>
@@ -154,9 +188,10 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
                   <input type="hidden" name="quote_lines" id="qb-lines-field" />
                   <input type="hidden" name="quote_total" id="qb-total-field" />
                   <input type="hidden" name="quote_ref" id="qb-ref-field" />
-                  {/* The same quote as JSON. The human fields above are for
-                      reading; this one is for whatever picks the email up and
-                      raises the invoice. */}
+                  <input type="hidden" name="quote_job" id="qb-job-field" />
+                  {/* The same quote as JSON. The fields above are for reading;
+                      this one is for whatever picks the email up and raises
+                      the invoice. */}
                   <input type="hidden" name="quote_json" id="qb-json-field" />
                   <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
@@ -184,10 +219,10 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
               </div>
             </section>
 
-            {/* the document */}
+            {/* ---------------- 5. the document ---------------- */}
             <section class="wizpane wizpane--doc" data-pane="quote" hidden>
               <header class="wizpane__head noprint">
-                <span class="wizpane__icon wizpane__icon--glyph"><Icon name="checkCircle" size={24} /></span>
+                <span class="wizpane__icon wizpane__icon--glyph"><Icon name="checkCircle" size={22} /></span>
                 <div class="wizpane__headtext">
                   <h2 class="wizpane__title">Your quote is ready</h2>
                   <p class="wizpane__blurb">A copy is on its way to us. Download it, or just close the tab — we have it.</p>
@@ -265,9 +300,8 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
               </div>
             </section>
 
-            {/* ---------------- bar ---------------- */}
             <footer class="wizbar noprint">
-              <div class="wizbar__total" id="qb-total-block">
+              <div class="wizbar__total" id="qb-total-block" hidden>
                 <span class="wizbar__label">Running total <em>inc GST</em></span>
                 <strong data-total="grand">$0</strong>
                 <button class="wizbar__peek" type="button" id="qb-peek" aria-expanded="false" aria-controls="qb-peek-panel">
@@ -276,7 +310,7 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
               </div>
               <div class="wizbar__actions">
                 <button class="btn btn-outline btn-sm" type="button" id="qb-back" hidden>Back</button>
-                <button class="btn btn-ink btn-sm" type="button" id="qb-next">
+                <button class="btn btn-ink btn-sm" type="button" id="qb-next" hidden>
                   Next <Icon name="chevron" size={15} stroke={2.6} />
                 </button>
                 <button class="btn btn-ink btn-sm" type="button" id="qb-submit" hidden>See my quote</button>
@@ -296,27 +330,25 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
 
   <SiteFooter settings={settings} contactHref="/#contact" />
 
-  <script is:inline define:vars={{ priceData, gst, validDays, stepMeta }}>
+  <script is:inline define:vars={{ priceData, gst, validDays, jobConfig, stepMeta }}>
     (function () {
       var fmt = function (n) { return '$' + Math.round(n).toLocaleString('en-AU'); };
       var incGst = function (n) { return n * (1 + gst / 100); };
       var BY_ID = {};
       priceData.forEach(function (p) { BY_ID[p.id] = p; });
 
-      // Card prices come from the same data the totals use, so a card and the
-      // finished quote can never disagree.
       priceData.forEach(function (p) {
         var el = document.querySelector('[data-price-display="' + p.id + '"]');
         if (el) el.textContent = fmt(incGst(p.price));
       });
 
-      var selected = {};
-      var step = 0;
-      var LAST_ITEM_STEP = stepMeta.length - 3;
-      var DETAILS = stepMeta.length - 2;
-      var QUOTE = stepMeta.length - 1;
+      var STEPS = ['job', 'main', 'extras', 'details', 'quote'];
+      var PANE = { job: 'job', main: 'picker', extras: 'picker', details: 'details', quote: 'quote' };
 
-      var panes = stepMeta.map(function (s) { return document.querySelector('[data-pane="' + s.key + '"]'); });
+      var selected = {};
+      var job = null;
+      var step = 0;
+
       var rails = stepMeta.map(function (s) { return document.querySelector('[data-rail="' + s.key + '"]'); });
       var backBtn = document.getElementById('qb-back');
       var nextBtn = document.getElementById('qb-next');
@@ -326,6 +358,7 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
       var peekPanel = document.getElementById('qb-peek-panel');
       var totalBlock = document.getElementById('qb-total-block');
       var form = document.getElementById('qb-form');
+      var wraps = [].slice.call(document.querySelectorAll('.qbitem__wrap'));
 
       function lines() {
         return Object.keys(selected).map(function (id) {
@@ -348,23 +381,73 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
         submitBtn.disabled = ls.length === 0;
       }
 
+      // Steps two and three are the same list shown twice, filtered: the job
+      // first, then everything else as extras.
+      function fillPicker(which) {
+        var cfg = jobConfig[job];
+        var cats = which === 'main' ? cfg.cats : cfg.extras;
+        wraps.forEach(function (w) { w.hidden = cats.indexOf(w.getAttribute('data-cat')) === -1; });
+
+        var isMain = which === 'main';
+        document.querySelector('[data-picker="lead"]').textContent =
+          isMain ? cfg.lead : 'Anything else while we are there?';
+        document.querySelector('[data-picker="sub"]').textContent =
+          isMain ? cfg.sub : 'A second visit costs far more than adding it to this one. Skip if you would rather not.';
+        document.querySelector('[data-picker="count"]').textContent =
+          'Step ' + (STEPS.indexOf(which) + 1) + ' of ' + STEPS.length;
+        document.querySelector('[data-picker="skip"]').textContent =
+          isMain ? 'Not sure which one? Pick the closest and we will confirm it.' : 'Nothing you need? Skip straight past.';
+      }
+
       function go(n) {
-        step = Math.max(0, Math.min(QUOTE, n));
-        panes.forEach(function (p, i) { if (p) p.hidden = i !== step; });
+        step = Math.max(0, Math.min(STEPS.length - 1, n));
+        var key = STEPS[step];
+        if (key === 'main' || key === 'extras') fillPicker(key);
+
+        Object.keys(PANE).forEach(function (k) {
+          var el = document.querySelector('[data-pane="' + PANE[k] + '"]');
+          if (el) el.hidden = true;
+        });
+        document.querySelector('[data-pane="' + PANE[key] + '"]').hidden = false;
+
         rails.forEach(function (r, i) {
           if (!r) return;
           r.classList.toggle('is-now', i === step);
           r.classList.toggle('is-done', i < step);
         });
-        backBtn.hidden = step === 0 || step === QUOTE;
-        nextBtn.hidden = step >= DETAILS;
-        submitBtn.hidden = step !== DETAILS;
-        printBtn.hidden = step !== QUOTE;
-        totalBlock.hidden = step === QUOTE;
+
+        backBtn.hidden = step === 0 || key === 'quote';
+        nextBtn.hidden = !(key === 'main' || key === 'extras');
+        submitBtn.hidden = key !== 'details';
+        printBtn.hidden = key !== 'quote';
+        totalBlock.hidden = key === 'job' || key === 'quote';
         peekPanel.hidden = true;
         peekBtn.setAttribute('aria-expanded', 'false');
       }
 
+      // --- choosing the job ---
+      document.querySelectorAll('.jobcard').forEach(function (card) {
+        card.addEventListener('click', function () {
+          var next = card.getAttribute('data-job');
+          if (job && job !== next) {
+            // Changing the job changes what is on offer, so the basket starts
+            // clean rather than carrying items the customer can no longer see.
+            selected = {};
+            document.querySelectorAll('.qbitem__check').forEach(function (b) { b.checked = false; });
+            document.querySelectorAll('.qbqty').forEach(function (q) { q.hidden = true; });
+            render();
+          }
+          job = next;
+          document.querySelectorAll('.jobcard').forEach(function (c) {
+            c.classList.toggle('is-picked', c === card);
+          });
+          var label = document.querySelector('[data-rail-label="main"]');
+          if (label) label.textContent = jobConfig[job].title;
+          go(1);
+        });
+      });
+
+      // --- selection ---
       document.querySelectorAll('.qbitem__check').forEach(function (box) {
         box.addEventListener('change', function () {
           var id = box.getAttribute('data-item');
@@ -400,12 +483,10 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
       nextBtn.addEventListener('click', function () { go(step + 1); });
       backBtn.addEventListener('click', function () { go(step - 1); });
 
-      // Only the item steps are clickable. Jumping ahead to the details is
-      // earned by walking through, not by clicking the rail.
       rails.forEach(function (r, i) {
-        if (!r || i > LAST_ITEM_STEP) return;
+        if (!r || i > 2) return;              // the rail walks back, never ahead
         r.classList.add('is-clickable');
-        r.addEventListener('click', function () { go(i); });
+        r.addEventListener('click', function () { if (job || i === 0) go(i); });
       });
 
       peekBtn.addEventListener('click', function () {
@@ -437,12 +518,14 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
         }).join('\n');
         document.getElementById('qb-total-field').value = fmt(incGst(sub)) + ' inc GST';
         document.getElementById('qb-ref-field').value = ref;
+        document.getElementById('qb-job-field').value = jobConfig[job] ? jobConfig[job].title : '';
+        form.querySelector('input[name="page_url"]').value = window.location.href;
 
-        // Machine-readable copy of the same numbers, so an automation can raise
-        // the invoice without parsing prose. Amounts are in whole dollars and
-        // exclude GST, matching how they are entered in the Studio.
+        // Amounts are whole dollars excluding GST, matching how they are
+        // entered in the Studio and how an accounting package wants them.
         document.getElementById('qb-json-field').value = JSON.stringify({
           quote_ref: ref,
+          job_type: jobConfig[job] ? jobConfig[job].title : '',
           issued: d.toISOString().slice(0, 10),
           valid_until: valid.toISOString().slice(0, 10),
           currency: 'AUD',
@@ -463,7 +546,6 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
             total_inc_gst: Math.round(incGst(sub))
           }
         });
-        form.querySelector('input[name="page_url"]').value = window.location.href;
 
         document.querySelector('[data-doc="ref"]').textContent = ref;
         document.querySelector('[data-doc="date"]').textContent = au(d);
@@ -487,7 +569,7 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(new FormData(form)).toString()
         }).catch(function () { /* the quote still shows; we chase it by phone */ })
-          .finally(function () { go(QUOTE); });
+          .finally(function () { go(STEPS.indexOf('quote')); });
       });
 
       printBtn.addEventListener('click', function () { window.print(); });
