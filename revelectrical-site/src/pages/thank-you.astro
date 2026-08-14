@@ -3,6 +3,7 @@ import ServiceBase from '../layouts/ServiceBase.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import ServiceGrid from '../components/ServiceGrid.astro';
+import JobDetails from '../components/JobDetails.astro';
 import Icon from '../components/Icon.astro';
 import { sanity } from '../lib/sanity.js';
 
@@ -66,6 +67,22 @@ const NEXT = [
       </div>
     </section>
 
+    {/* Step two. Hidden once it has been sent, so returning from it does not
+        look like the form was ignored. */}
+    <div id="detailsblock">
+      <JobDetails settings={settings} />
+    </div>
+    <section class="section bg-paper" id="detailsdone" hidden>
+      <div class="wrap detailsdone__inner">
+        <span class="thanks__tick" aria-hidden="true"><Icon name="check" size={30} stroke={2.6} /></span>
+        <h2 class="h2">Got the details — thank you.</h2>
+        <p class="lede" style="margin-top:16px;max-width:48ch">
+          That is everything we need to put a price together. We will come back to you within
+          24 hours, and we will call if anything needs clarifying.
+        </p>
+      </div>
+    </section>
+
     <section class="section bg-cream">
       <div class="wrap">
         <div class="process__head reveal">
@@ -124,4 +141,15 @@ const NEXT = [
   </main>
 
   <SiteFooter settings={settings} contactHref="/#contact" />
+
+  {/* The detail form posts back to this page with a flag, which is the only
+      state a static page can carry across a form post. */}
+  <script is:inline>
+    if (new URLSearchParams(location.search).get('detailed') === '1') {
+      var form = document.getElementById('detailsblock');
+      var done = document.getElementById('detailsdone');
+      if (form) form.hidden = true;
+      if (done) done.hidden = false;
+    }
+  </script>
 </ServiceBase>
