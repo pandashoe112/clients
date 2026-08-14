@@ -51,7 +51,6 @@ const KIND = { charger: 'EV chargers', battery: 'Batteries', both: 'Chargers and
                 ? <a class="dropdown__link" href={`/brands/${b.slug}/`}>{b.name} <span class="dropdown__pc">{KIND[b.kind]}</span></a>
                 : <span class="dropdown__link dropdown__link--soon">{b.name} <span class="dropdown__pc">Coming soon</span></span>
             ))}
-            <a class="dropdown__link dropdown__link--all" href="/brands/">All brands we install</a>
           </div>
         </div>
       )}
@@ -114,7 +113,6 @@ const KIND = { charger: 'EV chargers', battery: 'Batteries', both: 'Chargers and
                 ? <a class="mnav__sublink" href={`/brands/${b.slug}/`}>{b.name} <span class="mnav__pc">{KIND[b.kind]}</span></a>
                 : <span class="mnav__sublink mnav__sublink--soon">{b.name} <span class="mnav__pc">Coming soon</span></span>
             ))}
-            <a class="mnav__sublink mnav__sublink--all" href="/brands/">All brands we install</a>
           </div>
         </details>
       )}

@@ -15,7 +15,6 @@ export async function GET() {
     { loc: '/', priority: '1.0' },
     { loc: '/about/', priority: '0.7' },
     { loc: '/service-areas/', priority: '0.8' },
-    { loc: '/brands/', priority: '0.7' },
     ...services.map((s) => ({ loc: `/services/${s.slug}/`, priority: '0.9' })),
     ...areas.map((a) => ({ loc: `/electrician-${a.slug}/`, priority: '0.8' })),
     ...brands.map((b) => ({ loc: `/brands/${b.slug}/`, priority: '0.8' }))

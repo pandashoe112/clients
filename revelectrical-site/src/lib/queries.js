@@ -203,7 +203,7 @@ export const QUOTE_BUILDER_QUERY = `{
     inclusions, exclusions, terms, closingNote
   },
   "items": *[_type == "quoteItem" && active == true] | order(order asc){
-    _id, name, category, blurb, price, unit, allowQty, maxQty, priceNote, popular
+    _id, name, category, blurb, image, price, unit, allowQty, maxQty, priceNote, popular
   },
   "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },

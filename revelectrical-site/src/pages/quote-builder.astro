@@ -3,7 +3,7 @@ import ServiceBase from '../layouts/ServiceBase.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Icon from '../components/Icon.astro';
-import { sanity } from '../lib/sanity.js';
+import { sanity, img } from '../lib/sanity.js';
 import { QUOTE_BUILDER_QUERY } from '../lib/queries.js';
 import '../styles/quote.css';
 
@@ -103,6 +103,9 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
                         <label class="qbitem" for={`it-${it._id}`}>
                           <input class="qbitem__check" type="checkbox" id={`it-${it._id}`} data-item={it._id} />
                           <span class="qbitem__box" aria-hidden="true"><Icon name="check" size={14} stroke={3} /></span>
+                          {it.image && (
+                            <span class="qbitem__shot"><img src={img(it.image, 220)} alt="" loading="lazy" /></span>
+                          )}
                           <span class="qbitem__body">
                             <span class="qbitem__name">
                               {it.name}
