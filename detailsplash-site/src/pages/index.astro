@@ -4,7 +4,6 @@ import Hero from '../components/Hero.astro';
 import Intro from '../components/Intro.astro';
 import Services from '../components/Services.astro';
 import Included from '../components/Included.astro';
-import Packages from '../components/Packages.astro';
 import Addons from '../components/Addons.astro';
 import Club from '../components/Club.astro';
 import HowItWorks from '../components/HowItWorks.astro';
@@ -27,7 +26,6 @@ const { settings = {}, page = {}, services = [], packages = [], addons = [], gal
     <Intro page={page} settings={settings} />
     <Services page={page} services={services} />
     <Included page={page} settings={settings} packages={packages} />
-    <Packages page={page} settings={settings} packages={packages} />
     <Addons page={page} addons={addons} />
     <Club page={page} />
     <HowItWorks page={page} />

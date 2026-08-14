@@ -28,8 +28,13 @@ const headLead = m ? m[1] : page.compareHeading || '';
 const headTail = m ? m[2] : '';
 
 const pad = (i) => String(i + 1).padStart(2, '0');
+
+// This section absorbed the old packages section, so it carries its anchors:
+// the header, footer and three CTAs all still point at #packages, and the
+// coating links at #ceramic, which lands on the first coating row.
+const firstCoating = packages.findIndex((p) => !(p.vehiclePrices || []).length);
 ---
-<section class="incl" id="pricing2">
+<section class="incl" id="packages">
   <div class="wrap">
     <div class="incl-head">
       <div>
@@ -41,13 +46,14 @@ const pad = (i) => String(i + 1).padStart(2, '0');
 
     <div class="incl-list">
       {packages.map((p, i) => (
-        <details class="incl-row">
+        <details class="incl-row" id={i === firstCoating ? 'ceramic' : undefined}>
           <summary>
             <span class="num">({pad(i)})</span>
             <span class="main">
               <h3>{p.title}</h3>
               <p>{p.shortText || p.subtitle}</p>
             </span>
+            <span class="price"><small>from</small><b>{p.priceFrom}</b></span>
             <span class="plus" aria-hidden="true"></span>
           </summary>
           <div class="incl-body">
@@ -85,6 +91,5 @@ const pad = (i) => String(i + 1).padStart(2, '0');
       ))}
     </div>
 
-    <p class="incl-note">{page.ceramicNote} <a href={`sms:${settings.phoneHref || ''}`}>Text {settings.contactName} a photo</a> and he will tell you.</p>
   </div>
 </section>
