@@ -1,0 +1,175 @@
+---
+import ServiceBase from '../layouts/ServiceBase.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { sanity } from '../lib/sanity.js';
+
+// The page carries the full header and footer, so it needs the same lists they
+// are given everywhere else.
+const { settings, services, areas, navBrands } = await sanity.fetch(`{
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
+  "settings": *[_type == "siteSettings"][0]{
+    businessName, phone, phoneHref, email, licence, established,
+    ratingValue, reviewCount, instagramUrl, facebookUrl,
+    accreditations[]{ name, url, logo }
+  },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){
+    _id, name, postcode, "slug": slug.current
+  }
+}`);
+
+const LAST_UPDATED = '14 August 2026';
+const LEGAL_NAME = 'Everything Electrification Pty Ltd';
+---
+<ServiceBase
+  title={`Privacy policy | ${settings.businessName}`}
+  description={`How ${settings.businessName} collects, uses and protects the personal information you give us.`}
+  canonical="https://www.revelectrical.com.au/privacy/"
+  settings={settings}
+>
+  <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} contactHref="/#contact" />
+
+  <main id="main">
+    <section class="legal">
+      <div class="wrap legal__inner">
+        <h1 class="h1">Privacy policy</h1>
+        <p class="lede">
+          This policy explains what personal information {settings.businessName} collects, why we
+          collect it, and what we do with it. We handle personal information in line with the
+          Australian Privacy Principles in the Privacy Act 1988 (Cth).
+        </p>
+        <p class="legal__meta">Last updated {LAST_UPDATED}</p>
+
+        <h2>Who we are</h2>
+        <p>
+          {settings.businessName} is a trading name of {LEGAL_NAME}, a licensed electrical
+          contractor operating in Melbourne, Victoria. In this policy, "we", "us" and "our" mean
+          {LEGAL_NAME} trading as {settings.businessName}.
+        </p>
+
+        <h2>What we collect</h2>
+        <p>When you contact us or request a quote, we may collect:</p>
+        <ul>
+          <li>your name, phone number and email address</li>
+          <li>your address or suburb, so we know where the work is</li>
+          <li>details about the job, including any photos or notes you send us</li>
+          <li>records of our correspondence with you</li>
+        </ul>
+        <p>
+          We also collect limited technical information automatically when you browse the site,
+          such as your device type, browser, approximate location and the pages you visit. This is
+          described under Cookies and analytics below.
+        </p>
+        <p>
+          We do not collect sensitive information such as health, financial account or government
+          identifier details through this website.
+        </p>
+
+        <h2>How we collect it</h2>
+        <p>
+          Usually directly from you, when you fill in a form on this site, call us, text us or send
+          us an email. We may also receive your details if someone refers you to us, or through a
+          review or listing platform you have chosen to post on.
+        </p>
+
+        <h2>Why we use it</h2>
+        <ul>
+          <li>to reply to your enquiry and prepare a quote</li>
+          <li>to carry out and schedule the work you have asked for</li>
+          <li>to invoice you and keep the records we are required to keep</li>
+          <li>to meet our obligations as a licensed electrical contractor</li>
+          <li>to improve how the website and our service work</li>
+        </ul>
+        <p>
+          We do not sell your personal information, and we do not use it for marketing unless you
+          have asked us to.
+        </p>
+
+        <h2>Who we share it with</h2>
+        <p>
+          We share personal information only where we need to, and only with parties who provide
+          services to us. That includes the companies that host this website and store form
+          submissions, our email provider, and our accounting and invoicing software. We may also
+          disclose information where the law requires it.
+        </p>
+        <p>
+          Some of these providers store data outside Australia. Where that happens, we take
+          reasonable steps to ensure your information is handled consistently with the Australian
+          Privacy Principles.
+        </p>
+
+        <h2>Cookies and analytics</h2>
+        <p>
+          This site uses Google Analytics, via Google Tag Manager, to understand how visitors use
+          the site. It sets cookies that record things like which pages are viewed and how people
+          arrive at the site. This information is aggregated and is not used to identify you
+          personally.
+        </p>
+        <p>
+          You can block or delete cookies in your browser settings. The site will still work,
+          though some parts may not behave as expected. You can also opt out of Google Analytics
+          using Google's browser add-on.
+        </p>
+
+        <h2>How we store and protect it</h2>
+        <p>
+          We take reasonable steps to protect personal information from loss, misuse and
+          unauthorised access, including limiting who can access it and using reputable providers
+          with their own security controls. No method of transmission or storage is completely
+          secure, so we cannot guarantee absolute security.
+        </p>
+        <p>
+          We keep personal information for as long as we need it for the purposes above, or for as
+          long as the law requires us to. When we no longer need it, we take reasonable steps to
+          destroy or de-identify it.
+        </p>
+
+        <h2>Accessing and correcting your information</h2>
+        <p>
+          You can ask us for a copy of the personal information we hold about you, and ask us to
+          correct it if it is wrong or out of date. Email us at
+          <a href={`mailto:${settings.email}`}>{settings.email}</a> and we will respond within a
+          reasonable period. We may need to verify your identity first. If we refuse a request, we
+          will tell you why in writing.
+        </p>
+
+        <h2>Making a complaint</h2>
+        <p>
+          If you think we have mishandled your personal information, please contact us first at
+          <a href={`mailto:${settings.email}`}>{settings.email}</a> so we can try to resolve it. If
+          you are not satisfied with our response, you can contact the Office of the Australian
+          Information Commissioner at <a href="https://www.oaic.gov.au" rel="noopener">oaic.gov.au</a>
+          or on 1300 363 992.
+        </p>
+
+        <h2>Changes to this policy</h2>
+        <p>
+          We may update this policy from time to time. The current version is always the one on
+          this page, and the date at the top tells you when it last changed.
+        </p>
+
+        <h2>Contact us</h2>
+        <p>
+          {LEGAL_NAME} t/a {settings.businessName}<br />
+          Email <a href={`mailto:${settings.email}`}>{settings.email}</a><br />
+          Phone <a class="js-call" href={settings.phoneHref}>{settings.phone}</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter settings={settings} contactHref="/#contact" />
+</ServiceBase>
+
+<style>
+  .legal { padding: 64px 0 88px; }
+  .legal__inner { max-width: 760px; }
+  .legal__meta { margin: 18px 0 40px; font-size: 14.5px; opacity: .65; }
+  .legal h2 { margin: 40px 0 12px; font-size: 22px; line-height: 1.25; }
+  .legal p, .legal li { line-height: 1.65; }
+  .legal p { margin-bottom: 14px; }
+  .legal ul { margin: 0 0 14px 20px; }
+  .legal li { margin-bottom: 7px; }
+  .legal a { text-decoration: underline; text-underline-offset: 3px; }
+</style>

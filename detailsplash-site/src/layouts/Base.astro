@@ -3,7 +3,9 @@ import '../styles/global.css';
 import GoogleMark from '../components/GoogleMark.astro';
 import { img } from '../lib/sanity.js';
 
-const { settings = {}, page = {} } = Astro.props;
+// Legal pages pass structuredData={false}: a privacy policy is not a
+// business listing and has no FAQs, so emitting either would be noise.
+const { settings = {}, page = {}, structuredData = true } = Astro.props;
 const faqs = page.faqs || [];
 const packages = page.packages || [];
 
@@ -241,29 +243,14 @@ const faqLd = {
     </div>
     <div class="foot-bottom">
       <span>{settings.copyrightLine}</span>
-      <span>{settings.footerNote}</span>
+      <span>{settings.footerNote} · <a href="/privacy/">Privacy policy</a></span>
     </div>
   </div>
 </footer>
 
-<script type="application/ld+json" set:html={ld(business)} />
-<script type="application/ld+json" set:html={ld(faqLd)} />
+{structuredData && <script type="application/ld+json" set:html={ld(business)} />}
+{structuredData && faqs.length > 0 && <script type="application/ld+json" set:html={ld(faqLd)} />}
 
-<script>
-  const burger = document.querySelector('.burger');
-  const mob = document.getElementById('mobnav');
-  burger?.addEventListener('click', () => {
-    const open = mob.classList.toggle('open');
-    burger.setAttribute('aria-expanded', String(open));
-    document.body.style.overflow = open ? 'hidden' : '';
-  });
-  document.querySelectorAll('#mobnav a').forEach((a) => {
-    a.addEventListener('click', () => {
-      mob.classList.remove('open');
-      burger?.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
-  });
-</script>
+<script src="/js/nav.js" defer></script>
 </body>
 </html>

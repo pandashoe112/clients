@@ -1,6 +1,14 @@
 [build]
   command = "npm run build"
   publish = "dist"
+  # The repo holds more than one client site. This skips the build when the
+  # push did not touch this folder, so a DetailSplash commit does not rebuild
+  # Revelectrical. Exit 0 means skip, so the sense reads backwards.
+  #
+  # The INCOMING_HOOK_TITLE guard matters: the Sanity webhook fires against the
+  # same commit as the last build, so the diff is empty and a content publish
+  # from the Studio would otherwise be skipped and never reach the site.
+  ignore = '[ -z "$INCOMING_HOOK_TITLE" ] && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- .'
 
 [build.environment]
   NODE_VERSION = "20"
@@ -9,4 +17,15 @@
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(), interest-cohort=()"
+    # Looser than it looks because of Google Tag Manager: its loader is an
+    # inline script and it injects further scripts at runtime, so script-src
+    # cannot drop 'unsafe-inline' without breaking tracking. The directives
+    # that still earn their place are object-src, base-uri, frame-ancestors
+    # and form-action, none of which GTM needs.
+    #
+    # frame-src covers the GTM <noscript> iframe. Forms post to /thank-you/ and
+    # the quote builder posts to /, both same origin, so form-action stays.
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://cdn.sanity.io https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://cdn.sanity.io https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com; frame-src https://www.googletagmanager.com; upgrade-insecure-requests"
