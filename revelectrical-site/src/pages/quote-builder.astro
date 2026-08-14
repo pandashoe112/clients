@@ -54,10 +54,14 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
   <main id="main">
     <section class="section bg-cream qbpage" id="builder">
       <div class="wrap">
+        {/* Kept to one compact row so the panel itself starts above the fold
+            rather than after a scroll. */}
         <div class="qbpage__head noprint">
-          <p class="eyebrow">Instant estimate</p>
-          <h1 class="h1" style="margin-top:10px">{quote?.introHeading || 'Build your own quote'}</h1>
-          <p class="lede measure" style="margin-top:16px">{quote?.introText}</p>
+          <div>
+            <p class="eyebrow">Instant estimate</p>
+            <h1 class="qbpage__title">{quote?.introHeading || 'Build your own quote'}</h1>
+          </div>
+          <p class="qbpage__sub">{quote?.introText}</p>
         </div>
 
         <div class="wiz" id="wiz">

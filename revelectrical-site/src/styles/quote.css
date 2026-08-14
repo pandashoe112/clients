@@ -3,9 +3,15 @@
    never moves. The document it produces is styled to survive print-to-PDF,
    which is how a customer saves it. */
 
-.qbpage__head{max-width:60ch;margin:0 0 clamp(26px,3vw,40px)}
+/* The whole builder is meant to sit in one screen, so the page around it is
+   trimmed back: a short header row, tight section padding, and a panel sized
+   against the viewport rather than its own content. */
+.qbpage{padding-top:clamp(20px,2.4vw,32px)!important;padding-bottom:clamp(24px,3vw,44px)!important}
+.qbpage__head{display:flex;align-items:baseline;justify-content:space-between;gap:26px;flex-wrap:wrap;margin:0 0 clamp(14px,1.6vw,20px)}
+.qbpage__title{font-family:var(--font-head);font-weight:800;font-size:clamp(1.5rem,2.6vw,2.125rem);line-height:1.08;letter-spacing:-.025em;margin:6px 0 0}
+.qbpage__sub{margin:0;max-width:46ch;font-size:.9375rem;line-height:1.55;color:#5d7b7f}
 
-.wiz{display:grid;grid-template-columns:250px minmax(0,1fr);background:var(--paper);border:1px solid rgba(3,47,53,.12);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 26px 60px rgba(3,47,53,.09);min-height:600px}
+.wiz{display:grid;grid-template-columns:250px minmax(0,1fr);background:var(--paper);border:1px solid rgba(3,47,53,.12);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 26px 60px rgba(3,47,53,.09);height:calc(100vh - 300px);min-height:470px;max-height:760px}
 
 /* --- rail --- */
 .wiz__rail{background:var(--ink);color:var(--cream);padding:clamp(22px,2vw,30px);display:flex;flex-direction:column;justify-content:space-between;gap:30px}
@@ -26,9 +32,9 @@
 .wiz__stage{display:flex;flex-direction:column;min-width:0}
 .wizpane{flex:1;display:flex;flex-direction:column;min-height:0}
 .wizpane[hidden]{display:none}
-.wizpane__head{display:flex;align-items:flex-start;gap:14px;padding:clamp(22px,2.2vw,30px);border-bottom:1px solid rgba(3,47,53,.1)}
-.wizpane__icon{flex:none;width:46px;height:46px;border-radius:12px;background:var(--cream);display:flex;align-items:center;justify-content:center;color:var(--ink)}
-.wizpane__icon img{width:26px;height:26px;display:block}
+.wizpane__head{display:flex;align-items:flex-start;gap:13px;padding:clamp(16px,1.7vw,22px) clamp(20px,2.2vw,28px);border-bottom:1px solid rgba(3,47,53,.1)}
+.wizpane__icon{flex:none;width:40px;height:40px;border-radius:12px;background:var(--cream);display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.wizpane__icon img{width:23px;height:23px;display:block}
 .wizpane__headtext{flex:1;min-width:0}
 .wizpane__title{font-family:var(--font-head);font-size:clamp(1.125rem,1.7vw,1.375rem);margin:0;letter-spacing:-.015em}
 .wizpane__blurb{margin:5px 0 0;font-size:.9375rem;line-height:1.5;color:#5d7b7f}
@@ -64,7 +70,7 @@
 .qbqty__input{width:56px;height:30px;text-align:center;border-radius:9px;border:1px solid rgba(3,47,53,.2);background:var(--paper);font:inherit;font-size:.875rem;color:var(--ink)}
 
 /* --- bottom bar --- */
-.wizbar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px clamp(20px,2.2vw,28px);border-top:1px solid rgba(3,47,53,.12);background:var(--cream)}
+.wizbar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px clamp(20px,2.2vw,28px);border-top:1px solid rgba(3,47,53,.12);background:var(--cream)}
 .wizbar__total{display:flex;align-items:baseline;gap:12px;min-width:0}
 .wizbar__total[hidden]{display:none}
 .wizbar__label{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8aa0a3}
@@ -122,7 +128,7 @@
 .qdoc__foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:28px 0 0;padding-top:16px;border-top:1px solid rgba(3,47,53,.12);font-size:.6875rem;color:#5d7b7f}
 
 @media (max-width:1080px){
-  .wiz{grid-template-columns:minmax(0,1fr);min-height:0}
+  .wiz{grid-template-columns:minmax(0,1fr);height:auto;max-height:none;min-height:0}
   .wiz__rail{flex-direction:row;align-items:center;padding:14px 16px;gap:14px;overflow-x:auto}
   .wizrail{grid-auto-flow:column;gap:6px}
   .wizrail__item{padding:8px 10px;font-size:.8125rem;white-space:nowrap}
