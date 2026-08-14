@@ -9,26 +9,38 @@ import '../styles/quote.css';
 
 const { settings, quote, items, services, areas, navBrands } = await sanity.fetch(QUOTE_BUILDER_QUERY);
 
-// Grouped for the picker. The order comes from the item's own order field, so
-// the client controls both which items show and where they sit.
-const GROUPS = [
-  { key: 'ev', title: 'EV charging', icon: '/icon-ev.webp', blurb: 'Chargers supplied and installed, or install only.' },
-  { key: 'switchboard', title: 'Switchboard and safety', icon: '/icon-switchboard.webp', blurb: 'The compliance work most homes are overdue for.' },
-  { key: 'battery', title: 'Solar and battery', icon: '/icon-battery.webp', blurb: 'Storage, backup circuits and tie-ins.' },
-  { key: 'lighting', title: 'Lighting', icon: '/icon-lighting.webp', blurb: 'Downlights, sensors and replacements.' },
-  { key: 'home', title: 'Around the home', icon: '/icon-induction.webp', blurb: 'The small jobs worth doing while we are there.' }
-].map((g) => ({ ...g, items: items.filter((i) => i.category === g.key) }))
- .filter((g) => g.items.length > 0);
+// The builder is a fixed landscape panel rather than a page you scroll, so the
+// work is deciding what belongs on each screen. A step draws from one or more
+// categories; the order within a step is the item's own order field, so the
+// client still controls the running order from the Studio.
+const STEPS = [
+  { key: 'chargers', title: 'Chargers', lead: 'Which charger are you after?',
+    blurb: 'Supplied and installed, or install only if you have already bought one.',
+    icon: '/icon-ev.webp', cats: ['ev'] },
+  { key: 'batteries', title: 'Batteries', lead: 'Storing your own power?',
+    blurb: 'The electrical side of a home battery, and keeping the essentials on when the grid drops.',
+    icon: '/icon-battery.webp', cats: ['battery'] },
+  { key: 'accessories', title: 'Accessories', lead: 'Anything else while we are there?',
+    blurb: 'The small jobs that cost a fraction of what they do as their own callout.',
+    icon: '/icon-lighting.webp', cats: ['lighting', 'home'] },
+  { key: 'safety', title: 'Safety', lead: 'Worth doing at the same time',
+    blurb: 'The compliance work most Melbourne homes are overdue for.',
+    icon: '/icon-switchboard.webp', cats: ['switchboard'] }
+].map((s) => ({ ...s, items: items.filter((i) => s.cats.includes(i.category)) }))
+ .filter((s) => s.items.length > 0);
 
 const gst = quote?.gstRate ?? 10;
 const validDays = quote?.validDays ?? 30;
 
-// The browser needs the price list to total things up live, so it ships as
-// data rather than being re-fetched.
 const priceData = items.map((i) => ({
-  id: i._id, name: i.name, price: i.price, unit: i.unit || '',
-  allowQty: !!i.allowQty, category: i.category
+  id: i._id, name: i.name, price: i.price, unit: i.unit || '', allowQty: !!i.allowQty
 }));
+
+// The steps as the browser sees them: the item panes, then details, then the
+// finished document.
+const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
+                  { key: 'details', title: 'Details' },
+                  { key: 'quote', title: 'Your quote' }];
 ---
 <ServiceBase
   title={`Build your own quote | ${settings.businessName}`}
@@ -40,276 +52,306 @@ const priceData = items.map((i) => ({
   <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} contactHref="#builder" />
 
   <main id="main">
-    <section class="section bg-cream qb__intro">
+    <section class="section bg-cream qbpage" id="builder">
       <div class="wrap">
-        <p class="eyebrow">Instant estimate</p>
-        <h1 class="h1" style="margin-top:12px">{quote?.introHeading || 'Build your own quote'}</h1>
-        <p class="lede measure" style="margin-top:18px">{quote?.introText}</p>
-        <ul class="qb__assure">
-          <li><Icon name="checkCircle" size={18} stroke={2.2} /> Standard pricing, GST included</li>
-          <li><Icon name="checkCircle" size={18} stroke={2.2} /> Download it as a PDF</li>
-          <li><Icon name="checkCircle" size={18} stroke={2.2} /> No obligation, no phone call needed</li>
-        </ul>
-      </div>
-    </section>
+        <div class="qbpage__head noprint">
+          <p class="eyebrow">Instant estimate</p>
+          <h1 class="h1" style="margin-top:10px">{quote?.introHeading || 'Build your own quote'}</h1>
+          <p class="lede measure" style="margin-top:16px">{quote?.introText}</p>
+        </div>
 
-    <section class="section bg-paper" id="builder">
-      <div class="wrap qb__layout">
-        {/* ---------------- picker ---------------- */}
-        <div class="qb__main" id="qb-step-items">
-          {GROUPS.map((g, gi) => (
-            <section class="qbgroup">
-              <header class="qbgroup__head">
-                <span class="qbgroup__icon"><img src={g.icon} alt="" width="28" height="28" loading="lazy" /></span>
-                <div>
-                  <h2 class="qbgroup__title">{g.title}</h2>
-                  <p class="qbgroup__blurb">{g.blurb}</p>
+        <div class="wiz" id="wiz">
+          {/* ---------------- rail ---------------- */}
+          <nav class="wiz__rail noprint" aria-label="Quote steps">
+            <ol class="wizrail">
+              {stepMeta.map((s, i) => (
+                <li class="wizrail__item" data-rail={s.key}>
+                  <span class="wizrail__dot">{i + 1}</span>
+                  <span class="wizrail__label">{s.title}</span>
+                </li>
+              ))}
+            </ol>
+            <div class="wizrail__foot">
+              <p class="wizrail__note">Standard pricing, GST included. Nothing here commits you to anything.</p>
+              <a class="wizrail__call js-call" href={settings.phoneHref}>
+                <Icon name="phone" size={15} stroke={2.2} /> {settings.phone}
+              </a>
+            </div>
+          </nav>
+
+          {/* ---------------- stage ---------------- */}
+          <div class="wiz__stage">
+            {STEPS.map((s, si) => (
+              <section class="wizpane" data-pane={s.key} hidden={si !== 0}>
+                <header class="wizpane__head noprint">
+                  <span class="wizpane__icon"><img src={s.icon} alt="" width="26" height="26" /></span>
+                  <div class="wizpane__headtext">
+                    <h2 class="wizpane__title">{s.lead}</h2>
+                    <p class="wizpane__blurb">{s.blurb}</p>
+                  </div>
+                  <span class="wizpane__count">Step {si + 1} of {stepMeta.length}</span>
+                </header>
+
+                <div class="wizpane__body">
+                  <ul class="qbitems">
+                    {s.items.map((it) => (
+                      <li class="qbitem__wrap">
+                        <label class="qbitem" for={`it-${it._id}`}>
+                          <input class="qbitem__check" type="checkbox" id={`it-${it._id}`} data-item={it._id} />
+                          <span class="qbitem__box" aria-hidden="true"><Icon name="check" size={14} stroke={3} /></span>
+                          <span class="qbitem__body">
+                            <span class="qbitem__name">
+                              {it.name}
+                              {it.popular && <span class="qbitem__pop">Popular</span>}
+                            </span>
+                            {it.blurb && <span class="qbitem__blurb">{it.blurb}</span>}
+                            <span class="qbitem__price">
+                              {it.priceNote && <span class="qbitem__from">{it.priceNote}</span>}
+                              <span data-price-display={it._id}></span>
+                              {it.unit && <span class="qbitem__unit">{it.unit}</span>}
+                            </span>
+                          </span>
+                        </label>
+                        {it.allowQty && (
+                          <div class="qbqty" data-qty-for={it._id} hidden>
+                            <button class="qbqty__btn" type="button" data-step="-1" aria-label="Fewer">−</button>
+                            <input class="qbqty__input" type="number" min="1" max={it.maxQty || 20} value="1"
+                                   data-qty-input={it._id} aria-label={`Quantity for ${it.name}`} />
+                            <button class="qbqty__btn" type="button" data-step="1" aria-label="More">+</button>
+                          </div>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                  <p class="wizpane__skip">Nothing here for you? Skip straight past it.</p>
+                </div>
+              </section>
+            ))}
+
+            {/* details */}
+            <section class="wizpane" data-pane="details" hidden>
+              <header class="wizpane__head noprint">
+                <span class="wizpane__icon wizpane__icon--glyph"><Icon name="document" size={24} /></span>
+                <div class="wizpane__headtext">
+                  <h2 class="wizpane__title">Who is this quote for?</h2>
+                  <p class="wizpane__blurb">Your quote appears straight away and you can download it. We get a copy so we can confirm it.</p>
+                </div>
+                <span class="wizpane__count">Step {stepMeta.length - 1} of {stepMeta.length}</span>
+              </header>
+              <div class="wizpane__body">
+                <form class="formgrid formgrid--two" id="qb-form" name="custom-quote" method="POST" action="/thank-you/"
+                      data-netlify="true" netlify-honeypot="bot-field" novalidate>
+                  <input type="hidden" name="form-name" value="custom-quote" />
+                  <input type="hidden" name="page_url" />
+                  <input type="hidden" name="subject" value="🧾 Custom quote built on the site" />
+                  <input type="hidden" name="quote_lines" id="qb-lines-field" />
+                  <input type="hidden" name="quote_total" id="qb-total-field" />
+                  <input type="hidden" name="quote_ref" id="qb-ref-field" />
+                  <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+                  <div class="field">
+                    <label class="label" for="q_name">Name</label>
+                    <input class="input" type="text" id="q_name" name="name" autocomplete="name" placeholder="First and last name" required />
+                  </div>
+                  <div class="field">
+                    <label class="label" for="q_email">Email</label>
+                    <input class="input" type="email" id="q_email" name="email" autocomplete="email" placeholder="Email address" required />
+                  </div>
+                  <div class="field">
+                    <label class="label" for="q_phone">Phone number</label>
+                    <input class="input" type="tel" id="q_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
+                  </div>
+                  <div class="field">
+                    <label class="label" for="q_address">Address</label>
+                    <input class="input" type="text" id="q_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
+                  </div>
+                  <div class="field field--wide">
+                    <label class="label" for="q_notes">Anything we should know? <span class="label__opt">(optional)</span></label>
+                    <textarea class="input" id="q_notes" name="notes" placeholder="Access, timing, anything unusual"></textarea>
+                  </div>
+                </form>
+              </div>
+            </section>
+
+            {/* the document */}
+            <section class="wizpane wizpane--doc" data-pane="quote" hidden>
+              <header class="wizpane__head noprint">
+                <span class="wizpane__icon wizpane__icon--glyph"><Icon name="checkCircle" size={24} /></span>
+                <div class="wizpane__headtext">
+                  <h2 class="wizpane__title">Your quote is ready</h2>
+                  <p class="wizpane__blurb">A copy is on its way to us. Download it, or just close the tab — we have it.</p>
                 </div>
               </header>
-              <ul class="qbitems">
-                {g.items.map((it) => (
-                  <li>
-                    <label class="qbitem" for={`it-${it._id}`}>
-                      <input class="qbitem__check" type="checkbox" id={`it-${it._id}`}
-                             data-item={it._id} data-price={it.price} />
-                      <span class="qbitem__box" aria-hidden="true"><Icon name="check" size={14} stroke={3} /></span>
-                      <span class="qbitem__body">
-                        <span class="qbitem__top">
-                          <span class="qbitem__name">
-                            {it.name}
-                            {it.popular && <span class="qbitem__pop">Popular</span>}
-                          </span>
-                          <span class="qbitem__price">
-                            {it.priceNote && <span class="qbitem__from">{it.priceNote}</span>}
-                            <span data-price-display={it._id}></span>
-                            {it.unit && <span class="qbitem__unit">{it.unit}</span>}
-                          </span>
-                        </span>
-                        {it.blurb && <span class="qbitem__blurb">{it.blurb}</span>}
-                      </span>
-                    </label>
-                    {it.allowQty && (
-                      <div class="qbqty" data-qty-for={it._id} hidden>
-                        <span class="qbqty__label">How many?</span>
-                        <button class="qbqty__btn" type="button" data-step="-1" aria-label="Fewer">−</button>
-                        <input class="qbqty__input" type="number" min="1" max={it.maxQty || 20} value="1"
-                               data-qty-input={it._id} aria-label={`Quantity for ${it.name}`} />
-                        <button class="qbqty__btn" type="button" data-step="1" aria-label="More">+</button>
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
+              <div class="wizpane__body wizpane__body--doc">
+                <article class="qdoc" id="qb-doc">
+                  <header class="qdoc__head">
+                    <div>
+                      <img class="qdoc__logo" src="/logo.webp" alt={settings.businessName} width="178" height="28" />
+                      <p class="qdoc__biz">
+                        Everything Electrification Pty Ltd t/a {settings.businessName}<br />
+                        {settings.licence} · Licensed and insured<br />
+                        {settings.phone} · {settings.email}
+                      </p>
+                    </div>
+                    <div class="qdoc__meta">
+                      <h3 class="qdoc__doctitle">Quotation</h3>
+                      <dl>
+                        <div><dt>Quote no.</dt><dd data-doc="ref">—</dd></div>
+                        <div><dt>Date</dt><dd data-doc="date">—</dd></div>
+                        <div><dt>Valid until</dt><dd data-doc="valid">—</dd></div>
+                      </dl>
+                    </div>
+                  </header>
+
+                  <section class="qdoc__to">
+                    <h4>Prepared for</h4>
+                    <p data-doc="customer">—</p>
+                  </section>
+
+                  <table class="qdoc__table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Description</th>
+                        <th scope="col" class="num">Qty</th>
+                        <th scope="col" class="num">Unit</th>
+                        <th scope="col" class="num">Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody data-doc="lines"></tbody>
+                    <tfoot>
+                      <tr><th scope="row" colspan="3">Subtotal</th><td class="num" data-doc="sub">$0</td></tr>
+                      <tr><th scope="row" colspan="3">GST ({gst}%)</th><td class="num" data-doc="gst">$0</td></tr>
+                      <tr class="qdoc__grand"><th scope="row" colspan="3">Total including GST</th><td class="num" data-doc="grand">$0</td></tr>
+                    </tfoot>
+                  </table>
+
+                  <div class="qdoc__cols">
+                    <section>
+                      <h4>What every quote includes</h4>
+                      <ul>{(quote?.inclusions || []).map((t) => <li>{t}</li>)}</ul>
+                    </section>
+                    <section>
+                      <h4>Not included</h4>
+                      <ul>{(quote?.exclusions || []).map((t) => <li>{t}</li>)}</ul>
+                    </section>
+                  </div>
+
+                  {quote?.closingNote && <p class="qdoc__note">{quote.closingNote}</p>}
+
+                  {(quote?.terms || []).length > 0 && (
+                    <section class="qdoc__terms">
+                      <h4>Terms</h4>
+                      <ol>{quote.terms.map((t) => <li>{t}</li>)}</ol>
+                    </section>
+                  )}
+
+                  <footer class="qdoc__foot">
+                    <span>{settings.businessName}</span>
+                    <span>{settings.licence}</span>
+                    <span>revelectrical.com.au</span>
+                  </footer>
+                </article>
+              </div>
             </section>
-          ))}
-        </div>
 
-        {/* ---------------- running total ---------------- */}
-        <aside class="qb__side">
-          <div class="qbcart">
-            <h2 class="qbcart__title">Your quote</h2>
-            <ul class="qbcart__lines" id="qb-lines">
-              <li class="qbcart__empty">Nothing selected yet — tick something to start.</li>
-            </ul>
-            <dl class="qbcart__totals">
-              <div class="qbcart__grand"><dt>Total <span>inc GST</span></dt><dd data-total="grand">$0</dd></div>
-            </dl>
-            <button class="btn btn-ink btn-block" type="button" id="qb-continue" disabled>
-              Continue <Icon name="chevron" size={15} stroke={2.6} />
-            </button>
-            <p class="qbcart__note">Indicative only. We confirm it with a quick site check before anything is booked.</p>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    {/* ---------------- details ---------------- */}
-    <section class="section bg-cream" id="qb-step-details" hidden>
-      <div class="wrap qb__details">
-        <div>
-          <p class="eyebrow">Nearly there</p>
-          <h2 class="h2" style="margin-top:12px">Who is this quote for?</h2>
-          <p class="lede" style="margin-top:18px;max-width:44ch">
-            Your quote appears on screen straight away and you can download it. We get a copy
-            so we can confirm the details and lock the price in.
-          </p>
-        </div>
-        <div class="quotecard">
-          <div class="quotecard__body">
-            <form class="formgrid" id="qb-form" name="custom-quote" method="POST" action="/thank-you/"
-                  data-netlify="true" netlify-honeypot="bot-field" novalidate>
-              <input type="hidden" name="form-name" value="custom-quote" />
-              <input type="hidden" name="page_url" />
-              <input type="hidden" name="subject" value="🧾 Custom quote built on the site" />
-              <input type="hidden" name="quote_lines" id="qb-lines-field" />
-              <input type="hidden" name="quote_total" id="qb-total-field" />
-              <input type="hidden" name="quote_ref" id="qb-ref-field" />
-              <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
-
-              <div class="field">
-                <label class="label" for="q_name">Name</label>
-                <input class="input" type="text" id="q_name" name="name" autocomplete="name" placeholder="First and last name" required />
+            {/* ---------------- bar ---------------- */}
+            <footer class="wizbar noprint">
+              <div class="wizbar__total" id="qb-total-block">
+                <span class="wizbar__label">Running total <em>inc GST</em></span>
+                <strong data-total="grand">$0</strong>
+                <button class="wizbar__peek" type="button" id="qb-peek" aria-expanded="false" aria-controls="qb-peek-panel">
+                  <span data-count>0 items</span> <Icon name="caret" size={13} stroke={2.6} />
+                </button>
               </div>
-              <div class="field">
-                <label class="label" for="q_email">Email</label>
-                <input class="input" type="email" id="q_email" name="email" autocomplete="email" placeholder="Email address" required />
+              <div class="wizbar__actions">
+                <button class="btn btn-outline btn-sm" type="button" id="qb-back" hidden>Back</button>
+                <button class="btn btn-ink btn-sm" type="button" id="qb-next">
+                  Next <Icon name="chevron" size={15} stroke={2.6} />
+                </button>
+                <button class="btn btn-ink btn-sm" type="button" id="qb-submit" hidden>See my quote</button>
+                <button class="btn btn-lime btn-sm" type="button" id="qb-print" hidden>
+                  <Icon name="upload" size={15} stroke={2.2} /> Download PDF
+                </button>
               </div>
-              <div class="field">
-                <label class="label" for="q_phone">Phone number</label>
-                <input class="input" type="tel" id="q_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
+              <div class="wizpeek" id="qb-peek-panel" hidden>
+                <ul id="qb-lines"><li class="wizpeek__empty">Nothing selected yet.</li></ul>
               </div>
-              <div class="field">
-                <label class="label" for="q_address">Address</label>
-                <input class="input" type="text" id="q_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
-              </div>
-              <div class="field">
-                <label class="label" for="q_notes">Anything we should know? <span class="label__opt">(optional)</span></label>
-                <textarea class="input" id="q_notes" name="notes" placeholder="Access, timing, anything unusual"></textarea>
-              </div>
-
-              <button class="btn btn-ink btn-block" type="submit">See my quote</button>
-              <button class="btn btn-outline btn-block" type="button" id="qb-back">Back to the list</button>
-            </form>
+            </footer>
           </div>
         </div>
-      </div>
-    </section>
-
-    {/* ---------------- the quote document ---------------- */}
-    <section class="section bg-paper" id="qb-step-quote" hidden>
-      <div class="wrap">
-        <div class="qbdone noprint">
-          <div>
-            <p class="eyebrow">Your quote is ready</p>
-            <h2 class="h2" style="margin-top:12px">Here it is.</h2>
-            <p class="lede" style="margin-top:16px;max-width:48ch">
-              A copy is on its way to us too. Download it below, or just close the tab — we have it.
-            </p>
-          </div>
-          <div class="btn-row">
-            <button class="btn btn-ink" type="button" id="qb-print">
-              <Icon name="upload" size={16} stroke={2.2} /> Download as PDF
-            </button>
-            <a class="btn btn-outline js-call" href={settings.phoneHref}>Call {settings.phone}</a>
-          </div>
-        </div>
-
-        <article class="qdoc" id="qb-doc">
-          <header class="qdoc__head">
-            <div>
-              <img class="qdoc__logo" src="/logo.webp" alt={settings.businessName} width="178" height="28" />
-              <p class="qdoc__biz">
-                Everything Electrification Pty Ltd t/a {settings.businessName}<br />
-                {settings.licence} · Licensed and insured<br />
-                {settings.phone} · {settings.email}
-              </p>
-            </div>
-            <div class="qdoc__meta">
-              <h3 class="qdoc__doctitle">Quotation</h3>
-              <dl>
-                <div><dt>Quote no.</dt><dd data-doc="ref">—</dd></div>
-                <div><dt>Date</dt><dd data-doc="date">—</dd></div>
-                <div><dt>Valid until</dt><dd data-doc="valid">—</dd></div>
-              </dl>
-            </div>
-          </header>
-
-          <section class="qdoc__to">
-            <h4>Prepared for</h4>
-            <p data-doc="customer">—</p>
-          </section>
-
-          <table class="qdoc__table">
-            <thead>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col" class="num">Qty</th>
-                <th scope="col" class="num">Unit</th>
-                <th scope="col" class="num">Amount</th>
-              </tr>
-            </thead>
-            <tbody data-doc="lines"></tbody>
-            <tfoot>
-              <tr><th scope="row" colspan="3">Subtotal</th><td class="num" data-doc="sub">$0</td></tr>
-              <tr><th scope="row" colspan="3">GST ({gst}%)</th><td class="num" data-doc="gst">$0</td></tr>
-              <tr class="qdoc__grand"><th scope="row" colspan="3">Total including GST</th><td class="num" data-doc="grand">$0</td></tr>
-            </tfoot>
-          </table>
-
-          <div class="qdoc__cols">
-            <section>
-              <h4>What every quote includes</h4>
-              <ul>{(quote?.inclusions || []).map((t) => <li>{t}</li>)}</ul>
-            </section>
-            <section>
-              <h4>Not included</h4>
-              <ul>{(quote?.exclusions || []).map((t) => <li>{t}</li>)}</ul>
-            </section>
-          </div>
-
-          {quote?.closingNote && <p class="qdoc__note">{quote.closingNote}</p>}
-
-          {(quote?.terms || []).length > 0 && (
-            <section class="qdoc__terms">
-              <h4>Terms</h4>
-              <ol>{quote.terms.map((t) => <li>{t}</li>)}</ol>
-            </section>
-          )}
-
-          <footer class="qdoc__foot">
-            <span>{settings.businessName}</span>
-            <span>{settings.licence}</span>
-            <span>revelectrical.com.au</span>
-          </footer>
-        </article>
       </div>
     </section>
   </main>
 
   <SiteFooter settings={settings} contactHref="/#contact" />
 
-  <script is:inline define:vars={{ priceData, gst, validDays }}>
+  <script is:inline define:vars={{ priceData, gst, validDays, stepMeta }}>
     (function () {
-      var fmt = function (n) {
-        return '$' + Math.round(n).toLocaleString('en-AU');
-      };
+      var fmt = function (n) { return '$' + Math.round(n).toLocaleString('en-AU'); };
+      var incGst = function (n) { return n * (1 + gst / 100); };
       var BY_ID = {};
       priceData.forEach(function (p) { BY_ID[p.id] = p; });
 
-      // Prices render from the same data the totals use, so a card and the
-      // quote can never disagree.
+      // Card prices come from the same data the totals use, so a card and the
+      // finished quote can never disagree.
       priceData.forEach(function (p) {
         var el = document.querySelector('[data-price-display="' + p.id + '"]');
-        if (el) el.textContent = fmt(p.price * (1 + gst / 100));
+        if (el) el.textContent = fmt(incGst(p.price));
       });
 
-      var selected = {};   // id -> qty
+      var selected = {};
+      var step = 0;
+      var LAST_ITEM_STEP = stepMeta.length - 3;
+      var DETAILS = stepMeta.length - 2;
+      var QUOTE = stepMeta.length - 1;
 
-      var lineList = document.getElementById('qb-lines');
-      var contBtn = document.getElementById('qb-continue');
+      var panes = stepMeta.map(function (s) { return document.querySelector('[data-pane="' + s.key + '"]'); });
+      var rails = stepMeta.map(function (s) { return document.querySelector('[data-rail="' + s.key + '"]'); });
+      var backBtn = document.getElementById('qb-back');
+      var nextBtn = document.getElementById('qb-next');
+      var submitBtn = document.getElementById('qb-submit');
+      var printBtn = document.getElementById('qb-print');
+      var peekBtn = document.getElementById('qb-peek');
+      var peekPanel = document.getElementById('qb-peek-panel');
+      var totalBlock = document.getElementById('qb-total-block');
+      var form = document.getElementById('qb-form');
 
       function lines() {
         return Object.keys(selected).map(function (id) {
           var p = BY_ID[id];
-          var qty = selected[id];
-          return { id: id, name: p.name, qty: qty, unit: p.unit, each: p.price, amount: p.price * qty };
+          return { name: p.name, qty: selected[id], each: p.price, amount: p.price * selected[id] };
         });
       }
 
       function render() {
         var ls = lines();
         var sub = ls.reduce(function (a, l) { return a + l.amount; }, 0);
-        var g = sub * gst / 100;
-
-        lineList.innerHTML = ls.length
+        document.querySelector('[data-total="grand"]').textContent = fmt(incGst(sub));
+        document.querySelector('[data-count]').textContent = ls.length === 1 ? '1 item' : ls.length + ' items';
+        document.getElementById('qb-lines').innerHTML = ls.length
           ? ls.map(function (l) {
               return '<li><span>' + l.name + (l.qty > 1 ? ' <em>× ' + l.qty + '</em>' : '') +
-                     '</span><span>' + fmt(l.amount * (1 + gst / 100)) + '</span></li>';
+                     '</span><span>' + fmt(incGst(l.amount)) + '</span></li>';
             }).join('')
-          : '<li class="qbcart__empty">Nothing selected yet — tick something to start.</li>';
+          : '<li class="wizpeek__empty">Nothing selected yet.</li>';
+        submitBtn.disabled = ls.length === 0;
+      }
 
-        document.querySelector('[data-total="grand"]').textContent = fmt(sub + g);
-        contBtn.disabled = ls.length === 0;
+      function go(n) {
+        step = Math.max(0, Math.min(QUOTE, n));
+        panes.forEach(function (p, i) { if (p) p.hidden = i !== step; });
+        rails.forEach(function (r, i) {
+          if (!r) return;
+          r.classList.toggle('is-now', i === step);
+          r.classList.toggle('is-done', i < step);
+        });
+        backBtn.hidden = step === 0 || step === QUOTE;
+        nextBtn.hidden = step >= DETAILS;
+        submitBtn.hidden = step !== DETAILS;
+        printBtn.hidden = step !== QUOTE;
+        totalBlock.hidden = step === QUOTE;
+        peekPanel.hidden = true;
+        peekBtn.setAttribute('aria-expanded', 'false');
       }
 
       document.querySelectorAll('.qbitem__check').forEach(function (box) {
@@ -318,10 +360,7 @@ const priceData = items.map((i) => ({
           var qtyRow = document.querySelector('[data-qty-for="' + id + '"]');
           if (box.checked) {
             var qty = 1;
-            if (qtyRow) {
-              qtyRow.hidden = false;
-              qty = parseInt(qtyRow.querySelector('input').value, 10) || 1;
-            }
+            if (qtyRow) { qtyRow.hidden = false; qty = parseInt(qtyRow.querySelector('input').value, 10) || 1; }
             selected[id] = qty;
           } else {
             if (qtyRow) qtyRow.hidden = true;
@@ -334,93 +373,90 @@ const priceData = items.map((i) => ({
       document.querySelectorAll('.qbqty').forEach(function (row) {
         var input = row.querySelector('input');
         var id = input.getAttribute('data-qty-input');
+        var clamp = function (v) { return Math.min(Math.max(1, v || 1), parseInt(input.max, 10) || 20); };
         row.querySelectorAll('.qbqty__btn').forEach(function (btn) {
           btn.addEventListener('click', function () {
-            var step = parseInt(btn.getAttribute('data-step'), 10);
-            var next = Math.min(Math.max(1, (parseInt(input.value, 10) || 1) + step), parseInt(input.max, 10) || 20);
-            input.value = next;
-            if (selected[id] !== undefined) { selected[id] = next; render(); }
+            input.value = clamp((parseInt(input.value, 10) || 1) + parseInt(btn.getAttribute('data-step'), 10));
+            if (selected[id] !== undefined) { selected[id] = parseInt(input.value, 10); render(); }
           });
         });
         input.addEventListener('input', function () {
-          var v = Math.min(Math.max(1, parseInt(input.value, 10) || 1), parseInt(input.max, 10) || 20);
-          if (selected[id] !== undefined) { selected[id] = v; render(); }
+          input.value = clamp(parseInt(input.value, 10));
+          if (selected[id] !== undefined) { selected[id] = parseInt(input.value, 10); render(); }
         });
       });
 
-      // --- steps ---
-      var stepItems = document.getElementById('qb-step-items').closest('section');
-      var stepDetails = document.getElementById('qb-step-details');
-      var stepQuote = document.getElementById('qb-step-quote');
+      nextBtn.addEventListener('click', function () { go(step + 1); });
+      backBtn.addEventListener('click', function () { go(step - 1); });
 
-      function show(el) {
-        [stepItems, stepDetails, stepQuote].forEach(function (s) { s.hidden = s !== el; });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+      // Only the item steps are clickable. Jumping ahead to the details is
+      // earned by walking through, not by clicking the rail.
+      rails.forEach(function (r, i) {
+        if (!r || i > LAST_ITEM_STEP) return;
+        r.classList.add('is-clickable');
+        r.addEventListener('click', function () { go(i); });
+      });
 
-      contBtn.addEventListener('click', function () { show(stepDetails); });
-      document.getElementById('qb-back').addEventListener('click', function () { show(stepItems); });
+      peekBtn.addEventListener('click', function () {
+        var open = peekPanel.hidden;
+        peekPanel.hidden = !open;
+        peekBtn.setAttribute('aria-expanded', String(open));
+      });
 
-      // A short human-readable reference, seeded from the date so two quotes
-      // built on the same day cannot collide.
       function makeRef() {
         var d = new Date();
-        var stamp = String(d.getFullYear()).slice(2) +
-                    String(d.getMonth() + 1).padStart(2, '0') +
-                    String(d.getDate()).padStart(2, '0');
-        return 'RE-' + stamp + '-' + String(Math.floor(Math.random() * 900) + 100);
+        return 'RE-' + String(d.getFullYear()).slice(2) +
+               String(d.getMonth() + 1).padStart(2, '0') +
+               String(d.getDate()).padStart(2, '0') + '-' +
+               String(Math.floor(Math.random() * 900) + 100);
       }
 
-      var form = document.getElementById('qb-form');
-      form.addEventListener('submit', function () {
+      submitBtn.addEventListener('click', function () {
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+
         var ls = lines();
         var sub = ls.reduce(function (a, l) { return a + l.amount; }, 0);
-        var g = sub * gst / 100;
         var ref = makeRef();
         var d = new Date();
         var valid = new Date(d.getTime() + validDays * 86400000);
         var au = function (x) { return x.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' }); };
 
-        // What we send ourselves, so the enquiry email carries the whole quote.
         document.getElementById('qb-lines-field').value = ls.map(function (l) {
-          return l.qty + ' × ' + l.name + ' — ' + fmt(l.amount * (1 + gst / 100));
+          return l.qty + ' × ' + l.name + ' — ' + fmt(incGst(l.amount));
         }).join('\n');
-        document.getElementById('qb-total-field').value = fmt(sub + g) + ' inc GST';
+        document.getElementById('qb-total-field').value = fmt(incGst(sub)) + ' inc GST';
         document.getElementById('qb-ref-field').value = ref;
-        document.querySelector('input[name="page_url"]').value = window.location.href;
+        form.querySelector('input[name="page_url"]').value = window.location.href;
 
-        // Fill the document before the post leaves, then stay on the page.
         document.querySelector('[data-doc="ref"]').textContent = ref;
         document.querySelector('[data-doc="date"]').textContent = au(d);
         document.querySelector('[data-doc="valid"]').textContent = au(valid);
         document.querySelector('[data-doc="customer"]').innerHTML =
-          [document.getElementById('q_name').value,
-           document.getElementById('q_address').value,
-           document.getElementById('q_email').value,
-           document.getElementById('q_phone').value]
+          [document.getElementById('q_name').value, document.getElementById('q_address').value,
+           document.getElementById('q_email').value, document.getElementById('q_phone').value]
           .filter(Boolean).join('<br>');
-
         document.querySelector('[data-doc="lines"]').innerHTML = ls.map(function (l) {
-          return '<tr><td>' + l.name + '</td><td class="num">' + l.qty +
-                 '</td><td class="num">' + fmt(l.each) + '</td><td class="num">' + fmt(l.amount) + '</td></tr>';
+          return '<tr><td>' + l.name + '</td><td class="num">' + l.qty + '</td><td class="num">' +
+                 fmt(l.each) + '</td><td class="num">' + fmt(l.amount) + '</td></tr>';
         }).join('');
         document.querySelector('[data-doc="sub"]').textContent = fmt(sub);
-        document.querySelector('[data-doc="gst"]').textContent = fmt(g);
-        document.querySelector('[data-doc="grand"]').textContent = fmt(sub + g);
+        document.querySelector('[data-doc="gst"]').textContent = fmt(sub * gst / 100);
+        document.querySelector('[data-doc="grand"]').textContent = fmt(incGst(sub));
+
+        // Posted in the background so the customer keeps the quote on screen
+        // rather than being redirected away from what they just built.
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        }).catch(function () { /* the quote still shows; we chase it by phone */ })
+          .finally(function () { go(QUOTE); });
       });
 
-      // The post goes to Netlify in the background so the customer keeps the
-      // quote on screen instead of being redirected away from it.
-      form.addEventListener('submit', function (ev) {
-        ev.preventDefault();
-        if (!form.checkValidity()) { form.reportValidity(); return; }
-        var body = new URLSearchParams(new FormData(form)).toString();
-        fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body })
-          .catch(function () { /* the quote still shows; we chase it by phone */ })
-          .finally(function () { show(stepQuote); });
-      });
+      printBtn.addEventListener('click', function () { window.print(); });
 
-      document.getElementById('qb-print').addEventListener('click', function () { window.print(); });
+      render();
+      go(0);
     })();
   </script>
 </ServiceBase>
