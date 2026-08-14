@@ -29,12 +29,10 @@ Two halves, both editable from a session:
 
 | What | Where |
 | ---- | ----- |
-| Site | https://revelectrical-live.netlify.app |
+| Site | https://www.revelectrical.com.au |
 | Studio (client logs in here) | https://revelectrical-cms.sanity.studio/ |
 | Netlify project | `revelectrical-live` (id `0cff14f1-eaaf-4e6e-b5b0-7666f3dc0c63`) |
 | Repo | `pandashoe112/clients`, folder `revelectrical-site/` |
-
-Custom domain `revelectrical.com.au` is **not** pointed at the site yet.
 
 ## How changes reach the live site
 
@@ -125,7 +123,7 @@ homepage plus a thank-you page. Full detail in `detailsplash-site/README.md`.
 
 | What | Where |
 | ---- | ----- |
-| Site | https://detailsplash.netlify.app |
+| Site | https://detailsplash.com.au |
 | Studio | https://detailsplash-cms.sanity.studio/ |
 | Netlify project | `detailsplash` (id `b3ad7e37-c0dc-4e69-aaec-30eed0570d7d`) |
 | Sanity | project `god0zlq8`, dataset `production`, workspace `detailsplash` |
