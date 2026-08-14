@@ -1,7 +1,18 @@
-# CLAUDE.md — Revelectrical project context
+# CLAUDE.md — client project context
 
-Context for Claude Code sessions working on the Revelectrical website and its
-Sanity CMS. Read this first.
+Context for Claude Code sessions working in this repo. Read this first.
+
+The repo holds more than one client site, each its own folder, its own Sanity
+project and its own Netlify project. They share nothing but the pattern:
+an Astro site rendering content out of Sanity, built by Netlify.
+
+| Client | Folder | Sanity | Netlify |
+| ------ | ------ | ------ | ------- |
+| Revelectrical | `revelectrical-site/` | `mt5betow` | `revelectrical-live` |
+| DetailSplash | `detailsplash-site/` | `god0zlq8` | `detailsplash` |
+
+Everything below is Revelectrical unless it says otherwise; DetailSplash has
+its own section at the end and its own `detailsplash-site/README.md`.
 
 ## What this is
 
@@ -106,6 +117,58 @@ snapshot goes stale, so treat it as a fallback, not a source of truth.
 - Clear the stray branch name out of the functions-directory field in the
   Netlify deploy settings.
 - Fill in content for the five remaining services and switch `hasPage` on.
+
+## DetailSplash
+
+A Melbourne mobile car detailing business (Lachie, 0401 600 471). One long
+homepage plus a thank-you page. Full detail in `detailsplash-site/README.md`.
+
+| What | Where |
+| ---- | ----- |
+| Site | https://detailsplash.netlify.app |
+| Studio | https://detailsplash-cms.sanity.studio/ |
+| Netlify project | `detailsplash` (id `b3ad7e37-c0dc-4e69-aaec-30eed0570d7d`) |
+| Sanity | project `god0zlq8`, dataset `production`, workspace `detailsplash` |
+
+It arrived as a single 2.5 MB `index.html` with all 16 photos inlined as
+base64. The markup and CSS were kept as-is; the copy, prices, photos, reviews,
+suburbs and FAQs moved into Sanity, and the photos now come off Sanity's CDN,
+which took the page to 80 KB.
+
+Same conventions as Revelectrical: MCP-managed schema (`deploy_schema` then
+`deploy_studio`, appHost `detailsplash-cms`), public-read dataset so no build
+token, `useCdn: false`, config read from both `import.meta.env` and
+`process.env`.
+
+Worth knowing:
+
+- **Prices live only on the `package` documents.** The package cards and the
+  side-by-side comparison table both read them, so they cannot drift apart.
+  A package with no `vehiclePrices` is treated as a ceramic coating and
+  renders on the strip under the table.
+- **The copy contains real non-breaking spaces** (U+00A0) where the original
+  had `&nbsp;`, which is what keeps headings breaking where they were designed
+  to.
+- **Structured data is generated from the same content the page renders**, and
+  is escaped through the `ld()` helper in `Base.astro` — `JSON.stringify`
+  leaves `<` alone, so a `</script>` typed into any CMS field would otherwise
+  close the tag early and become live HTML.
+- **The booking form is Netlify Forms**, detected by parsing the built HTML.
+  It posts to `/thank-you/`, which Astro builds as a real page, so the old
+  `_redirects` rule is gone.
+
+### Still to do on DetailSplash
+
+- **Link the repo in the Netlify UI.** The project is still on its original
+  manual deploy. Set base directory `detailsplash-site`, build `npm run build`,
+  publish `detailsplash-site/dist`. Until then pushing to `main` does nothing.
+- **Then add a build hook** and point a Sanity webhook at it, so publishing in
+  the Studio rebuilds the site the way Revelectrical's does.
+- Point `detailsplash.com.au` at the project.
+- `npm audit` reports a dev-only esbuild/vite advisory and sharp/libvips CVEs.
+  Both need Astro 4 → 7, a breaking upgrade, and neither is reachable from the
+  static production build. Revelectrical is on the same Astro 4, so upgrade
+  them together.
 
 ## Applied already
 
