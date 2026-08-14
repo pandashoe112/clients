@@ -1,0 +1,33 @@
+---
+import Icon from './Icon.astro';
+
+const { page = {}, addons = [] } = Astro.props;
+---
+<section class="addons" id="addons">
+  <div class="wrap">
+    <div class="sec-split">
+      <div>
+        <span class="sec-lead"><i></i><span>{page.addonsEyebrow}</span></span>
+        <h2 class="sec-title">{page.addonsHeading}</h2>
+        <p class="sec-sub">{page.addonsIntro}</p>
+      </div>
+    </div>
+    <div class="addon-grid">
+      {addons.map((a) => (
+        <div class="addon">
+          <span class="ic"><Icon name={a.icon} family="addon" /></span>
+          <h3>{a.title}</h3>
+          <p>{a.text}</p>
+          <div class="amt">{a.price}</div>
+        </div>
+      ))}
+    </div>
+    <div class="custom-band">
+      <div>
+        <h3>{page.customHeading}</h3>
+        <p>{page.customText}</p>
+      </div>
+      <a class="btn btn-blue" href="#book">{page.customCtaLabel} <span class="chev">→</span></a>
+    </div>
+  </div>
+</section>

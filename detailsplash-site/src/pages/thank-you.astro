@@ -1,0 +1,98 @@
+---
+import { sanity } from '../lib/sanity.js';
+
+const settings = await sanity.fetch(`*[_type == "siteSettings"][0]{
+  businessName, phone, phoneHref, email, contactName, serviceAreaLabel
+}`) || {};
+const tel = settings.phoneHref || '';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thanks, we have your details | {settings.businessName}</title>
+<meta name="description" content={`Thanks for your booking enquiry. ${settings.contactName} will come back to you with a price and a time.`}>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<main class="card">
+  <div class="tick">
+    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="m8.2 12.3 2.5 2.5 5.1-5.3"/></svg>
+  </div>
+
+  <h1>Thanks, we have your details</h1>
+  <p class="lede">{settings.contactName} will come back to you with a price and a time. Nothing is booked and no payment has been taken.</p>
+
+  <div class="next">
+    <h2>What happens next</h2>
+    <ul>
+      <li><b>1</b><span>{settings.contactName} reviews what you have told us about your car.</span></li>
+      <li><b>2</b><span>You get a price and a time back, confirmed before anything is booked.</span></li>
+      <li><b>3</b><span>We come to your home or workplace, fully equipped, and do the whole job on site.</span></li>
+    </ul>
+  </div>
+
+  <div class="direct">
+    <a href={`tel:${tel}`}>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.6 1.9z"/></svg>
+      <span><b>{settings.phone}</b><small>Call or text {settings.contactName}</small></span>
+    </a>
+    <a href={`mailto:${settings.email}`}>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      <span><b>{settings.email}</b><small>Email us anytime</small></span>
+    </a>
+  </div>
+
+  <a class="btn" href="/">Back to the site</a>
+  <p class="foot">{settings.businessName}. {settings.serviceAreaLabel}.</p>
+</main>
+</body>
+</html>
+
+<style is:global>
+:root{
+  --navy:#0B1220;
+  --blue:#2C7BE5;
+  --blue-hover:#1F68CC;
+  --cream:#F7F4ED;
+  --ink:#241C14;
+  --grey:#6E655A;
+  --amber:#E08A2B;
+  --line:rgba(36,28,20,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--cream);color:var(--ink);
+  font-size:17.5px;line-height:1.62;-webkit-font-smoothing:antialiased;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 24px}
+h1,h2,h3{font-family:'Sora',sans-serif}
+a{color:inherit;text-decoration:none}
+.card{background:#fff;border-radius:20px;max-width:640px;width:100%;padding:56px 52px 48px;text-align:center;
+  box-shadow:0 30px 70px -34px rgba(36,28,20,.4)}
+@media(max-width:600px){.card{padding:40px 26px 36px}}
+.tick{width:72px;height:72px;border-radius:50%;background:rgba(224,138,43,.12);color:var(--amber);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 28px}
+h1{font-size:clamp(30px,5vw,42px);font-weight:800;letter-spacing:-.032em;line-height:1.1}
+.lede{margin-top:18px;color:var(--grey);font-size:17.5px}
+.next{margin:34px 0 32px;padding:26px 28px;background:var(--cream);border-radius:14px;text-align:left}
+.next h2{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+.next ul{list-style:none;display:grid;gap:11px}
+.next li{display:flex;gap:12px;align-items:flex-start;font-size:16px;line-height:1.5}
+.next li b{font-family:'Sora',sans-serif;font-weight:700;color:var(--amber);flex:none}
+.direct{display:grid;grid-template-columns:.85fr 1.15fr;gap:12px;margin-bottom:26px}
+@media(max-width:520px){.direct{grid-template-columns:1fr}}
+.direct a{display:flex;align-items:center;gap:13px;border:1.5px solid var(--line);border-radius:12px;
+  padding:16px 18px;text-align:left;transition:border-color .15s ease}
+.direct a:hover{border-color:var(--ink)}
+.direct svg{color:var(--amber);flex:none}
+.direct b{font-family:'Sora',sans-serif;font-weight:700;font-size:14.5px;display:block;line-height:1.35;overflow-wrap:break-word}
+.direct small{font-size:13px;color:var(--grey)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:'Sora',sans-serif;
+  font-weight:700;font-size:16px;padding:16px 30px;border-radius:10px;white-space:nowrap;
+  background:var(--blue);color:#fff;transition:background .18s ease}
+.btn:hover{background:var(--blue-hover)}
+.foot{margin-top:26px;font-size:14.5px;color:var(--grey)}
+</style>

@@ -1,0 +1,90 @@
+---
+const { page = {}, settings = {}, packages = [] } = Astro.props;
+
+const sizes = page.vehicleSizes || [];
+// The two packages shown side by side, falling back to the first two if the
+// home page has not picked any.
+const cols = (page.comparePackages && page.comparePackages.length ? page.comparePackages : packages.slice(0, 2));
+// The ceramic strip underneath lists the packages that are not priced by
+// vehicle size, so a price only ever lives on its package document.
+const coatings = packages.filter((p) => !(p.vehiclePrices || []).length);
+const sms = `sms:${settings.phoneHref || ''}`;
+---
+<section class="pricing2" id="pricing2">
+  <div class="wrap">
+    <div class="p2-head">
+      <div>
+        <span class="sec-lead"><i></i><span>{page.compareEyebrow}</span></span>
+        <h2 class="sec-title">{page.compareHeading}</h2>
+      </div>
+      <p>{page.compareIntro}</p>
+    </div>
+
+    {sizes.map((s, i) => (
+      <input class="vsw-inputs" type="radio" name="veh" id={`veh${i + 1}`} checked={i === 0}>
+    ))}
+    <div class="vsw" role="group" aria-label="Vehicle size">
+      <span>Your vehicle</span>
+      {sizes.map((s, i) => <label for={`veh${i + 1}`}>{s}</label>)}
+    </div>
+
+    <div class="ptable">
+      <div class="prow head">
+        <div class="lbl"></div>
+        {cols.map((p) => <div class="col"><b>{p.title}</b><small>{p.duration}</small></div>)}
+      </div>
+      <div class="prow price">
+        <div class="lbl">Your price</div>
+        {cols.map((p) => (
+          <div class="col">
+            {(p.vehiclePrices || []).map((v, i) => <span class={`amt v${i + 1}`}>{v.price}</span>)}
+          </div>
+        ))}
+      </div>
+
+      {(page.compareGroups || []).map((g) => (
+        <>
+          <div class="prow sub">
+            <div class="lbl">{g.title}</div><div class="col"></div><div class="col"></div>
+          </div>
+          {(g.rows || []).map((r) => (
+            <div class="prow">
+              <div class="lbl">{r.label}</div>
+              {[r.inFirst, r.inSecond].map((yes) => (
+                <div class="col">
+                  {yes
+                    ? <svg class="yes" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="m8.2 12.3 2.5 2.5 5.1-5.3"/></svg>
+                    : <svg class="no" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 12h12"/></svg>}
+                  <span class="sr">{yes ? 'Included' : 'Not included'}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </>
+      ))}
+
+      <div class="prow cta">
+        <div class="lbl"></div>
+        {cols.map((p, i) => (
+          <div class="col"><a class={i === 0 ? 'btn btn-dark' : 'btn btn-blue'} href="#book">Book this</a></div>
+        ))}
+      </div>
+    </div>
+
+    <div class="cera">
+      {coatings.map((c) => (
+        <div class="cera-item">
+          <div>
+            <h3>{c.title}</h3>
+            <p>{c.shortText || c.priceNote}</p>
+          </div>
+          <div class="right">
+            <div class="amt">{c.priceFrom}</div>
+            <div class="from">priced from</div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <p class="cera-note">{page.ceramicNote} <a href={sms}>Text {settings.contactName} a photo</a> and he will tell you.</p>
+  </div>
+</section>

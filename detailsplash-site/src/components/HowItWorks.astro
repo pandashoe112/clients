@@ -1,0 +1,18 @@
+---
+const { page = {} } = Astro.props;
+---
+<section class="how on-dark" id="how">
+  <div class="wrap">
+    <span class="sec-lead"><i></i><span>{page.howEyebrow}</span></span>
+    <h2 class="sec-title">{page.howHeading}</h2>
+    <div class="steps">
+      {(page.howSteps || []).map((s) => (
+        <div class="step">
+          <span class="kicker">{s.kicker}</span>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

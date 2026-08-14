@@ -1,0 +1,32 @@
+---
+import Tick from './Tick.astro';
+import GoogleMark from './GoogleMark.astro';
+import { img, bg } from '../lib/sanity.js';
+
+const { page = {}, settings = {}, reviews = [] } = Astro.props;
+// The four faces stacked over the rating line are the reviewers who have a photo.
+const faces = reviews.filter((r) => r.photo).slice(0, 4);
+---
+<section class="hero">
+  <div class="hero-img" role="img" aria-label={page.heroImageAlt} style={bg(page.heroImage, 1600)}></div>
+  <div class="hero-veil" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <h1>{page.heroHeading}</h1>
+      <p class="lede">{page.heroLede}</p>
+      <div class="hero-checks">
+        {(page.heroTicks || []).map((t) => <span><Tick width={1.9} />{t}</span>)}
+      </div>
+      <div class="hero-ctas">
+        <a class="btn btn-blue" href="#book">{page.heroPrimaryCta} <span class="chev">→</span></a>
+        <a class="btn btn-white" href="#packages">{page.heroSecondaryCta}</a>
+      </div>
+      <div class="hero-rating">
+        <span class="stack">
+          {faces.map((r) => <span><img src={img(r.photo, 160, 160)} alt="" width="160" height="160"></span>)}
+        </span>
+        <p><GoogleMark /><span class="stars">★★★★★</span> {settings.ratingValue} from {settings.reviewCount} Google reviews</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,108 @@
+---
+import Tick from './Tick.astro';
+import GoogleMark from './GoogleMark.astro';
+import { bg } from '../lib/sanity.js';
+
+const { page = {}, settings = {} } = Astro.props;
+const tel = settings.phoneHref || '';
+const strip = page.trustStrip || [];
+---
+<div class="ready-outer">
+  <div class="wrap">
+    <div class="ready" id="book">
+      <div class="ready-img" role="img" aria-label={page.bookHeading} style={bg(page.bookImage, 1400)}></div>
+      <div class="ready-veil" aria-hidden="true"></div>
+      <div class="ready-inner">
+        <h2>{page.bookHeading}</h2>
+        <p class="ready-lede">{page.bookLede}</p>
+        <ul class="ready-points">
+          {(page.bookPoints || []).map((p) => <li><Tick width={1.9} />{p}</li>)}
+        </ul>
+
+        <!--
+          Netlify picks this form up by parsing the deployed HTML, so it needs
+          the name, the data-netlify flag and the hidden form-name field to all
+          agree. Submissions land in the Netlify dashboard under "booking".
+        -->
+        <form class="ready-form" name="booking" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="booking">
+          <p class="hp"><label>Do not fill this in <input name="bot-field"></label></p>
+          <div class="form-head">
+            <h3>{page.formHeading}</h3>
+            <p>{page.formText}</p>
+          </div>
+          <div class="form-body">
+            <div class="fgroup">
+              <span class="flabel">{page.formServiceLabel} <span>Pick one</span></span>
+              <div class="choices">
+                {(page.formServiceOptions || []).map((o, i) => (
+                  <label class="choice">
+                    <input type="radio" name="service" value={o.label} checked={i === 0}>
+                    <span>{o.label}<small>{o.price}</small></span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div class="fgroup">
+              <span class="flabel">{page.formVehicleLabel} <span>Sets your price</span></span>
+              <div class="choices">
+                {(page.formVehicleOptions || []).map((o, i) => (
+                  <label class="choice">
+                    <input type="radio" name="vehicle" value={o} checked={i === 0}>
+                    <span>{o}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div class="fgroup">
+              <span class="flabel">{page.formDetailsLabel}</span>
+              <div class="f-row">
+                <div class="f-field">
+                  <label for="fname">First name</label>
+                  <input id="fname" name="first_name" type="text" placeholder="Your first name" required>
+                </div>
+                <div class="f-field">
+                  <label for="phone">Phone</label>
+                  <input id="phone" name="phone" type="tel" placeholder="0400 000 000">
+                </div>
+              </div>
+              <div class="f-field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="you@email.com" required>
+              </div>
+              <div class="f-field">
+                <label for="suburb">Suburb</label>
+                <input id="suburb" name="suburb" type="text" placeholder="Where should we come to?">
+              </div>
+              <div class="f-field">
+                <label for="msg">Anything we should know?</label>
+                <textarea id="msg" name="message" rows="3" placeholder="Pet hair, spilt coffee, hasn’t been washed in a year, all fine. Just tell us."></textarea>
+              </div>
+            </div>
+            <button class="btn btn-blue" type="submit">{page.formSubmitLabel} <span class="chev">→</span></button>
+            <p class="form-foot">{page.formFootNote}</p>
+          </div>
+        </form>
+
+        <div class="ready-direct">
+          <a href={`tel:${tel}`}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.6 1.9z"/></svg>
+            <span><b>{settings.phone}</b><small>Prefer to talk? Call or text&nbsp;{settings.contactName}</small></span>
+          </a>
+          <a href={`mailto:${settings.email}`}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <span><b>{settings.email}</b><small>Email us anytime</small></span>
+          </a>
+        </div>
+      </div>
+      <div class="ready-strip">
+        {strip.map((s, i) => (
+          <>
+            <span>{i === 0 && <GoogleMark size={16} />}{s}</span>
+            {i < strip.length - 1 && <i aria-hidden="true"></i>}
+          </>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

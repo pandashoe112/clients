@@ -1,0 +1,38 @@
+---
+import GoogleMark from './GoogleMark.astro';
+import Stars from './Stars.astro';
+import { img } from '../lib/sanity.js';
+
+const { page = {}, settings = {}, reviews = [] } = Astro.props;
+---
+<section class="reviews" id="reviews">
+  <div class="wrap">
+    <div class="rev-head">
+      <h2>{page.reviewsHeading}</h2>
+      <p>Rated <b>{settings.ratingValue}</b> from {settings.reviewCount} Google reviews. {page.reviewsNote}</p>
+    </div>
+    <div class="rev-grid">
+      {reviews.map((r) => (
+        <article class="rcard">
+          <div class="rtop">
+            <span class="src"><GoogleMark size={20} klass="" /></span>
+            <Stars rating={r.rating} />
+          </div>
+          <p>&#8220;{r.body}&#8221;</p>
+          <div class="rwho">
+            <span class="av">
+              {r.photo
+                ? <img src={img(r.photo, 160, 160)} alt="" width="160" height="160" loading="lazy">
+                : (r.authorName || '?').trim().charAt(0).toUpperCase()}
+            </span>
+            <span><b>{r.authorName}</b><small>{r.meta}</small></span>
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="rev-foot">
+      <a class="btn btn-blue" href="#book">{page.reviewsCtaLabel} <span class="chev">→</span></a>
+      <span>{page.reviewsFootNote}</span>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+
+const { page = {}, services = [] } = Astro.props;
+---
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="sec-center">
+      <h2 class="sec-title">{page.servicesHeading}</h2>
+      <p class="sec-sub">{page.servicesIntro}</p>
+    </div>
+    <div class="svc-grid">
+      {services.map((s) => (
+        <div class="svc">
+          <Icon name={s.icon} family="svc" />
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+---
+const { page = {}, faqs = [] } = Astro.props;
+---
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="sec-center">
+      <span class="sec-lead"><i></i><span>{page.faqEyebrow}</span></span>
+      <h2 class="sec-title">{page.faqHeading}</h2>
+      <p class="sec-sub">{page.faqIntro}</p>
+    </div>
+    <div class="faq-box">
+      {faqs.map((f) => (
+        <details>
+          <summary>{f.question}</summary>
+          <div class="body">{f.answer}</div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

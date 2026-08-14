@@ -1,0 +1,22 @@
+---
+import Tick from './Tick.astro';
+import { img } from '../lib/sanity.js';
+
+const { page = {} } = Astro.props;
+---
+<section>
+  <div class="wrap why-grid">
+    <div class="why-photo"><img src={img(page.whyImage, 1200)} alt={page.whyImageAlt}></div>
+    <div class="why-copy">
+      <h2>{page.whyHeading}</h2>
+      <p>{page.whyText}</p>
+      <ul class="ticks">
+        {(page.whyPoints || []).map((p) => <li><Tick />{p}</li>)}
+      </ul>
+      <div class="why-actions">
+        <a class="btn btn-dark" href="#book">{page.whyPrimaryCta} <span class="chev">→</span></a>
+        <a class="btn btn-outline-ink" href="#packages">{page.whySecondaryCta} <span class="chev">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>

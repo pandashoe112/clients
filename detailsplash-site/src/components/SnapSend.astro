@@ -1,0 +1,22 @@
+---
+import { img } from '../lib/sanity.js';
+
+const { page = {}, settings = {} } = Astro.props;
+const tel = settings.phoneHref || '';
+---
+<section class="snap on-dark">
+  <div class="snap-grid">
+    <div class="snap-copy">
+      <span class="sec-lead"><i></i><span>{page.snapEyebrow}</span></span>
+      <h2>{page.snapHeading}</h2>
+      <p>{page.snapText}</p>
+      <div class="row">
+        <a class="btn btn-blue" href={`sms:${tel}`}>{page.snapCtaLabel} <span class="chev">→</span></a>
+        <a class="btn btn-grey" href={`tel:${tel}`}>Call {settings.phone}</a>
+      </div>
+    </div>
+    <div class="snap-photo">
+      <img src={img(page.snapImage, 1000)} alt={page.snapImageAlt}>
+    </div>
+  </div>
+</section>

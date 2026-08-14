@@ -1,0 +1,48 @@
+---
+import Icon from './Icon.astro';
+import Tick from './Tick.astro';
+import { img } from '../lib/sanity.js';
+
+const { page = {}, settings = {} } = Astro.props;
+---
+<section class="intro" id="about">
+  <div class="wrap intro-grid">
+    <div class="intro-photo">
+      <img src={img(page.introImage, 1200)} alt={page.introImageAlt}>
+      <div class="intro-stat">
+        <b>{settings.ratingValue}</b>
+        <span>{page.introStatLabel}<small>From {settings.reviewCount} reviews</small></span>
+      </div>
+    </div>
+    <div class="intro-copy">
+      <h2>{page.introHeading}</h2>
+      <p class="lead">{page.introLead}</p>
+      <ul class="intro-feats">
+        {(page.introFeatures || []).map((f) => (
+          <li>
+            <Icon name={f.icon} family="feature" />
+            <div>
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div class="intro-actions">
+        <a class="btn btn-blue" href="#book">Book a detail <span class="chev">→</span></a>
+        <a class="btn btn-outline-ink" href="#packages">See packages and prices</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="intro-covers">
+      <div class="ic-head">
+        <h3>{page.includedHeading}</h3>
+        <p>{page.includedText}</p>
+      </div>
+      <ul class="split-list">
+        {(page.includedItems || []).map((i) => <li><Tick /><span>{i}</span></li>)}
+      </ul>
+    </div>
+  </div>
+</section>

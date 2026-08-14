@@ -1,0 +1,22 @@
+---
+import { img } from '../lib/sanity.js';
+
+const { page = {}, gallery = [] } = Astro.props;
+---
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="sec-center">
+      <span class="sec-lead"><i></i><span>{page.galleryEyebrow}</span></span>
+      <h2 class="sec-title">{page.galleryHeading}</h2>
+      <p class="sec-sub">{page.galleryIntro}</p>
+    </div>
+    <div class="gal-grid">
+      {gallery.map((g) => (
+        <figure class="gal">
+          <img src={img(g.image, 800)} alt={g.alt || g.caption} loading="lazy">
+          <figcaption>{g.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

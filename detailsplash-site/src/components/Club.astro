@@ -1,0 +1,32 @@
+---
+import Tick from './Tick.astro';
+
+const { page = {} } = Astro.props;
+---
+<section class="club" id="club">
+  <div class="wrap">
+    <div class="club-shell">
+      <div class="club-top">
+        <div>
+          <h2>{page.clubHeading}</h2>
+          <p>{page.clubIntro}</p>
+        </div>
+        <a class="btn btn-white" href="#book">{page.clubCtaLabel} <span class="chev">→</span></a>
+      </div>
+      <p class="club-lead">{page.clubLead} <b>{page.clubLeadBold}</b></p>
+      <div class="cadence">
+        {(page.cadences || []).map((c) => (
+          <div class={c.featured ? 'cad pick' : 'cad'}>
+            <b>{c.title}</b><span class="unit">{c.unit}</span>
+            <p>{c.text}</p>
+          </div>
+        ))}
+      </div>
+      <div class="club-foot">
+        <ul>
+          {(page.clubPoints || []).map((p) => <li><Tick size={21} width={1.9} />{p}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
