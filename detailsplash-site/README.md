@@ -32,8 +32,9 @@ needed to build.
 
 - **Code** — push to `main`. Netlify builds from base directory
   `detailsplash-site`, publish directory `detailsplash-site/dist`.
-- **Content** — publish in the Studio, which pings a Netlify build hook and
-  rebuilds the site on its own.
+- **Content** — publish in the Studio. The Sanity webhook `Netlify-rebuild`
+  pings the `Sanity rebuild` build hook, so publishing rebuilds the site on its
+  own, in about ten seconds. Verified end to end.
 
 ## The schema
 

@@ -113,8 +113,6 @@ snapshot goes stale, so treat it as a fallback, not a source of truth.
 
 ## Still to do
 
-- Clear the stray branch name out of the functions-directory field in the
-  Netlify deploy settings.
 - Fill in content for the five remaining services and switch `hasPage` on.
 - `npm audit` reports a dev-only esbuild/vite advisory and sharp/libvips CVEs.
   Neither is reachable from a static production build, and clearing them needs
@@ -175,18 +173,23 @@ Worth knowing:
   per-build hash in the CSP. Serving it as a file keeps `script-src` at
   `'self'`. Put new client-side JS there for the same reason.
 
-### Still to do on DetailSplash
+### DetailSplash deploy wiring
 
-- **Link the repo in the Netlify UI.** The project is still on its original
-  manual deploy, so pushing to `main` does nothing and the site only updates
-  when someone deploys by hand. Set base directory `detailsplash-site`, branch
-  `main`; the `netlify.toml` in that folder supplies the command, publish
-  directory and ignore rule.
-- **Then add a build hook** and point a Sanity webhook at it, so publishing in
-  the Studio rebuilds the site the way Revelectrical's does. Revelectrical's
-  is the model: `sanity hooks list --project-id mt5betow`.
-- Neither is doable from here — the Netlify MCP has no repo-link or build-hook
-  operation, and `sanity hooks create` is interactive only.
+Both halves are live, set up the same way Revelectrical is:
+
+- **Code** — the project is linked to `pandashoe112/clients`, branch `main`,
+  base directory `detailsplash-site`. Pushing to `main` deploys.
+- **Content** — Sanity webhook `Netlify-rebuild` (`9mrcOLlKE1UdDfMk`) points at
+  the Netlify build hook `Sanity rebuild`
+  (`6a7f2972e99f0fd6bdf2273b`). Publishing in the Studio rebuilds the site;
+  measured at about ten seconds end to end.
+
+Neither the Netlify MCP nor the Sanity CLI can create these: the MCP has no
+repo-link or build-hook operation, and `sanity hooks create` is interactive
+only. They were made with the REST APIs — `PATCH /api/v1/sites/{id}` and
+`POST /api/v1/sites/{id}/build_hooks` for Netlify, and
+`sanity api hooks/projects/{id} -X POST --global` for Sanity, which borrows
+the CLI's own credentials.
 
 ## Both sites
 
