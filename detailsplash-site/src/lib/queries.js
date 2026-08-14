@@ -38,7 +38,7 @@ export const HOME_QUERY = /* groq */ `{
   },
   "services": *[_type == "service"] | order(order asc){ _id, title, text, icon },
   "packages": *[_type == "package"] | order(order asc){
-    _id, title, subtitle, priceFrom, priceNote, duration,
+    _id, title, subtitle, priceFrom, priceNote, shortText, plainEnglish, duration,
     vehiclePrices[]{ label, price }, features, ctaLabel, variant
   },
   "addons": *[_type == "addon"] | order(order asc){ _id, title, text, price, icon },

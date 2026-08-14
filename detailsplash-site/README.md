@@ -49,14 +49,29 @@ new fields.
   Intro, Compare, Packages, Add-ons, Club, How it works, Why us, Our work,
   Service areas, FAQs, Booking form).
 - **package** — the four priced offerings. `vehiclePrices` drives both the
-  package card and the comparison table, so a price is only ever edited once.
-  Packages with no `vehiclePrices` are treated as the ceramic coatings and
-  appear on the coating strip under the comparison table.
+  package card and the What is included section, so a price is only ever
+  edited once. `shortText` is the one-line summary under the title and
+  `plainEnglish` is the jargon-free explanation shown when a row is opened.
 - **service** (6), **addon** (4), **galleryItem** (8), **review** (10),
   **areaGroup** (4), **faq** (12).
 
-The homepage picks its two comparison columns via `comparePackages`, so
-swapping which packages sit side by side is a CMS change, not a code change.
+## The What is included section
+
+`Included.astro` replaced the old side-by-side comparison table. It is an
+accordion: one numbered row per package, each opening to a plain-English
+explanation, the price by vehicle size, and the inclusion list.
+
+The inclusion lists are not typed twice. They are read out of the homepage's
+`compareGroups` — the same Interior / Exterior / Protection rows the table
+used — and split per package by the `inFirst` / `inSecond` flags, with
+`comparePackages` deciding which package each flag belongs to. Packages
+outside that pair (the two coatings) fall back to their own `features` list.
+So ticking a row on or off in the Studio still updates the right package, and
+the two can't drift apart.
+
+Rows are `<details>`/`<summary>`, so they open without JavaScript and are
+keyboard operable. The closing word of the heading is picked out in the accent
+colour by the template, so it follows whatever the client types.
 
 ## Things worth knowing
 

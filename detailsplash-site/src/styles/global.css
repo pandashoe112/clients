@@ -743,3 +743,75 @@ footer ul a:hover{color:var(--blue-pale)}
 .cera-item .from{font-size:13px;color:rgba(255,255,255,.5);margin-top:4px}
 .cera-note{margin-top:22px;font-size:15.5px;color:var(--grey)}
 .cera-note a{color:var(--blue);font-weight:700}
+
+/* ---------- what is included, package accordion ---------- */
+.incl{background:linear-gradient(170deg,#0C1826 0%,var(--navy) 62%);color:#fff;padding:118px 0 108px}
+@media(max-width:900px){.incl{padding:84px 0 76px}}
+.incl-head{display:grid;grid-template-columns:1.05fr .95fr;gap:40px 70px;align-items:end;
+  padding-bottom:64px}
+@media(max-width:900px){.incl-head{grid-template-columns:1fr;gap:26px;padding-bottom:44px}}
+.incl-title{font-size:clamp(34px,4.2vw,54px);font-weight:800;letter-spacing:-.032em;line-height:1.06;
+  color:#fff;max-width:15ch}
+.incl-title em{font-style:normal;color:var(--amber)}
+.incl-intro{color:rgba(255,255,255,.66);font-size:16.5px;line-height:1.62;max-width:46ch}
+@media(min-width:901px){.incl-intro{justify-self:end}}
+
+.incl-list{border-top:1px solid var(--line-d)}
+.incl-row{border-bottom:1px solid var(--line-d)}
+.incl-row > summary{list-style:none;cursor:pointer;display:grid;
+  grid-template-columns:110px 1fr 60px;align-items:start;gap:26px;padding:44px 0}
+.incl-row > summary::-webkit-details-marker{display:none}
+@media(max-width:760px){
+  .incl-row > summary{grid-template-columns:64px 1fr 34px;gap:16px;padding:32px 0}
+}
+.incl-row .num{font-family:'Sora',sans-serif;font-weight:600;font-size:19px;color:var(--amber);
+  letter-spacing:-.01em;padding-top:6px}
+@media(max-width:760px){.incl-row .num{font-size:15px;padding-top:4px}}
+.incl-row .main h3{font-size:clamp(24px,2.7vw,34px);font-weight:700;letter-spacing:-.026em;
+  color:#fff;line-height:1.15}
+.incl-row .main p{margin-top:14px;color:rgba(255,255,255,.62);font-size:16.5px;line-height:1.6;
+  max-width:48ch}
+.incl-row .plus{position:relative;width:30px;height:30px;justify-self:end;flex:none;margin-top:8px;
+  transition:transform .28s ease}
+.incl-row .plus::before,.incl-row .plus::after{content:"";position:absolute;left:50%;top:50%;
+  background:var(--amber);border-radius:2px;transform:translate(-50%,-50%)}
+.incl-row .plus::before{width:30px;height:2.5px}
+.incl-row .plus::after{width:2.5px;height:30px}
+.incl-row[open] .plus{transform:rotate(135deg)}
+@media(max-width:760px){
+  .incl-row .plus{width:22px;height:22px}
+  .incl-row .plus::before{width:22px}.incl-row .plus::after{height:22px}
+}
+.incl-row > summary:hover .main h3{color:var(--amber)}
+.incl-row > summary:focus-visible{outline:3px solid var(--blue-pale);outline-offset:4px;border-radius:8px}
+
+.incl-body{display:grid;grid-template-columns:110px 1fr;gap:26px;padding:0 0 52px}
+.incl-body > .incl-copy{grid-column:2}
+@media(max-width:760px){.incl-body{grid-template-columns:1fr;padding-bottom:38px}
+  .incl-body > .incl-copy{grid-column:1}}
+.incl-copy{display:grid;gap:24px;justify-items:start;max-width:62ch}
+.incl-copy .plain{color:rgba(255,255,255,.8);font-size:16.5px;line-height:1.68}
+.incl-price{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+.incl-price .veh{list-style:none;display:flex;flex-wrap:wrap;gap:10px}
+.incl-price .veh li{background:rgba(255,255,255,.06);border:1px solid var(--line-d);border-radius:10px;
+  padding:10px 15px;display:grid;gap:2px}
+.incl-price .veh small{font-size:12.5px;color:rgba(255,255,255,.55)}
+.incl-price .veh b{font-family:'Sora',sans-serif;font-size:17px;color:#fff}
+.incl-price .from-line b{font-family:'Sora',sans-serif;font-size:26px;color:#fff}
+.incl-price .from-line small{font-size:13px;color:rgba(255,255,255,.55)}
+.incl-price .dur{font-size:14px;color:rgba(255,255,255,.55)}
+
+.incl-lists{grid-column:2;display:grid;grid-template-columns:repeat(3,1fr);gap:30px 40px;
+  padding-top:34px;margin-top:32px;border-top:1px solid var(--line-d)}
+@media(max-width:900px){.incl-lists{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.incl-lists{grid-column:1;grid-template-columns:1fr;gap:26px}}
+.incl-group h4{font-size:12.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:15px}
+.incl-group ul{list-style:none;display:grid;gap:11px}
+.incl-group li{display:grid;grid-template-columns:auto 1fr;gap:11px;align-items:start;
+  font-size:15.5px;line-height:1.5;color:rgba(255,255,255,.78)}
+.incl-group li svg{color:var(--sky);flex:none;margin-top:3px}
+
+.incl-note{margin-top:44px;font-size:15.5px;color:rgba(255,255,255,.6);max-width:70ch}
+.incl-note a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.incl-note a:hover{color:var(--amber)}

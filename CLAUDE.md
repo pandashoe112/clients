@@ -143,9 +143,12 @@ token, `useCdn: false`, config read from both `import.meta.env` and
 Worth knowing:
 
 - **Prices live only on the `package` documents.** The package cards and the
-  side-by-side comparison table both read them, so they cannot drift apart.
-  A package with no `vehiclePrices` is treated as a ceramic coating and
-  renders on the strip under the table.
+  What is included accordion both read them, so they cannot drift apart.
+- **The What is included section is an accordion, not a table.** One row per
+  package, opening to a plain-English explanation, the price by vehicle size
+  and the inclusion list. Those lists still come from the homepage's
+  `compareGroups`, split by the `inFirst` / `inSecond` flags, so the content
+  is shared rather than duplicated.
 - **The copy contains real non-breaking spaces** (U+00A0) where the original
   had `&nbsp;`, which is what keeps headings breaking where they were designed
   to.

@@ -1,0 +1,90 @@
+---
+const { page = {}, settings = {}, packages = [] } = Astro.props;
+
+const cmp = page.comparePackages || [];
+const firstId = cmp[0] && cmp[0]._id;
+const secondId = cmp[1] && cmp[1]._id;
+
+// The inclusion lists are read out of the shared comparison content, so what a
+// package says here and what it says anywhere else cannot drift apart. The two
+// coatings sit outside that comparison, so they fall back to their own list.
+function groupsFor(p) {
+  const key = p._id === firstId ? 'inFirst' : p._id === secondId ? 'inSecond' : null;
+  if (!key) {
+    return (p.features || []).length ? [{ title: 'What is included', items: p.features }] : [];
+  }
+  return (page.compareGroups || [])
+    .map((g) => ({
+      title: g.title,
+      items: (g.rows || []).filter((r) => r[key]).map((r) => r.label)
+    }))
+    .filter((g) => g.items.length);
+}
+
+// The closing word of the heading is picked out in the accent colour. Matching
+// the trailing run of non-space keeps any non-breaking space before it intact.
+const m = (page.compareHeading || '').match(/^([\s\S]*?)(\S+)$/);
+const headLead = m ? m[1] : page.compareHeading || '';
+const headTail = m ? m[2] : '';
+
+const pad = (i) => String(i + 1).padStart(2, '0');
+---
+<section class="incl" id="pricing2">
+  <div class="wrap">
+    <div class="incl-head">
+      <div>
+        <span class="sec-lead"><i></i><span>{page.compareEyebrow}</span></span>
+        <h2 class="incl-title">{headLead}<em>{headTail}</em></h2>
+      </div>
+      <p class="incl-intro">{page.compareIntro}</p>
+    </div>
+
+    <div class="incl-list">
+      {packages.map((p, i) => (
+        <details class="incl-row">
+          <summary>
+            <span class="num">({pad(i)})</span>
+            <span class="main">
+              <h3>{p.title}</h3>
+              <p>{p.shortText || p.subtitle}</p>
+            </span>
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="incl-body">
+            <div class="incl-copy">
+              {p.plainEnglish && <p class="plain">{p.plainEnglish}</p>}
+              <div class="incl-price">
+                {(p.vehiclePrices || []).length > 0 ? (
+                  <ul class="veh">
+                    {p.vehiclePrices.map((v) => <li><small>{v.label}</small><b>{v.price}</b></li>)}
+                  </ul>
+                ) : (
+                  <p class="from-line"><b>{p.priceFrom}</b> <small>priced from</small></p>
+                )}
+                {p.duration && <p class="dur">{p.duration}</p>}
+              </div>
+              <a class="btn btn-blue" href="#book">{p.ctaLabel} <span class="chev">→</span></a>
+            </div>
+            <div class="incl-lists">
+              {groupsFor(p).map((g) => (
+                <div class="incl-group">
+                  <h4>{g.title}</h4>
+                  <ul>
+                    {g.items.map((it) => (
+                      <li>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="m8.2 12.3 2.5 2.5 5.1-5.3"/></svg>
+                        <span>{it}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <p class="incl-note">{page.ceramicNote} <a href={`sms:${settings.phoneHref || ''}`}>Text {settings.contactName} a photo</a> and he will tell you.</p>
+  </div>
+</section>
