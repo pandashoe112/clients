@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import GtmHead from '../components/GtmHead.astro';
+import GtmNoscript from '../components/GtmNoscript.astro';
 const { title, description, settings } = Astro.props;
 const schema = {
   '@context': 'https://schema.org',
@@ -25,6 +27,7 @@ const schema = {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <GtmHead />
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href="https://www.revelectrical.com.au/" />
@@ -41,6 +44,7 @@ const schema = {
   <script type="application/ld+json" set:html={JSON.stringify(schema)}></script>
 </head>
 <body>
+  <GtmNoscript />
   <a class="skiplink" href="#main">Skip to main content</a>
   <slot />
   <script>

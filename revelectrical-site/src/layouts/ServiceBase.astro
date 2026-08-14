@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import '../styles/service.css';
+import GtmHead from '../components/GtmHead.astro';
+import GtmNoscript from '../components/GtmNoscript.astro';
 const { title, description, canonical, settings, faqs = [], areaServed, noindex = false } = Astro.props;
 
 const base = 'https://www.revelectrical.com.au';
@@ -44,6 +46,7 @@ const faqSchema = faqs.length
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <GtmHead />
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
@@ -63,6 +66,7 @@ const faqSchema = faqs.length
   {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>}
 </head>
 <body>
+  <GtmNoscript />
   <a class="skiplink" href="#main">Skip to main content</a>
   <slot />
   <script>
