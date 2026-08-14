@@ -195,8 +195,13 @@ the CLI's own credentials.
   each `netlify.toml` compares the push against that directory. The
   `INCOMING_HOOK_TITLE` guard in it is load-bearing: a build hook fires against
   the same commit as the last build, so without the guard the diff is empty and
-  a content publish would be skipped and never reach the site. Verified by
-  firing Revelectrical's hook and watching a new deploy appear.
+  a content publish would be skipped and never reach the site.
+- **A skipped build shows up as a red failure, and that is normal.** Netlify
+  records it with state `error` and the message "Canceled build due to no
+  content change"; the dashboard labels it Canceled. A docs-only commit will
+  therefore leave a red entry on both sites. The previously published deploy
+  stays live. All three paths were verified: a commit inside the folder built,
+  a commit outside it cancelled, and a Studio publish built.
 - **Both carry a Content-Security-Policy**, and they are deliberately different.
   DetailSplash runs no third-party scripts so `script-src` is `'self'`.
   Revelectrical loads Google Tag Manager, whose loader is inline and which
