@@ -113,10 +113,12 @@ snapshot goes stale, so treat it as a fallback, not a source of truth.
 
 ## Still to do
 
-- Point `revelectrical.com.au` at the Netlify project.
 - Clear the stray branch name out of the functions-directory field in the
   Netlify deploy settings.
 - Fill in content for the five remaining services and switch `hasPage` on.
+- `npm audit` reports a dev-only esbuild/vite advisory and sharp/libvips CVEs.
+  Neither is reachable from a static production build, and clearing them needs
+  Astro 4 → 7. DetailSplash is on the same Astro 4, so upgrade them together.
 
 ## DetailSplash
 
@@ -142,13 +144,20 @@ token, `useCdn: false`, config read from both `import.meta.env` and
 
 Worth knowing:
 
-- **Prices live only on the `package` documents.** The package cards and the
-  What is included accordion both read them, so they cannot drift apart.
-- **The What is included section is an accordion, not a table.** One row per
-  package, opening to a plain-English explanation, the price by vehicle size
-  and the inclusion list. Those lists still come from the homepage's
-  `compareGroups`, split by the `inFirst` / `inSecond` flags, so the content
-  is shared rather than duplicated.
+- **The CMS is two documents: Home page and Site settings.** Services,
+  packages, add-ons, gallery, reviews, areas and FAQs are inline lists inside
+  the home page, not separate document types. Sanity cannot drop a type from a
+  workspace, so the seven original document types are redeclared as object
+  types — object types are not listed in the Studio, so they vanish from the
+  navigation while the Studio keeps its URL. Their old documents are still in
+  the dataset, unreferenced and invisible.
+- **The packages section is an accordion, not a table.** One row per package,
+  showing its price closed, and opening to a plain-English explanation, the
+  price by vehicle size and the inclusion groups. Each package carries its own
+  `inclusions`, so nothing is shared across packages any more.
+- **It owns the `#packages` and `#ceramic` anchors.** The old pricing-cards
+  section was removed and the header, footer and three CTAs still point at
+  them, so they moved onto the accordion.
 - **The copy contains real non-breaking spaces** (U+00A0) where the original
   had `&nbsp;`, which is what keeps headings breaking where they were designed
   to.
@@ -158,20 +167,45 @@ Worth knowing:
   close the tag early and become live HTML.
 - **The booking form is Netlify Forms**, detected by parsing the built HTML.
   It posts to `/thank-you/`, which Astro builds as a real page, so the old
-  `_redirects` rule is gone.
+  `_redirects` rule is gone. Netlify rewrites the form tag during
+  post-processing, so the deployed HTML uses single quotes and drops the
+  `data-netlify` attribute — that is what success looks like, not a bug.
+- **The nav script lives in `public/js/nav.js`, not in a component.** Astro
+  inlines small scripts, and an inline script needs `'unsafe-inline'` or a
+  per-build hash in the CSP. Serving it as a file keeps `script-src` at
+  `'self'`. Put new client-side JS there for the same reason.
 
 ### Still to do on DetailSplash
 
 - **Link the repo in the Netlify UI.** The project is still on its original
-  manual deploy. Set base directory `detailsplash-site`, build `npm run build`,
-  publish `detailsplash-site/dist`. Until then pushing to `main` does nothing.
+  manual deploy, so pushing to `main` does nothing and the site only updates
+  when someone deploys by hand. Set base directory `detailsplash-site`, branch
+  `main`; the `netlify.toml` in that folder supplies the command, publish
+  directory and ignore rule.
 - **Then add a build hook** and point a Sanity webhook at it, so publishing in
-  the Studio rebuilds the site the way Revelectrical's does.
-- Point `detailsplash.com.au` at the project.
-- `npm audit` reports a dev-only esbuild/vite advisory and sharp/libvips CVEs.
-  Both need Astro 4 → 7, a breaking upgrade, and neither is reachable from the
-  static production build. Revelectrical is on the same Astro 4, so upgrade
-  them together.
+  the Studio rebuilds the site the way Revelectrical's does. Revelectrical's
+  is the model: `sanity hooks list --project-id mt5betow`.
+- Neither is doable from here — the Netlify MCP has no repo-link or build-hook
+  operation, and `sanity hooks create` is interactive only.
+
+## Both sites
+
+- **Each site skips builds that do not touch its folder.** The `ignore` line in
+  each `netlify.toml` compares the push against that directory. The
+  `INCOMING_HOOK_TITLE` guard in it is load-bearing: a build hook fires against
+  the same commit as the last build, so without the guard the diff is empty and
+  a content publish would be skipped and never reach the site. Verified by
+  firing Revelectrical's hook and watching a new deploy appear.
+- **Both carry a Content-Security-Policy**, and they are deliberately different.
+  DetailSplash runs no third-party scripts so `script-src` is `'self'`.
+  Revelectrical loads Google Tag Manager, whose loader is inline and which
+  injects further scripts, so it needs `'unsafe-inline'`; what still earns its
+  place there is `object-src`, `base-uri`, `frame-ancestors` and `form-action`.
+  If tracking ever breaks after a CSP change, that header is the first suspect.
+- **Both have a privacy policy** at `/privacy/`, linked in the footer. They are
+  pages rather than CMS content: the business details come from site settings
+  so they cannot go stale, but the legal wording stays in code. They are a
+  template and have not been reviewed by anyone qualified.
 
 ## Applied already
 

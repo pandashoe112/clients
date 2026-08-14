@@ -12,13 +12,11 @@ the photos are served from Sanity's image CDN instead of being embedded.
 
 | What | Where |
 | ---- | ----- |
-| Site | https://detailsplash.netlify.app |
+| Site | https://detailsplash.com.au |
 | Studio (client logs in here) | https://detailsplash-cms.sanity.studio/ |
 | Netlify project | `detailsplash` (id `b3ad7e37-c0dc-4e69-aaec-30eed0570d7d`) |
 | Sanity project | `god0zlq8`, dataset `production`, workspace `detailsplash` |
 | Repo | `pandashoe112/clients`, folder `detailsplash-site/` |
-
-Custom domain `detailsplash.com.au` is **not** pointed at the site yet.
 
 ## Running it
 
@@ -39,35 +37,40 @@ needed to build.
 
 ## The schema
 
-Nine document types, all MCP-managed. Change them with `deploy_schema`, then
+Two document types, both MCP-managed. Change them with `deploy_schema`, then
 re-run `deploy_studio` (appHost `detailsplash-cms`) so the Studio picks up the
 new fields.
 
 - **siteSettings** — one doc. Business name, phone, email, logo, rating,
   announcement bar, footer copy.
-- **homePage** — one doc, grouped in the Studio by page section (SEO, Hero,
-  Intro, Compare, Packages, Add-ons, Club, How it works, Why us, Our work,
-  Service areas, FAQs, Booking form).
-- **package** — the four priced offerings. `vehiclePrices` drives both the
-  package card and the What is included section, so a price is only ever
-  edited once. `shortText` is the one-line summary under the title and
-  `plainEnglish` is the jargon-free explanation shown when a row is opened.
-- **service** (6), **addon** (4), **galleryItem** (8), **review** (10),
-  **areaGroup** (4), **faq** (12).
+- **homePage** — one doc holding the entire page, grouped in the Studio by
+  section (SEO, Hero, Intro, Services, Packages, Add-ons, Club, How it works,
+  Why us, Our work, Service areas, FAQs, Booking form).
 
-## The What is included section
+The lists that used to be their own document types are inline arrays on the
+home page: `services` (6), `packages` (4), `addons` (4), `gallery` (8),
+`reviews` (10), `areas` (4), `faqs` (12). Array order is display order, so
+reordering is a drag rather than an `order` field.
 
-`Included.astro` replaced the old side-by-side comparison table. It is an
-accordion: one numbered row per package, each opening to a plain-English
-explanation, the price by vehicle size, and the inclusion list.
+Sanity has no way to delete a type from a workspace. The seven original
+document types are therefore redeclared as **object** types, which the Studio
+does not list, so they disappear from the navigation while the Studio keeps
+its URL. Their old documents are still in the dataset, unreferenced.
 
-The inclusion lists are not typed twice. They are read out of the homepage's
-`compareGroups` — the same Interior / Exterior / Protection rows the table
-used — and split per package by the `inFirst` / `inSecond` flags, with
-`comparePackages` deciding which package each flag belongs to. Packages
-outside that pair (the two coatings) fall back to their own `features` list.
-So ticking a row on or off in the Studio still updates the right package, and
-the two can't drift apart.
+## The packages section
+
+`Included.astro` replaced both the side-by-side comparison table and the
+pricing cards that used to sit under it. It is an accordion: one numbered row
+per package showing its price closed, opening to a plain-English explanation,
+the price by vehicle size, and the inclusion groups.
+
+Each package carries its own `inclusions` — an array of groups, each with a
+heading and a list. Nothing is shared between packages, so editing one cannot
+affect another.
+
+The section owns the `#packages` and `#ceramic` anchors, because the header,
+footer and three CTAs point at them and the section that used to hold them is
+gone. `#ceramic` lands on the first package with no `vehiclePrices`.
 
 Rows are `<details>`/`<summary>`, so they open without JavaScript and are
 keyboard operable. The closing word of the heading is picked out in the accent
