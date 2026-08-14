@@ -190,3 +190,22 @@ export const BRANDS_INDEX_QUERY = `{
   "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current },
   "contactImage": *[_type == "homePage"][0].contactImage
 }`;
+
+// The quote builder: the price list plus the boilerplate that wraps it.
+export const QUOTE_BUILDER_QUERY = `{
+  "settings": *[_type == "siteSettings"][0]{
+    businessName, phone, phoneHref, email, licence, established,
+    ratingValue, reviewCount, instagramUrl, facebookUrl,
+    accreditations[]{ name, url, logo }
+  },
+  "quote": *[_type == "quoteSettings"][0]{
+    introHeading, introText, validDays, gstRate,
+    inclusions, exclusions, terms, closingNote
+  },
+  "items": *[_type == "quoteItem" && active == true] | order(order asc){
+    _id, name, category, blurb, price, unit, allowQty, maxQty, priceNote, popular
+  },
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current }
+}`;

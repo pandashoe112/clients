@@ -1,0 +1,118 @@
+/* The quote builder and the document it produces. The document is styled to
+   survive print-to-PDF, which is how a customer saves it. */
+
+.qb__assure{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px 26px}
+.qb__assure li{display:flex;align-items:center;gap:8px;font-size:.9375rem;font-weight:600;color:#3b585c}
+.qb__assure svg{color:#4a7a12}
+
+.qb__layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:clamp(28px,3vw,52px);align-items:start}
+
+/* --- groups --- */
+.qbgroup + .qbgroup{margin-top:clamp(34px,4vw,52px)}
+.qbgroup__head{display:flex;align-items:flex-start;gap:14px;margin:0 0 20px}
+.qbgroup__icon{flex:none;width:46px;height:46px;border-radius:12px;background:var(--cream);display:flex;align-items:center;justify-content:center}
+.qbgroup__icon img{width:28px;height:28px;display:block}
+.qbgroup__title{font-family:var(--font-head);font-size:1.25rem;margin:0}
+.qbgroup__blurb{margin:4px 0 0;font-size:.9375rem;color:#5d7b7f}
+
+.qbitems{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+
+.qbitem{display:flex;gap:14px;padding:18px 20px;background:var(--paper);border:1px solid rgba(3,47,53,.12);border-radius:var(--r-lg);cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease}
+.qbitem:hover{border-color:rgba(3,47,53,.3)}
+.qbitem__check{position:absolute;opacity:0;pointer-events:none}
+.qbitem__box{flex:none;width:24px;height:24px;margin-top:1px;border-radius:7px;border:2px solid rgba(3,47,53,.28);display:flex;align-items:center;justify-content:center;color:transparent;transition:all .15s ease}
+.qbitem__check:checked ~ .qbitem__box{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.qbitem:has(.qbitem__check:checked){border-color:var(--lime);box-shadow:0 0 0 1px var(--lime)}
+.qbitem__check:focus-visible ~ .qbitem__box{outline:2px solid var(--ink);outline-offset:2px}
+.qbitem__body{flex:1;min-width:0}
+.qbitem__top{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.qbitem__name{font-weight:700;line-height:1.35}
+.qbitem__pop{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:var(--lime);color:var(--ink);font-size:.6875rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;vertical-align:middle}
+.qbitem__price{flex:none;font-family:var(--font-head);font-weight:800;font-size:1.0625rem;white-space:nowrap}
+.qbitem__from{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5d7b7f;margin-right:5px}
+.qbitem__unit{font-size:.75rem;font-weight:600;color:#5d7b7f;margin-left:4px}
+.qbitem__blurb{display:block;margin-top:6px;font-size:.9125rem;line-height:1.55;color:#3b585c}
+
+.qbqty[hidden]{display:none}
+.qbqty{display:flex;align-items:center;gap:10px;margin:10px 0 0 58px;font-size:.875rem}
+.qbqty__label{color:#5d7b7f}
+.qbqty__btn{width:32px;height:32px;border-radius:9px;border:1px solid rgba(3,47,53,.2);background:var(--paper);font-size:1.125rem;line-height:1;cursor:pointer;color:var(--ink)}
+.qbqty__btn:hover{border-color:var(--ink)}
+.qbqty__input{width:62px;height:32px;text-align:center;border-radius:9px;border:1px solid rgba(3,47,53,.2);background:var(--paper);font:inherit;color:var(--ink)}
+
+/* --- running total --- */
+.qbcart{position:sticky;top:96px;background:var(--ink);color:var(--cream);border-radius:var(--r-lg);padding:clamp(22px,2vw,28px)}
+.qbcart__title{font-family:var(--font-head);font-size:1.125rem;margin:0 0 16px;color:var(--cream)}
+.qbcart__lines{list-style:none;margin:0;padding:0 0 16px;border-bottom:1px solid rgba(255,255,255,.16);display:grid;gap:10px;max-height:280px;overflow-y:auto}
+.qbcart__lines li{display:flex;justify-content:space-between;gap:14px;font-size:.875rem;line-height:1.45;color:rgba(255,255,255,.9)}
+.qbcart__lines li span:last-child{flex:none;font-weight:700}
+.qbcart__lines em{font-style:normal;color:var(--lime)}
+.qbcart__empty{color:rgba(255,255,255,.55)!important;font-style:italic}
+.qbcart__totals{margin:16px 0 20px;display:grid;gap:9px}
+.qbcart__totals div{display:flex;justify-content:space-between;font-size:.9375rem;color:rgba(255,255,255,.82)}
+.qbcart__totals dt,.qbcart__totals dd{margin:0}
+.qbcart__grand{padding-top:11px;border-top:1px solid rgba(255,255,255,.16);font-family:var(--font-head);font-size:1.25rem!important;font-weight:800;color:var(--lime)!important}
+.qbcart__note{margin:14px 0 0;font-size:.75rem;line-height:1.5;color:rgba(255,255,255,.55)}
+.qbcart .btn:disabled{opacity:.42;cursor:not-allowed}
+
+.qb__details{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:clamp(30px,4vw,60px);align-items:start}
+.qbdone{display:flex;justify-content:space-between;align-items:flex-end;gap:26px;flex-wrap:wrap;margin:0 0 clamp(28px,3vw,42px)}
+
+/* --- the quote document --- */
+.qdoc{background:#fff;border:1px solid rgba(3,47,53,.16);border-radius:var(--r-lg);padding:clamp(26px,3.4vw,52px);color:var(--ink);max-width:900px;margin:0 auto}
+.qdoc__head{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;padding-bottom:26px;border-bottom:2px solid var(--ink)}
+.qdoc__logo{display:block;width:178px;height:auto;margin:0 0 14px}
+.qdoc__biz{margin:0;font-size:.8125rem;line-height:1.65;color:#3b585c}
+.qdoc__meta{text-align:right;min-width:210px}
+.qdoc__doctitle{font-family:var(--font-head);font-size:1.5rem;margin:0 0 12px;letter-spacing:-.02em}
+.qdoc__meta dl{margin:0;display:grid;gap:5px}
+.qdoc__meta div{display:flex;justify-content:flex-end;gap:12px;font-size:.8125rem}
+.qdoc__meta dt{color:#5d7b7f}
+.qdoc__meta dd{margin:0;font-weight:700;min-width:96px;text-align:right}
+
+.qdoc h4{font-family:var(--font-head);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:#5d7b7f;margin:0 0 10px}
+.qdoc__to{padding:22px 0}
+.qdoc__to p{margin:0;font-size:.9375rem;line-height:1.65;font-weight:600}
+
+.qdoc__table{width:100%;border-collapse:collapse;margin:10px 0 0;font-size:.9375rem}
+.qdoc__table th,.qdoc__table td{padding:12px 10px;text-align:left;border-bottom:1px solid rgba(3,47,53,.12)}
+.qdoc__table thead th{font-family:var(--font-head);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:#5d7b7f;border-bottom-width:2px}
+.qdoc__table .num{text-align:right;white-space:nowrap}
+.qdoc__table tfoot th{text-align:right;font-weight:600;color:#3b585c;border-bottom:0;padding-top:14px}
+.qdoc__table tfoot td{border-bottom:0;font-weight:700;padding-top:14px}
+.qdoc__grand th,.qdoc__grand td{font-family:var(--font-head);font-size:1.1875rem;font-weight:800;color:var(--ink);border-top:2px solid var(--ink)}
+
+.qdoc__cols{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin:34px 0 0;padding-top:28px;border-top:1px solid rgba(3,47,53,.12)}
+.qdoc__cols ul{margin:0;padding-left:18px;display:grid;gap:7px}
+.qdoc__cols li{font-size:.875rem;line-height:1.55;color:#3b585c}
+.qdoc__note{margin:28px 0 0;padding:16px 18px;background:var(--cream);border-radius:12px;font-size:.875rem;line-height:1.6;color:#3b585c}
+.qdoc__terms{margin:26px 0 0}
+.qdoc__terms ol{margin:0;padding-left:18px;display:grid;gap:6px}
+.qdoc__terms li{font-size:.8125rem;line-height:1.55;color:#5d7b7f}
+.qdoc__foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:32px 0 0;padding-top:18px;border-top:1px solid rgba(3,47,53,.12);font-size:.75rem;color:#5d7b7f}
+
+@media (max-width:1080px){
+  .qb__layout{grid-template-columns:minmax(0,1fr)}
+  .qbcart{position:static}
+  .qb__details{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  .qbitem__top{flex-direction:column;gap:4px}
+  .qbitem__price{align-self:flex-start}
+  .qdoc__cols{grid-template-columns:1fr;gap:24px}
+  .qdoc__meta{text-align:left}
+  .qdoc__meta div{justify-content:flex-start}
+}
+
+/* Print is how the customer saves this, so everything but the document goes. */
+@media print{
+  .utilbar,.siteheader,.sitefooter,.navscrim,.noprint,.mobilenav{display:none!important}
+  body{background:#fff}
+  .section{padding:0!important;background:#fff!important}
+  .qdoc{border:0;border-radius:0;padding:0;max-width:none}
+  .qdoc__cols{break-inside:avoid}
+  .qdoc__terms{break-inside:avoid}
+  @page{margin:16mm}
+}
+
+.qbcart__grand dt span{display:block;font-family:var(--font-body);font-size:.75rem;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.04em}
