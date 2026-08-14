@@ -7,9 +7,11 @@
    trimmed back: a short header row, tight section padding, and a panel sized
    against the viewport rather than its own content. */
 .qbpage{padding-top:clamp(20px,2.4vw,32px)!important;padding-bottom:clamp(24px,3vw,44px)!important}
-.qbpage__head{display:flex;align-items:baseline;justify-content:space-between;gap:26px;flex-wrap:wrap;margin:0 0 clamp(14px,1.6vw,20px)}
-.qbpage__title{font-family:var(--font-head);font-weight:800;font-size:clamp(1.5rem,2.6vw,2.125rem);line-height:1.08;letter-spacing:-.025em;margin:6px 0 0}
-.qbpage__sub{margin:0;max-width:46ch;font-size:.9375rem;line-height:1.55;color:#5d7b7f}
+.qbpage__head{display:flex;align-items:center;justify-content:space-between;gap:clamp(24px,3vw,48px);flex-wrap:wrap;margin:0 0 18px}
+.qbpage__title{font-family:var(--font-head);font-weight:800;font-size:clamp(1.5rem,2.6vw,2.125rem);line-height:1.1;letter-spacing:-.025em;margin:8px 0 0}
+/* Held to two lines: a third pushes the panel out of the fold, and the copy
+   is editable in the Studio where that is easy to forget. */
+.qbpage__sub{margin:0;max-width:54ch;font-size:.9375rem;line-height:1.55;color:#5d7b7f;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
 .wiz{display:grid;grid-template-columns:250px minmax(0,1fr);background:var(--paper);border:1px solid rgba(3,47,53,.12);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 26px 60px rgba(3,47,53,.09);height:calc(100vh - 300px);min-height:470px;max-height:760px}
 
