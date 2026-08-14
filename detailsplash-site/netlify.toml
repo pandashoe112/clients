@@ -1,6 +1,14 @@
 [build]
   command = "npm run build"
   publish = "dist"
+  # The repo holds more than one client site. This skips the build when the
+  # push did not touch this folder, so a Revelectrical commit does not rebuild
+  # DetailSplash. Exit 0 means skip, so the sense reads backwards.
+  #
+  # The INCOMING_HOOK_TITLE guard matters: a build hook fires on the same
+  # commit as the last one, so the diff is empty and a content publish from
+  # the Studio would otherwise be skipped and never reach the site.
+  ignore = '[ -z "$INCOMING_HOOK_TITLE" ] && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- .'
 
 [build.environment]
   NODE_VERSION = "20"
