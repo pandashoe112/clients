@@ -154,6 +154,10 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
                   <input type="hidden" name="quote_lines" id="qb-lines-field" />
                   <input type="hidden" name="quote_total" id="qb-total-field" />
                   <input type="hidden" name="quote_ref" id="qb-ref-field" />
+                  {/* The same quote as JSON. The human fields above are for
+                      reading; this one is for whatever picks the email up and
+                      raises the invoice. */}
+                  <input type="hidden" name="quote_json" id="qb-json-field" />
                   <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
                   <div class="field">
@@ -433,6 +437,32 @@ const stepMeta = [...STEPS.map((s) => ({ key: s.key, title: s.title })),
         }).join('\n');
         document.getElementById('qb-total-field').value = fmt(incGst(sub)) + ' inc GST';
         document.getElementById('qb-ref-field').value = ref;
+
+        // Machine-readable copy of the same numbers, so an automation can raise
+        // the invoice without parsing prose. Amounts are in whole dollars and
+        // exclude GST, matching how they are entered in the Studio.
+        document.getElementById('qb-json-field').value = JSON.stringify({
+          quote_ref: ref,
+          issued: d.toISOString().slice(0, 10),
+          valid_until: valid.toISOString().slice(0, 10),
+          currency: 'AUD',
+          gst_rate_percent: gst,
+          customer: {
+            name: document.getElementById('q_name').value,
+            email: document.getElementById('q_email').value,
+            phone: document.getElementById('q_phone').value,
+            address: document.getElementById('q_address').value,
+            notes: document.getElementById('q_notes').value
+          },
+          line_items: ls.map(function (l) {
+            return { description: l.name, quantity: l.qty, unit_price_ex_gst: l.each, amount_ex_gst: l.amount };
+          }),
+          totals: {
+            subtotal_ex_gst: Math.round(sub),
+            gst: Math.round(sub * gst / 100),
+            total_inc_gst: Math.round(incGst(sub))
+          }
+        });
         form.querySelector('input[name="page_url"]').value = window.location.href;
 
         document.querySelector('[data-doc="ref"]').textContent = ref;

@@ -13,7 +13,7 @@
    is editable in the Studio where that is easy to forget. */
 .qbpage__sub{margin:0;max-width:54ch;font-size:.9375rem;line-height:1.55;color:#5d7b7f;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
-.wiz{display:grid;grid-template-columns:250px minmax(0,1fr);background:var(--paper);border:1px solid rgba(3,47,53,.12);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 26px 60px rgba(3,47,53,.09);height:calc(100vh - 300px);min-height:470px;max-height:760px}
+.wiz{display:grid;grid-template-columns:250px minmax(0,1fr);background:var(--paper);border:1px solid rgba(3,47,53,.12);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 26px 60px rgba(3,47,53,.09);height:calc(100vh - 268px);min-height:480px;max-height:820px}
 
 /* --- rail --- */
 .wiz__rail{background:var(--ink);color:var(--cream);padding:clamp(22px,2vw,30px);display:flex;flex-direction:column;justify-content:space-between;gap:30px}
@@ -32,7 +32,11 @@
 
 /* --- stage --- */
 .wiz__stage{display:flex;flex-direction:column;min-width:0}
-.wizpane{flex:1;display:flex;flex-direction:column;min-height:0}
+.wizpane{position:relative;flex:1;display:flex;flex-direction:column;min-height:0}
+/* The list scrolls inside the panel, so without this the last row just stops
+   mid-card and reads as a rendering fault rather than as more to come. */
+.wizpane::after{content:'';position:absolute;left:0;right:0;bottom:0;height:52px;background:linear-gradient(to bottom,rgba(247,247,242,0),var(--paper) 72%);pointer-events:none}
+.wizpane--doc::after{display:none}
 .wizpane[hidden]{display:none}
 .wizpane__head{display:flex;align-items:flex-start;gap:13px;padding:clamp(16px,1.7vw,22px) clamp(20px,2.2vw,28px);border-bottom:1px solid rgba(3,47,53,.1)}
 .wizpane__icon{flex:none;width:40px;height:40px;border-radius:12px;background:var(--cream);display:flex;align-items:center;justify-content:center;color:var(--ink)}
@@ -44,32 +48,32 @@
 
 /* The body scrolls inside the panel, which is what keeps the page itself from
    turning into the long scroll this replaced. */
-.wizpane__body{flex:1;overflow-y:auto;padding:clamp(20px,2.2vw,28px);min-height:0}
-.wizpane__skip{margin:20px 0 0;text-align:center;font-size:.8125rem;color:#8aa0a3}
+.wizpane__body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:clamp(16px,1.8vw,22px);padding-bottom:52px;min-height:0}
+.wizpane__skip{margin:18px 0 0;text-align:center;font-size:.8125rem;color:#8aa0a3}
 
-.qbitems{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-content:start}
+.qbitems{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-content:start}
 .qbitem__wrap{display:flex;flex-direction:column}
 
-.qbitem{flex:1;display:flex;gap:13px;padding:17px 18px;background:var(--paper);border:1px solid rgba(3,47,53,.13);border-radius:var(--r-md,14px);cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease,transform .15s ease}
+.qbitem{flex:1;display:flex;gap:11px;padding:12px 14px;align-items:center;background:var(--paper);border:1px solid rgba(3,47,53,.13);border-radius:var(--r-md,14px);cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease,transform .15s ease}
 .qbitem:hover{border-color:rgba(3,47,53,.32);transform:translateY(-1px)}
 .qbitem__check{position:absolute;opacity:0;pointer-events:none}
-.qbitem__box{flex:none;width:23px;height:23px;margin-top:2px;border-radius:7px;border:2px solid rgba(3,47,53,.26);display:flex;align-items:center;justify-content:center;color:transparent;transition:all .15s ease}
+.qbitem__box{flex:none;width:21px;height:21px;border-radius:7px;border:2px solid rgba(3,47,53,.26);display:flex;align-items:center;justify-content:center;color:transparent;transition:all .15s ease}
 .qbitem__check:checked ~ .qbitem__box{background:var(--lime);border-color:var(--lime);color:var(--ink)}
 .qbitem__wrap:has(.qbitem__check:checked) .qbitem{border-color:var(--lime);box-shadow:0 0 0 1px var(--lime);background:rgba(182,237,62,.05)}
 .qbitem__check:focus-visible ~ .qbitem__box{outline:2px solid var(--ink);outline-offset:2px}
 .qbitem__body{flex:1;min-width:0;display:flex;flex-direction:column}
-.qbitem__name{font-weight:700;line-height:1.35;font-size:.9375rem}
+.qbitem__name{font-weight:700;line-height:1.3;font-size:.875rem}
 .qbitem__pop{display:inline-block;margin-left:7px;padding:2px 7px;border-radius:999px;background:var(--lime);color:var(--ink);font-size:.625rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;vertical-align:middle}
-.qbitem__blurb{display:block;margin-top:5px;font-size:.8125rem;line-height:1.5;color:#5d7b7f}
-.qbitem__price{margin-top:12px;font-family:var(--font-head);font-weight:800;font-size:1.125rem;line-height:1}
+.qbitem__blurb{display:block;margin-top:3px;font-size:.78125rem;line-height:1.45;color:#5d7b7f}
+.qbitem__price{margin-top:7px;font-family:var(--font-head);font-weight:800;font-size:1.0625rem;line-height:1}
 .qbitem__from{font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8aa0a3;margin-right:5px}
 .qbitem__unit{font-family:var(--font-body);font-size:.75rem;font-weight:600;color:#8aa0a3;margin-left:4px}
 
 .qbqty[hidden]{display:none}
-.qbqty{display:flex;align-items:center;gap:8px;margin:8px 0 0 auto;padding-right:2px}
-.qbqty__btn{width:30px;height:30px;border-radius:9px;border:1px solid rgba(3,47,53,.2);background:var(--paper);font-size:1.0625rem;line-height:1;cursor:pointer;color:var(--ink)}
+.qbqty{display:flex;align-items:center;gap:7px;margin:6px 0 0 auto;padding-right:2px}
+.qbqty__btn{width:28px;height:28px;border-radius:9px;border:1px solid rgba(3,47,53,.2);background:var(--paper);font-size:1.0625rem;line-height:1;cursor:pointer;color:var(--ink)}
 .qbqty__btn:hover{border-color:var(--ink)}
-.qbqty__input{width:56px;height:30px;text-align:center;border-radius:9px;border:1px solid rgba(3,47,53,.2);background:var(--paper);font:inherit;font-size:.875rem;color:var(--ink)}
+.qbqty__input{width:52px;height:28px;text-align:center;border-radius:9px;border:1px solid rgba(3,47,53,.2);background:var(--paper);font:inherit;font-size:.875rem;color:var(--ink)}
 
 /* --- bottom bar --- */
 .wizbar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px clamp(20px,2.2vw,28px);border-top:1px solid rgba(3,47,53,.12);background:var(--cream)}
@@ -166,5 +170,5 @@
 
 /* A product shot where there is one. Items without a photo simply run without
    it rather than reserving an empty box. */
-.qbitem__shot{flex:none;width:56px;height:56px;border-radius:10px;background:var(--cream);display:flex;align-items:center;justify-content:center;padding:5px}
+.qbitem__shot{flex:none;width:46px;height:46px;border-radius:9px;background:var(--cream);display:flex;align-items:center;justify-content:center;padding:4px}
 .qbitem__shot img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;mix-blend-mode:multiply}
