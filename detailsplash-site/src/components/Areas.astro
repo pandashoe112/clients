@@ -1,7 +1,8 @@
 ---
 import { bg } from '../lib/sanity.js';
 
-const { page = {}, settings = {}, areas = [] } = Astro.props;
+const { page = {}, settings = {} } = Astro.props;
+const areas = page.areas || [];
 const tel = settings.phoneHref || '';
 ---
 <section class="areas" id="areas">

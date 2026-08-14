@@ -1,7 +1,8 @@
 ---
 import { img } from '../lib/sanity.js';
 
-const { page = {}, gallery = [] } = Astro.props;
+const { page = {} } = Astro.props;
+const gallery = page.gallery || [];
 ---
 <section class="gallery" id="gallery">
   <div class="wrap">

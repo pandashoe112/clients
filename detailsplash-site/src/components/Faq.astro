@@ -1,5 +1,6 @@
 ---
-const { page = {}, faqs = [] } = Astro.props;
+const { page = {} } = Astro.props;
+const faqs = page.faqs || [];
 ---
 <section class="faq" id="faq">
   <div class="wrap">

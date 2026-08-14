@@ -3,7 +3,9 @@ import '../styles/global.css';
 import GoogleMark from '../components/GoogleMark.astro';
 import { img } from '../lib/sanity.js';
 
-const { settings = {}, page = {}, faqs = [], packages = [] } = Astro.props;
+const { settings = {}, page = {} } = Astro.props;
+const faqs = page.faqs || [];
+const packages = page.packages || [];
 
 const site = settings.siteUrl || Astro.site?.href?.replace(/\/$/, '') || '';
 const canonical = site ? site + '/' : '';
@@ -11,6 +13,10 @@ const logoUrl = img(settings.logo, 700);
 const tel = settings.phoneHref || '';
 const rating = settings.ratingValue;
 const reviewCount = settings.reviewCount;
+
+// Social preview. Facebook and LinkedIn want a 1.91:1 crop, so the hero photo
+// is served at 1200x630 rather than at its own aspect ratio.
+const shareImage = img(page.heroImage, 1200, 630) || img(page.whyImage, 1200, 630);
 
 // Structured data is generated from the same content the page renders, so the
 // two cannot drift apart the way a hand-maintained block does.
@@ -52,7 +58,7 @@ const business = {
       itemOffered: {
         '@type': 'Service',
         name: p.title + (p.subtitle ? ' — ' + p.subtitle : ''),
-        description: (p.features || []).join('. ')
+        description: (p.inclusions || []).flatMap((g) => g.items || []).join('. ')
       }
     }))
   }
@@ -74,7 +80,7 @@ const faqLd = {
 };
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,8 +96,16 @@ const faqLd = {
 <meta property="og:description" content={page.ogDescription || page.seoDescription}>
 {canonical && <meta property="og:url" content={canonical}>}
 <meta property="og:locale" content="en_AU">
+{shareImage && <meta property="og:image" content={shareImage}>}
+{shareImage && <meta property="og:image:width" content="1200">}
+{shareImage && <meta property="og:image:height" content="630">}
+{page.heroImageAlt && <meta property="og:image:alt" content={page.heroImageAlt}>}
 <meta name="twitter:card" content="summary_large_image">
-{logoUrl && <link rel="icon" href={logoUrl}>}
+{shareImage && <meta name="twitter:image" content={shareImage}>}
+<meta name="theme-color" content="#0B1220">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">

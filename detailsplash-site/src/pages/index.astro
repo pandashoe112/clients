@@ -18,23 +18,23 @@ import { sanity } from '../lib/sanity.js';
 import { HOME_QUERY } from '../lib/queries.js';
 
 const data = await sanity.fetch(HOME_QUERY);
-const { settings = {}, page = {}, services = [], packages = [], addons = [], gallery = [], reviews = [], areas = [], faqs = [] } = data || {};
+const { settings = {}, page = {} } = data || {};
 ---
-<Base settings={settings} page={page} faqs={faqs} packages={packages}>
+<Base settings={settings} page={page}>
   <main id="main">
-    <Hero page={page} settings={settings} reviews={reviews} />
+    <Hero page={page} settings={settings} />
     <Intro page={page} settings={settings} />
-    <Services page={page} services={services} />
-    <Included page={page} settings={settings} packages={packages} />
-    <Addons page={page} addons={addons} />
+    <Services page={page} />
+    <Included page={page} />
+    <Addons page={page} />
     <Club page={page} />
     <HowItWorks page={page} />
     <WhyUs page={page} />
     <SnapSend page={page} settings={settings} />
-    <Gallery page={page} gallery={gallery} />
-    <Reviews page={page} settings={settings} reviews={reviews} />
-    <Areas page={page} settings={settings} areas={areas} />
-    <Faq page={page} faqs={faqs} />
+    <Gallery page={page} />
+    <Reviews page={page} settings={settings} />
+    <Areas page={page} settings={settings} />
+    <Faq page={page} />
   </main>
   <BookForm slot="book" page={page} settings={settings} />
 </Base>

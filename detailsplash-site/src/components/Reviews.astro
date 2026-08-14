@@ -3,7 +3,8 @@ import GoogleMark from './GoogleMark.astro';
 import Stars from './Stars.astro';
 import { img } from '../lib/sanity.js';
 
-const { page = {}, settings = {}, reviews = [] } = Astro.props;
+const { page = {}, settings = {} } = Astro.props;
+const reviews = page.reviews || [];
 ---
 <section class="reviews" id="reviews">
   <div class="wrap">

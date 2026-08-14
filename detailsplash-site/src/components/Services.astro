@@ -1,7 +1,8 @@
 ---
 import Icon from './Icon.astro';
 
-const { page = {}, services = [] } = Astro.props;
+const { page = {} } = Astro.props;
+const services = page.services || [];
 ---
 <section class="services" id="services">
   <div class="wrap">

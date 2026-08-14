@@ -3,7 +3,8 @@ import Tick from './Tick.astro';
 import GoogleMark from './GoogleMark.astro';
 import { img, bg } from '../lib/sanity.js';
 
-const { page = {}, settings = {}, reviews = [] } = Astro.props;
+const { page = {}, settings = {} } = Astro.props;
+const reviews = page.reviews || [];
 // The four faces stacked over the rating line are the reviewers who have a photo.
 const faces = reviews.filter((r) => r.photo).slice(0, 4);
 ---
