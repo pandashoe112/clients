@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import { rebatesLive } from '../lib/rebates.js';
 // Pages carry their quote form under different ids, and some have none at all,
 // so the page says where the contact buttons should go.
 const { settings, services, areas = [], brands = [], contactHref = '#contact' } = Astro.props;
@@ -7,6 +8,24 @@ const { settings, services, areas = [], brands = [], contactHref = '#contact' } 
 // A brand without a page still belongs in the menu — it says what we install.
 // It renders as plain text rather than a dead link.
 const KIND = { charger: 'EV chargers', battery: 'Batteries', both: 'Chargers and batteries' };
+
+// "About us" carries the rebates page rather than the nav growing a fifth
+// top-level item — the bar already collapses at 1080px and one more would
+// bring that forward. The three deep links go straight to the anchor for the
+// rebate people actually search for, which is the whole reason the programs
+// carry their own anchors.
+//
+// The whole group is gated on the same lastVerified flag as the footer link:
+// an unverified rebates page is noindex, and must not be advertised from the
+// nav of every page on the site.
+// No trailing note on these: the dropdown is 270px and any second word wraps
+// the row onto two lines, which the other menus never do.
+const REBATE_LINKS = [
+  { href: '/rebates/', label: 'Victorian rebates' },
+  { href: '/rebates/#solar-panels', label: 'Solar rebates' },
+  { href: '/rebates/#battery', label: 'Battery rebates' },
+  { href: '/rebates/#hot-water', label: 'Hot water rebates' }
+];
 ---
 <div class="utilbar">
   <div class="wrap utilbar__inner">
@@ -70,7 +89,22 @@ const KIND = { charger: 'EV chargers', battery: 'Batteries', both: 'Chargers and
       ) : (
         <a class="navlink" href="/service-areas/">Service areas</a>
       )}
-      <a class="navlink" href="/about/">About us</a>
+      {rebatesLive ? (
+        <div class="navitem" data-dropdown>
+          <button class="navlink" type="button" aria-expanded="false" aria-controls="dd-about">
+            About us
+            <span class="navlink__caret"><Icon name="caret" size={13} stroke={2.6} /></span>
+          </button>
+          <div class="dropdown" id="dd-about">
+            <a class="dropdown__link" href="/about/">About us <span class="dropdown__pc">Who we are</span></a>
+            {REBATE_LINKS.map((r) => (
+              <a class="dropdown__link" href={r.href}>{r.label}</a>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <a class="navlink" href="/about/">About us</a>
+      )}
     </nav>
 
     <div class="siteheader__actions">
@@ -131,7 +165,19 @@ const KIND = { charger: 'EV chargers', battery: 'Batteries', both: 'Chargers and
         <a class="mnav__link" href="/service-areas/">Service areas</a>
       )}
 
-      <a class="mnav__link" href="/about/">About us</a>
+      {rebatesLive ? (
+        <details class="mnav__group">
+          <summary class="mnav__summary">About us <Icon name="caret" size={14} stroke={2.6} /></summary>
+          <div class="mnav__sub">
+            <a class="mnav__sublink" href="/about/">About us <span class="mnav__pc">Who we are</span></a>
+            {REBATE_LINKS.map((r) => (
+              <a class="mnav__sublink" href={r.href}>{r.label}</a>
+            ))}
+          </div>
+        </details>
+      ) : (
+        <a class="mnav__link" href="/about/">About us</a>
+      )}
 
       <div class="mnav__cta">
         <a class="btn btn-ink btn-block" href={contactHref}>Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
