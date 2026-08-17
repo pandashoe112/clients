@@ -61,6 +61,12 @@ export const SERVICE_QUERY = /* groq */ `{
     ctaEyebrow, ctaHeading, ctaText,
     faqEyebrow, faqHeading, faqNote, faqs[]{ question, answer }
   },
+  "rebates": *[_type == "rebatePage"][0]{
+    bandText, lastVerified,
+    "programs": programs[status == "open" && $slug in services[]->slug.current]{
+      name, "anchor": anchor.current
+    }
+  },
   "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
   "suburbs": *[_type == "suburb"] | order(order asc, name asc){ _id, name, postcode },
@@ -93,6 +99,10 @@ export const AREA_QUERY = `{
     nearbyHeading, nearby[]->{ name, "slug": slug.current, postcode, hasPage },
     ctaEyebrow, ctaHeading, ctaText,
     faqHeading, faqs[]{ question, answer }
+  },
+  "rebates": *[_type == "rebatePage"][0]{
+    bandText, lastVerified,
+    "programs": programs[status == "open"]{ name, "anchor": anchor.current }
   },
   "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
@@ -209,3 +219,35 @@ export const QUOTE_BUILDER_QUERY = `{
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
   "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current }
 }`;
+
+// The rebates page. Programs carry references to the services they apply to,
+// which is also what makes the band appear on those service pages - one list,
+// linked from both ends.
+export const REBATES_QUERY = /* groq */ `{
+  "settings": *[_type == "siteSettings"][0]{
+    businessName, phone, phoneHref, email, licence, established,
+    ratingValue, reviewCount, instagramUrl, facebookUrl,
+    accreditations[]{ name, url, logo }
+  },
+  "page": *[_type == "rebatePage"][0]{
+    lastVerified, heroEyebrow, heroHeading, heroIntro,
+    seoTitle, seoDescription,
+    programs[]{
+      name, "anchor": anchor.current, status, summary, amount, amountNote,
+      eligibility, claimedBy, whatWeDo, officialName, officialUrl,
+      "services": services[]->{ title, "slug": slug.current, icon, hasPage }
+    },
+    processEyebrow, processHeading, processSteps[]{ title, text },
+    faqHeading, faqs[]{ question, answer },
+    ctaHeading, ctaText
+  },
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current }
+}`;
+
+// Whether the rebates page is publishable. Used by the sitemap and the suburb
+// pages, which only link to it once a human has checked the figures.
+export const REBATES_STATUS_QUERY = /* groq */ `
+  *[_type == "rebatePage"][0]{ lastVerified, bandText }
+`;

@@ -4,7 +4,8 @@ import { sanity } from '../lib/sanity.js';
 // its landing page switched on in the Studio appears here on the next build.
 // /thank-you/ is left out deliberately: it is noindex.
 export async function GET() {
-  const { services, areas, brands } = await sanity.fetch(`{
+  const { services, areas, brands, rebates } = await sanity.fetch(`{
+    "rebates": *[_type == "rebatePage"][0]{ lastVerified },
     "services": *[_type == "service" && hasPage == true && defined(slug.current)]{ "slug": slug.current },
     "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)]{ "slug": slug.current },
     "brands": *[_type == "brand" && hasPage == true && defined(slug.current)]{ "slug": slug.current }
@@ -15,6 +16,9 @@ export async function GET() {
     { loc: '/', priority: '1.0' },
     { loc: '/about/', priority: '0.7' },
     { loc: '/service-areas/', priority: '0.8' },
+    // Held back until someone has checked the amounts against the official
+    // sources; the page is noindex until the same date is set.
+    ...(rebates?.lastVerified ? [{ loc: '/rebates/', priority: '0.9' }] : []),
     ...services.map((s) => ({ loc: `/services/${s.slug}/`, priority: '0.9' })),
     ...areas.map((a) => ({ loc: `/electrician-${a.slug}/`, priority: '0.8' })),
     ...brands.map((b) => ({ loc: `/brands/${b.slug}/`, priority: '0.8' }))
