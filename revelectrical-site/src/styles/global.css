@@ -87,7 +87,10 @@ button{font:inherit}
 .announce.is-hidden{display:none}
 
 /* ---------- header ---------- */
-.siteheader{position:sticky;top:0;z-index:100;background:var(--paper);border-bottom:1px solid transparent;transition:border-color .25s ease, box-shadow .25s ease}
+/* The bar picks up the cream the 'How it works' band sits on rather than
+   sitting on white, with a light wash through it so it reads as a surface
+   instead of a flat block. Same on every page. */
+.siteheader{position:sticky;top:0;z-index:100;background:linear-gradient(180deg,#FBFCF7 0%,var(--cream) 100%);border-bottom:1px solid transparent;transition:border-color .25s ease, box-shadow .25s ease}
 .siteheader.is-stuck{border-bottom-color:var(--line);box-shadow:0 6px 22px rgba(3,47,53,.06)}
 .siteheader__inner{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:82px}
 .siteheader__logo img{width:178px;height:auto}
@@ -125,7 +128,7 @@ button{font:inherit}
 
 /* Height is set by the script; this is the fallback if it never runs. */
 .mobilenav{display:none;position:absolute;top:100%;left:0;right:0;z-index:105;
-  background:var(--paper);border-top:1px solid var(--line);box-shadow:0 22px 40px rgba(3,47,53,.14);
+  background:linear-gradient(180deg,var(--cream) 0%,#FBFCF7 100%);border-top:1px solid var(--line);box-shadow:0 22px 40px rgba(3,47,53,.14);
   max-height:calc(100dvh - 100%);overflow-y:auto;overscroll-behavior:contain}
 .mobilenav__inner{padding-block:14px 22px}
 .mnav__link,.mnav__summary{display:flex;align-items:center;justify-content:space-between;gap:10px;
