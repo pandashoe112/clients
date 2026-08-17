@@ -53,26 +53,21 @@
 /post/*                   /                301
 
 # --- Suburbs --------------------------------------------------------------
-# Six suburbs kept their slug (/electrician-brunswick and so on) and need no
-# rule. The rest lose their page, so they land on the service-area list, which
+# Eleven suburbs have their own page (/electrician-brunswick and so on) and need
+# no rule. The rest have no page, so they land on the service-area list, which
 # still names every suburb we cover.
 /electrician-airport-west       /service-areas/  301
 /electrician-altona             /service-areas/  301
 /electrician-altona-meadows     /service-areas/  301
-/electrician-ascot-vale         /service-areas/  301
 /electrician-braybrook          /service-areas/  301
 /electrician-campbellfield      /service-areas/  301
 /electrician-carlton            /service-areas/  301
 /electrician-caroline-springs   /service-areas/  301
 /electrician-collingwood        /service-areas/  301
 /electrician-epping             /service-areas/  301
-/electrician-fitzroy            /service-areas/  301
 /electrician-glenroy            /service-areas/  301
 /electrician-greenvale          /service-areas/  301
-/electrician-kensington         /service-areas/  301
-/electrician-newport            /service-areas/  301
 /electrician-north-melbourne    /service-areas/  301
-/electrician-northcote          /service-areas/  301
 /electrician-st-albans          /service-areas/  301
 /electrician-sunshine           /service-areas/  301
 /electrician-thomastown         /service-areas/  301
@@ -81,7 +76,7 @@
 /electrician-yarraville         /service-areas/  301
 
 # Wix shipped this one without its hyphen.
-/electriciannorthcote           /service-areas/  301
+/electriciannorthcote           /electrician-northcote/  301
 
 # Wix's dynamic router also exposed every suburb under /service-areas/{name}.
 # Listed one by one rather than as /service-areas/* so the bare
@@ -95,20 +90,20 @@
 /service-areas/airport-west      /service-areas/  301
 /service-areas/altona            /service-areas/  301
 /service-areas/altona-meadows    /service-areas/  301
-/service-areas/ascot-vale        /service-areas/  301
+/service-areas/ascot-vale        /electrician-ascot-vale/  301
 /service-areas/braybrook         /service-areas/  301
 /service-areas/campbellfield     /service-areas/  301
 /service-areas/carlton           /service-areas/  301
 /service-areas/caroline-springs  /service-areas/  301
 /service-areas/collingwood       /service-areas/  301
 /service-areas/epping            /service-areas/  301
-/service-areas/fitzroy           /service-areas/  301
+/service-areas/fitzroy           /electrician-fitzroy/  301
 /service-areas/glenroy           /service-areas/  301
 /service-areas/greenvale         /service-areas/  301
-/service-areas/kensington        /service-areas/  301
-/service-areas/newport           /service-areas/  301
+/service-areas/kensington        /electrician-kensington/  301
+/service-areas/newport           /electrician-newport/  301
 /service-areas/north-melbourne   /service-areas/  301
-/service-areas/northcote         /service-areas/  301
+/service-areas/northcote         /electrician-northcote/  301
 /service-areas/st-albans         /service-areas/  301
 /service-areas/sunshine          /service-areas/  301
 /service-areas/thomastown        /service-areas/  301
