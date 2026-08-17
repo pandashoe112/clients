@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
-<meta name="theme-color" content="#0B0E12">
+<meta name="theme-color" content="#032F35">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
 <title>Panel Pitch</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="app.css">
@@ -48,8 +51,8 @@
 
   <!-- ============ review ============ -->
   <main class="screen" id="scReview" hidden>
-    <h2 style="font-size:1.25rem;margin-bottom:6px">Three ways to fix it</h2>
-    <p style="color:var(--dim);margin:0 0 18px;font-size:.9375rem">Each option includes everything in the one before it.</p>
+    <h2 style="font-size:1.25rem;margin-bottom:6px" id="tierHead">Ways to fix it</h2>
+    <p style="color:var(--dim);margin:0 0 18px;font-size:.9375rem" id="tierSub">Each option includes everything in the one before it.</p>
     <div class="tiers" id="tierList"></div>
     <div class="sectionhead"><h2>What is going in</h2><span id="lineCount"></span></div>
     <div class="opts" id="lineList"></div>

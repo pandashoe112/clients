@@ -49,18 +49,44 @@ export function tiers(job, discountPct = 0) {
     });
   });
 
-  const sum = (t) => rows[t].reduce((a, r) => a + r.amount, 0);
   const cum = { essential: ['essential'], recommended: ['essential', 'recommended'], complete: TIERS };
 
   const out = {};
   TIERS.forEach((t) => {
     const lines = cum[t].flatMap((tt) => rows[tt]);
-    const gross = cum[t].reduce((a, tt) => a + sum(tt), 0);
-    const disc = t === 'complete' ? gross * (discountPct / 100) : 0;
-    const ex = gross - disc;
-    out[t] = { lines, gross, discount: disc, ex, gst: ex * 0.1, inc: ex * 1.1, tbc: lines.some((l) => l.tbc) };
+    out[t] = { lines, gross: lines.reduce((a, r) => a + r.amount, 0) };
   });
-  return { rows, ...out };
+
+  // A tier that adds nothing to the one below it is not a second choice, it is
+  // the same choice printed twice - and with a discount on the top one it would
+  // read as "Complete, for less than Recommended, for identical work". Only
+  // tiers that actually differ are offered. Empty tiers are never offered.
+  const shown = [];
+  let prev = -1;
+  TIERS.forEach((t) => {
+    const n = out[t].lines.length;
+    if (n > 0 && n !== prev) shown.push(t);
+    prev = n;
+  });
+
+  // The bundle discount belongs to the largest real option, and only when
+  // there is a smaller one to weigh it against.
+  const top = shown.length > 1 ? shown[shown.length - 1] : null;
+
+  TIERS.forEach((t) => {
+    const o = out[t];
+    o.discount = t === top ? o.gross * (discountPct / 100) : 0;
+    o.ex = o.gross - o.discount;
+    o.gst = o.ex * 0.1;
+    o.inc = o.ex * 1.1;
+    o.tbc = o.lines.some((l) => l.tbc);
+    o.offered = shown.includes(t);
+  });
+
+  // `top` is the biggest option actually being offered - the number to show on
+  // a job card or a running total. It is not always `complete`, because
+  // `complete` may be a duplicate that is never put in front of the customer.
+  return { rows, shown, top: shown.length ? out[shown[shown.length - 1]] : out.complete, ...out };
 }
 
 export const money = (n) => '$' + Math.round(n).toLocaleString('en-AU');

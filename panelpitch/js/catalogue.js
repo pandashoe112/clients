@@ -8,9 +8,9 @@
    whole product; everything else is presentation. */
 
 export const SEVERITY = {
-  danger: { label: 'Immediate risk', color: '#FF4D4F' },
-  warn:   { label: 'Not to standard', color: '#FFA83A' },
-  improve:{ label: 'Worth upgrading', color: '#7C5CFF' }
+  danger: { label: 'Immediate risk', color: '#FF6B5A' },
+  warn:   { label: 'Not to standard', color: '#F5B301' },
+  improve:{ label: 'Worth upgrading', color: '#6FD3E8' }
 };
 
 export const TIERS = ['essential', 'recommended', 'complete'];

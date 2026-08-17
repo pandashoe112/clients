@@ -4,7 +4,7 @@ import { tiers, priceOf, money } from './quote.js';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const TICK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+const TICK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
 
 let job = null;
 let screen = 'jobs';
@@ -58,7 +58,7 @@ function renderJobs() {
         <span class="jobcard__name">${esc(j.customer || j.site || 'Untitled board')}</span>
         <span class="jobcard__meta">${j.pins.length} marked · ${new Date(j.updated).toLocaleDateString('en-AU')}</span>
       </span>
-      <span class="jobcard__val">${t.complete.ex ? money(t.complete.inc) : '—'}</span>
+      <span class="jobcard__val">${t.top.ex ? money(t.top.inc) : '—'}</span>
     </button></li>`;
   }).join('');
   $('jobList').querySelectorAll('[data-open]').forEach((b) => {
@@ -100,7 +100,7 @@ function renderBoard() {
   const t = tiers(job, db.business().discount || 0);
   $('tPins').textContent = job.pins.length;
   $('tIssues').textContent = job.pins.reduce((a, p) => a + p.issues.length, 0) + job.boardFixes.length;
-  $('tValue').textContent = t.complete.ex ? money(t.complete.inc) : '$0';
+  $('tValue').textContent = t.top.ex ? money(t.top.inc) : '$0';
 
   $('boardOpts').innerHTML = BOARD_FIXES.map((k) => {
     const f = FIXES[k], on = job.boardFixes.includes(k);
@@ -134,15 +134,24 @@ function renderReview() {
   const t = tiers(job, disc);
   const names = { essential: 'Essential', recommended: 'Recommended', complete: 'Complete' };
 
-  $('tierList').innerHTML = TIERS.map((k) => {
+  const pick = t.shown.includes('recommended') ? 'recommended' : t.shown[t.shown.length - 1];
+
+  // The heading counts the options that are actually on screen. Two identical
+  // tiers get collapsed upstream, so "three" is not always true.
+  const WORD = ['No', 'One', 'Two', 'Three'];
+  $('tierHead').textContent = `${WORD[t.shown.length] || t.shown.length} way${t.shown.length === 1 ? '' : 's'} to fix it`;
+  $('tierSub').textContent = t.shown.length > 1
+    ? 'Each option includes everything in the one before it.'
+    : 'Everything found on this board, in one job.';
+  $('tierList').innerHTML = (t.shown.length ? t.shown : []).map((k) => {
     const d = t[k];
-    return `<button class="tier ${k === 'recommended' ? 'is-pick' : ''}" data-tier="${k}">
+    return `<button class="tier ${k === pick ? 'is-pick' : ''}" data-tier="${k}">
       <span class="tier__top">
         <span class="tier__name">${names[k]}</span>
         <span class="tier__price">${d.ex ? money(d.inc) : '—'}${d.tbc ? '<span style="font-size:.75rem;color:var(--warn)"> +TBC</span>' : ''}</span>
       </span>
       <span class="tier__note">${d.lines.length} item${d.lines.length === 1 ? '' : 's'} · inc GST${
-        k === 'complete' && disc > 0 && d.discount ? `<span class="tier__save">−${disc}% bundled</span>` : ''}</span>
+        d.discount ? `<span class="tier__save">−${disc}% bundled</span>` : ''}</span>
     </button>`;
   }).join('');
 
@@ -297,6 +306,7 @@ function openPresent() {
   const disc = b.discount || 0;
   const t = tiers(job, disc);
   const names = { essential: 'Essential', recommended: 'Recommended', complete: 'Complete' };
+  const pick = t.shown.includes('recommended') ? 'recommended' : t.shown[t.shown.length - 1];
 
   const findings = [];
   job.pins.forEach((p, i) => p.issues.forEach((k) => findings.push({ no: i + 1, issue: ISSUE_BY_KEY[k], fix: FIXES[ISSUE_BY_KEY[k].fix] })));
@@ -315,7 +325,7 @@ function openPresent() {
         <button class="pfind__head" data-toggle="${idx}">
           <span class="pfind__no" style="background:${SEVERITY[f.fix.severity].color}">${f.no || '•'}</span>
           <span class="pfind__t">${esc(f.issue ? f.issue.label : f.fix.name)}</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A8798" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4C6B6E" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="pfind__body" id="pb${idx}" hidden>
           <p>${esc(f.issue ? f.issue.plain : f.fix.outcome)}</p>
@@ -324,12 +334,12 @@ function openPresent() {
       </li>`).join('')}
     </ul>
     <div class="ptiers">
-      ${TIERS.map((k) => { const d = t[k]; if (!d.lines.length) return '';
-        return `<div class="ptier ${k === 'recommended' ? 'is-mid' : ''}">
+      ${t.shown.map((k) => { const d = t[k];
+        return `<div class="ptier ${k === pick ? 'is-mid' : ''}">
           <div class="ptier__n">${names[k]}</div>
           <div class="ptier__p">${d.ex ? money(d.inc) : 'On application'}${d.tbc ? ' +' : ''}</div>
           <ul class="ptier__l">${d.lines.map((l) => `<li>✓ ${esc(l.fix.name)}${l.count > 1 ? ` × ${l.count}` : ''}</li>`).join('')}</ul>
-          ${k === 'complete' && disc > 0 && d.discount ? `<p style="margin:12px 0 0;font-size:.8125rem;color:#1E9E77;font-weight:700">Includes ${disc}% off for doing it all at once</p>` : ''}
+          ${d.discount ? `<p style="margin:12px 0 0;font-size:.8125rem;color:#3E7A0E;font-weight:700">Includes ${disc}% off for doing it all at once</p>` : ''}
         </div>`; }).join('')}
     </div>
     <p class="pfoot">Prices include GST and hold for 30 days. Every classification here was made on site by ${esc(b.name || 'your electrician')}${b.licence ? `, licence ${esc(b.licence)}` : ''}, who is responsible for the work quoted.${b.phone ? ` Questions: ${esc(b.phone)}.` : ''}</p>`;
