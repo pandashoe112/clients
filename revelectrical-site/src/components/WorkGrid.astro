@@ -3,39 +3,46 @@ const { service } = Astro.props;
 
 // Installs for this service rather than the site-wide gallery.
 const BY_SERVICE = {
+  // Evnex supply the charger photography, and there are six of them, so the
+  // EV page shows all six rather than three and a repeat.
   'ev-charging': [
     { src: '/photos/evnex_07.webp', cap: 'Wall-mounted home charger' },
     { src: '/photos/evnex_12.webp', cap: 'Smart charger, garage install' },
-    { src: '/photos/evnex_10.webp', cap: 'Driveway charge point' }
+    { src: '/photos/evnex_10.webp', cap: 'Driveway charge point' },
+    { src: '/photos/evnex_06.webp', cap: 'Charging at home overnight' },
+    { src: '/photos/evnex_09.webp', cap: 'Carport charge point' },
+    { src: '/photos/evnex_08.webp', cap: 'Tethered cable and holster' }
   ],
+  // Everything below is our own work. The old lists padded each grid out with
+  // the same team and switchboard shot, which made six pages look like one.
   'solar-battery': [
-    { src: '/photos/solar-battery.webp', cap: 'Home battery and inverter' },
-    { src: '/photos/switchboard-test.webp', cap: 'Switchboard tie-in' },
-    { src: '/photos/team.webp', cap: 'On site in Melbourne' }
+    { src: '/photos/battery-wiring.webp', cap: 'Battery and inverter wiring' },
+    { src: '/photos/battery-install.webp', cap: 'Inverter mounted and commissioned' },
+    { src: '/photos/meterbox-run.webp', cap: 'Tie-in back to the switchboard' }
   ],
   'heat-pump-hot-water': [
-    { src: '/photos/heat-pump.webp', cap: 'Heat pump hot water unit' },
-    { src: '/photos/switchboard-test.webp', cap: 'Circuit and testing' },
-    { src: '/photos/team.webp', cap: 'On site in Melbourne' }
+    { src: '/photos/hp-unit.webp', cap: 'Heat pump replacing a gas storage unit' },
+    { src: '/photos/meter-board.webp', cap: 'Dedicated circuit and metering' },
+    { src: '/photos/board-external.webp', cap: 'External switchboard work' }
   ],
   'switchboard-upgrade': [
-    { src: '/photos/switchboard-test.webp', cap: 'Switchboard testing' },
-    { src: '/photos/downlight-install.webp', cap: 'Circuit work' },
-    { src: '/photos/team.webp', cap: 'On site in Melbourne' }
+    { src: '/photos/meterbox-run.webp', cap: 'New cable into the meter box' },
+    { src: '/photos/old-fuses.webp', cap: 'What we take out' },
+    { src: '/photos/burnt-wiring.webp', cap: 'Why it matters' }
   ],
   'led-lighting': [
-    { src: '/photos/downlight.webp', cap: 'LED downlights' },
-    { src: '/photos/downlight-install.webp', cap: 'Downlight installation' },
-    { src: '/photos/team.webp', cap: 'On site in Melbourne' }
+    { src: '/photos/downlight-fit.webp', cap: 'Downlight going in' },
+    { src: '/photos/downlight-point.webp', cap: 'Ceiling work, made good' },
+    { src: '/photos/pendant-room.webp', cap: 'Finished lighting' }
   ],
   'induction-cooking': [
-    { src: '/photos/induction-cooktop.webp', cap: 'Induction cooktop install' },
-    { src: '/photos/switchboard-test.webp', cap: 'Dedicated circuit' },
-    { src: '/photos/team.webp', cap: 'On site in Melbourne' }
+    { src: '/photos/induction-fit.webp', cap: 'Induction cooktop going in' },
+    { src: '/photos/induction-fit2.webp', cap: 'Cooktop commissioned' },
+    { src: '/photos/kitchen-reno.webp', cap: 'Benchtop prepared for the circuit' }
   ]
 };
 const WORK = BY_SERVICE[service.slug] || BY_SERVICE['ev-charging'];
-const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : '');
+const delay = (i) => ['', 'reveal-d1', 'reveal-d2'][i % 3];
 ---
 <section class="section bg-cream" id="our-work">
   <div class="wrap">

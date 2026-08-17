@@ -298,6 +298,9 @@ button{font:inherit}
    ============================================================ */
 .work__head{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin:0 0 clamp(34px,4vw,52px)}
 .workgrid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,26px)}
+/* The EV page shows six; everything else three. Two rows of three either way. */
+@media (max-width:900px){.workgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.workgrid{grid-template-columns:minmax(0,1fr)}}
 .workcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-card)}
 .workcard__img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
 .workcard__cap{display:block;padding:18px 20px 20px}

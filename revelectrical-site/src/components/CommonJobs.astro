@@ -12,8 +12,11 @@ const LOCAL = {
   'moonee-ponds': '/suburbs/moonee-ponds.webp',
   broadmeadows: '/suburbs/broadmeadows.webp'
 };
-const photo = area.heroImage ? img(area.heroImage, 1100) : LOCAL[area.slug];
-const photoAlt = area.heroImage ? alt(area.heroImage) : `${area.name}, Melbourne`;
+// Its own photo where one is set, otherwise the hero - which is better than
+// nothing but shows the same shot twice on one page.
+const own = area.jobsImage || area.heroImage;
+const photo = own ? img(own, 1100) : LOCAL[area.slug];
+const photoAlt = own ? alt(own) : `${area.name}, Melbourne`;
 ---
 {jobs.length > 0 && (
   <section class="section bg-paper" id="common-jobs">

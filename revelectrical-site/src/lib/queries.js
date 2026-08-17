@@ -94,7 +94,7 @@ export const AREA_QUERY = `{
     heroHeading, heroIntro, heroTicks,
     localHeading, localBody, localImage,
     servicesHeading, servicesIntro,
-    jobsHeading, jobsIntro,
+    jobsHeading, jobsIntro, jobsImage,
     commonJobs[]{ title, text, service->{ title, "slug": slug.current, hasPage } },
     nearbyHeading, nearby[]->{ name, "slug": slug.current, postcode, hasPage },
     ctaEyebrow, ctaHeading, ctaText,
