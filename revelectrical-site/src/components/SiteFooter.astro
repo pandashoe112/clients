@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { img } from '../lib/sanity.js';
+import { rebatesLive } from '../lib/rebates.js';
 // Pages carry their quote form under different ids, and some have none at all,
 // so the page says where "request a quote" should go.
 const { settings, contactHref = '#contact' } = Astro.props;
@@ -51,6 +52,7 @@ const badges = (settings.accreditations || []).filter((b) => b.logo);
           <li><a href="/#services">Services</a></li>
           <li><a href="/#how-it-works">How it works</a></li>
           <li><a href="/service-areas/">Service areas</a></li>
+          {rebatesLive && <li><a href="/rebates/">Rebates</a></li>}
           <li><a href="/about/">About us</a></li>
           <li><a href={contactHref}>Contact</a></li>
           <li><a href="/privacy/">Privacy policy</a></li>

@@ -1,0 +1,95 @@
+/* Rebates page, and the band that points at it from service and suburb pages.
+   Everything here leans on the tokens and section classes in global.css. */
+
+/* ---------- the unverified warning ---------- */
+.draftbar{background:#F5B301;color:var(--ink);font-weight:600;font-size:.9375rem;padding:14px 0}
+.draftbar strong{font-weight:800}
+.draftbar em{font-style:normal;font-weight:800}
+
+/* ---------- hero ---------- */
+.checked{
+  display:inline-flex;align-items:center;gap:9px;margin:26px 0 0;
+  padding:8px 15px;border-radius:var(--r-pill);
+  background:rgba(244,246,239,.1);border:1px solid rgba(244,246,239,.22);
+  font-size:.875rem;font-weight:600;color:var(--cream);
+}
+.checked svg{color:var(--lime);flex:none}
+
+/* ---------- rebate cards ---------- */
+.rebates{display:grid;gap:16px;margin-top:36px}
+@media (min-width:900px){.rebates{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.rebate{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:clamp(20px,2.6vw,28px);box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;scroll-margin-top:96px;
+}
+.rebate__head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px}
+.rebate__head .h3{margin:0}
+.rebate__status{
+  flex:none;font-size:.6875rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  padding:5px 11px;border-radius:var(--r-pill);border:1px solid var(--line);color:var(--muted);
+  white-space:nowrap;margin-top:2px;
+}
+.rebate__status.is-open{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.rebate__status.is-closed{background:rgba(3,47,53,.06)}
+.rebate__status.is-none{background:transparent;color:var(--muted)}
+
+.rebate__summary{margin:0;color:var(--muted);font-size:.9375rem;line-height:1.7}
+
+.rebate__amount{
+  margin:18px 0 0;padding:14px 16px;border-radius:var(--r-sm);
+  background:var(--cream);border-left:3px solid var(--lime);
+}
+.rebate__amount b{font-family:var(--font-display);font-size:1.5rem;letter-spacing:-.03em;display:block}
+.rebate__amount span{display:block;margin-top:3px;font-size:.8125rem;color:var(--muted);line-height:1.5}
+/* An empty amount is a deliberate state, not a gap: better a visible "ask us"
+   than a number nobody has checked. */
+.rebate__tbc{font-size:.875rem;color:var(--muted);line-height:1.6}
+
+.rebate__facts{margin:20px 0 0;display:grid;gap:16px}
+.rebate__facts > div{display:grid;gap:5px}
+.rebate__facts dt{
+  font-size:.6875rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+}
+.rebate__facts dd{margin:0;font-size:.9375rem;line-height:1.65}
+
+.ticks{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.ticks li{display:flex;gap:9px;align-items:flex-start;font-size:.9375rem;line-height:1.55}
+.ticks svg{color:var(--lime-600);flex:none;margin-top:4px}
+
+.rebate__foot{
+  margin-top:auto;padding-top:20px;display:flex;flex-wrap:wrap;align-items:center;gap:9px;
+}
+.rebate__svc{
+  font-size:.8125rem;font-weight:700;text-decoration:none;
+  padding:7px 13px;border-radius:var(--r-pill);border:1.5px solid var(--line);
+  transition:border-color .16s ease,background-color .16s ease;
+}
+.rebate__svc:hover{border-color:var(--ink);background:var(--cream)}
+.rebate__src{
+  display:inline-flex;align-items:center;gap:6px;margin-left:auto;
+  font-size:.8125rem;font-weight:700;color:var(--muted);text-decoration:none;
+}
+.rebate__src:hover{color:var(--ink)}
+.rebate__src svg{flex:none}
+
+/* ---------- numbered steps (no icon set for these) ---------- */
+.step__no{
+  font-family:var(--font-display);font-size:1.375rem;font-weight:800;
+  letter-spacing:-.03em;color:var(--lime);
+}
+
+/* ---------- the band on service and suburb pages ---------- */
+.rebateband{background:var(--cream);border-block:1px solid var(--line)}
+.rebateband__inner{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  padding-block:clamp(16px,2vw,22px);
+}
+.rebateband__icon{
+  width:42px;height:42px;flex:none;border-radius:var(--r-sm);display:grid;place-items:center;
+  background:var(--ink);color:var(--lime);
+}
+.rebateband__text{margin:0;flex:1;min-width:min(100%,20ch);font-size:.9375rem;line-height:1.6;color:var(--muted)}
+.rebateband__text strong{color:var(--ink);font-weight:700}
+.rebateband__cta{flex:none}

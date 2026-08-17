@@ -10,6 +10,7 @@ import ServiceGrid from '../components/ServiceGrid.astro';
 import Reviews from '../components/Reviews.astro';
 import ContactForm from '../components/ContactForm.astro';
 import FaqList from '../components/FaqList.astro';
+import RebateBand from '../components/RebateBand.astro';
 import { sanity } from '../lib/sanity.js';
 import { AREA_PATHS_QUERY, AREA_QUERY } from '../lib/queries.js';
 
@@ -19,7 +20,7 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const { settings, area, services, reviews, suburbs, areas, contactImage, navBrands } = await sanity.fetch(AREA_QUERY, { slug });
+const { settings, area, services, reviews, suburbs, areas, contactImage, navBrands, rebates } = await sanity.fetch(AREA_QUERY, { slug });
 
 const canonical = `https://www.revelectrical.com.au/electrician-${area.slug}/`;
 
@@ -54,6 +55,8 @@ const contactCopy = {
       services={localServices}
       note={`Every job in ${area.name} is completed by tradesmen who are licensed, registered and insured`}
     />
+
+    <RebateBand rebates={rebates} scope="area" place={area.name} />
 
     <CommonJobs area={area} />
 

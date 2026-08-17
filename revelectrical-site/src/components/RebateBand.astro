@@ -1,0 +1,50 @@
+---
+import Icon from './Icon.astro';
+
+// A one-line pointer to /rebates/, shown on a service or suburb page.
+//
+// Which services get one is decided in the Studio, on the rebates page itself:
+// each program lists the services it applies to, and that same list is what
+// makes this appear. Nothing is duplicated onto the service documents, so a
+// program that closes disappears from both places at once.
+//
+// It renders nothing until someone has set "Amounts last checked". An unchecked
+// rebates page must not be advertised from six service pages.
+// scope 'service' names the schemes that apply to that one job; scope 'area'
+// speaks generally, because a suburb page is not about a single service.
+const { rebates, scope = 'service', place } = Astro.props;
+const programs = (rebates?.programs || []).filter((p) => p.name && p.anchor);
+const show = rebates?.lastVerified && programs.length > 0;
+
+// One program gets a direct link to its section; several get the page itself.
+const href = scope === 'service' && programs.length === 1 ? `/rebates/#${programs[0].anchor}` : '/rebates/';
+const names = programs.map((p) => p.name);
+const list =
+  names.length === 1 ? names[0]
+  : names.length === 2 ? `${names[0]} and ${names[1]}`
+  : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+---
+{show && (
+  <aside class="rebateband">
+    <div class="wrap rebateband__inner">
+      <span class="rebateband__icon"><Icon name="tag" size={19} stroke={2.2} /></span>
+      <p class="rebateband__text">
+        {scope === 'area' ? (
+          <>
+            <strong>Victorian rebates apply to a lot of this work.</strong>
+            {' '}Heat pumps, hot water and batteries{place ? ` in ${place}` : ''} can all
+            qualify, and we handle the paperwork.
+          </>
+        ) : (
+          <>
+            <strong>{rebates.bandText || 'This job may attract a Victorian rebate.'}</strong>
+            {' '}This one can qualify under {list}.
+          </>
+        )}
+      </p>
+      <a class="btn btn-lime btn-sm rebateband__cta" href={href}>
+        What you can claim <Icon name="arrowRight" size={16} stroke={2.4} />
+      </a>
+    </div>
+  </aside>
+)}

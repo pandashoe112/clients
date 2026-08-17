@@ -1,0 +1,179 @@
+---
+import ServiceBase from '../layouts/ServiceBase.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import FaqList from '../components/FaqList.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Icon from '../components/Icon.astro';
+import { sanity } from '../lib/sanity.js';
+import { REBATES_QUERY } from '../lib/queries.js';
+import '../styles/rebates.css';
+
+const { settings, page, services, areas, navBrands } = await sanity.fetch(REBATES_QUERY);
+
+const canonical = 'https://www.revelectrical.com.au/rebates/';
+const title = page?.seoTitle || `Victorian rebates | ${settings.businessName}`;
+const description = page?.seoDescription || 'Which Victorian rebates apply to going all-electric, and who handles the paperwork.';
+
+// The page is built either way so it can be reviewed, but it stays out of the
+// index until a human has checked the figures against the official sources.
+// The same date gates the sitemap and the bands on the service pages.
+const verified = Boolean(page?.lastVerified);
+
+const programs = page?.programs || [];
+const CLAIMED = {
+  us: 'We claim it for you',
+  shared: 'You apply, we supply the paperwork',
+  discount: 'Taken off the price at the time'
+};
+const STATUS = {
+  open: { label: 'Open', cls: 'is-open' },
+  closed: { label: 'Closed or paused', cls: 'is-closed' },
+  none: { label: 'No rebate for this', cls: 'is-none' }
+};
+
+const fmt = (d) =>
+  new Date(d).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
+
+// FaqList and FinalCta are written against a service document. The rebates page
+// carries the same field names so both render unchanged.
+const asService = {
+  faqEyebrow: 'Questions',
+  faqHeading: page?.faqHeading,
+  faqs: page?.faqs || [],
+  ctaEyebrow: 'Get a straight answer',
+  ctaHeading: page?.ctaHeading,
+  ctaText: page?.ctaText
+};
+---
+<ServiceBase
+  title={title}
+  description={description}
+  canonical={canonical}
+  settings={settings}
+  faqs={verified ? (page?.faqs || []) : []}
+  noindex={!verified}
+>
+  <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} contactHref="#get-in-touch" />
+
+  <main id="main">
+    {!verified && (
+      <div class="draftbar">
+        <div class="wrap">
+          <strong>Not published.</strong> No amounts have been verified yet, so this page is
+          set to noindex and left out of the sitemap. Fill in each rebate amount in the Studio,
+          then set <em>Amounts last checked</em> to today to make it live.
+        </div>
+      </div>
+    )}
+
+    <section class="section bg-ink">
+      <div class="wrap">
+        {page?.heroEyebrow && <p class="eyebrow eyebrow-light">{page.heroEyebrow}</p>}
+        <h1 class="h1" style="margin-top:12px;max-width:18ch">{page?.heroHeading}</h1>
+        <p class="lede lede-light" style="margin-top:22px;max-width:52ch">{page?.heroIntro}</p>
+        {verified && (
+          <p class="checked">
+            <Icon name="checkCircle" size={17} stroke={2.2} />
+            Amounts last checked {fmt(page.lastVerified)}
+          </p>
+        )}
+      </div>
+    </section>
+
+    <section class="section bg-cream" id="rebates">
+      <div class="wrap">
+        <p class="eyebrow">What applies</p>
+        <h2 class="h2" style="max-width:20ch">One card per scheme, and what it means for you</h2>
+
+        <div class="rebates">
+          {programs.map((p) => (
+            <article class="rebate" id={p.anchor}>
+              <div class="rebate__head">
+                <h3 class="h3">{p.name}</h3>
+                <span class={`rebate__status ${STATUS[p.status]?.cls || ''}`}>
+                  {STATUS[p.status]?.label || ''}
+                </span>
+              </div>
+
+              {p.summary && <p class="rebate__summary">{p.summary}</p>}
+
+              {p.status !== 'none' && (
+                <div class="rebate__amount">
+                  {p.amount
+                    ? <><b>{p.amount}</b>{p.amountNote && <span>{p.amountNote}</span>}</>
+                    : <span class="rebate__tbc">Ask us for the current figure — it changes, and we would rather check than guess.</span>}
+                </div>
+              )}
+
+              <dl class="rebate__facts">
+                {p.eligibility?.length > 0 && (
+                  <div>
+                    <dt>Who can claim it</dt>
+                    <dd>
+                      <ul class="ticks">
+                        {p.eligibility.map((e) => (
+                          <li><Icon name="check" size={15} stroke={2.6} />{e}</li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                )}
+                {p.claimedBy && p.status !== 'none' && (
+                  <div>
+                    <dt>Paperwork</dt>
+                    <dd>{CLAIMED[p.claimedBy]}</dd>
+                  </div>
+                )}
+                {p.whatWeDo && (
+                  <div>
+                    <dt>What we do</dt>
+                    <dd>{p.whatWeDo}</dd>
+                  </div>
+                )}
+              </dl>
+
+              <div class="rebate__foot">
+                {p.services?.filter((s) => s.hasPage).map((s) => (
+                  <a class="rebate__svc" href={`/services/${s.slug}/`}>{s.title}</a>
+                ))}
+                {p.officialUrl && (
+                  <a class="rebate__src" href={p.officialUrl} target="_blank" rel="noopener nofollow">
+                    {p.officialName || 'Official details'}
+                    <Icon name="arrowRight" size={14} stroke={2.4} />
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {page?.processSteps?.length > 0 && (
+      <section class="section bg-paper">
+        <div class="wrap">
+          {page.processEyebrow && <p class="eyebrow">{page.processEyebrow}</p>}
+          <h2 class="h2" style="max-width:20ch">{page.processHeading}</h2>
+          <div class="steps" style="margin-top:34px">
+            {page.processSteps.map((s, i) => (
+              <div class="step">
+                <span class="step__wire"></span>
+                <span class="step__tile"><b class="step__no">{i + 1}</b></span>
+                <div>
+                  <h3 class="h3 step__title">{s.title}</h3>
+                  <p class="step__text">{s.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {asService.faqs.length > 0 && <FaqList service={asService} settings={settings} />}
+    <FinalCta service={asService} settings={settings} />
+  </main>
+
+  <SiteFooter settings={settings} contactHref="#get-in-touch" />
+</ServiceBase>

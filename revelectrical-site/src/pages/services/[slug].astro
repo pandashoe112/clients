@@ -12,6 +12,7 @@ import BrandList from '../../components/BrandList.astro';
 import FaqList from '../../components/FaqList.astro';
 import RelatedServices from '../../components/RelatedServices.astro';
 import FinalCta from '../../components/FinalCta.astro';
+import RebateBand from '../../components/RebateBand.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import { sanity } from '../../lib/sanity.js';
 import { SERVICE_QUERY, SERVICE_PATHS_QUERY } from '../../lib/queries.js';
@@ -25,7 +26,7 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const { settings, service, services, brands, gallery, suburbs, areas, navBrands } = await sanity.fetch(SERVICE_QUERY, { slug });
+const { settings, service, services, brands, gallery, suburbs, areas, navBrands, rebates } = await sanity.fetch(SERVICE_QUERY, { slug });
 
 const canonical = `https://www.revelectrical.com.au/services/${service.slug}/`;
 const title = service.seoTitle || `${service.title} | ${settings.businessName}`;
@@ -42,6 +43,7 @@ const description = service.seoDescription || service.summary;
 
   <main id="main">
     <ServiceHero service={service} settings={settings} services={services} />
+    <RebateBand rebates={rebates} />
     <GuaranteeBand service={service} settings={settings} />
     <ServiceSteps service={service} />
     {service.slug === 'ev-charging' && <ChargerTypes service={service} />}
