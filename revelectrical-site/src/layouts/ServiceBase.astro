@@ -3,7 +3,7 @@ import '../styles/global.css';
 import '../styles/service.css';
 import GtmHead from '../components/GtmHead.astro';
 import GtmNoscript from '../components/GtmNoscript.astro';
-const { title, description, canonical, settings, faqs = [], areaServed, noindex = false } = Astro.props;
+const { title, description, canonical, settings, faqs = [], areaServed, noindex = false, crumbs = [] } = Astro.props;
 
 const base = 'https://www.revelectrical.com.au';
 
@@ -28,6 +28,22 @@ const business = {
     bestRating: '5'
   }
 };
+
+// BreadcrumbList tells Google the hierarchy and can replace the raw URL in the
+// result with a readable trail. Every sub-page is one level under the home
+// page, so the crumb list is short - but it has to be there to be used.
+const crumbSchema = crumbs.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [{ name: 'Home', url: base + '/' }, ...crumbs].map((c, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: c.name,
+        item: c.url.startsWith('http') ? c.url : base + c.url
+      }))
+    }
+  : null;
 
 const faqSchema = faqs.length
   ? {
@@ -63,6 +79,7 @@ const faqSchema = faqs.length
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script type="application/ld+json" set:html={JSON.stringify(business)}></script>
+  {crumbSchema && <script type="application/ld+json" set:html={JSON.stringify(crumbSchema)}></script>}
   {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>}
 </head>
 <body>

@@ -549,6 +549,14 @@ button{font:inherit}
   white-space:nowrap;padding-bottom:7px;border-bottom:1px solid var(--line)}
 .areasband__list strong{font-weight:600}
 .areasband__list span{color:var(--muted);font-size:.8125rem}
+/* The whole row is the link now, so it has to be the flex container the li
+   used to be. */
+.areasband__link{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  width:100%;text-decoration:none;color:inherit;transition:color .16s ease}
+.areasband__link strong{transition:text-decoration-color .16s ease}
+.areasband__link:hover strong,.areasband__link:focus-visible strong{
+  text-decoration:underline;text-decoration-color:var(--lime-600);
+  text-decoration-thickness:2px;text-underline-offset:3px}
 @media (max-width:900px){
   .areasband__inner{grid-template-columns:1fr}
   .areasband__list{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -692,3 +700,9 @@ button{font:inherit}
 .about__story--solo{grid-template-columns:1fr}
 .about__story--solo .lede{max-width:68ch}
 }
+
+/* Inline body links on the dark bands. */
+.inlinelink{color:var(--lime);text-decoration:underline;text-decoration-thickness:2px;
+  text-underline-offset:3px;text-decoration-color:rgba(182,237,62,.5);
+  transition:text-decoration-color .16s ease}
+.inlinelink:hover{text-decoration-color:var(--lime)}

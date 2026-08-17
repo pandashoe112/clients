@@ -9,6 +9,13 @@ const { service, settings } = Astro.props;
       {service.guaranteeEyebrow && <p class="eyebrow eyebrow-light">{service.guaranteeEyebrow}</p>}
       <h2 class="h2 h2-lime">{service.guaranteeHeading}</h2>
       <p class="lede lede-light" style="margin-top:20px">{service.guaranteeText}</p>
+      {/* /about/ had no links into it from the body of any page - nav and footer
+          only. Every service page carries one now, with an anchor that names
+          the thing the page is trying to rank for. */}
+      <p class="lede lede-light" style="margin-top:14px;font-size:.9375rem">
+        Work is carried out by <a class="inlinelink" href="/about/">licensed Melbourne electricians</a>,
+        insured and registered since {settings.established}.
+      </p>
       <div class="btn-row" style="margin-top:30px">
         <a class="btn btn-lime" href="#quote">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
         <a class="btn btn-glass js-call" href={settings.phoneHref}>Call {settings.phone}</a>

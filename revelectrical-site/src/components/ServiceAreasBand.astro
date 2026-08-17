@@ -1,7 +1,35 @@
 ---
 import Icon from './Icon.astro';
+
+// The suburb list on a service page. These used to be plain text, which meant
+// the six strongest pages on the site passed nothing to the eleven suburb
+// pages while every suburb page linked up to them. This is the reciprocal half
+// of that relationship, and the anchor is the long-tail term the suburb page
+// is actually trying to win - "switchboard upgrade in Brunswick" rather than
+// "Brunswick".
+//
+// Suburbs without a page stay as plain text. Listing every suburb we cover is
+// the point of the section; linking to a page that does not exist is not.
 const { service, suburbs = [], tone = 'bg-cream' } = Astro.props;
-const shown = suburbs.slice(0, 24);
+// The list is capped at 24 of the 29 suburbs for layout. Ordered by the
+// Studio's display order that cut off Newport and Northcote, the two newest
+// pages, so they were the only suburbs the service pages never linked to.
+// Suburbs with a page sort first; the rest fill the remaining slots.
+const shown = [...suburbs]
+  .sort((a, b) => Number(Boolean(b.hasPage && b.slug)) - Number(Boolean(a.hasPage && a.slug)))
+  .slice(0, 24);
+
+// Service titles are written for a card ("EV charging solutions"), which makes
+// a clumsy anchor. These are the terms people search.
+const ANCHOR = {
+  'ev-charging': 'EV charger installation',
+  'solar-battery': 'Solar battery installation',
+  'heat-pump-hot-water': 'Heat pump hot water',
+  'switchboard-upgrade': 'Switchboard upgrade',
+  'led-lighting': 'LED downlight installation',
+  'induction-cooking': 'Induction cooktop installation'
+};
+const term = ANCHOR[service.slug] || service.title;
 ---
 <section class={`section ${tone}`} id="service-areas">
   <div class="wrap areasband__inner">
@@ -14,12 +42,19 @@ const shown = suburbs.slice(0, 24);
       </p>
       <div class="btn-row" style="margin-top:26px">
         <a class="btn btn-ink" href="#quote">Check your suburb <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-outline" href="/service-areas/">All service areas <Icon name="chevron" size={15} stroke={2.6} /></a>
       </div>
     </div>
 
     <ul class="areasband__list reveal reveal-d1">
       {shown.map((s) => (
-        <li><strong>{s.name}</strong><span>{s.postcode}</span></li>
+        <li>
+          {s.hasPage && s.slug
+            ? <a class="areasband__link" href={`/electrician-${s.slug}/`} title={`${term} in ${s.name}`}>
+                <strong>{s.name}</strong><span>{s.postcode}</span>
+              </a>
+            : <><strong>{s.name}</strong><span>{s.postcode}</span></>}
+        </li>
       ))}
     </ul>
   </div>

@@ -12,7 +12,7 @@ const delay = (i) => (i % 3 === 1 ? 'reveal-d1' : i % 3 === 2 ? 'reveal-d2' : ''
     <ul class="svcgrid">
       {services.map((s, i) => (
         <li class={`reveal ${delay(i)}`} id={`svc-${s.slug.current}`}>
-          <a class="svccard svccard--bare" href={s.hasPage ? `/services/${s.slug.current}` : "#contact"}>
+          <a class="svccard svccard--bare" href={s.hasPage ? `/services/${s.slug.current}/` : "#contact"}>
             <img class="svccard__icon svccard__icon--center" src={`/icon-${s.icon}.webp`} alt="" width="78" height="76" loading="lazy" />
             <h3 class="h3 svccard__title svccard__title--lime">{s.title}</h3>
             <p class="svccard__text svccard__text--light">{s.summary}</p>

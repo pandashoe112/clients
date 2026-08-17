@@ -38,6 +38,7 @@ const description = service.seoDescription || service.summary;
   canonical={canonical}
   settings={settings}
   faqs={service.faqs || []}
+  crumbs={[{ name: "Services", url: "/#services" }, { name: service.title, url: `/services/${service.slug}/` }]}
 >
   <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} contactHref="#quote" />
 
@@ -49,7 +50,7 @@ const description = service.seoDescription || service.summary;
     {service.slug === 'ev-charging' && <ChargerTypes service={service} />}
     <DiffGrid service={service} />
     <WorkGrid service={service} />
-    {service.slug === 'ev-charging' && <BrandList service={service} brands={brands} settings={settings} />}
+    {service.slug === 'ev-charging' && <BrandList service={service} brands={brands} settings={settings} navBrands={navBrands} />}
     <ServiceAreasBand service={service} suburbs={suburbs} tone={service.slug === 'ev-charging' ? 'bg-cream' : 'bg-paper'} />
     <RelatedServices service={service} />
     <FaqList service={service} settings={settings} />

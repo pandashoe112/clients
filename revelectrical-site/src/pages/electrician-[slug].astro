@@ -42,6 +42,7 @@ const contactCopy = {
   settings={settings}
   faqs={area.faqs || []}
   areaServed={`${area.name}, Victoria ${area.postcode}`}
+  crumbs={[{ name: "Service areas", url: "/service-areas/" }, { name: `Electrician ${area.name}`, url: `/electrician-${area.slug}/` }]}
 >
   <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} />
 

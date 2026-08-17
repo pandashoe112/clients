@@ -1,7 +1,18 @@
 ---
 import Icon from './Icon.astro';
 import { img } from '../lib/sanity.js';
-const { service, brands = [], settings } = Astro.props;
+const { service, brands = [], settings, navBrands = [] } = Astro.props;
+
+// The logos come from the homepage brand list, which carries artwork but no
+// slug. Match them to the brand documents by name so a brand with a landing
+// page becomes a link - /brands/evnex/ had no links into it from anywhere in
+// the body of the site, only the nav.
+const pageFor = (name) => {
+  const hit = (navBrands || []).find(
+    (b) => b.hasPage && b.slug && b.name && name &&
+           b.name.toLowerCase() === String(name).toLowerCase());
+  return hit ? `/brands/${hit.slug}/` : null;
+};
 ---
 <section class="section bg-paper">
   <div class="wrap brands__inner">
@@ -13,9 +24,13 @@ const { service, brands = [], settings } = Astro.props;
       </div>
     </div>
     <ul class="brandlist reveal reveal-d1">
-      {(brands || []).map((b) => (
-        <li>{b.logo ? <img class="brandlogo" src={img(b.logo, 320)} alt={b.name} loading="lazy" /> : b.name}</li>
-      ))}
+      {(brands || []).map((b) => {
+        const href = pageFor(b.name);
+        const mark = b.logo
+          ? <img class="brandlogo" src={img(b.logo, 320)} alt={b.name} loading="lazy" />
+          : b.name;
+        return <li>{href ? <a href={href} title={`${b.name} chargers installed in Melbourne`}>{mark}</a> : mark}</li>;
+      })}
     </ul>
   </div>
 </section>

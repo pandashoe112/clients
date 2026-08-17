@@ -69,7 +69,7 @@ export const SERVICE_QUERY = /* groq */ `{
   },
   "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
   "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
-  "suburbs": *[_type == "suburb"] | order(order asc, name asc){ _id, name, postcode },
+  "suburbs": *[_type == "suburb"] | order(order asc, name asc){ _id, name, postcode, hasPage, "slug": slug.current },
   "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){ _id, name, postcode, "slug": slug.current },
   "brands": *[_type == "homePage"][0].brands,
   "gallery": *[_type == "galleryItem"] | order(order asc)[0...3]{ _id, caption, image }
