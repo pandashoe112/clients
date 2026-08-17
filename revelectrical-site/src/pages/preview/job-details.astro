@@ -1,0 +1,58 @@
+---
+import ServiceBase from '../../layouts/ServiceBase.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import JobDetails from '../../components/JobDetails.astro';
+import Icon from '../../components/Icon.astro';
+import { sanity } from '../../lib/sanity.js';
+import '../../styles/jobdetails.css';
+
+// A staging page for the second-stage qualification form. It is not linked
+// from anywhere and carries noindex, so it exists only for whoever has the
+// URL. The live thank-you page is untouched.
+const { settings, services, areas, navBrands } = await sanity.fetch(`{
+  "navBrands": *[_type == "brand"] | order(order asc, name asc){ _id, name, kind, hasPage, "slug": slug.current },
+  "settings": *[_type == "siteSettings"][0]{
+    businessName, phone, phoneHref, email, licence, established,
+    ratingValue, reviewCount, instagramUrl, facebookUrl
+  },
+  "services": *[_type == "service"] | order(order asc){ _id, title, slug, summary, icon, hasPage },
+  "areas": *[_type == "suburb" && hasPage == true && defined(slug.current)] | order(order asc, name asc){
+    _id, name, postcode, "slug": slug.current
+  }
+}`);
+---
+<ServiceBase
+  title={`Preview: job details form | ${settings.businessName}`}
+  description="Staging preview of the second-stage qualification form."
+  canonical="https://www.revelectrical.com.au/preview/job-details/"
+  settings={settings}
+  noindex={true}
+>
+  <div class="stagebar">
+    <div class="wrap stagebar__inner">
+      <strong>Staging preview</strong>
+      <span>Second-stage qualification form. Not linked from the site and not indexed.</span>
+    </div>
+  </div>
+
+  <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} contactHref="/#contact" />
+
+  <main id="main">
+    <section class="hero hero--photo hero--thanks">
+      <span class="hero__wash" aria-hidden="true"></span>
+      <div class="wrap thanks__inner">
+        <span class="thanks__tick" aria-hidden="true"><Icon name="check" size={38} stroke={2.6} /></span>
+        <h1 class="h1 thanks__title">Thanks — your enquiry is in.</h1>
+        <p class="lede thanks__lede">
+          This is the thank-you page as the customer sees it. The form below is the second
+          stage being previewed.
+        </p>
+      </div>
+    </section>
+
+    <JobDetails settings={settings} />
+  </main>
+
+  <SiteFooter settings={settings} contactHref="/#contact" />
+</ServiceBase>

@@ -1,0 +1,20 @@
+/* The second-stage qualification form. Its own stylesheet rather than living
+   in service.css, because it is only mounted on the preview page. */
+.details__inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);gap:clamp(32px,4vw,64px);align-items:start}
+.detailwhy{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px}
+.detailwhy li{display:flex;align-items:flex-start;gap:10px;font-size:.9875rem;line-height:1.55;color:#3b585c}
+.detailwhy svg{flex:none;margin-top:2px;color:#4a7a12}
+.detailnote{margin:24px 0 0;padding:16px 18px;background:var(--cream);border-radius:var(--r-md,14px);font-size:.9375rem;line-height:1.55;color:#3b585c}
+.detailhint{margin:8px 0 0;font-size:.8125rem;color:#5d7b7f}
+.detailsdone__inner{text-align:center;max-width:56ch;margin:0 auto}
+.detailsdone__inner .thanks__tick{margin:0 auto 20px}
+
+/* A band across the top so nobody mistakes the preview for the live site. */
+.stagebar{background:#7a3d00;color:#fff;padding:10px 0;font-size:.875rem}
+.stagebar__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.stagebar strong{font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:.75rem}
+.stagebar span{opacity:.9}
+
+@media (max-width:1080px){
+  .details__inner{grid-template-columns:minmax(0,1fr);gap:32px}
+}
