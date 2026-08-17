@@ -1,0 +1,14 @@
+{
+  "name": "Panel Pitch",
+  "short_name": "Panel Pitch",
+  "description": "Switchboard safety quoting for licensed electricians.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B0E12",
+  "theme_color": "#0B0E12",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
