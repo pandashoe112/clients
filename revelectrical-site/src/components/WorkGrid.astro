@@ -3,32 +3,49 @@ const { service } = Astro.props;
 
 // Installs for this service rather than the site-wide gallery.
 const BY_SERVICE = {
-  // Evnex supply the charger photography, and there are six of them, so the
-  // EV page shows all six rather than three and a repeat.
+  // Real installs, all of them Revelectrical's own work. Six where we have six
+  // worth showing - the pages people actually buy from - and three where the
+  // photo library does not stretch that far yet.
   'ev-charging': [
-    { src: '/photos/evnex_07.webp', cap: 'Wall-mounted home charger' },
-    { src: '/photos/evnex_12.webp', cap: 'Smart charger, garage install' },
-    { src: '/photos/evnex_10.webp', cap: 'Driveway charge point' },
-    { src: '/photos/evnex_06.webp', cap: 'Charging at home overnight' },
-    { src: '/photos/evnex_09.webp', cap: 'Carport charge point' },
-    { src: '/photos/evnex_08.webp', cap: 'Tethered cable and holster' }
+    { src: '/photos/ev-brick-vine.webp', cap: 'Wall charger on a brick facade' },
+    { src: '/photos/ev-garage-car.webp', cap: 'Garage install, car in place' },
+    { src: '/photos/ev-plugged-in.webp', cap: 'Plugged in and charging' },
+    { src: '/photos/ev-brick-tidy.webp', cap: 'Tidy conduit run to the board' },
+    { src: '/photos/ev-weatherboard.webp', cap: 'Weatherboard home, sealed penetration' },
+    { src: '/photos/ev-garage-open.webp', cap: 'Charger inside the garage' }
   ],
-  // Everything below is our own work. The old lists padded each grid out with
-  // the same team and switchboard shot, which made six pages look like one.
+  // The Evnex brand page shows only Evnex units, not the whole EV mix.
+  evnex: [
+    { src: '/photos/evnex-brick.webp', cap: 'Evnex on brick, cable holstered' },
+    { src: '/photos/evnex-weatherboard.webp', cap: 'Evnex on a weatherboard wall' },
+    { src: '/photos/evnex-red-brick.webp', cap: 'Evnex beside a side gate' },
+    { src: '/photos/evnex-brick-window.webp', cap: 'Evnex with a clean conduit run' },
+    { src: '/photos/evnex-laundry.webp', cap: 'Evnex in a laundry, commissioned' },
+    { src: '/photos/evnex-garage.webp', cap: 'Evnex in the garage' }
+  ],
   'solar-battery': [
-    { src: '/photos/battery-wiring.webp', cap: 'Battery and inverter wiring' },
-    { src: '/photos/battery-install.webp', cap: 'Inverter mounted and commissioned' },
-    { src: '/photos/meterbox-run.webp', cap: 'Tie-in back to the switchboard' }
-  ],
-  'heat-pump-hot-water': [
-    { src: '/photos/hp-unit.webp', cap: 'Heat pump replacing a gas storage unit' },
-    { src: '/photos/meter-board.webp', cap: 'Dedicated circuit and metering' },
-    { src: '/photos/board-external.webp', cap: 'External switchboard work' }
+    { src: '/photos/battery-fronius-pair.webp', cap: 'Two batteries, one garage' },
+    { src: '/photos/battery-foxess.webp', cap: 'FoxESS battery and inverter' },
+    { src: '/photos/battery-garage-pair.webp', cap: 'Stacked storage, garage install' },
+    { src: '/photos/battery-tech.webp', cap: 'Commissioning on site' },
+    { src: '/photos/battery-inverter-wall.webp', cap: 'Inverter and battery, external wall' },
+    { src: '/photos/battery-foxess-meter.webp', cap: 'Tied in beside the meter' }
   ],
   'switchboard-upgrade': [
     { src: '/photos/meterbox-run.webp', cap: 'New cable into the meter box' },
     { src: '/photos/old-fuses.webp', cap: 'What we take out' },
-    { src: '/photos/burnt-wiring.webp', cap: 'Why it matters' }
+    { src: '/photos/burnt-wiring.webp', cap: 'Why it matters' },
+    { src: '/photos/board-external.webp', cap: 'External switchboard, weatherproofed' },
+    { src: '/photos/meter-board.webp', cap: 'Meter and board, finished' },
+    { src: '/photos/battery-and-board.webp', cap: 'Board sized for a battery' }
+  ],
+  'heat-pump-hot-water': [
+    { src: '/photos/hp-cylinder-unit.webp', cap: 'Heat pump and cylinder installed' },
+    { src: '/photos/hp-brick-unit.webp', cap: 'Unit sited clear of windows' },
+    { src: '/photos/hp-garage.webp', cap: 'Garage install, gas removed' },
+    { src: '/photos/hp-connection.webp', cap: 'Water and power connections' },
+    { src: '/photos/hp-unit.webp', cap: 'Replacing a gas storage unit' },
+    { src: '/photos/inverter-solax.webp', cap: 'Running off solar where there is some' }
   ],
   'led-lighting': [
     { src: '/photos/downlight-fit.webp', cap: 'Downlight going in' },

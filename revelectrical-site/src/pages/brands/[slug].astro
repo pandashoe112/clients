@@ -36,7 +36,9 @@ const description = brand.seoDescription || brand.summary;
 // photos, which is why it carries a service slug rather than the brand's.
 const asService = {
   title: brand.name,
-  slug: brand.workSlug || 'ev-charging',
+  // The brand's own slug picks its install photos; WorkGrid falls back to
+  // the EV set for a brand that has no photos of its own yet.
+  slug: brand.workSlug || brand.slug,
   heroHeading: brand.heroHeading,
   heroIntro: brand.heroIntro,
   heroTicks: brand.heroTicks,
