@@ -137,8 +137,9 @@ export const ABOUT_QUERY = `{
   },
   "page": *[_type == "aboutPage"][0]{
     seoTitle, seoDescription,
-    heroEyebrow, heroHeading, heroIntro,
+    heroEyebrow, heroHeading, heroIntro, heroImage,
     storyHeading, storyParagraphs, storyImage,
+    galleryHeading, gallery[]{ alt, caption, asset },
     businessEyebrow, businessHeading, businessBody, businessRows[]{ label, value }, businessPoints,
     contactEyebrow, contactHeading, contactIntro
   },

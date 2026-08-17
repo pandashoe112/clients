@@ -1,0 +1,55 @@
+---
+// The job-type picker, shared by every enquiry form on the site.
+//
+// Six buckets rather than the six service documents: a caller picks the thing
+// they recognise, and "General electrical" catches everything the service
+// pages do not cover instead of losing the lead to a missing option.
+//
+// On a service page the answer is already known, so that tile arrives ticked
+// and the question becomes a confirmation the visitor can override - someone
+// who landed on EV charging but actually needs a switchboard can say so.
+const { idPrefix = 'job', selected = '' } = Astro.props;
+
+const JOBS = [
+  'EV charging',
+  'Solar & battery',
+  'Hot water',
+  'Switchboard',
+  'Lighting',
+  'General electrical'
+];
+
+// Service pages name themselves differently to these buckets, so match on the
+// words rather than expecting the titles to line up.
+const MATCH = [
+  [/ev|charger|charging/i, 'EV charging'],
+  [/solar|batter/i, 'Solar & battery'],
+  [/hot water|heat pump/i, 'Hot water'],
+  [/switchboard|fuse|rewir/i, 'Switchboard'],
+  [/light|downlight|led/i, 'Lighting'],
+  [/induction|cooktop|oven/i, 'General electrical']
+];
+const preset = selected
+  ? (MATCH.find(([re]) => re.test(selected)) || [])[1] || ''
+  : '';
+---
+<fieldset class="tileset">
+  <legend class="label">What do you need?</legend>
+  <div class="tilegrid">
+    {JOBS.map((job, i) => (
+      <div class="tile">
+        <input
+          type="radio"
+          name="service"
+          id={`${idPrefix}_${i}`}
+          value={job}
+          checked={job === preset}
+          required={i === 0}
+          aria-describedby={`${idPrefix}_err`}
+        />
+        <label for={`${idPrefix}_${i}`}>{job}</label>
+      </div>
+    ))}
+  </div>
+  <p class="err" id={`${idPrefix}_err`} role="alert"></p>
+</fieldset>

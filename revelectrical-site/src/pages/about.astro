@@ -31,6 +31,9 @@ const contactCopy = {
 
   <main id="main">
     <section class="hero hero--photo hero--about">
+      {page.heroImage && (
+        <img class="hero__bg" src={img(page.heroImage, 2000)} alt="" aria-hidden="true" />
+      )}
       <span class="hero__wash" aria-hidden="true"></span>
       <div class="wrap">
         <nav class="crumbs" aria-label="Breadcrumb">
@@ -63,6 +66,23 @@ const contactCopy = {
         )}
       </div>
     </section>
+
+    {page.gallery && page.gallery.length > 0 && (
+      <section class="section bg-paper" id="our-work">
+        <div class="wrap">
+          <p class="eyebrow">Our work</p>
+          <h2 class="h2" style="max-width:20ch">{page.galleryHeading || 'Recent jobs around Melbourne'}</h2>
+          <ul class="workgrid" style="margin-top:34px">
+            {page.gallery.map((shot) => (
+              <li class="workcard">
+                <img class="workcard__img" src={img(shot, 1200)} alt={alt(shot)} width="1200" height="900" loading="lazy" />
+                {shot.caption && <span class="workcard__cap">{shot.caption}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
 
     <section class="section bg-ink">
       <div class="wrap about__biz">

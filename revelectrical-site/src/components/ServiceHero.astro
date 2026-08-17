@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import JobTiles from './JobTiles.astro';
 import { img } from '../lib/sanity.js';
 // brandLogo and parent are only passed by the brand pages, which sit a level
 // deeper than a service and lead with the manufacturer's mark.
@@ -73,6 +74,8 @@ const ticks = service.heroTicks || [];
             <label class="label" for="f_address">Address</label>
             <input class="input" type="text" id="f_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
           </div>
+          <JobTiles idPrefix="sh_job" selected={service.title} />
+
           <div class="field">
             <label class="label" for="f_message">Message <span class="label__opt">(optional)</span></label>
             <textarea class="input" id="f_message" name="message" placeholder="How can we help.."></textarea>

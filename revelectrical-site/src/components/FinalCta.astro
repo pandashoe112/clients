@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import JobTiles from './JobTiles.astro';
 const { service, settings } = Astro.props;
 ---
 <section class="section bg-deep" id="get-in-touch">
@@ -48,6 +49,8 @@ const { service, settings } = Astro.props;
           <label class="label" for="fc_address">Address</label>
           <input class="input" type="text" id="fc_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
         </div>
+        <JobTiles idPrefix="fc_job" selected={service.title} />
+
         <div class="field">
           <label class="label" for="fc_message">Message <span class="label__opt">(optional)</span></label>
           <textarea class="input" id="fc_message" name="message" placeholder="How can we help.."></textarea>

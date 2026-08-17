@@ -1,19 +1,9 @@
 ---
 import Icon from './Icon.astro';
+import JobTiles from './JobTiles.astro';
 import { img, alt } from '../lib/sanity.js';
 const { page, settings, services } = Astro.props;
 
-// Six buckets, not the six service documents. A caller picks the thing they
-// recognise, and "General electrical" catches everything the service pages do
-// not cover rather than losing the lead to a missing option.
-const JOBS = [
-  'EV charging',
-  'Solar & battery',
-  'Hot water',
-  'Switchboard',
-  'Lighting',
-  'General electrical'
-];
 ---
 <section class="section bg-paper" id="contact">
   <div class="wrap contact__inner">
@@ -80,30 +70,7 @@ const JOBS = [
           <p class="err" id="err_address" role="alert"></p>
         </div>
 
-        {/* Tiles rather than a dropdown. A dropdown hides the options behind a
-            tap and lets someone submit without really choosing; six visible
-            tiles make the category a deliberate answer, which is what makes
-            the lead qualified. Native radios, so it works without scripting
-            and Netlify records it as a plain "service" field. */}
-        <fieldset class="tileset">
-          <legend class="label">What do you need?</legend>
-          <div class="tilegrid">
-            {JOBS.map((job, i) => (
-              <div class="tile">
-                <input
-                  type="radio"
-                  name="service"
-                  id={`f_job_${i}`}
-                  value={job}
-                  required={i === 0}
-                  aria-describedby="err_service"
-                />
-                <label for={`f_job_${i}`}>{job}</label>
-              </div>
-            ))}
-          </div>
-          <p class="err" id="err_service" role="alert"></p>
-        </fieldset>
+        <JobTiles idPrefix="c_job" />
 
         <div>
           <span class="label">Upload photos or video <span class="label__opt">(optional)</span></span>

@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import JobTiles from './JobTiles.astro';
 import { img, alt } from '../lib/sanity.js';
 const { area, settings } = Astro.props;
 const ticks = area.heroTicks || [];
@@ -83,6 +84,8 @@ const bgFile = !bg && LOCAL[area.slug] ? LOCAL[area.slug] : null;
             <label class="label" for="a_address">Address</label>
             <input class="input" type="text" id="a_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
           </div>
+          <JobTiles idPrefix="ah_job" />
+
           <div class="field">
             <label class="label" for="a_message">Message <span class="label__opt">(optional)</span></label>
             <textarea class="input" id="a_message" name="message" placeholder="How can we help.."></textarea>
