@@ -303,6 +303,34 @@ body.nav-locked{overflow:hidden}
 .input:hover{border-color:rgba(3,47,53,.3)}
 .input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 4px rgba(182,237,62,.35)}
 .input[aria-invalid="true"]{border-color:var(--alert);background:#FDF3F2}
+
+/* ---------- job-type tiles ----------
+   Replaces a select in the enquiry forms. Two rows of three on a desktop, two
+   columns on a phone, so it costs about the same vertical space a dropdown did
+   while showing every option. The radio itself is hidden from sight but not
+   from the accessibility tree or the keyboard. */
+.tileset{border:0;padding:0;margin:0;min-width:0}
+.tileset > .label{padding:0}
+.tilegrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:640px){.tilegrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{position:relative;display:flex}
+.tile input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.tile label{
+  flex:1;display:flex;align-items:center;justify-content:center;text-align:center;
+  min-height:46px;padding:9px 10px;
+  border:1.5px solid var(--line);border-radius:var(--r-sm);background:var(--paper);
+  font-size:.875rem;font-weight:600;line-height:1.25;color:var(--ink);
+  cursor:pointer;transition:border-color .16s ease, background-color .16s ease, box-shadow .16s ease;
+}
+.tile:hover label{border-color:rgba(3,47,53,.34)}
+.tile input:checked + label{
+  border-color:var(--ink);background:var(--lime);font-weight:700;
+  box-shadow:0 0 0 1px var(--ink);
+}
+.tile input:focus-visible + label{outline:3px solid var(--lime-600);outline-offset:2px}
+.tileset[aria-invalid="true"] .tile label,
+.tile input[aria-invalid="true"] + label{border-color:var(--alert)}
+
 textarea.input{min-height:132px;resize:vertical}
 .select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23032F35' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px}
 .filerow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}

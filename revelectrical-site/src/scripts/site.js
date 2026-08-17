@@ -157,7 +157,7 @@
       if (s.length < 8 || !/\d/.test(s)) return 'Enter your full street address so we can size the job.';
       return '';
     },
-    service: function(v){ return v ? '' : 'Choose the service you need.'; }
+    service: function(v){ return v ? '' : 'Pick the type of job so we can send the right person.'; }
   };
 
   // The error line is created when a form doesn't already carry one, so the
@@ -175,10 +175,21 @@
     return described ? (document.getElementById(described) || el) : el;
   };
 
+  // A radio group has one value across many elements, and every one of them
+  // reports its own .value whether or not it is the chosen one. Reading the
+  // group instead is what stops "EV charging" being submitted by someone who
+  // never picked anything.
+  var valueOf = function(field){
+    if (field.type !== 'radio') return field.value;
+    var picked = (field.form || document).querySelector(
+      '[name="' + field.name + '"]:checked');
+    return picked ? picked.value : '';
+  };
+
   var validate = function(field){
     var check = CHECKS[field.name];
     if (!check || field.disabled) return '';
-    var msg = check(field.value);
+    var msg = check(valueOf(field));
     field.setAttribute('aria-invalid', msg ? 'true' : 'false');
     errorFor(field).textContent = msg;
     return msg;
@@ -191,10 +202,18 @@
     var btn = form.querySelector('button[type="submit"]');
 
     fields.forEach(function(f){
-      f.addEventListener('blur', function(){ validate(f); });
-      f.addEventListener('change', function(){ validate(f); });
-      f.addEventListener('input', function(){
-        if (f.getAttribute('aria-invalid') === 'true') validate(f);
+      // Only one radio in a group carries `required`, so it is the only one in
+      // `fields` - but any of its siblings can be the one clicked. Listening on
+      // the whole group is what clears the error when a tile is chosen.
+      var group = f.type === 'radio'
+        ? [].slice.call(form.querySelectorAll('[name="' + f.name + '"]'))
+        : [f];
+      group.forEach(function(el){
+        el.addEventListener('blur', function(){ validate(f); });
+        el.addEventListener('change', function(){ validate(f); });
+        el.addEventListener('input', function(){
+          if (f.getAttribute('aria-invalid') === 'true') validate(f);
+        });
       });
     });
 
@@ -218,7 +237,12 @@
       if (subject){
         var val = function(name){
           var el = form.querySelector('[name="' + name + '"]');
-          return el && el.value ? el.value.trim() : '';
+          if (!el) return '';
+          if (el.type === 'radio') {
+            var picked = form.querySelector('[name="' + name + '"]:checked');
+            return picked ? picked.value.trim() : '';
+          }
+          return el.value ? el.value.trim() : '';
         };
         // The markup carries a label saying which form this is; the lead's own
         // details get appended to it. With scripting off the label still
