@@ -67,6 +67,7 @@ h1,h2,h3,h4{margin:0;font-family:var(--display);font-weight:700;letter-spacing:-
 .bar__title h1{font-size:1.0625rem}
 .bar__title p{margin:3px 0 0;font-family:var(--sans);font-size:.75rem;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .iconbtn{width:40px;height:40px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line);color:var(--text);flex:none;transition:background-color .16s ease,border-color .16s ease}
+.iconbtn[hidden]{display:none}
 .iconbtn:active{transform:scale(.95)}
 .iconbtn:hover{border-color:rgba(244,246,239,.34)}
 
@@ -207,7 +208,7 @@ h1,h2,h3,h4{margin:0;font-family:var(--display);font-weight:700;letter-spacing:-
 
 /* hero: the ink band the site opens on */
 .rtrust{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 0;padding:0;list-style:none}
-.rtrust li{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:999px;background:rgba(244,246,239,.1);border:1px solid rgba(244,246,239,.2);font-size:.8125rem;font-weight:600}
+.rtrust li{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;background:rgba(244,246,239,.1);border:1px solid rgba(244,246,239,.2);font-size:.78125rem;font-weight:600;white-space:nowrap}
 .rtrust svg{flex:none;color:var(--accent)}
 .rstars{color:var(--star);letter-spacing:1px}
 

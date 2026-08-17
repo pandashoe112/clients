@@ -384,7 +384,6 @@ function openPresent() {
         <p class="rlede rlede--light">${esc(who)} checked every device in the board${job.site ? ` at ${esc(job.site)}` : ''} on ${dfmt(today)}. Everything found is below, in plain English, with what it costs to put right.</p>
         <ul class="rtrust">
           ${b.licence ? `<li>${I.shield} Licence ${esc(b.licence)}</li>` : ''}
-          ${job.pins.length ? `<li>${I.pin} ${job.pins.length} device${job.pins.length === 1 ? '' : 's'} marked</li>` : ''}
           ${b.rating ? `<li><span class="rstars">★★★★★</span> ${esc(b.rating)}</li>` : ''}
           ${b.phone ? `<li>${I.phone} ${esc(b.phone)}</li>` : ''}
         </ul>
