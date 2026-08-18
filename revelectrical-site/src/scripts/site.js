@@ -1,4 +1,4 @@
-import { attribution, fillAttribution } from './attribution.js';
+import { attribution, leadType, fillAttribution } from './attribution.js';
 
 (function(){
   "use strict";
@@ -165,7 +165,7 @@ import { attribution, fillAttribution } from './attribution.js';
       if (s.length < 8 || !/\d/.test(s)) return 'Enter your full street address so we can size the job.';
       return '';
     },
-    service: function(v){ return v ? '' : 'Pick at least one job type so we can send the right person.'; }
+    services_selected: function(v){ return v ? '' : 'Pick at least one job type so we can send the right person.'; }
   };
 
   // The error line is created when a form doesn't already carry one, so the
@@ -217,6 +217,38 @@ import { attribution, fillAttribution } from './attribution.js';
     return msg;
   };
 
+  // Tile-driven extras: the running count in the legend, and the follow-up
+  // panel that only applies to one job type. Both are derived from the same
+  // tick, so they are updated together rather than by two listeners racing.
+  var syncTiles = function(set){
+    var boxes = [].slice.call(set.querySelectorAll('input[name="services_selected"]'));
+    var picked = boxes.filter(function(b){ return b.checked; });
+
+    var count = set.querySelector('[data-tilecount]');
+    if (count){
+      count.textContent = picked.length ? picked.length + ' selected' : '';
+      count.hidden = picked.length === 0;
+    }
+
+    // The panel is the fieldset's next sibling. Clearing the input when the
+    // panel closes stops a car model being submitted by someone who ticked EV
+    // charging, typed it in, then changed their mind.
+    var panel = set.nextElementSibling;
+    if (panel && panel.getAttribute('data-cond') === 'ev'){
+      var wanted = picked.some(function(b){ return b.value === 'EV charging'; });
+      if (!wanted && !panel.hidden){
+        var input = panel.querySelector('input');
+        if (input) input.value = '';
+      }
+      panel.hidden = !wanted;
+    }
+  };
+
+  document.querySelectorAll('.tileset').forEach(function(set){
+    syncTiles(set);
+    set.addEventListener('change', function(){ syncTiles(set); });
+  });
+
   document.querySelectorAll('form[data-netlify]').forEach(function(form){
     // A checkbox cannot carry `required` - on a checkbox that attribute means
     // "this exact box must be ticked", not "tick one of these". The tile group
@@ -264,28 +296,22 @@ import { attribution, fillAttribution } from './attribution.js';
       // Netlify titles both the submission row and the notification email from
       // a field called "subject". Without it both fall back to the message,
       // so a list of leads reads as a column of half-sentences.
+      //
+      // The markup already carries a complete subject - "New Lead on
+      // Revelectrical" - so a submission that arrives with the script broken
+      // is still titled properly. All this does is name the lead type, which
+      // is the one thing only the browser knows.
       var subject = form.querySelector('input[name="subject"]');
-      if (subject){
-        var val = function(name){
-          var el = form.querySelector('[name="' + name + '"]');
-          if (!el) return '';
-          if (el.type === 'radio' || el.type === 'checkbox') return valueOf(el);
-          return el.value ? el.value.trim() : '';
-        };
-        // The markup carries a label saying which form this is; the lead's own
-        // details get appended to it. With scripting off the label still
-        // arrives on its own, so a lead is never subjectless.
-        // The suburb forms carry no service field, so the job type is simply
-        // left out rather than padded with an empty separator.
-        var details = [val('name'), val('suburb_page') || val('address'), val('service') || val('service_page')]
-          .filter(Boolean)
-          .join(', ');
-        if (details) subject.value = subject.value + ' - ' + details;
-        // The channel goes in the subject as well as its own field, so it is
-        // readable from the notification email and the submissions list
-        // without opening the lead.
-        if (attribution.channel) subject.value = subject.value + ' [' + attribution.channel + ']';
+      if (subject && leadType && leadType !== 'Direct'){
+        subject.value = subject.value.replace('New Lead', 'New ' + leadType + ' Lead');
       }
+
+      // Tracking fields that came back empty are disabled rather than sent.
+      // A disabled input is not serialised, so the notification shows the four
+      // lines that have an answer instead of ten, six of them blank.
+      form.querySelectorAll('[data-attr]').forEach(function(el){
+        if (!el.value) el.disabled = true;
+      });
       trackEvent('generate_lead', {form: form.getAttribute('name') || 'enquiry'});
       if (btn){ btn.textContent = 'Sending...'; btn.disabled = true; }
     });

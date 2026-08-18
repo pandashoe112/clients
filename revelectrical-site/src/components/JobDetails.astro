@@ -64,9 +64,6 @@ const WHEN = ['As soon as possible', 'In the next few weeks', 'In the next few m
         <form class="formgrid" name="job-details" method="POST" action="/thank-you/?detailed=1"
               data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" novalidate>
           <input type="hidden" name="form-name" value="job-details" />
-          <Attribution />
-          <input type="hidden" name="page_url" />
-          <input type="hidden" name="subject" value="🔧 Job details for a quote" />
           <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
           {/* Email is how these answers get matched back to the enquiry that
@@ -149,6 +146,10 @@ const WHEN = ['As soon as possible', 'In the next few weeks', 'In the next few m
             <Icon name="lock" size={15} stroke={2.2} />
             Only used to price your job. We will not add you to a mailing list.
           </p>
+          <input type="hidden" name="page_url" />
+          <input type="hidden" name="subject" value="⚡ New Job Details on Revelectrical" />
+          {/* Tracking, last so the email opens with the customer, not the UTMs. */}
+          <Attribution />
         </form>
       </div>
     </div>

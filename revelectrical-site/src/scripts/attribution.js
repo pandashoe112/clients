@@ -31,6 +31,18 @@ var SEARCH = /(^|\.)(google|bing|duckduckgo|yahoo|ecosia|brave|startpage)\./;
 var SOCIAL = /(^|\.)(facebook|instagram|threads|linkedin|twitter|x|t|tiktok|reddit|pinterest|youtube)\.(com|co|me)$/;
 var PAID = /^(cpc|ppc|paid|paidsearch|paid_search|paid-search|cpm|display|retargeting)$/;
 
+// A timestamp someone can read at a glance, in Melbourne time, rather than a
+// UTC ISO string that has to be decoded mentally.
+var stamp = function () {
+  try {
+    return new Date().toLocaleString('en-AU', {
+      timeZone: 'Australia/Melbourne', dateStyle: 'medium', timeStyle: 'short'
+    });
+  } catch (e) {
+    return new Date().toISOString();
+  }
+};
+
 var host = function (url) {
   try { return new URL(url).hostname.replace(/^www\./, ''); } catch (e) { return ''; }
 };
@@ -42,7 +54,7 @@ var titled = function (name) { return name.charAt(0).toUpperCase() + name.slice(
 // click is told apart from a fresh arrival.
 var read = function () {
   var params = new URLSearchParams(window.location.search);
-  var data = { landing_page: window.location.href.split('#')[0], first_seen: new Date().toISOString() };
+  var data = { landing_page: window.location.href.split('#')[0], first_seen: stamp() };
 
   UTMS.forEach(function (k) {
     var v = params.get(k);
@@ -53,13 +65,13 @@ var read = function () {
   CLICK_IDS.forEach(function (pair) {
     if (clicked) return;
     var v = params.get(pair[0]);
-    if (v) { clicked = pair; data.click_id = pair[0] + '=' + v.slice(0, 120); }
+    if (v) { clicked = pair; data.ad_click_id = pair[0] + '=' + v.slice(0, 120); }
   });
 
   var ref = document.referrer || '';
   var refHost = host(ref);
   var external = refHost && refHost !== window.location.hostname.replace(/^www\./, '');
-  if (external) data.referrer = ref.split('?')[0].slice(0, 200);
+  if (external) data.came_from = ref.split('?')[0].slice(0, 200);
 
   var source = (data.utm_source || '').toLowerCase();
   var medium = (data.utm_medium || '').toLowerCase();
@@ -80,9 +92,12 @@ var read = function () {
     // van, a link in a quote, a partner listing.
     data.channel = 'Campaign - ' + source + (medium ? ' / ' + medium : '');
   } else if (external && SEARCH.test(refHost)) {
-    data.channel = 'Organic search - ' + titled(refHost.split('.')[0]);
+    // Spelled out as SEO rather than "organic search": the person reading the
+    // notification wants to know instantly that this lead came free off the
+    // rankings and not out of an ad budget.
+    data.channel = 'Organic SEO - ' + titled(refHost.split('.')[0]);
   } else if (external && SOCIAL.test(refHost)) {
-    data.channel = 'Organic social - ' + titled(refHost.split('.')[0]);
+    data.channel = 'Organic Social - ' + titled(refHost.split('.')[0]);
   } else if (external) {
     data.channel = 'Referral - ' + refHost;
   } else {
@@ -118,9 +133,18 @@ if (!stored) {
   stored = {
     channel: 'Direct',
     landing_page: window.location.href.split('#')[0],
-    first_seen: new Date().toISOString()
+    first_seen: stamp()
   };
 }
+
+// The hidden field is called lead_source; the working key is channel. Map it
+// once here rather than naming the concept twice through the file.
+stored.lead_source = stored.channel;
+
+// The short label the subject line uses: "Organic SEO - Google" reads well in
+// the body of an email but "New Organic SEO - Google Lead on Revelectrical"
+// does not, so the qualifier after the dash is dropped.
+export var leadType = (stored.channel || 'Direct').split(' - ')[0];
 
 export var attribution = stored;
 

@@ -1,26 +1,29 @@
 ---
-// Where the enquiry came from. One block of hidden fields, dropped into every
-// form on the site, filled in by src/scripts/attribution.js.
+// Where the enquiry came from. One block of hidden fields, dropped into the
+// bottom of every form on the site and filled in by src/scripts/attribution.js.
 //
-// They are rendered with no value on purpose. Netlify registers a form's fields
-// by parsing the built HTML at deploy time, so the inputs have to exist in the
-// static markup even though the browser is what fills them. A field the script
-// cannot answer submits empty rather than absent, which keeps every submission
-// the same shape in the CSV export.
+// It sits at the bottom deliberately. Netlify emails fields in DOM order, so
+// with this block at the top the notification opened with six blank UTM lines
+// and buried the customer's name and phone number below them.
 //
-// `channel` is the one to read - it is the plain-English tag ("Google Ads",
-// "Organic search - Google"). The utm_* fields underneath it are the raw
-// evidence, kept so a wrong tag can be traced rather than argued about.
+// The fields are rendered with no value on purpose. Netlify registers a form's
+// fields by parsing the built HTML at deploy time, so the inputs have to exist
+// in the static markup even though the browser is what fills them. Any that
+// are still empty at submit are disabled by site.js so they drop out of the
+// email entirely rather than printing as a blank line.
+//
+// Names are chosen for how Netlify renders them: it title-cases the `name`
+// attribute, so `lead_source` reads as "Lead Source" in the email.
 const FIELDS = [
-  'channel',
+  'lead_source',
+  'utm_campaign',
   'utm_source',
   'utm_medium',
-  'utm_campaign',
   'utm_term',
   'utm_content',
-  'click_id',
+  'ad_click_id',
   'landing_page',
-  'referrer',
+  'came_from',
   'first_seen'
 ];
 ---

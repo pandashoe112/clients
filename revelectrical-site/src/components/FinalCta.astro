@@ -27,10 +27,6 @@ const { service, settings } = Astro.props;
       <form class="formgrid" name="quote-request-service-footer" method="POST" action="/thank-you/"
             data-netlify="true" netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="quote-request-service-footer" />
-        <Attribution />
-          <input type="hidden" name="page_url" />
-          <input type="hidden" name="subject" value="⚡ New enquiry from a service page" />
-        <input type="hidden" name="service_page" value={service.title} />
         <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
         <div class="field">
@@ -63,6 +59,11 @@ const { service, settings } = Astro.props;
           <Icon name="lock" size={15} stroke={2.2} />
           We only use your details to quote your job. No obligation to go ahead.
         </p>
+        <input type="hidden" name="page_url" />
+        <input type="hidden" name="subject" value="⚡ New Lead on Revelectrical" />
+        <input type="hidden" name="service_page" value={service.title} />
+        {/* Tracking, last so the email opens with the customer, not the UTMs. */}
+        <Attribution />
       </form>
     </div>
   </div>

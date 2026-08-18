@@ -184,9 +184,6 @@ const stepMeta = [
                 <form class="formgrid formgrid--two" id="qb-form" name="custom-quote" method="POST" action="/thank-you/"
                       data-netlify="true" netlify-honeypot="bot-field" novalidate>
                   <input type="hidden" name="form-name" value="custom-quote" />
-                  <Attribution />
-                  <input type="hidden" name="page_url" />
-                  <input type="hidden" name="subject" value="🧾 Custom quote built on the site" />
                   <input type="hidden" name="quote_lines" id="qb-lines-field" />
                   <input type="hidden" name="quote_total" id="qb-total-field" />
                   <input type="hidden" name="quote_ref" id="qb-ref-field" />
@@ -217,6 +214,10 @@ const stepMeta = [
                     <label class="label" for="q_notes">Anything we should know? <span class="label__opt">(optional)</span></label>
                     <textarea class="input" id="q_notes" name="notes" placeholder="Access, timing, anything unusual"></textarea>
                   </div>
+                  <input type="hidden" name="page_url" />
+                  <input type="hidden" name="subject" value="⚡ New Custom Quote on Revelectrical" />
+                  {/* Tracking, last so the email opens with the customer, not the UTMs. */}
+                  <Attribution />
                 </form>
               </div>
             </section>

@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 // The job-type picker, shared by every enquiry form on the site.
 //
 // Multi-select, because real enquiries are rarely one job: a charger usually
@@ -9,9 +10,7 @@
 // Twelve options rather than the six service pages. The list is the jobs
 // people recognise and use their own words for, not our page structure, and
 // "Something else" catches the rest so a lead is never lost to a missing
-// option. Two columns of six on a phone, three of four on a desktop - the same
-// height the six-tile version was, because the tiles got tighter as the list
-// got longer.
+// option.
 //
 // On a service page the matching tile arrives ticked and the visitor adds to
 // it, which is the whole point of multi-select: they came for a charger and
@@ -19,18 +18,18 @@
 const { idPrefix = 'job', selected = '' } = Astro.props;
 
 const JOBS = [
-  'EV charging',
-  'Solar & battery',
-  'Hot water',
-  'Switchboard',
-  'Lighting & downlights',
-  'Power points & wiring',
-  'Induction cooktop',
-  'Ceiling fans',
-  'Smoke alarms',
-  'Safety switch',
-  'Fault finding',
-  'Something else'
+  { label: 'EV charging',           icon: 'jobEv' },
+  { label: 'Solar & battery',       icon: 'jobBattery' },
+  { label: 'Hot water',             icon: 'jobHotWater' },
+  { label: 'Switchboard',           icon: 'jobBoard' },
+  { label: 'Lighting',              icon: 'jobLight' },
+  { label: 'Power points',          icon: 'jobPower' },
+  { label: 'Induction cooktop',     icon: 'jobInduction' },
+  { label: 'Ceiling fans',          icon: 'jobFan' },
+  { label: 'Smoke alarms',          icon: 'jobSmoke' },
+  { label: 'Safety switch',         icon: 'jobSafety' },
+  { label: 'Fault finding',         icon: 'jobFault' },
+  { label: 'Something else',        icon: 'jobOther' }
 ];
 
 // Service pages name themselves differently to these buckets, so match on the
@@ -40,33 +39,64 @@ const MATCH = [
   [/solar|batter/i, 'Solar & battery'],
   [/hot water|heat pump/i, 'Hot water'],
   [/switchboard|fuse|rewir/i, 'Switchboard'],
-  [/light|downlight|led/i, 'Lighting & downlights'],
+  [/light|downlight|led/i, 'Lighting'],
   [/induction|cooktop|oven/i, 'Induction cooktop']
 ];
 const preset = selected
   ? (MATCH.find(([re]) => re.test(selected)) || [])[1] || ''
   : '';
+const evOpen = preset === 'EV charging';
 ---
 {/* A fieldset with a real legend, so a screen reader announces the group
     before reading twelve checkboxes. aria-describedby points every box at the
     one error line, which is where "pick at least one" lands. */}
 <fieldset class="tileset" id={`${idPrefix}_set`}>
-  <legend class="label">What do you need? <span class="label__hint">Pick as many as apply</span></legend>
+  <legend class="label">
+    What do you need?
+    <span class="label__hint">Pick as many as apply</span>
+    {/* Filled by site.js. Silent until something is chosen, so the form does
+        not open by telling you that you have selected nothing. */}
+    <span class="tilecount" data-tilecount hidden></span>
+  </legend>
   <div class="tilegrid tilegrid--multi">
     {JOBS.map((job, i) => (
       <div class="tile">
         <input
           type="checkbox"
-          name="service"
+          name="services_selected"
           id={`${idPrefix}_${i}`}
-          value={job}
-          checked={job === preset}
-          data-required-group="service"
+          value={job.label}
+          checked={job.label === preset}
+          data-required-group="services_selected"
           aria-describedby={`${idPrefix}_err`}
         />
-        <label for={`${idPrefix}_${i}`}>{job}</label>
+        <label for={`${idPrefix}_${i}`}>
+          <span class="tile__icon"><Icon name={job.icon} size={19} stroke={1.7} /></span>
+          <span class="tile__text">{job.label}</span>
+        </label>
       </div>
     ))}
   </div>
   <p class="err" id={`${idPrefix}_err`} role="alert"></p>
 </fieldset>
+
+{/* Follow-up that only exists once EV charging is picked. The charger has to
+    match the car's plug and onboard charger rate, so knowing the model is the
+    difference between quoting from a photo and quoting properly.
+
+    The initial state is rendered server-side, so on a service page where the
+    tile arrives pre-ticked the panel is already open rather than appearing a
+    moment after the page settles. site.js toggles it from there. */}
+<div class="condfield" data-cond="ev" hidden={!evOpen}>
+  <label class="label" for={`${idPrefix}_car`}>
+    What are you charging? <span class="label__opt">Optional</span>
+  </label>
+  <input
+    class="input"
+    type="text"
+    id={`${idPrefix}_car`}
+    name="vehicle"
+    autocomplete="off"
+    placeholder="Car make and model, e.g. Tesla Model Y" />
+  <p class="condfield__why">Helps us match the charger to your car's plug and charge rate.</p>
+</div>
