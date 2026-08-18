@@ -20,7 +20,7 @@ post.
 Nothing here is invented. Copy is pulled from the live site: the tick lists and
 the "what's included" items are the `diffItems` on `/services/ev-charging/`,
 the suburb list and postcodes are the eleven suburb pages, the review is Prab
-Pandher's Google review verbatim, and 5.0 / 48 reviews is site settings.
+Pandher's Google review verbatim, and 5.0 / 52 reviews is site settings.
 Colours and type are the tokens in `revelectrical-site/src/styles/global.css`.
 
 The lime rule at the base of each board fills a quarter further on each one, so
