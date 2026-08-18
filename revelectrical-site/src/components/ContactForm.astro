@@ -8,7 +8,7 @@ import { img, alt } from '../lib/sanity.js';
 const { page, settings, services } = Astro.props;
 
 ---
-<section class="section bg-paper" id="contact">
+<section class="section bg-deep formdark" id="contact">
   <div class="wrap contact__inner">
     <div class="reveal">
       <h2 class="h2">{page.contactHeading}</h2>
@@ -76,13 +76,11 @@ const { page, settings, services } = Astro.props;
         <PhotoUpload idPrefix="c" />
 
         <div>
-
-        <div>
           <label class="label" for="f_message">Message <span class="label__opt">(optional)</span></label>
           <textarea class="input" id="f_message" name="message" placeholder="How can we help.."></textarea>
         </div>
 
-        <button class="btn btn-ink btn-block" type="submit" id="submitBtn">Submit</button>
+        <button class="btn btn-lime btn-block" type="submit" id="submitBtn">Submit</button>
         {/* The promise sits against the button, not only in the intro above the
             form. It is the last thing read before committing, and it is the answer
             to the question that stops people pressing it: then what happens? */}
@@ -92,7 +90,7 @@ const { page, settings, services } = Astro.props;
         </p>
         <p class="formnote">
           <Icon name="lock" size={15} stroke={2.2} />
-          We only use your details to quote your job. No obligation to go ahead.
+          We only use your details to quote your job.
         </p>
         <input type="hidden" name="page_url" id="f_page_url" />
         <input type="hidden" name="subject" value="⚡ New Lead on Revelectrical" />

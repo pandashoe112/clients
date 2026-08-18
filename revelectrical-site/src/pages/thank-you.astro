@@ -55,16 +55,17 @@ const NEXT = [
           with an upfront price. If it's urgent, call now and we'll pick up.
         </p>
         {/* The one thing worth asking for on this page. A photo of the board
-            is what turns an enquiry into a job we can price without a visit,
-            so it is worth paying for - and the discount is the reason someone
-            walks to the meter box instead of closing the tab. */}
+            is what turns an enquiry into a job we can price without a visit.
+            The ask is framed as what it gets them - a real number, sooner -
+            rather than a discount, because a standing 10% off becomes an
+            argument at invoice time. */}
         <div class="offer">
-          <p class="offer__tag">Worth doing now</p>
-          <p class="offer__head">Send a photo of your switchboard, take <span class="hl">10% off</span> the job.</p>
+          <p class="offer__tag">One quick thing</p>
+          <p class="offer__head">Send us a photo of your <span class="hl">switchboard</span>.</p>
           <p class="offer__text">
-            Reply to the confirmation email with a photo of your board, or text it to
-            {' '}{settings.phone}. It lets us price the work properly before we arrive, and we'll
-            take 10% off the labour on your quote.
+            Text it to {settings.phone} or reply to your confirmation email. It is the
+            single thing that makes a quote accurate: we can see what you are working with,
+            price the job properly, and often skip the visit that would otherwise come first.
           </p>
           <div class="btn-row offer__actions">
             <a class="btn btn-lime" href={`sms:${settings.phoneHref.replace('tel:', '')}`}>
@@ -75,8 +76,8 @@ const NEXT = [
             </a>
           </div>
           <p class="offer__terms">
-            10% off labour on quotes accepted within 30 days. One per property, and it
-            can't be combined with another offer.
+            Open the meter box or switchboard door and take one photo of the whole board,
+            close enough to read the labels. That is all we need.
           </p>
         </div>
 

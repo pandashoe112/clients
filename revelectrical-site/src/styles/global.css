@@ -384,7 +384,7 @@ textarea.input{min-height:132px;resize:vertical}
 .filehint{font-size:.8125rem;color:var(--muted)}
 .err{margin:7px 0 0;font-size:.8125rem;font-weight:600;color:var(--alert)}
 .err:empty{display:none}
-.formnote{display:flex;align-items:flex-start;gap:9px;margin:2px 0 0;font-size:.8125rem;line-height:1.5;color:var(--muted)}
+.formnote{display:flex;align-items:flex-start;gap:9px;margin:-8px 0 0;font-size:.8125rem;line-height:1.5;color:var(--muted)}
 .formnote svg{flex:none;margin-top:2px}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
@@ -543,8 +543,64 @@ textarea.input{min-height:132px;resize:vertical}
 .tilegrid--slim .tile label{min-height:40px;padding:7px 6px;font-size:.8125rem;text-align:center;justify-content:center}
 
 .promise{
-  display:flex;align-items:flex-start;gap:8px;margin:-6px 0 0;
+  display:flex;align-items:flex-start;gap:8px;margin:0;
   font-size:.8125rem;font-weight:600;line-height:1.5;color:var(--muted);
 }
 .promise svg{flex:none;margin-top:2px;color:var(--lime-600)}
 .bg-ink .promise,.bg-deep .promise{color:var(--muted-light)}
+
+/* ---------- forms on a dark ground ---------- */
+/* The homepage enquiry block sits on deep green rather than white. Everything
+   below is the inversion: it is scoped to .formdark so a form dropped on a
+   light section is untouched, and it works through the same tokens as the
+   light version rather than a second set of hard-coded colours.
+
+   The rule of the inversion: the surface goes translucent-light instead of
+   white, ink text becomes cream, and lime stops being decoration and becomes
+   the only thing that carries emphasis - the focus ring, the chosen tile, the
+   submit button. On white, ink was doing that job; on deep green ink vanishes. */
+.formdark{background:var(--deep);color:var(--cream)}
+.formdark .h2,.formdark .label,.formdark legend.label{color:var(--cream)}
+.formdark .lede,.formdark .label__opt,.formdark .label__hint,
+.formdark .formnote,.formdark .promise,.formdark .condfield__why,
+.formdark .filehint{color:var(--muted-light)}
+.formdark .contactlist svg{color:var(--lime)}
+.formdark .contactlist a{color:var(--cream)}
+.formdark .contactlist a:hover{color:var(--lime)}
+.formdark .contactlist span{color:var(--muted-light)}
+
+.formdark .input{
+  background:rgba(244,246,239,.07);border-color:rgba(244,246,239,.22);color:var(--cream);
+}
+.formdark .input::placeholder{color:rgba(244,246,239,.5)}
+.formdark .input:hover{border-color:rgba(244,246,239,.4)}
+.formdark .input:focus{border-color:var(--lime);box-shadow:0 0 0 4px rgba(182,237,62,.22)}
+/* Chrome paints its own near-white autofill background, which puts dark text
+   on a light box in the middle of a dark form. The inset shadow repaints it. */
+.formdark .input:-webkit-autofill{
+  -webkit-text-fill-color:var(--cream);
+  -webkit-box-shadow:0 0 0 40px var(--deep-card) inset;
+}
+
+.formdark .tile label{
+  background:rgba(244,246,239,.05);border-color:rgba(244,246,239,.2);color:var(--cream);
+}
+.formdark .tile:hover label{border-color:rgba(244,246,239,.42)}
+.formdark .tile__icon{color:rgba(244,246,239,.6)}
+/* The chosen tile keeps lime-on-ink. It is the strongest contrast pair in the
+   palette, so a picked tile reads at a glance against everything around it. */
+.formdark .tile input:checked + label{background:var(--lime);color:var(--ink);border-color:var(--lime);box-shadow:none}
+.formdark .tile input:checked + label .tile__icon{color:var(--ink)}
+
+.formdark .filebtn{background:rgba(244,246,239,.1);border-color:rgba(244,246,239,.24);color:var(--cream)}
+.formdark .filebtn:hover{background:rgba(244,246,239,.18);border-color:var(--lime);color:var(--lime)}
+.formdark .filehint.is-on{color:var(--lime)}
+
+/* #C0392B is unreadable on deep green, so errors get a lighter red that still
+   reads as an error rather than as another accent. */
+.formdark .err{color:#FF8A7A}
+.formdark .input[aria-invalid="true"]{border-color:#FF8A7A;background:rgba(255,138,122,.1)}
+.formdark .tile input[aria-invalid="true"] + label{border-color:#FF8A7A}
+
+.formdark .promise svg{color:var(--lime)}
+.formdark .formnote svg{color:rgba(244,246,239,.6)}
