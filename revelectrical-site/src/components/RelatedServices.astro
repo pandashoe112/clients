@@ -24,7 +24,10 @@ const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : '');
         {related.map((r, i) => (
           <li class={`reveal ${delay(i)}`}>
             <a class="relcard" href={`/services/${r.slug}/`}>
-              {PHOTO[r.slug] && <img class="relcard__img" src={PHOTO[r.slug]} alt="" width="484" height="484" loading="lazy" />}
+              {/* These are real job photos, not icons, so they earn a real alt:
+                  it is what puts them in image search, and the crawl flagged
+                  the empty one. */}
+              {PHOTO[r.slug] && <img class="relcard__img" src={PHOTO[r.slug]} alt={`${r.title} by a licensed Melbourne electrician`} width="484" height="484" loading="lazy" />}
               <h3 class="relcard__title">{r.title}</h3>
               <p class="relcard__text">{r.summary}</p>
               <span class="relcard__more">More info <Icon name="chevron" size={14} stroke={2.6} /></span>
