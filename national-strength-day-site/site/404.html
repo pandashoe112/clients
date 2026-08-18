@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page not found — National Strength Day</title>
+  <meta name="description" content="The page you were looking for could not be found.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --background: #fffcf5;
+      --secondary: #1c151b;
+      --primary: #c33823;
+      --accent: #a18761;
+      --foreground: #1b171e;
+      --muted: #8a8a8a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--background);
+      color: var(--foreground);
+      font-family: "Work Sans", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      background: var(--secondary);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-inner {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .wordmark {
+      font-family: Unbounded, sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 1.5rem;
+    }
+
+    .panel { max-width: 34rem; }
+
+    .code {
+      font-family: Unbounded, sans-serif;
+      font-weight: 600;
+      font-size: 0.8125rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin: 0 0 1.25rem;
+    }
+
+    h1 {
+      font-family: Unbounded, sans-serif;
+      font-weight: 600;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.25rem;
+    }
+
+    p {
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      color: #55505a;
+      margin: 0 0 2.25rem;
+    }
+
+    .rule {
+      width: 3.5rem;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 999px;
+      margin: 0 0 2rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.875rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.8125rem 1.5rem;
+      border-radius: 999px;
+      font-weight: 500;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: opacity 0.2s, background 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { opacity: 0.9; }
+
+    .btn-ghost {
+      border: 1px solid rgba(27, 23, 30, 0.18);
+      color: var(--foreground);
+    }
+
+    .btn-ghost:hover { background: rgba(27, 23, 30, 0.04); }
+
+    footer {
+      background: var(--secondary);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 3rem 1.5rem;
+    }
+
+    .footer-inner {
+      max-width: 80rem;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .footer-inner a {
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+    }
+
+    .footer-inner a:hover { color: #fff; }
+
+    @media (min-width: 768px) {
+      .nav-inner, footer { padding-left: 2.5rem; padding-right: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="wordmark" href="/">Strong Australia</a>
+      <div class="nav-links">
+        <a href="/sponsors.html">Our Sponsors</a>
+        <a href="https://www.strong-australia.org.au/" target="_blank" rel="noopener noreferrer">About Strong Australia</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="panel">
+      <p class="code">Error 404</p>
+      <h1>We couldn't find that page.</h1>
+      <div class="rule"></div>
+      <p>
+        The link may be out of date, or the address may have been mistyped.
+        Everything about National Strength Day is on the home page.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/">Back to home</a>
+        <a class="btn btn-ghost" href="/sponsors.html">Our sponsors</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>Strong Australia Inc. · ABN 64 924 431 324 · Sydney, Australia</span>
+      <a href="mailto:office@strong-australia.org.au">office@strong-australia.org.au</a>
+    </div>
+  </footer>
+</body>
+</html>

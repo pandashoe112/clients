@@ -1,0 +1,11 @@
+# Intentionally no `/* /index.html 200` catch-all.
+#
+# This site is static HTML (index.html, sponsors.html) and uses hash-based
+# routing for story pages (/#/story/...). The fragment never reaches the
+# server, so client-side routes resolve against `/` without a rewrite.
+#
+# A catch-all rewrite would make every unknown path — including probes for
+# /.env, /.git/config and /wp-config.php — answer HTTP 200 with the home page.
+# Without it, unknown paths correctly return 404 via 404.html.
+#
+# Add explicit rules here for individual legacy URLs if any are ever needed.
