@@ -1,0 +1,477 @@
+<title>Revelectrical Search Report</title>
+<style>
+@font-face{font-family:'Outfit';font-weight:600;font-display:swap;src:url(__F_O6__) format('woff2')}
+@font-face{font-family:'Outfit';font-weight:700;font-display:swap;src:url(__F_O7__) format('woff2')}
+@font-face{font-family:'Outfit';font-weight:800;font-display:swap;src:url(__F_O8__) format('woff2')}
+@font-face{font-family:'Manrope';font-weight:500;font-display:swap;src:url(__F_M5__) format('woff2')}
+@font-face{font-family:'Manrope';font-weight:700;font-display:swap;src:url(__F_M7__) format('woff2')}
+@font-face{font-family:'Manrope';font-weight:800;font-display:swap;src:url(__F_M8__) format('woff2')}
+
+/* Palette lifted from revelectrical-site/src/styles/global.css, so the report
+   and the site it reports on are the same green, not two similar ones.
+   Light is the base; dark redefines only the tokens. */
+:root{
+  --ink:#032F35;
+  --deep:#0B3A40;
+  --cream:#F4F6EF;
+  --lime:#B6ED3E;
+  --lime-deep:#5E8A00;
+
+  --bg:#F1F3EC;
+  --panel:#FFFFFF;
+  --panel-2:#F7F9F3;
+  --fg:#032F35;
+  --fg-dim:#4C6B6E;
+  --fg-faint:#7E9698;
+  --rule:rgba(3,47,53,.14);
+  --rule-soft:rgba(3,47,53,.08);
+  --up:#3E7A16;
+  --up-bg:rgba(182,237,62,.28);
+  --watch:#8A6A00;
+  --watch-bg:rgba(245,179,1,.16);
+  --bar:rgba(3,47,53,.13);
+  --bar-fill:#0B3A40;
+
+  --display:'Outfit',system-ui,-apple-system,sans-serif;
+  --body:'Manrope',system-ui,-apple-system,sans-serif;
+  --measure:68ch;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#042327;
+    --panel:#0A343A;
+    --panel-2:#0D3C43;
+    --fg:#F4F6EF;
+    --fg-dim:rgba(244,246,239,.72);
+    --fg-faint:rgba(244,246,239,.5);
+    --rule:rgba(244,246,239,.16);
+    --rule-soft:rgba(244,246,239,.09);
+    --up:#B6ED3E;
+    --up-bg:rgba(182,237,62,.16);
+    --watch:#F5B301;
+    --watch-bg:rgba(245,179,1,.14);
+    --bar:rgba(244,246,239,.14);
+    --bar-fill:#B6ED3E;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#042327; --panel:#0A343A; --panel-2:#0D3C43;
+  --fg:#F4F6EF; --fg-dim:rgba(244,246,239,.72); --fg-faint:rgba(244,246,239,.5);
+  --rule:rgba(244,246,239,.16); --rule-soft:rgba(244,246,239,.09);
+  --up:#B6ED3E; --up-bg:rgba(182,237,62,.16);
+  --watch:#F5B301; --watch-bg:rgba(245,179,1,.14);
+  --bar:rgba(244,246,239,.14); --bar-fill:#B6ED3E;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--fg);
+  font-family:var(--body);font-size:16.5px;line-height:1.65;font-weight:500;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--display);letter-spacing:-.03em;line-height:1.08;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+
+.page{max-width:920px;margin:0 auto;padding:0 24px 110px}
+
+/* ---------- masthead ---------- */
+.mast{
+  background:var(--ink);color:var(--cream);
+  margin:0 -24px 0;padding:46px 24px 44px;
+}
+@media (min-width:980px){.mast{margin:0 -60px;padding:56px 60px 52px;border-radius:0 0 22px 22px}}
+.mast__inner{max-width:920px;margin:0 auto}
+.brandline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.brandmark{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:-.035em}
+.brandmark em{font-style:normal;color:var(--lime)}
+.stamp{
+  font-size:.6875rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink);background:var(--lime);padding:4px 11px;border-radius:999px;
+}
+.mast h1{margin:26px 0 0;font-weight:800;font-size:clamp(2rem,5vw,3.1rem);max-width:19ch}
+.mast__sub{margin:18px 0 0;max-width:62ch;color:rgba(244,246,239,.76);font-size:1.0625rem}
+.meta{
+  display:grid;gap:1px;margin:34px 0 0;background:rgba(244,246,239,.16);
+  border:1px solid rgba(244,246,239,.16);border-radius:12px;overflow:hidden;
+}
+@media (min-width:640px){.meta{grid-template-columns:repeat(4,1fr)}}
+.meta div{background:var(--ink);padding:14px 16px}
+.meta dt{font-size:.6875rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,246,239,.55);margin:0}
+.meta dd{margin:5px 0 0;font-weight:700;font-size:.9375rem;font-family:var(--display);letter-spacing:-.015em}
+
+/* ---------- sections ---------- */
+.sec{margin:0;padding:56px 0 0}
+.sec__no{
+  font-family:var(--display);font-weight:800;font-size:.75rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--fg-faint);display:block;margin-bottom:10px;
+}
+.sec h2{font-weight:800;font-size:clamp(1.45rem,2.9vw,2rem);max-width:24ch}
+.lede{margin:16px 0 0;max-width:var(--measure);color:var(--fg-dim)}
+.sec > p + p{margin-top:14px}
+
+/* ---------- stat tiles ---------- */
+.stats{display:grid;gap:12px;margin:30px 0 0}
+@media (min-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:900px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:20px 20px 18px;display:flex;flex-direction:column;gap:0}
+.stat--hero{border-color:var(--lime);box-shadow:0 0 0 2px var(--up-bg)}
+.stat__label{font-size:.75rem;font-weight:700;line-height:1.35;color:var(--fg-dim);min-height:2.7em}
+.stat__num{font-family:var(--display);font-weight:800;font-size:2.5rem;letter-spacing:-.04em;line-height:1;margin-top:12px;font-variant-numeric:tabular-nums}
+.stat__was{margin-top:8px;font-size:.8125rem;color:var(--fg-faint);font-variant-numeric:tabular-nums}
+.delta{
+  align-self:flex-start;margin-top:12px;font-size:.8125rem;font-weight:800;
+  padding:3px 10px;border-radius:999px;background:var(--up-bg);color:var(--up);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---------- callout ---------- */
+.callout{
+  margin:30px 0 0;background:var(--panel-2);border:1px solid var(--rule);
+  border-left:4px solid var(--lime);border-radius:12px;padding:24px 26px;
+}
+.callout--watch{border-left-color:var(--watch);background:var(--watch-bg)}
+.callout h3{font-size:1.125rem;font-weight:700}
+.callout p{margin:12px 0 0;color:var(--fg-dim);max-width:var(--measure)}
+.callout p strong{color:var(--fg);font-weight:800}
+.q{font-family:var(--body);font-weight:800;color:var(--fg)}
+
+/* ---------- tables ---------- */
+.tablewrap{margin:26px 0 0;overflow-x:auto;border:1px solid var(--rule);border-radius:14px;background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:.9375rem;min-width:560px}
+caption{text-align:left;padding:16px 20px 0;font-size:.8125rem;font-weight:700;color:var(--fg-dim)}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:middle}
+thead th{
+  font-size:.6875rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--fg-faint);border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.term{font-weight:700}
+.termcell{min-width:250px}
+/* The bar is the term's size against the biggest non-brand term, which is what
+   stops "+217% on 6 impressions" reading like the headline of the week. */
+.bar{display:block;margin-top:7px;height:4px;max-width:260px;border-radius:2px;background:var(--bar);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--bar-fill);border-radius:2px}
+.pill{
+  display:inline-block;font-weight:800;font-size:.8125rem;padding:2px 9px;border-radius:999px;
+  background:var(--up-bg);color:var(--up);font-variant-numeric:tabular-nums;
+}
+.pill--flat{background:var(--rule-soft);color:var(--fg-dim)}
+.page-note{margin:12px 0 0;font-size:.8125rem;color:var(--fg-faint);max-width:var(--measure)}
+
+/* ---------- timeline ---------- */
+/* Numbered because it is genuinely a sequence: each phase depends on the one
+   before it landing. */
+.phases{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:14px}
+@media (min-width:820px){.phases{grid-template-columns:repeat(3,1fr)}}
+.phase{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:22px}
+.phase__when{
+  font-size:.6875rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink);background:var(--lime);display:inline-block;padding:4px 10px;border-radius:999px;
+}
+.phase h3{margin:14px 0 0;font-size:1.0625rem;font-weight:700;line-height:1.25}
+.phase p{margin:10px 0 0;font-size:.9375rem;color:var(--fg-dim)}
+
+/* ---------- method ---------- */
+.method{margin:26px 0 0;display:grid;gap:14px}
+.method p{color:var(--fg-dim);max-width:var(--measure)}
+
+.foot{
+  margin:70px -24px -110px;padding:26px 24px 30px;background:var(--ink);color:rgba(244,246,239,.6);
+  font-size:.8125rem;
+}
+@media (min-width:980px){.foot{margin-inline:-60px;border-radius:22px 22px 0 0}}
+.foot__inner{max-width:920px;margin:0 auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+
+@media print{
+  body{background:#fff}
+  .mast,.foot{background:#032F35 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sec{break-inside:avoid}
+}
+</style>
+
+<div class="page">
+  <header class="mast">
+    <div class="mast__inner">
+      <div class="brandline">
+        <span class="brandmark">rev<em>electrical</em></span>
+        <span class="stamp">Internal report</span>
+      </div>
+      <h1>Google Search performance in the first week on the new website</h1>
+      <p class="mast__sub">
+        A like for like comparison of the last full week on the old website against the first
+        full week on the new one, covering how often revelectrical.com.au appeared in Google,
+        how often people clicked, and which services and suburbs it now shows up for.
+      </p>
+      <dl class="meta">
+        <div><dt>Prepared by</dt><dd>Oliver Wales</dd></div>
+        <div><dt>Old website week</dt><dd>3&ndash;9 Aug 2026</dd></div>
+        <div><dt>New website week</dt><dd>10&ndash;16 Aug 2026</dd></div>
+        <div><dt>Data source</dt><dd>Google Search Console</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <section class="sec">
+    <span class="sec__no">Section 01</span>
+    <h2>How often your website appeared in Google, and how often people clicked</h2>
+    <p class="lede">
+      These four numbers describe the whole website across every search term. Impressions count
+      how many times a page of yours was shown in Google's results. Clicks count how many of those
+      turned into a visit. Click-through rate is simply clicks divided by impressions, so it
+      measures how appealing your listing looks once someone sees it.
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat__label">Times your website appeared in Google</span>
+        <span class="stat__num">2,070</span>
+        <span class="stat__was">was 1,211</span>
+        <span class="delta">+71%</span>
+      </div>
+      <div class="stat">
+        <span class="stat__label">Visits from Google search results</span>
+        <span class="stat__num">10</span>
+        <span class="stat__was">was 4</span>
+        <span class="delta">+150%</span>
+      </div>
+      <div class="stat">
+        <span class="stat__label">Share of appearances that became a visit</span>
+        <span class="stat__num">0.5%</span>
+        <span class="stat__was">was 0.3%</span>
+        <span class="delta">+67%</span>
+      </div>
+      <div class="stat stat--hero">
+        <span class="stat__label">Visits from people not searching your business name</span>
+        <span class="stat__num">2</span>
+        <span class="stat__was">was 0</span>
+        <span class="delta">First ones</span>
+      </div>
+    </div>
+    <p class="page-note">
+      Both weeks are measured the same way, one week against the week immediately before it,
+      so seasonality and day of week are not distorting the comparison.
+    </p>
+
+    <div class="callout">
+      <h3>Why the last figure matters more than the other three</h3>
+      <p>
+        Every click the old website earned in its final week came from someone typing your
+        business name into Google. Those people already knew about you and would have found you
+        anyway. In the first week on the new website, two clicks came from people searching for a
+        service instead: <span class="q">electrician williamstown</span> and
+        <span class="q">electrician near me</span>. That is the first evidence the website can win
+        a customer who has never heard of Revelectrical, which is
+        <strong>the entire point of the rebuild</strong>.
+      </p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <span class="sec__no">Section 02</span>
+    <h2>Searches where your website appeared more often than the week before</h2>
+    <p class="lede">
+      These are search terms that both weeks have in common, so the change is a genuine week on
+      week increase rather than something new being counted for the first time. More appearances
+      on the same term usually means Google is showing you to a wider pool of people, or showing
+      you for more variations of that phrase.
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <caption>Search terms in both weeks, ranked by size of increase</caption>
+        <thead>
+          <tr>
+            <th class="termcell">What people typed into Google</th>
+            <th class="num">Old website</th>
+            <th class="num">New website</th>
+            <th class="num">Change</th>
+          </tr>
+        </thead>
+        <tbody>__ROWS_02__</tbody>
+      </table>
+    </div>
+    <p class="page-note">
+      The bar under each search term shows its size relative to
+      <span class="q">electrician newport</span>, which is your largest search term outside your
+      business name.
+    </p>
+  </section>
+
+  <section class="sec">
+    <span class="sec__no">Section 03</span>
+    <h2>Searches where your website moved up Google's rankings</h2>
+    <p class="lede">
+      Average position is where your listing sat in Google's results, counted from the top. Lower
+      is better, so a move from 48.9 to 37.9 means you climbed eleven places. Realistically,
+      clicks only start arriving in volume once a term reaches the first page, which is roughly
+      position 10.
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <caption>Average position, old website week against new website week</caption>
+        <thead>
+          <tr>
+            <th class="termcell">What people typed into Google</th>
+            <th class="num">Old website</th>
+            <th class="num">New website</th>
+            <th class="num">Places gained</th>
+          </tr>
+        </thead>
+        <tbody>__ROWS_03__</tbody>
+      </table>
+    </div>
+    <p class="page-note">
+      Rankings move slowly and one week is a short window, so most of your core suburb terms sat
+      almost exactly where they were. That is the expected result this early. A website that has
+      just been rebuilt and recrawled would more commonly drop for a few weeks before recovering,
+      and that has not happened here.
+    </p>
+  </section>
+
+  <section class="sec">
+    <span class="sec__no">Section 04</span>
+    <h2>Searches your website now appears for that were not in last week's report</h2>
+    <p class="lede">
+      These search terms brought no recorded appearances on the old website in the week before
+      launch. They account for roughly 312 of the 859 extra appearances, and almost all of them
+      line up with pages that only exist on the new website.
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <caption>New search terms, and how many times your website was shown for each</caption>
+        <thead>
+          <tr>
+            <th class="termcell">What people typed into Google</th>
+            <th>Service on your website</th>
+            <th class="num">Appearances</th>
+          </tr>
+        </thead>
+        <tbody>__ROWS_04__</tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <h3>Switchboards are the clearest example of what the new pages did</h3>
+      <p>
+        The old website recorded no appearances at all for switchboard searches. The new website
+        picked up around <strong>115 appearances across the switchboard terms in one week</strong>,
+        because there is now a dedicated switchboard upgrade page for Google to match those
+        searches against. Solar battery and EV charging follow the same pattern on a smaller scale.
+      </p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <span class="sec__no">Section 05</span>
+    <h2>Why the average ranking position went down while everything else went up</h2>
+    <p class="lede">
+      Across the whole website, average position moved from 44.7 to 49.8. Read on its own that
+      looks like a fall, and it is worth explaining before it appears in any future report.
+    </p>
+    <p class="lede">
+      Average position is an average across every search term the website appears for. In the week
+      just gone, several hundred appearances arrived on brand new terms that currently sit between
+      position 70 and 90, because those pages have only just been published and Google has not yet
+      decided where they belong. Adding a large number of low positions to the calculation pulls
+      the average down, even though nothing that was already ranking has moved backwards.
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <caption>The check that matters: did existing terms hold their position?</caption>
+        <thead>
+          <tr>
+            <th class="termcell">What people typed into Google</th>
+            <th class="num">Old website</th>
+            <th class="num">New website</th>
+            <th class="num">Movement</th>
+          </tr>
+        </thead>
+        <tbody>__ROWS_05__</tbody>
+      </table>
+    </div>
+    <p class="page-note">
+      Position by service and suburb is the number to track from here, not the website-wide
+      average.
+    </p>
+  </section>
+
+  <section class="sec">
+    <span class="sec__no">Section 06</span>
+    <h2>What we expect to happen over the next few months</h2>
+    <p class="lede">
+      One week of data shows direction, not results. Here is the sequence we would expect from a
+      launch that has started this way, and what we will be reporting against each time.
+    </p>
+    <ol class="phases">
+      <li class="phase">
+        <span class="phase__when">Weeks 2 to 4</span>
+        <h3>New pages settle into a real position</h3>
+        <p>
+          The switchboard, solar battery and EV charging pages should climb out of the 70 to 90
+          range as Google works out what they are about. The website-wide average position will
+          keep looking soft while this happens.
+        </p>
+      </li>
+      <li class="phase">
+        <span class="phase__when">Weeks 4 to 8</span>
+        <h3>Suburb pages start competing on the first two pages</h3>
+        <p>
+          Newport, Williamstown, Essendon and Airport West are the terms with the most existing
+          demand. Newport alone was shown 104 times in one week at position 34.5, so moving it
+          towards the first page is the largest single opportunity on the website.
+        </p>
+      </li>
+      <li class="phase">
+        <span class="phase__when">Weeks 8 to 12</span>
+        <h3>Enquiries, not appearances, become the measure</h3>
+        <p>
+          Once terms reach the first page, clicks follow, and the reporting shifts from how often
+          you were seen to how many quote requests came through the website form.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec">
+    <span class="sec__no">Section 07</span>
+    <h2>How this data was gathered and where to treat it carefully</h2>
+    <div class="method">
+      <p>
+        Figures for 10 to 16 August come from Google Search Console for revelectrical.com.au.
+        Figures for 3 to 9 August come from the Top Search Queries on Google report inside the
+        previous Wix dashboard, which draws on the same Google data.
+      </p>
+      <p>
+        The Wix export lists a number of search terms more than once and its visible rows do not
+        add up to its own summary total, so the term level figures from the old website should be
+        read as indicative. The summary totals for that week, 1,211 appearances and 4 clicks, are
+        reliable, and every percentage in Section 01 is calculated from those. Where a search term
+        is described as new in Section 04, it means it did not appear in last week's report rather
+        than that it was definitively at zero.
+      </p>
+    </div>
+
+    <div class="callout callout--watch">
+      <h3>Read the click numbers with care</h3>
+      <p>
+        Click volumes at this stage are small in absolute terms. Ten clicks is ten clicks, and
+        percentages will swing hard week to week until the numbers grow. The reliable signals in
+        this report are <strong>the increase in appearances</strong>,
+        <strong>the arrival of non-brand clicks</strong>, and
+        <strong>the appearance of three service categories the old website was invisible for</strong>.
+      </p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="foot__inner">
+      <span>Revelectrical &middot; REC 38205 &middot; Everything Electrification Pty Ltd</span>
+      <span>Prepared by Oliver Wales &middot; 19 August 2026 &middot; Internal</span>
+    </div>
+  </footer>
+</div>
