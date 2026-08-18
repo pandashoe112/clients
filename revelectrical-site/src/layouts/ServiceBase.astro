@@ -3,31 +3,14 @@ import '../styles/global.css';
 import '../styles/service.css';
 import GtmHead from '../components/GtmHead.astro';
 import GtmNoscript from '../components/GtmNoscript.astro';
+import SocialMeta from '../components/SocialMeta.astro';
+import { businessSchema } from '../lib/schema.js';
 const { title, description, canonical, settings, faqs = [], areaServed, noindex = false, crumbs = [] } = Astro.props;
 
 const base = 'https://www.revelectrical.com.au';
 
 // Two blocks: the business itself, and the FAQs so they can win a rich result.
-const business = {
-  '@context': 'https://schema.org',
-  '@type': 'Electrician',
-  name: settings.businessName,
-  legalName: 'Everything Electrification Pty Ltd',
-  foundingDate: String(settings.established),
-  telephone: settings.phoneHref.replace('tel:', ''),
-  email: settings.email,
-  url: base + '/',
-  identifier: settings.licence,
-  areaServed: areaServed
-    ? [{ '@type': 'Place', name: areaServed }]
-    : [{ '@type': 'City', name: 'Melbourne' }],
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: String(settings.ratingValue),
-    reviewCount: String(settings.reviewCount),
-    bestRating: '5'
-  }
-};
+const business = businessSchema(settings, { areaServed });
 
 // BreadcrumbList tells Google the hierarchy and can replace the raw URL in the
 // result with a readable trail. Every sub-page is one level under the home
@@ -70,7 +53,7 @@ const faqSchema = faqs.length
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content={canonical} />
+  <SocialMeta title={title} description={description} canonical={canonical} />
   <meta name="google-site-verification" content="gCQaA7Gvgamf6kSc8H14rheeZlhbLhuV5WHO6BZpHUo" />
   <meta name="theme-color" content="#032F35" />
   <link rel="icon" href="/favicon.webp" type="image/webp" />

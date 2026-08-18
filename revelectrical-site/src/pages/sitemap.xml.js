@@ -21,7 +21,9 @@ export async function GET() {
     ...(rebates?.lastVerified ? [{ loc: '/rebates/', priority: '0.9' }] : []),
     ...services.map((s) => ({ loc: `/services/${s.slug}/`, priority: '0.9' })),
     ...areas.map((a) => ({ loc: `/electrician-${a.slug}/`, priority: '0.8' })),
-    ...brands.map((b) => ({ loc: `/brands/${b.slug}/`, priority: '0.8' }))
+    ...brands.map((b) => ({ loc: `/brands/${b.slug}/`, priority: '0.8' })),
+    // Indexable, so it belongs here even though nobody is searching for it.
+    { loc: '/privacy/', priority: '0.2' }
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>

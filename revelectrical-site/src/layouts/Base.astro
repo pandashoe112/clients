@@ -2,25 +2,10 @@
 import '../styles/global.css';
 import GtmHead from '../components/GtmHead.astro';
 import GtmNoscript from '../components/GtmNoscript.astro';
+import SocialMeta from '../components/SocialMeta.astro';
+import { businessSchema, BASE_URL } from '../lib/schema.js';
 const { title, description, settings } = Astro.props;
-const schema = {
-  '@context': 'https://schema.org',
-  '@type': 'Electrician',
-  name: settings.businessName,
-  legalName: 'Everything Electrification Pty Ltd',
-  foundingDate: String(settings.established),
-  telephone: settings.phoneHref.replace('tel:', ''),
-  email: settings.email,
-  url: 'https://www.revelectrical.com.au/',
-  identifier: settings.licence,
-  areaServed: [{ '@type': 'City', name: 'Melbourne' }],
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: String(settings.ratingValue),
-    reviewCount: String(settings.reviewCount),
-    bestRating: '5'
-  }
-};
+const schema = businessSchema(settings);
 ---
 <!DOCTYPE html>
 <html lang="en-AU">
@@ -34,6 +19,7 @@ const schema = {
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
+  <SocialMeta title={title} description={description} canonical={BASE_URL + '/'} />
   <meta name="google-site-verification" content="gCQaA7Gvgamf6kSc8H14rheeZlhbLhuV5WHO6BZpHUo" />
   <meta name="theme-color" content="#032F35" />
   <link rel="icon" href="/favicon.webp" type="image/webp" />
