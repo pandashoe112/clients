@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import JobTiles from './JobTiles.astro';
+import Attribution from './Attribution.astro';
 import { img, alt } from '../lib/sanity.js';
 const { page, settings, services } = Astro.props;
 
@@ -41,6 +42,7 @@ const { page, settings, services } = Astro.props;
             data-netlify="true" netlify-honeypot="bot-field"
             enctype="multipart/form-data" id="quoteForm" novalidate>
         <input type="hidden" name="form-name" value="quote-request-contact-section" />
+        <Attribution />
         <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
         <input type="hidden" name="page_url" id="f_page_url" />
         <input type="hidden" name="subject" value="⚡ New enquiry from the website" />

@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import JobTiles from './JobTiles.astro';
+import Attribution from './Attribution.astro';
 import { img } from '../lib/sanity.js';
 // brandLogo and parent are only passed by the brand pages, which sit a level
 // deeper than a service and lead with the manufacturer's mark.
@@ -53,6 +54,7 @@ const ticks = service.heroTicks || [];
         <form class="formgrid" name="quote-request-service-hero" method="POST" action="/thank-you/"
               data-netlify="true" netlify-honeypot="bot-field" id="quoteForm" novalidate>
           <input type="hidden" name="form-name" value="quote-request-service-hero" />
+          <Attribution />
           <input type="hidden" name="page_url" />
           <input type="hidden" name="subject" value="⚡ New enquiry from a service page" />
           <input type="hidden" name="service_page" value={service.title} />

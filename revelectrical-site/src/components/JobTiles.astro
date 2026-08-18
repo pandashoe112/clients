@@ -1,13 +1,21 @@
 ---
 // The job-type picker, shared by every enquiry form on the site.
 //
-// Six buckets rather than the six service documents: a caller picks the thing
-// they recognise, and "General electrical" catches everything the service
-// pages do not cover instead of losing the lead to a missing option.
+// Multi-select, because real enquiries are rarely one job: a charger usually
+// needs the board looked at, and someone going all-electric is asking about
+// three things at once. Making it single-choice was throwing that away and
+// forcing the caller to explain it again on the phone.
 //
-// On a service page the answer is already known, so that tile arrives ticked
-// and the question becomes a confirmation the visitor can override - someone
-// who landed on EV charging but actually needs a switchboard can say so.
+// Twelve options rather than the six service pages. The list is the jobs
+// people recognise and use their own words for, not our page structure, and
+// "Something else" catches the rest so a lead is never lost to a missing
+// option. Two columns of six on a phone, three of four on a desktop - the same
+// height the six-tile version was, because the tiles got tighter as the list
+// got longer.
+//
+// On a service page the matching tile arrives ticked and the visitor adds to
+// it, which is the whole point of multi-select: they came for a charger and
+// can now also say the switchboard is ancient.
 const { idPrefix = 'job', selected = '' } = Astro.props;
 
 const JOBS = [
@@ -15,8 +23,14 @@ const JOBS = [
   'Solar & battery',
   'Hot water',
   'Switchboard',
-  'Lighting',
-  'General electrical'
+  'Lighting & downlights',
+  'Power points & wiring',
+  'Induction cooktop',
+  'Ceiling fans',
+  'Smoke alarms',
+  'Safety switch',
+  'Fault finding',
+  'Something else'
 ];
 
 // Service pages name themselves differently to these buckets, so match on the
@@ -26,25 +40,28 @@ const MATCH = [
   [/solar|batter/i, 'Solar & battery'],
   [/hot water|heat pump/i, 'Hot water'],
   [/switchboard|fuse|rewir/i, 'Switchboard'],
-  [/light|downlight|led/i, 'Lighting'],
-  [/induction|cooktop|oven/i, 'General electrical']
+  [/light|downlight|led/i, 'Lighting & downlights'],
+  [/induction|cooktop|oven/i, 'Induction cooktop']
 ];
 const preset = selected
   ? (MATCH.find(([re]) => re.test(selected)) || [])[1] || ''
   : '';
 ---
-<fieldset class="tileset">
-  <legend class="label">What do you need?</legend>
-  <div class="tilegrid">
+{/* A fieldset with a real legend, so a screen reader announces the group
+    before reading twelve checkboxes. aria-describedby points every box at the
+    one error line, which is where "pick at least one" lands. */}
+<fieldset class="tileset" id={`${idPrefix}_set`}>
+  <legend class="label">What do you need? <span class="label__hint">Pick as many as apply</span></legend>
+  <div class="tilegrid tilegrid--multi">
     {JOBS.map((job, i) => (
       <div class="tile">
         <input
-          type="radio"
+          type="checkbox"
           name="service"
           id={`${idPrefix}_${i}`}
           value={job}
           checked={job === preset}
-          required={i === 0}
+          data-required-group="service"
           aria-describedby={`${idPrefix}_err`}
         />
         <label for={`${idPrefix}_${i}`}>{job}</label>

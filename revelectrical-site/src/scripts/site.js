@@ -1,5 +1,13 @@
+import { attribution, fillAttribution } from './attribution.js';
+
 (function(){
   "use strict";
+
+  // Stamp the campaign fields into every form on the page as soon as the page
+  // loads, rather than at submit time - a lead that never submits is not worth
+  // the work, but a value sitting in the DOM can be checked in devtools when
+  // someone disputes which ad a job came from.
+  fillAttribution();
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var announce = document.getElementById('announce');
@@ -157,12 +165,22 @@
       if (s.length < 8 || !/\d/.test(s)) return 'Enter your full street address so we can size the job.';
       return '';
     },
-    service: function(v){ return v ? '' : 'Pick the type of job so we can send the right person.'; }
+    service: function(v){ return v ? '' : 'Pick at least one job type so we can send the right person.'; }
   };
 
   // The error line is created when a form doesn't already carry one, so the
   // forms that were written without them still report properly.
+  // A field that already points at an error line gets that one. This has to be
+  // checked before falling through to creating one: the created element is
+  // inserted directly after the field, and on a tile that puts a <p> between
+  // the input and its label, which silently kills `input:checked + label` and
+  // leaves a ticked tile looking untouched.
   var errorFor = function(field){
+    var described = field.getAttribute('aria-describedby');
+    if (described){
+      var existing = document.getElementById(described);
+      if (existing) return existing;
+    }
     var id = (field.id || field.name) + '__err';
     var el = document.getElementById(id);
     if (!el){
@@ -170,20 +188,24 @@
       el.className = 'err'; el.id = id; el.setAttribute('role','alert');
       field.insertAdjacentElement('afterend', el);
     }
-    var described = field.getAttribute('aria-describedby');
     if (!described) field.setAttribute('aria-describedby', id);
-    return described ? (document.getElementById(described) || el) : el;
+    return el;
   };
 
-  // A radio group has one value across many elements, and every one of them
-  // reports its own .value whether or not it is the chosen one. Reading the
-  // group instead is what stops "EV charging" being submitted by someone who
-  // never picked anything.
+  // A checkbox or radio group has one answer spread across many elements, and
+  // every one of them reports its own .value whether or not it is ticked.
+  // Reading the whole group is what stops "EV charging" being submitted by
+  // someone who never picked anything.
+  var groupOf = function(field){
+    return [].slice.call((field.form || document).querySelectorAll(
+      '[name="' + field.name + '"]'));
+  };
   var valueOf = function(field){
-    if (field.type !== 'radio') return field.value;
-    var picked = (field.form || document).querySelector(
-      '[name="' + field.name + '"]:checked');
-    return picked ? picked.value : '';
+    if (field.type !== 'radio' && field.type !== 'checkbox') return field.value;
+    return groupOf(field)
+      .filter(function(el){ return el.checked; })
+      .map(function(el){ return el.value; })
+      .join(', ');
   };
 
   var validate = function(field){
@@ -196,18 +218,27 @@
   };
 
   document.querySelectorAll('form[data-netlify]').forEach(function(form){
+    // A checkbox cannot carry `required` - on a checkbox that attribute means
+    // "this exact box must be ticked", not "tick one of these". The tile group
+    // is marked with data-required-group instead, and only the first box of a
+    // group is validated, since they all read the same group value.
+    var seenGroup = {};
     var fields = [].slice.call(form.querySelectorAll('[name]')).filter(function(f){
-      return CHECKS[f.name] && f.hasAttribute('required');
+      if (!CHECKS[f.name]) return false;
+      if (f.hasAttribute('data-required-group')){
+        if (seenGroup[f.name]) return false;
+        seenGroup[f.name] = true;
+        return true;
+      }
+      return f.hasAttribute('required');
     });
     var btn = form.querySelector('button[type="submit"]');
 
     fields.forEach(function(f){
-      // Only one radio in a group carries `required`, so it is the only one in
-      // `fields` - but any of its siblings can be the one clicked. Listening on
-      // the whole group is what clears the error when a tile is chosen.
-      var group = f.type === 'radio'
-        ? [].slice.call(form.querySelectorAll('[name="' + f.name + '"]'))
-        : [f];
+      // Only the first tile of a group is in `fields`, but any of its siblings
+      // can be the one clicked. Listening on the whole group is what clears the
+      // error when a tile is chosen.
+      var group = (f.type === 'radio' || f.type === 'checkbox') ? groupOf(f) : [f];
       group.forEach(function(el){
         el.addEventListener('blur', function(){ validate(f); });
         el.addEventListener('change', function(){ validate(f); });
@@ -238,10 +269,7 @@
         var val = function(name){
           var el = form.querySelector('[name="' + name + '"]');
           if (!el) return '';
-          if (el.type === 'radio') {
-            var picked = form.querySelector('[name="' + name + '"]:checked');
-            return picked ? picked.value.trim() : '';
-          }
+          if (el.type === 'radio' || el.type === 'checkbox') return valueOf(el);
           return el.value ? el.value.trim() : '';
         };
         // The markup carries a label saying which form this is; the lead's own
@@ -253,6 +281,10 @@
           .filter(Boolean)
           .join(', ');
         if (details) subject.value = subject.value + ' - ' + details;
+        // The channel goes in the subject as well as its own field, so it is
+        // readable from the notification email and the submissions list
+        // without opening the lead.
+        if (attribution.channel) subject.value = subject.value + ' [' + attribution.channel + ']';
       }
       trackEvent('generate_lead', {form: form.getAttribute('name') || 'enquiry'});
       if (btn){ btn.textContent = 'Sending...'; btn.disabled = true; }

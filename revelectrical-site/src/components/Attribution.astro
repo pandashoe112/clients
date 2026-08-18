@@ -1,0 +1,27 @@
+---
+// Where the enquiry came from. One block of hidden fields, dropped into every
+// form on the site, filled in by src/scripts/attribution.js.
+//
+// They are rendered with no value on purpose. Netlify registers a form's fields
+// by parsing the built HTML at deploy time, so the inputs have to exist in the
+// static markup even though the browser is what fills them. A field the script
+// cannot answer submits empty rather than absent, which keeps every submission
+// the same shape in the CSV export.
+//
+// `channel` is the one to read - it is the plain-English tag ("Google Ads",
+// "Organic search - Google"). The utm_* fields underneath it are the raw
+// evidence, kept so a wrong tag can be traced rather than argued about.
+const FIELDS = [
+  'channel',
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_term',
+  'utm_content',
+  'click_id',
+  'landing_page',
+  'referrer',
+  'first_seen'
+];
+---
+{FIELDS.map((name) => <input type="hidden" name={name} data-attr={name} />)}

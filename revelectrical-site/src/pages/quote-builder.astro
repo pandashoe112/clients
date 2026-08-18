@@ -1,5 +1,6 @@
 ---
 import ServiceBase from '../layouts/ServiceBase.astro';
+import Attribution from '../components/Attribution.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Icon from '../components/Icon.astro';
@@ -183,6 +184,7 @@ const stepMeta = [
                 <form class="formgrid formgrid--two" id="qb-form" name="custom-quote" method="POST" action="/thank-you/"
                       data-netlify="true" netlify-honeypot="bot-field" novalidate>
                   <input type="hidden" name="form-name" value="custom-quote" />
+                  <Attribution />
                   <input type="hidden" name="page_url" />
                   <input type="hidden" name="subject" value="🧾 Custom quote built on the site" />
                   <input type="hidden" name="quote_lines" id="qb-lines-field" />

@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Attribution from './Attribution.astro';
 
 // Step two of the enquiry. The first form exists to catch the contact details
 // before someone leaves; this one asks the questions that decide the price.
@@ -63,6 +64,7 @@ const WHEN = ['As soon as possible', 'In the next few weeks', 'In the next few m
         <form class="formgrid" name="job-details" method="POST" action="/thank-you/?detailed=1"
               data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" novalidate>
           <input type="hidden" name="form-name" value="job-details" />
+          <Attribution />
           <input type="hidden" name="page_url" />
           <input type="hidden" name="subject" value="🔧 Job details for a quote" />
           <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>

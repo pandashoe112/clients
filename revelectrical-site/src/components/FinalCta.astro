@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import JobTiles from './JobTiles.astro';
+import Attribution from './Attribution.astro';
 const { service, settings } = Astro.props;
 ---
 <section class="section bg-deep" id="get-in-touch">
@@ -26,6 +27,7 @@ const { service, settings } = Astro.props;
       <form class="formgrid" name="quote-request-service-footer" method="POST" action="/thank-you/"
             data-netlify="true" netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="quote-request-service-footer" />
+        <Attribution />
           <input type="hidden" name="page_url" />
           <input type="hidden" name="subject" value="⚡ New enquiry from a service page" />
         <input type="hidden" name="service_page" value={service.title} />

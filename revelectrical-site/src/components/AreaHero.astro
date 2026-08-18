@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import JobTiles from './JobTiles.astro';
+import Attribution from './Attribution.astro';
 import { img, alt } from '../lib/sanity.js';
 const { area, settings } = Astro.props;
 const ticks = area.heroTicks || [];
@@ -63,6 +64,7 @@ const bgFile = !bg && LOCAL[area.slug] ? LOCAL[area.slug] : null;
         <form class="formgrid" name="quote-request-suburb-hero" method="POST" action="/thank-you/"
               data-netlify="true" netlify-honeypot="bot-field" novalidate>
           <input type="hidden" name="form-name" value="quote-request-suburb-hero" />
+          <Attribution />
           <input type="hidden" name="page_url" />
           <input type="hidden" name="subject" value="⚡ New enquiry from a suburb page" />
           <input type="hidden" name="suburb_page" value={area.name} />
