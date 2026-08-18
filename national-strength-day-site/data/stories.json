@@ -1,5 +1,23 @@
 [
   {
+    "id": "jordan-kidd",
+    "name": "Jordan",
+    "fullName": "Jordan Kidd",
+    "location": "Sydney, NSW",
+    "locationFull": "Sydney, New South Wales",
+    "yearBorn": 1998,
+    "ageCategory": "18-30",
+    "photo": "/images/stories/jordan.jpg",
+    "headline": "Having weight on your back and choosing to bear it translates to resilience",
+    "excerpt": "More than a decade of training in a public gym, and always yes when friends ask for a hike. Jordan measures strength by whether he stays useful and dependable to the people around him.",
+    "q1": "Mainly through training at my public gym. I always say yes when friends ask to go for a hike or play other sports. I have been training for over a decade — I started mainly for school sport, but I want to remain useful and dependable for my family and friends.",
+    "q2": "Strength is about resistance to external pressure, which could be in the weight room, or in life's circumstances. I believe that having weight on your back and choosing to bear it translates over to resilience in other aspects of life.",
+    "q3": "It's great to see where I can help my friends and family. Convincing my parents to start strength training has been very rewarding for me — they can see life-changing results so quickly.",
+    "q4": "",
+    "published": true,
+    "winner": false
+  },
+  {
     "id": "maddie-dryland",
     "name": "Maddie",
     "fullName": "Maddie Dryland",
@@ -49,6 +67,24 @@
     "q1": "I've been going to Kieser for over five years. I have a spinal condition called spondylolisthesis — my GP referred me to treat it. I've never really been a sporty person, nor have I played team sports. I went to the gym before I had kids, sporadically. Now I go to Kieser twice a week and I walk at least six times a week with the dogs, a few kilometres a day. That helps to grow and maintain my strength.",
     "q2": "Physical strength is a big part of being strong, but I think if you're a disabled person or not physically able to be strong, you can still be a strong person. Mental strength and resilience is a big part of being a strong human as well. For me, being physically strong means being able to operate as a mother and a full-time employee. I need to be able to pick up groceries, carry laundry, handle the dogs, have a strong core and generally look after myself and my spondylolisthesis. Physical strength helps me to better deal with the stresses of everyday life — of being a full-time lawyer, of managing a household but also to be able to enjoy life and participate in the activities that I love.",
     "q3": "My family motivate me — my two kids, my husband, my dogs. We're an affectionate family who support each other to be healthy. But community is also important. My work community, residential and social community and Kieser community all motivate me to be strong. My family and I live in a little cul-de-sac and we're friendly with our neighbours and watch out for each other. My Kieser team is important in keeping me motivated to maintain my strength. It is very positive, friendly and inviting. When I first started at Kieser, I thought it was mainly for older people, but I soon realised there is a whole age range, from high school students to octogenarians. Now it's become fundamental to who I am — it's really quite crucial, it's just part of my life.",
+    "q4": "",
+    "published": true,
+    "winner": false
+  },
+  {
+    "id": "jeffo",
+    "name": "Jeffo",
+    "fullName": "Jeffo",
+    "location": "Canberra, ACT",
+    "locationFull": "Canberra, Australian Capital Territory",
+    "yearBorn": 1951,
+    "ageCategory": "61-75",
+    "photo": "/images/stories/placeholder.svg",
+    "headline": "I can do things around the house now that I couldn't when I retired",
+    "excerpt": "One to two hours of walking a day for six years, plus targeted back, knee and arm work. Jeffo measures his strength in stairs climbed, ladders managed and jobs that are no longer out of reach.",
+    "q1": "Walking 1 to 2 hours a day. Keeping active at home — chores, garage work, errands. Specific back and knee strengthening exercises, and arm exercises. Six years.",
+    "q2": "Being physically active. Able to work easily, climbing stairs, lifting heavy weights, climbing ladders, completing tasks around the house that I couldn't when I retired.",
+    "q3": "",
     "q4": "",
     "published": true,
     "winner": false

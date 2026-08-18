@@ -77,18 +77,26 @@ Age categories are fixed: `18-30`, `31-45`, `46-60`, `61-75`, `76-90`,
 
 | Story | Category |
 | ----- | -------- |
+| Jordan Kidd | 18-30 |
 | Maddie Dryland | 31-45 |
 | Oliver | 31-45 |
 | Nicole | 46-60 |
+| Jeffo | 61-75 |
 | Coralie | 61-75 |
 | Judith Murray | 61-75 |
 | Fiona Hodson | 61-75 |
 | Peter McKinn | 76-90 |
 
-Nothing in `18-30` or `91plus`. No story has `winner: true`.
+Array order is display order: `bc()` filters by category and does not sort, so
+records sit in category order, and by ascending year of birth inside each one.
+
+Nothing in `91plus`. No story has `winner: true`.
 
 Photos are jpgs in `site/images/stories/`, referenced as
-`/images/stories/<name>.jpg`. `placeholder.svg` covers a story with no photo.
+`/images/stories/<name>.jpg`. `placeholder.svg` covers a story with no photo — the app tests
+`photo.includes("placeholder")` and draws the person's initials on a gradient
+instead of an `<img>`, so it is a designed state, not a broken image. An empty
+`q3`/`q4` is likewise skipped rather than rendered as an empty block.
 
 ## Deploying
 
