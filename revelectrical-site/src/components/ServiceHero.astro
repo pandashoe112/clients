@@ -1,6 +1,8 @@
 ---
 import Icon from './Icon.astro';
 import JobTiles from './JobTiles.astro';
+import PhotoUpload from './PhotoUpload.astro';
+import ContactPrefs from './ContactPrefs.astro';
 import Attribution from './Attribution.astro';
 import { img } from '../lib/sanity.js';
 // brandLogo and parent are only passed by the brand pages, which sit a level
@@ -52,6 +54,7 @@ const ticks = service.heroTicks || [];
       </div>
       <div class="quotecard__body">
         <form class="formgrid" name="quote-request-service-hero" method="POST" action="/thank-you/"
+              enctype="multipart/form-data"
               data-netlify="true" netlify-honeypot="bot-field" id="quoteForm" novalidate>
           <input type="hidden" name="form-name" value="quote-request-service-hero" />
           <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
@@ -73,6 +76,8 @@ const ticks = service.heroTicks || [];
             <input class="input" type="text" id="f_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
           </div>
           <JobTiles idPrefix="sh_job" selected={service.title} />
+          <ContactPrefs idPrefix="sh_pref" />
+          <PhotoUpload idPrefix="sh" />
 
           <div class="field">
             <label class="label" for="f_message">Message <span class="label__opt">(optional)</span></label>
@@ -80,6 +85,13 @@ const ticks = service.heroTicks || [];
           </div>
 
           <button class="btn btn-ink btn-block" type="submit">Submit</button>
+          {/* The promise sits against the button, not only in the intro above the
+              form. It is the last thing read before committing, and it is the answer
+              to the question that stops people pressing it: then what happens? */}
+          <p class="promise">
+            <Icon name="checkCircle" size={15} stroke={2.3} />
+            We reply within 24 hours, Mon&ndash;Sat. No call-out fee, no obligation.
+          </p>
           <p class="formnote">
             <Icon name="lock" size={15} stroke={2.2} />
             We only use your details to quote your job. No obligation to go ahead.

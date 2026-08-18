@@ -22,16 +22,16 @@ const { settings, services, areas, navBrands } = await sanity.fetch(`{
 
 const NEXT = [
   {
-    title: 'We read it properly',
-    text: 'Your enquiry comes straight to us, not a call centre. If you sent photos, we look at those too.'
+    title: 'Right now',
+    text: 'Your enquiry is already with us, not a call centre. If you sent photos, they came through with it.'
   },
   {
-    title: 'We call you back',
-    text: 'Usually the same day, and always within 24 hours. We will ask a couple of questions so the price is right the first time.'
+    title: 'Within 24 hours, usually same day',
+    text: 'We call you back on the number you gave us, at the time you picked. We will ask a couple of questions so the price is right the first time.'
   },
   {
-    title: 'You get a fixed price',
-    text: 'An upfront price before any work starts, with no call-out fee and nothing added on afterwards.'
+    title: 'Then a fixed price',
+    text: 'An upfront price in writing before any work starts. No call-out fee, nothing added afterwards, and no obligation to go ahead.'
   }
 ];
 ---
@@ -51,11 +51,37 @@ const NEXT = [
         <span class="thanks__tick" aria-hidden="true"><Icon name="check" size={38} stroke={2.6} /></span>
         <h1 class="h1 thanks__title">Thanks — your enquiry is in.</h1>
         <p class="lede thanks__lede">
-          We've got your details and we'll come back to you within 24 hours with an upfront price.
-          If it's urgent, call us now and we'll pick up.
+          We've got your details. You'll hear from us within 24 hours, usually the same day,
+          with an upfront price. If it's urgent, call now and we'll pick up.
         </p>
+        {/* The one thing worth asking for on this page. A photo of the board
+            is what turns an enquiry into a job we can price without a visit,
+            so it is worth paying for - and the discount is the reason someone
+            walks to the meter box instead of closing the tab. */}
+        <div class="offer">
+          <p class="offer__tag">Worth doing now</p>
+          <p class="offer__head">Send a photo of your switchboard, take <span class="hl">10% off</span> the job.</p>
+          <p class="offer__text">
+            Reply to the confirmation email with a photo of your board, or text it to
+            {' '}{settings.phone}. It lets us price the work properly before we arrive, and we'll
+            take 10% off the labour on your quote.
+          </p>
+          <div class="btn-row offer__actions">
+            <a class="btn btn-lime" href={`sms:${settings.phoneHref.replace('tel:', '')}`}>
+              <Icon name="chat" size={17} stroke={2.2} /> Text a photo
+            </a>
+            <a class="btn btn-glass" href={`mailto:${settings.email}?subject=Switchboard%20photo%20for%20my%20quote`}>
+              <Icon name="mail" size={16} stroke={2.2} /> Email a photo
+            </a>
+          </div>
+          <p class="offer__terms">
+            10% off labour on quotes accepted within 30 days. One per property, and it
+            can't be combined with another offer.
+          </p>
+        </div>
+
         <div class="btn-row thanks__actions">
-          <a class="btn btn-lime js-call" href={settings.phoneHref}>
+          <a class="btn btn-glass js-call" href={settings.phoneHref}>
             <Icon name="phone" size={17} stroke={2.2} /> Call {settings.phone}
           </a>
           <a class="btn btn-glass" href="/">Back to the site <Icon name="chevron" size={15} stroke={2.6} /></a>
@@ -70,7 +96,7 @@ const NEXT = [
       <div class="wrap">
         <div class="process__head reveal">
           <p class="eyebrow">What happens next</p>
-          <h2 class="h2">Here's how it goes from here.</h2>
+          <h2 class="h2">What happens from here.</h2>
         </div>
         <ol class="steps steps--3">
           {NEXT.map((s, i) => (

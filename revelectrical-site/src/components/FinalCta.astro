@@ -1,6 +1,8 @@
 ---
 import Icon from './Icon.astro';
 import JobTiles from './JobTiles.astro';
+import PhotoUpload from './PhotoUpload.astro';
+import ContactPrefs from './ContactPrefs.astro';
 import Attribution from './Attribution.astro';
 const { service, settings } = Astro.props;
 ---
@@ -25,6 +27,7 @@ const { service, settings } = Astro.props;
 
     <div class="ctaform reveal reveal-d1">
       <form class="formgrid" name="quote-request-service-footer" method="POST" action="/thank-you/"
+              enctype="multipart/form-data"
             data-netlify="true" netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="quote-request-service-footer" />
         <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
@@ -48,6 +51,8 @@ const { service, settings } = Astro.props;
           <input class="input" type="text" id="fc_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
         </div>
         <JobTiles idPrefix="fc_job" selected={service.title} />
+        <ContactPrefs idPrefix="fc_pref" />
+        <PhotoUpload idPrefix="fc" />
 
         <div class="field">
           <label class="label" for="fc_message">Message <span class="label__opt">(optional)</span></label>
@@ -55,6 +60,13 @@ const { service, settings } = Astro.props;
         </div>
 
         <button class="btn btn-lime btn-block" type="submit">Submit</button>
+        {/* The promise sits against the button, not only in the intro above the
+            form. It is the last thing read before committing, and it is the answer
+            to the question that stops people pressing it: then what happens? */}
+        <p class="promise">
+          <Icon name="checkCircle" size={15} stroke={2.3} />
+          We reply within 24 hours, Mon&ndash;Sat. No call-out fee, no obligation.
+        </p>
         <p class="formnote formnote--light">
           <Icon name="lock" size={15} stroke={2.2} />
           We only use your details to quote your job. No obligation to go ahead.

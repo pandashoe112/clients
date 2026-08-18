@@ -1,0 +1,26 @@
+---
+import Icon from './Icon.astro';
+// Photo upload, on every enquiry form rather than just the homepage one.
+//
+// This is the highest-value field on the form. A photo of the switchboard is
+// the difference between quoting the job and booking a visit to work out
+// whether we can quote it, so it is worth the row it takes up - and the copy
+// says why, because "upload files" on its own gets ignored.
+//
+// The form it sits in must carry enctype="multipart/form-data" or the browser
+// sends the filename and no file.
+const { idPrefix = 'up' } = Astro.props;
+---
+<div class="uploadfield">
+  <span class="label">
+    Photo of your switchboard <span class="label__opt">Optional, but worth it</span>
+  </span>
+  <div class="filerow">
+    <label class="filebtn" for={`${idPrefix}_files`}>
+      <Icon name="upload" size={17} /> Add photos
+    </label>
+    <input type="file" id={`${idPrefix}_files`} name="attachments" multiple accept="image/*,video/*" data-filehint />
+    <span class="filehint">Max 10MB</span>
+  </div>
+  <p class="condfield__why">A photo of the board lets us quote properly instead of booking a look first.</p>
+</div>

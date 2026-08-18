@@ -706,3 +706,25 @@ button{font:inherit}
   text-underline-offset:3px;text-decoration-color:rgba(182,237,62,.5);
   transition:text-decoration-color .16s ease}
 .inlinelink:hover{text-decoration-color:var(--lime)}
+
+/* ---------- thank-you offer ---------- */
+/* A card inside the hero rather than a band further down. The page is read
+   once, for about five seconds, and anything below the fold on it may as well
+   not exist. */
+.offer{
+  margin:34px auto 0;max-width:600px;text-align:left;
+  background:rgba(244,246,239,.07);border:1.5px solid rgba(182,237,62,.4);
+  border-radius:var(--r-lg);padding:clamp(22px,3vw,30px);
+}
+.offer__tag{
+  margin:0;display:inline-block;background:var(--lime);color:var(--ink);
+  font-size:.6875rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 12px;border-radius:var(--r-pill);
+}
+.offer__head{
+  margin:16px 0 0;font-family:var(--font-display);font-weight:700;
+  font-size:clamp(1.35rem,2.3vw,1.75rem);line-height:1.18;letter-spacing:-.025em;
+}
+.offer__text{margin:12px 0 0;font-size:.9375rem;line-height:1.65;color:var(--muted-light)}
+.offer__actions{margin-top:20px}
+.offer__terms{margin:16px 0 0;font-size:.75rem;line-height:1.5;color:rgba(244,246,239,.55)}

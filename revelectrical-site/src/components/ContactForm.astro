@@ -1,6 +1,8 @@
 ---
 import Icon from './Icon.astro';
 import JobTiles from './JobTiles.astro';
+import PhotoUpload from './PhotoUpload.astro';
+import ContactPrefs from './ContactPrefs.astro';
 import Attribution from './Attribution.astro';
 import { img, alt } from '../lib/sanity.js';
 const { page, settings, services } = Astro.props;
@@ -70,15 +72,10 @@ const { page, settings, services } = Astro.props;
         </div>
 
         <JobTiles idPrefix="c_job" />
+        <ContactPrefs idPrefix="c_pref" />
+        <PhotoUpload idPrefix="c" />
 
         <div>
-          <span class="label">Upload photos or video <span class="label__opt">(optional)</span></span>
-          <div class="filerow">
-            <label class="filebtn" for="f_files"><Icon name="upload" size={17} /> Upload files</label>
-            <input type="file" id="f_files" name="attachments" multiple accept="image/*,video/*" />
-            <span class="filehint" id="fileHint">Max file size 10MB</span>
-          </div>
-        </div>
 
         <div>
           <label class="label" for="f_message">Message <span class="label__opt">(optional)</span></label>
@@ -86,6 +83,13 @@ const { page, settings, services } = Astro.props;
         </div>
 
         <button class="btn btn-ink btn-block" type="submit" id="submitBtn">Submit</button>
+        {/* The promise sits against the button, not only in the intro above the
+            form. It is the last thing read before committing, and it is the answer
+            to the question that stops people pressing it: then what happens? */}
+        <p class="promise">
+          <Icon name="checkCircle" size={15} stroke={2.3} />
+          We reply within 24 hours, Mon&ndash;Sat. No call-out fee, no obligation.
+        </p>
         <p class="formnote">
           <Icon name="lock" size={15} stroke={2.2} />
           We only use your details to quote your job. No obligation to go ahead.

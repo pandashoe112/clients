@@ -87,6 +87,11 @@ var read = function () {
       : source === 'bing' ? 'Microsoft Ads'
       : /facebook|instagram|meta/.test(source) ? 'Meta Ads'
       : titled(source) + ' ads';
+  } else if (medium === 'organic' || medium === 'seo') {
+    // Analytics tooling and some link builders tag organic traffic explicitly.
+    // Without this it lands in the campaign bucket and an SEO lead gets
+    // reported as a campaign, which is the opposite of the point.
+    data.channel = 'Organic SEO' + (source ? ' - ' + titled(source) : '');
   } else if (source) {
     // A campaign we tagged ourselves but did not label as paid - a QR code on a
     // van, a link in a quote, a partner listing.

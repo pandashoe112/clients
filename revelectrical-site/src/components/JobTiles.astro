@@ -45,7 +45,7 @@ const MATCH = [
 const preset = selected
   ? (MATCH.find(([re]) => re.test(selected)) || [])[1] || ''
   : '';
-const evOpen = preset === 'EV charging';
+const evOpen = preset === 'EV charging' || preset === 'Solar & battery';
 ---
 {/* A fieldset with a real legend, so a screen reader announces the group
     before reading twelve checkboxes. aria-describedby points every box at the
@@ -99,4 +99,20 @@ const evOpen = preset === 'EV charging';
     autocomplete="off"
     placeholder="Car make and model, e.g. Tesla Model Y" />
   <p class="condfield__why">Helps us match the charger to your car's plug and charge rate.</p>
+
+  {/* The question Ben says separates us from a general electrician: we are
+      accredited to design the charger around an existing solar or battery
+      setup. Knowing the answer before the callback means he can lead with it
+      rather than discover it halfway through the conversation. */}
+  <fieldset class="tileset" style="margin-top:16px">
+    <legend class="label">Do you have solar or a battery? <span class="label__opt">Optional</span></legend>
+    <div class="tilegrid tilegrid--slim">
+      {['Solar', 'Solar + battery', 'Neither yet'].map((opt, i) => (
+        <div class="tile">
+          <input type="radio" name="solar_or_battery" id={`${idPrefix}_sb${i}`} value={opt} />
+          <label for={`${idPrefix}_sb${i}`}>{opt}</label>
+        </div>
+      ))}
+    </div>
+  </fieldset>
 </div>

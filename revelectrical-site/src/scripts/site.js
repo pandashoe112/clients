@@ -134,14 +134,18 @@ import { attribution, leadType, fillAttribution } from './attribution.js';
     });
   }
 
-  var files = document.getElementById('f_files');
-  var fileHint = document.getElementById('fileHint');
-  if (files && fileHint){
+  // Every form carries an upload row now, so the count is bound per input
+  // rather than to one id that only existed on the homepage.
+  document.querySelectorAll('[data-filehint]').forEach(function(files){
+    var hint = files.parentElement.querySelector('.filehint');
+    if (!hint) return;
+    var idle = hint.textContent;
     files.addEventListener('change', function(){
       var n = files.files.length;
-      fileHint.textContent = n ? (n === 1 ? '1 file selected' : n + ' files selected') : 'Max file size 10MB';
+      hint.textContent = n ? (n === 1 ? '1 photo added' : n + ' photos added') : idle;
+      hint.classList.toggle('is-on', n > 0);
     });
-  }
+  });
 
   var trackEvent = function(name, extra){
     if (typeof window.gtag === 'function') window.gtag('event', name, extra || {});
@@ -235,10 +239,16 @@ import { attribution, leadType, fillAttribution } from './attribution.js';
     // charging, typed it in, then changed their mind.
     var panel = set.nextElementSibling;
     if (panel && panel.getAttribute('data-cond') === 'ev'){
-      var wanted = picked.some(function(b){ return b.value === 'EV charging'; });
+      // Solar and battery owners get the same panel: the car question is still
+      // relevant, and the solar question is the whole point of it.
+      var wanted = picked.some(function(b){
+        return b.value === 'EV charging' || b.value === 'Solar & battery';
+      });
       if (!wanted && !panel.hidden){
-        var input = panel.querySelector('input');
-        if (input) input.value = '';
+        panel.querySelectorAll('input').forEach(function(input){
+          if (input.type === 'radio') input.checked = false;
+          else input.value = '';
+        });
       }
       panel.hidden = !wanted;
     }
@@ -306,11 +316,17 @@ import { attribution, leadType, fillAttribution } from './attribution.js';
         subject.value = subject.value.replace('New Lead', 'New ' + leadType + ' Lead');
       }
 
-      // Tracking fields that came back empty are disabled rather than sent.
-      // A disabled input is not serialised, so the notification shows the four
-      // lines that have an answer instead of ten, six of them blank.
-      form.querySelectorAll('[data-attr]').forEach(function(el){
-        if (!el.value) el.disabled = true;
+      // Anything left empty is disabled rather than sent. A disabled input is
+      // not serialised, so the notification lists the questions that got an
+      // answer instead of padding the email with blank lines - which is what
+      // ten tracking fields and four optional ones would otherwise do.
+      //
+      // form-name and bot-field are how Netlify routes and filters the
+      // submission, and subject titles it, so those three always go.
+      var KEEP = { 'form-name': 1, 'bot-field': 1, subject: 1 };
+      form.querySelectorAll('input, textarea, select').forEach(function(el){
+        if (KEEP[el.name] || el.type === 'radio' || el.type === 'checkbox') return;
+        if (el.type === 'file' ? el.files.length === 0 : !el.value) el.disabled = true;
       });
       trackEvent('generate_lead', {form: form.getAttribute('name') || 'enquiry'});
       if (btn){ btn.textContent = 'Sending...'; btn.disabled = true; }

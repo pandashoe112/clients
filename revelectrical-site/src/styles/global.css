@@ -523,3 +523,28 @@ textarea.input{min-height:132px;resize:vertical}
 
 .dropdown__pc{color:var(--muted);font-weight:600;font-size:.8125rem;margin-left:4px}
 .dropdown__link--all{border-top:1px solid var(--line);margin-top:4px;padding-top:12px;font-weight:700}
+
+/* ---------- upload, preferences, promise ---------- */
+/* The upload row went from being a homepage extra to the field most likely to
+   turn an enquiry into a quotable job, so it says why it is worth doing. */
+.uploadfield{display:grid;gap:0}
+.filehint.is-on{color:var(--ink);font-weight:700}
+
+/* Two questions side by side rather than stacked: they are both one-line
+   answers, and stacking them added 120px to a form that is already tall. */
+.prefs{display:grid;gap:14px}
+@media (min-width:520px){.prefs{grid-template-columns:3fr 4fr;gap:14px}}
+.tilegrid--slim{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.tilegrid--slim.tilegrid--four{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:640px){
+  .tilegrid--slim{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tilegrid--slim.tilegrid--four{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+.tilegrid--slim .tile label{min-height:40px;padding:7px 6px;font-size:.8125rem;text-align:center;justify-content:center}
+
+.promise{
+  display:flex;align-items:flex-start;gap:8px;margin:-6px 0 0;
+  font-size:.8125rem;font-weight:600;line-height:1.5;color:var(--muted);
+}
+.promise svg{flex:none;margin-top:2px;color:var(--lime-600)}
+.bg-ink .promise,.bg-deep .promise{color:var(--muted-light)}
