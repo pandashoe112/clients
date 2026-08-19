@@ -151,10 +151,42 @@ details.notes[open] summary::after{content:'\2212'}
 @media (min-width:1060px){.foot{margin-inline:-50px;padding-inline:50px;border-radius:20px 20px 0 0}}
 
 @media print{
-  body{background:#fff}
-  .mast,.win,.foot{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  details.notes{border:0} details.notes[open] summary::after{content:''}
-  .sec,.stat,.phase{break-inside:avoid}
+  /* Printed on paper, so force the light palette regardless of the machine's
+     theme and drop the furniture that only makes sense on screen. */
+  :root{
+    --bg:#FFFFFF; --panel:#FFFFFF; --panel-2:#F7F9F3;
+    --fg:#032F35; --fg-dim:#3D5B5E; --fg-faint:#6B8385;
+    --rule:rgba(3,47,53,.22); --rule-soft:rgba(3,47,53,.12);
+    --up:#2F6410; --up-bg:rgba(182,237,62,.35);
+    --bar:rgba(3,47,53,.14); --bar-fill:#0B3A40;
+  }
+  body{background:#fff;font-size:10.5pt}
+  .page{max-width:none;padding:0}
+  /* A4 is 794px at 96dpi, below the 940px three-column breakpoint, so without
+     this the three cards wrap 2+1 and leave an orphan. */
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .stat{padding:14px}
+  .stat h3{font-size:.9rem;min-height:2.6em}
+  .stat__num{font-size:2rem}
+  .phases{grid-template-columns:repeat(3,1fr)}
+  .mast,.foot{-webkit-print-color-adjust:exact;print-color-adjust:exact;margin:0;border-radius:0}
+  .mast{padding:16mm 14mm 11mm}
+  .foot{padding:8mm 14mm;margin:10mm 0 0}
+  .stats,.sec,.notes__body{padding-left:14mm;padding-right:14mm}
+  .sec{padding-top:9mm}
+  .sec h2{text-wrap:balance}
+  /* Cards and rows must not split. Sections and tables must be allowed to,
+     or a fifteen-row table taller than a page leaves a blank one behind it. */
+  .stat,.phase,tr{break-inside:avoid}
+  .sec h2,.sec__tag,.say{break-after:avoid}
+  thead{display:table-header-group}
+  table{min-width:0}
+  /* The footnotes are a disclosure on screen; on paper they are the last
+     section, opened, with the toggle affordance gone. */
+  details.notes{border:0;margin-top:8mm;background:none}
+  details.notes summary{padding:0 14mm;font-family:var(--display);font-weight:800;font-size:1.15rem}
+  details.notes summary::after{content:''}
+  .delta,.pill,.phase__when{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
 
