@@ -113,6 +113,7 @@ p{margin:0}
   border-radius:999px;padding:8px 16px;font-weight:700;font-size:.9375rem;
 }
 .termchip b{color:var(--lime);font-weight:800}
+.termchip--sum{background:transparent;border-style:dashed}
 
 /* ---------- tables ---------- */
 .tablewrap{margin:22px 0 0;overflow-x:auto;border:1px solid var(--rule);border-radius:14px;background:var(--panel)}
@@ -220,15 +221,18 @@ details.notes[open] summary::after{content:'\2212'}
     <p class="win__say">
       Every click the old site earned came from someone typing your name. These two searched for the job.
     </p>
+    <!-- The source says two clicks came from these two terms. It does not say
+         which term got which, so neither does this. -->
     <div class="terms">
-      <span class="termchip">&ldquo;electrician williamstown&rdquo; <b>1 visit</b></span>
-      <span class="termchip">&ldquo;electrician near me&rdquo; <b>1 visit</b></span>
+      <span class="termchip">&ldquo;electrician williamstown&rdquo;</span>
+      <span class="termchip">&ldquo;electrician near me&rdquo;</span>
+      <span class="termchip termchip--sum"><b>2 visits</b> between them</span>
     </div>
   </div>
 
   <section class="sec">
     <span class="sec__tag">Section 01</span>
-    <h2>Switchboards: nothing &rarr; <span class="hl">115 a week</span></h2>
+    <h2>Switchboard searches: 0 &rarr; <span class="hl">115 appearances</span></h2>
     <p class="say">All new this week. Each one matches a page that only exists on the new site.</p>
     <div class="tablewrap">
       <table>
@@ -240,7 +244,7 @@ details.notes[open] summary::after{content:'\2212'}
 
   <section class="sec">
     <span class="sec__tag">Section 02</span>
-    <h2>Your existing searches <span class="hl">all grew</span></h2>
+    <h2>Your biggest searches were <span class="hl">shown more often</span></h2>
     <p class="say">Present in both weeks, so this is real growth. Bars show size against your largest term.</p>
     <div class="tablewrap">
       <table>
@@ -252,7 +256,7 @@ details.notes[open] summary::after{content:'\2212'}
 
   <section class="sec">
     <span class="sec__tag">Section 03</span>
-    <h2>Five searches <span class="hl">climbed</span></h2>
+    <h2>Five searches <span class="hl">climbed Google's rankings</span></h2>
     <p class="say">Lower is better. Clicks arrive in volume from about position 10 &mdash; page one.</p>
     <div class="tablewrap">
       <table>
@@ -264,10 +268,10 @@ details.notes[open] summary::after{content:'\2212'}
 
   <section class="sec">
     <span class="sec__tag">Section 04</span>
-    <h2>Nothing <span class="hl">went backwards</span></h2>
+    <h2>Your existing rankings <span class="hl">held their position</span></h2>
     <p class="say">
-      Site-wide average reads 44.7 &rarr; 49.8 &mdash; that is new pages landing at positions 70&ndash;90 and dragging
-      the average, not existing terms slipping.
+      The site-wide average reads 44.7 &rarr; 49.8, which looks like a drop. It is brand-new pages landing
+      at positions 70&ndash;90 and pulling the average down &mdash; not a single existing term losing ground.
     </p>
     <div class="tablewrap">
       <table>
