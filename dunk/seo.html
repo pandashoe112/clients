@@ -65,7 +65,6 @@
   .band--void{background:var(--void);color:var(--on-band)}
   .band--purple p,.band--void p{color:var(--on-band-dim)}
 
-  /* centred heading group, used at the top of most bands */
   .head{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;margin-bottom:clamp(38px,5vw,64px)}
   .head h2{max-width:19ch}
   .head p{max-width:56ch;color:var(--ink-dim);font-size:1.0625rem}
@@ -83,9 +82,15 @@
   }
   .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--coral)}
 
+  /* Disclaimer under any set of figures. Every strong results section in the
+     references carries one; on an SEO page it is the difference between a
+     claim and a lie. */
+  .caveat{margin:22px auto 0;max-width:74ch;text-align:center;font-size:.8125rem;line-height:1.55;color:var(--ink-faint)}
+  .band--void .caveat{color:rgba(244,240,254,.5)}
+
   /* ── logo ─────────────────────────────────────────────────────────
-     Purple chip, white mark. Swap the <svg> inside .chip for the real
-     Dunk asset — the chip already supplies the purple ground. */
+     Purple chip, white mark. Swap the <svg> for the real Dunk asset —
+     the chip already supplies the purple ground. */
   .logo{display:inline-flex;align-items:center;gap:11px;text-decoration:none;font-weight:800;letter-spacing:-.045em;font-size:1.3rem}
   .chip{width:36px;height:36px;border-radius:11px;background:var(--purple);display:grid;place-items:center;flex:none}
   .band--purple .chip,.band--void .chip{background:rgba(244,240,254,.14)}
@@ -109,7 +114,6 @@
   .btn--solid{background:var(--coral);color:#26120A}
   .btn--dark{background:var(--purple);color:var(--on-band)}
   .band--purple .btn--dark,.band--void .btn--dark{background:var(--on-band);color:var(--purple)}
-  .btn--ghost{border-color:var(--rule);color:var(--ink)}
   .btn--sm{padding:10px 17px;font-size:.875rem}
 
   /* ── hero ─────────────────────────────────────────────────────────── */
@@ -130,27 +134,27 @@
     color:var(--on-band);font-family:inherit;font-size:.9375rem;
   }
   .capture input::placeholder{color:rgba(244,240,254,.5)}
-  .microproof{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;font-size:.8125rem;color:var(--on-band-dim)}
-  .stars{display:flex;gap:2px}
-  .stars svg{width:14px;height:14px;fill:var(--coral)}
+  .microproof{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;font-size:.8125rem;color:var(--on-band-dim)}
+  .microproof b{color:var(--on-band);font-weight:600}
 
   .doodle{position:absolute;color:var(--coral);opacity:.9;pointer-events:none}
-  .doodle--hero{right:6%;top:22%;width:120px;display:none}
+  .doodle--hero{right:6%;top:24%;width:118px;display:none}
   @media(min-width:1000px){.doodle--hero{display:block}}
 
-  /* ── trust strip ──────────────────────────────────────────────────── */
   .trust{border-top:1px solid rgba(244,240,254,.14);margin-top:clamp(46px,6vw,74px);padding-top:26px;display:flex;flex-direction:column;align-items:center;gap:18px}
   .trust__label{font-family:var(--mono);font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,240,254,.5)}
   .trust__row{display:flex;flex-wrap:wrap;gap:14px 34px;justify-content:center;align-items:center}
   .trust__row b{font-weight:700;font-size:1.0625rem;letter-spacing:-.03em;color:rgba(244,240,254,.68)}
 
-  /* ── figures ──────────────────────────────────────────────────────── */
-  .figs{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-  .fig{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:10px}
-  .fig__n{font-size:clamp(2.6rem,5vw,3.4rem);font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums;color:var(--purple)}
+  /* ── headline figures ─────────────────────────────────────────────
+     No card chrome — the number carries it. */
+  .figs{display:grid;gap:clamp(30px,4vw,46px);grid-template-columns:repeat(auto-fit,minmax(230px,1fr));text-align:center}
+  .fig{display:flex;flex-direction:column;gap:8px;align-items:center}
+  .fig__n{font-size:clamp(3rem,6vw,4.4rem);font-weight:800;letter-spacing:-.055em;line-height:1;font-variant-numeric:tabular-nums;color:var(--purple)}
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .fig__n{color:var(--violet)}}
   :root[data-theme="dark"] .fig__n{color:var(--violet)}
-  .fig p{font-size:.9375rem;color:var(--ink-dim)}
+  .fig h3{max-width:16ch}
+  .fig p{font-size:.9375rem;color:var(--ink-dim);max-width:32ch}
 
   /* ── service cards ────────────────────────────────────────────────── */
   .cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(258px,1fr))}
@@ -164,31 +168,27 @@
 
   /* ── phases ───────────────────────────────────────────────────────── */
   .phases{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));counter-reset:p}
-  .phase{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:11px;counter-increment:p;position:relative}
-  .phase::before{
-    content:"0" counter(p);font-family:var(--mono);font-size:.75rem;font-weight:600;
-    letter-spacing:.1em;color:var(--coral);
-  }
+  .phase{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:11px;counter-increment:p}
+  .phase::before{content:"0" counter(p);font-family:var(--mono);font-size:.75rem;font-weight:600;letter-spacing:.1em;color:var(--coral)}
   .phase span{font-family:var(--mono);font-size:.75rem;color:var(--ink-faint);letter-spacing:.06em}
   .phase p{font-size:.9375rem;color:var(--ink-dim)}
 
-  /* ── results grid ─────────────────────────────────────────────────── */
-  .results{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+  /* ── results grid ─────────────────────────────────────────────────
+     Stat cards and quote cards interleave in one grid, each carrying the
+     client it belongs to, so no figure floats free of its source. */
+  .results{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(252px,1fr))}
   .res{border-radius:var(--r-lg);padding:26px;display:flex;flex-direction:column;gap:12px;color:var(--ink);background:var(--c1)}
-  .res:nth-child(2){background:var(--c2)}
-  .res:nth-child(3){background:var(--c3)}
-  .res:nth-child(4){background:var(--c4)}
-  .res:nth-child(5){background:var(--c5)}
+  .res:nth-child(2){background:var(--c3)}
+  .res:nth-child(3){background:var(--c2)}
+  .res:nth-child(4){background:var(--c5)}
+  .res:nth-child(5){background:var(--c4)}
+  .res--wide{grid-column:span 1}
+  @media(min-width:900px){.res--wide{grid-column:span 2}}
   .res__n{font-size:clamp(2.2rem,4vw,2.9rem);font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
   .res p{font-size:.9rem;line-height:1.5;color:var(--ink);opacity:.84}
-  .res cite{font-style:normal;font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-top:auto}
-
-  /* ── quote ────────────────────────────────────────────────────────── */
-  .quote{max-width:760px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px}
-  .quote blockquote{margin:0;font-size:clamp(1.3rem,2.6vw,1.85rem);font-weight:600;letter-spacing:-.03em;line-height:1.28;text-wrap:balance}
-  .quote footer{display:flex;align-items:center;gap:11px;font-size:.875rem;color:var(--ink-dim)}
-  .avatar{width:38px;height:38px;border-radius:50%;background:var(--c2);flex:none}
-  .placeholder{outline:2px dashed var(--coral);outline-offset:8px;border-radius:6px}
+  .res cite{font-style:normal;font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;opacity:.62;margin-top:auto}
+  .res--quote p{font-size:1.0625rem;line-height:1.42;font-weight:600;letter-spacing:-.02em;opacity:1}
+  .placeholder{outline:2px dashed var(--coral);outline-offset:-14px}
 
   /* ── pricing ──────────────────────────────────────────────────────── */
   .tiers{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));align-items:start}
@@ -212,11 +212,9 @@
   .faq details[open] summary::after{content:"\2212"}
   .faq details>p{padding:0 0 24px;color:var(--ink-dim);font-size:.9688rem}
 
-  /* ── close ────────────────────────────────────────────────────────── */
-  .close{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;position:relative}
+  .close{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px}
   .close h2{max-width:16ch;font-size:clamp(2.1rem,5.4vw,3.6rem)}
 
-  /* ── footer ───────────────────────────────────────────────────────── */
   .foot{background:var(--void);color:var(--on-band);padding:64px 0 40px}
   .foot__grid{display:grid;gap:38px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:44px}
   .foot h4{font-family:var(--mono);font-size:.6875rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,240,254,.5);margin:0 0 16px}
@@ -225,11 +223,11 @@
   .foot a:hover{color:var(--on-band)}
   .foot__base{border-top:1px solid rgba(244,240,254,.14);padding-top:24px;display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;font-size:.8125rem;color:rgba(244,240,254,.5)}
 
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 }
 </style>
 
-<!-- ══ nav ══ -->
 <nav class="nav">
   <div class="wrap nav__in">
     <a class="logo" href="#top">
@@ -249,7 +247,6 @@
   </div>
 </nav>
 
-<!-- ══ hero ══ -->
 <header class="band band--purple hero" id="top">
   <svg class="doodle doodle--hero" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
     <path d="M112 8c-8 22-26 44-52 56M60 64c-14 6-28 8-42 6"/>
@@ -258,47 +255,34 @@
   <div class="wrap hero__in">
     <span class="eyebrow">SEO for trade &amp; service businesses</span>
     <h1>Get found by the people already searching for you</h1>
-    <p class="hero__sub">We build fast sites and rank them for the searches that turn into jobs — not vanity keywords. Melbourne trades and service businesses who are tired of paying for clicks they should be getting free.</p>
+    <p class="hero__sub">We build fast sites and rank them for the searches that turn into jobs &mdash; not vanity keywords. Melbourne trades and service businesses tired of paying for clicks they should be getting free.</p>
 
     <form class="capture" id="audit" onsubmit="return false">
-      <label class="visually-hidden" for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your email</label>
+      <label class="sr" for="email">Your email</label>
       <input id="email" type="email" placeholder="you@yourbusiness.com.au" autocomplete="email">
       <button class="btn btn--solid" type="submit">Get a free audit</button>
     </form>
 
-    <div class="microproof">
-      <span class="stars" aria-label="Five star rated">
-        <svg viewBox="0 0 20 20"><path d="M10 1.5 12.6 7l6 .8-4.3 4.2 1 6-5.3-2.9-5.3 2.9 1-6L1.4 7.8l6-.8z"/></svg>
-        <svg viewBox="0 0 20 20"><path d="M10 1.5 12.6 7l6 .8-4.3 4.2 1 6-5.3-2.9-5.3 2.9 1-6L1.4 7.8l6-.8z"/></svg>
-        <svg viewBox="0 0 20 20"><path d="M10 1.5 12.6 7l6 .8-4.3 4.2 1 6-5.3-2.9-5.3 2.9 1-6L1.4 7.8l6-.8z"/></svg>
-        <svg viewBox="0 0 20 20"><path d="M10 1.5 12.6 7l6 .8-4.3 4.2 1 6-5.3-2.9-5.3 2.9 1-6L1.4 7.8l6-.8z"/></svg>
-        <svg viewBox="0 0 20 20"><path d="M10 1.5 12.6 7l6 .8-4.3 4.2 1 6-5.3-2.9-5.3 2.9 1-6L1.4 7.8l6-.8z"/></svg>
-      </span>
-      <span>20-minute audit &middot; No lock-in contracts &middot; Melbourne-based</span>
-    </div>
+    <p class="microproof"><b>Free 20-minute audit.</b> No lock-in contract. You keep the findings either way.</p>
 
     <div class="trust">
       <span class="trust__label">Currently ranking</span>
-      <div class="trust__row">
-        <b>Revelectrical</b><b>DetailSplash</b><b>Your business</b>
-      </div>
+      <div class="trust__row"><b>Revelectrical</b><b>DetailSplash</b></div>
     </div>
   </div>
 </header>
 
-<!-- ══ figures ══ -->
 <section class="band">
   <div class="wrap">
     <div class="head">
       <span class="eyebrow">Week one, not month six</span>
       <h2>Results start showing before the invoice does</h2>
-      <p>Figures below are from a live client site in its first week after launch, measured against the two weeks prior.</p>
     </div>
     <div class="figs">
       <div class="fig">
         <span class="fig__n">10</span>
         <h3>New terms ranking</h3>
-        <p>Searches the business had no recorded appearances for the week before &mdash; live in Google inside seven days.</p>
+        <p>Searches with no recorded appearances the week before &mdash; live in Google inside seven days.</p>
       </div>
       <div class="fig">
         <span class="fig__n">+217%</span>
@@ -308,13 +292,13 @@
       <div class="fig">
         <span class="fig__n">$0</span>
         <h3>Spent on ads</h3>
-        <p>Every one of those positions is earned. Turn the ad spend off and the traffic stays where it is.</p>
+        <p>Every position earned. Turn ad spend off and the traffic stays where it is.</p>
       </div>
     </div>
+    <p class="caveat">Figures are from one client&rsquo;s own Search Console, covering their first week after launch against the two weeks prior. Search results depend on your market, your competition and where you start &mdash; yours will differ.</p>
   </div>
 </section>
 
-<!-- ══ services ══ -->
 <section class="band band--panel" id="services">
   <div class="wrap">
     <div class="head">
@@ -331,7 +315,7 @@
       <div class="card">
         <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
         <h3>Local &amp; map pack</h3>
-        <p>Suburb pages that read like they were written by someone who works there, plus a Google Business Profile that actually converts.</p>
+        <p>Suburb pages that read like someone who works there wrote them, plus a Google Business Profile that actually converts.</p>
       </div>
       <div class="card">
         <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9m5 10V5m5 14v-7m5 7V8"/></svg></span>
@@ -347,7 +331,6 @@
   </div>
 </section>
 
-<!-- ══ process ══ -->
 <section class="band" id="process">
   <div class="wrap">
     <div class="head">
@@ -368,19 +351,17 @@
       <div class="phase">
         <span>Ongoing</span>
         <h3>Rank &amp; report</h3>
-        <p>New pages as the terms open up, and a monthly report showing exactly what shifted. Cancel any month &mdash; the work stays yours.</p>
+        <p>New pages as terms open up, and a monthly report showing exactly what shifted. Cancel any month &mdash; the work stays yours.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ results ══ -->
 <section class="band band--void" id="results">
   <div class="wrap">
     <div class="head">
       <span class="eyebrow">Real numbers</span>
       <h2>What that looks like in practice</h2>
-      <p>Pulled from client search consoles. Placeholder cards are marked &mdash; swap them as more data comes in.</p>
     </div>
     <div class="results">
       <div class="res">
@@ -389,36 +370,29 @@
         <cite>Revelectrical</cite>
       </div>
       <div class="res">
+        <span class="res__n">80KB</span>
+        <p>Page weight after rebuild, down from 2.5MB. Load speed is a ranking factor and a conversion factor.</p>
+        <cite>DetailSplash</cite>
+      </div>
+      <div class="res res--quote res--wide placeholder">
+        <p>[ Client quote goes here &mdash; something specific about leads or phone calls, not &ldquo;great to work with&rdquo; ]</p>
+        <cite>[ Name ], [ Business ]</cite>
+      </div>
+      <div class="res">
         <span class="res__n">+217%</span>
         <p>Impression growth on &ldquo;solar battery installers melbourne&rdquo; across the first two weeks.</p>
         <cite>Revelectrical</cite>
       </div>
       <div class="res">
-        <span class="res__n">80KB</span>
-        <p>Page weight after rebuild, down from 2.5MB. Load time is a ranking factor and a conversion factor.</p>
-        <cite>DetailSplash</cite>
-      </div>
-      <div class="res">
-        <span class="res__n">&mdash;</span>
-        <p>Placeholder. Drop in a third client result here once the next month of data lands.</p>
-        <cite>To confirm</cite>
+        <span class="res__n">$0</span>
+        <p>Ad spend behind any of it. These are earned positions, not bought clicks.</p>
+        <cite>Both clients</cite>
       </div>
     </div>
+    <p class="caveat">Every figure comes from the named client&rsquo;s own Search Console or a measured page weight, and is specific to that business. Results vary with your market, competition and starting position.</p>
   </div>
 </section>
 
-<!-- ══ quote ══ -->
-<section class="band band--panel">
-  <div class="wrap quote">
-    <blockquote class="placeholder">[ Client quote goes here &mdash; something specific about leads or phone calls, not &ldquo;great to work with&rdquo; ]</blockquote>
-    <footer>
-      <span class="avatar" aria-hidden="true"></span>
-      <span>[ Name ], [ Business ]</span>
-    </footer>
-  </div>
-</section>
-
-<!-- ══ pricing ══ -->
 <section class="band" id="pricing">
   <div class="wrap">
     <div class="head">
@@ -465,7 +439,6 @@
   </div>
 </section>
 
-<!-- ══ faq ══ -->
 <section class="band band--panel">
   <div class="wrap">
     <div class="head">
@@ -487,7 +460,7 @@
       </details>
       <details>
         <summary>What if I already run Google Ads?</summary>
-        <p>Keep them running. SEO and ads answer different searches. The point of SEO is that you stop paying for the clicks you should already own, so the ad budget can go somewhere it earns more.</p>
+        <p>Keep them running. SEO and ads answer different searches. The point of SEO is that you stop paying for clicks you should already own, so the ad budget can go somewhere it earns more.</p>
       </details>
       <details>
         <summary>Which businesses is this for?</summary>
@@ -497,14 +470,13 @@
   </div>
 </section>
 
-<!-- ══ close ══ -->
 <section class="band band--purple">
   <div class="wrap close">
     <span class="eyebrow">Free, no pitch</span>
     <h2>Find out what you&rsquo;re missing out on</h2>
     <p>Twenty minutes, your actual numbers, and a list of what we&rsquo;d fix first. You keep the findings either way.</p>
     <form class="capture" onsubmit="return false">
-      <label for="email2" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your email</label>
+      <label class="sr" for="email2">Your email</label>
       <input id="email2" type="email" placeholder="you@yourbusiness.com.au" autocomplete="email">
       <button class="btn btn--solid" type="submit">Book the audit</button>
     </form>
@@ -512,7 +484,6 @@
   </div>
 </section>
 
-<!-- ══ footer ══ -->
 <footer class="foot">
   <div class="wrap">
     <div class="foot__grid">
