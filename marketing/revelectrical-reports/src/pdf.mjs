@@ -24,13 +24,24 @@ await p.evaluate(() => document.fonts.ready);
 await p.evaluate(() => document.querySelectorAll('details').forEach((d) => (d.open = true)));
 await p.emulateMedia({ media: 'print' });
 await p.waitForTimeout(300);
-// Zero margins: the masthead and footer are full-bleed bands, and the print
-// stylesheet puts the 14mm gutter on the content instead.
+// One continuous page, not A4 sheets. The page height is measured from the
+// document itself after print styles are applied, so the PDF is a single tall
+// page with nothing split across a break.
+//
+// Width is A4's 794px at 96dpi, which keeps the three stat cards on one row
+// and the type at a sensible measure; only the height is unusual.
+const WIDTH = 794;
+await p.setViewportSize({ width: WIDTH, height: 1400 });
+await p.waitForTimeout(200);
+const height = await p.evaluate(() => Math.ceil(document.documentElement.scrollHeight));
+
 await p.pdf({
   path: OUT,
-  format: 'A4',
+  width: WIDTH + 'px',
+  height: height + 'px',
   printBackground: true,
+  pageRanges: '1',
   margin: { top: '0mm', bottom: '0mm', left: '0mm', right: '0mm' }
 });
 await b.close();
-console.log(OUT);
+console.log(OUT, WIDTH + 'x' + height + 'px, one page');
