@@ -1,0 +1,554 @@
+<title>Dunk SEO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+
+<style>
+/* ── tokens ───────────────────────────────────────────────────────────
+   Brand purples hold their value in both themes: they are the identity,
+   not a surface. Only the light-ground tokens flip. */
+:root{
+  --void:#17092E; --purple:#2E1065; --violet:#8B5CF6; --coral:#FF6A3D;
+  --paper:#F4F0FB; --panel:#FFFFFF;
+  --ink:#1A1424; --ink-dim:#5B5170; --ink-faint:#8B82A0;
+  --rule:rgba(26,20,36,.12); --rule-soft:rgba(26,20,36,.07);
+  --on-band:#F4F0FE; --on-band-dim:rgba(244,240,254,.70);
+  --c1:#F7E6A8; --c2:#DCD3F7; --c3:#CFE8DA; --c4:#F8D5CB; --c5:#D2E3F7;
+  --r:16px; --r-lg:24px; --r-pill:999px;
+  --display:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#100A1C; --panel:#191130;
+    --ink:#F2EEFA; --ink-dim:rgba(242,238,250,.68); --ink-faint:rgba(242,238,250,.45);
+    --rule:rgba(242,238,250,.14); --rule-soft:rgba(242,238,250,.08);
+    --c1:#4A3D14; --c2:#302554; --c3:#1E3A2C; --c4:#4A2A20; --c5:#1F3350;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#100A1C; --panel:#191130;
+  --ink:#F2EEFA; --ink-dim:rgba(242,238,250,.68); --ink-faint:rgba(242,238,250,.45);
+  --rule:rgba(242,238,250,.14); --rule-soft:rgba(242,238,250,.08);
+  --c1:#4A3D14; --c2:#302554; --c3:#1E3A2C; --c4:#4A2A20; --c5:#1F3350;
+}
+
+@layer base,components;
+
+@layer base{
+  *,*::before,*::after{box-sizing:border-box}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--display);font-size:16px;line-height:1.6;font-weight:400;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-weight:700;letter-spacing:-.035em;line-height:1.04;margin:0;text-wrap:balance}
+  h1{font-size:clamp(2.5rem,6.4vw,4.35rem);letter-spacing:-.04em}
+  h2{font-size:clamp(1.95rem,4.2vw,3.05rem)}
+  h3{font-size:1.125rem;line-height:1.25;letter-spacing:-.02em}
+  p{margin:0;max-width:62ch}
+  a{color:inherit;text-underline-offset:.2em}
+  :focus-visible{outline:2px solid var(--coral);outline-offset:3px;border-radius:4px}
+  svg{display:block}
+}
+
+@layer components{
+  .wrap{width:100%;max-width:1140px;margin:0 auto;padding:0 24px}
+  .band{padding:clamp(68px,8.5vw,124px) 0}
+  .band--panel{background:var(--panel)}
+  .band--purple{background:var(--purple);color:var(--on-band)}
+  .band--void{background:var(--void);color:var(--on-band)}
+  .band--purple p,.band--void p{color:var(--on-band-dim)}
+
+  /* centred heading group, used at the top of most bands */
+  .head{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;margin-bottom:clamp(38px,5vw,64px)}
+  .head h2{max-width:19ch}
+  .head p{max-width:56ch;color:var(--ink-dim);font-size:1.0625rem}
+  .band--purple .head p,.band--void .head p{color:var(--on-band-dim)}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:.6875rem;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;
+    padding:7px 14px;border-radius:var(--r-pill);
+    border:1px solid var(--rule);color:var(--ink-dim);background:var(--panel);
+  }
+  .band--purple .eyebrow,.band--void .eyebrow{
+    border-color:rgba(244,240,254,.24);color:var(--on-band-dim);background:rgba(244,240,254,.06);
+  }
+  .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--coral)}
+
+  /* ── logo ─────────────────────────────────────────────────────────
+     Purple chip, white mark. Swap the <svg> inside .chip for the real
+     Dunk asset — the chip already supplies the purple ground. */
+  .logo{display:inline-flex;align-items:center;gap:11px;text-decoration:none;font-weight:800;letter-spacing:-.045em;font-size:1.3rem}
+  .chip{width:36px;height:36px;border-radius:11px;background:var(--purple);display:grid;place-items:center;flex:none}
+  .band--purple .chip,.band--void .chip{background:rgba(244,240,254,.14)}
+
+  /* ── nav ──────────────────────────────────────────────────────────── */
+  .nav{position:sticky;top:0;z-index:20;background:color-mix(in oklab,var(--paper) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule-soft)}
+  .nav__in{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 0}
+  .nav__links{display:none;gap:30px;font-size:.9375rem;font-weight:500;color:var(--ink-dim)}
+  @media(min-width:900px){.nav__links{display:flex}}
+  .nav__links a{text-decoration:none}
+  .nav__links a:hover{color:var(--ink)}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    padding:13px 22px;border-radius:var(--r-pill);border:1px solid transparent;
+    font-family:inherit;font-size:.9375rem;font-weight:600;letter-spacing:-.01em;
+    text-decoration:none;cursor:pointer;white-space:nowrap;
+    transition:transform .16s ease,filter .16s ease;
+  }
+  .btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
+  .btn--solid{background:var(--coral);color:#26120A}
+  .btn--dark{background:var(--purple);color:var(--on-band)}
+  .band--purple .btn--dark,.band--void .btn--dark{background:var(--on-band);color:var(--purple)}
+  .btn--ghost{border-color:var(--rule);color:var(--ink)}
+  .btn--sm{padding:10px 17px;font-size:.875rem}
+
+  /* ── hero ─────────────────────────────────────────────────────────── */
+  .hero{position:relative;overflow:hidden;text-align:center;padding:clamp(72px,10vw,140px) 0 clamp(60px,8vw,104px)}
+  .hero::before{
+    content:"";position:absolute;inset:-30% -10% auto;height:120%;
+    background:radial-gradient(60% 55% at 50% 0%,rgba(139,92,246,.42),transparent 70%);
+    pointer-events:none;
+  }
+  .hero__in{position:relative;display:flex;flex-direction:column;align-items:center;gap:22px}
+  .hero h1{max-width:15ch}
+  .hero__sub{max-width:52ch;font-size:clamp(1.0625rem,1.6vw,1.1875rem);color:var(--on-band-dim)}
+
+  .capture{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px;width:100%;max-width:470px}
+  .capture input{
+    flex:1 1 240px;min-width:0;padding:14px 18px;border-radius:var(--r-pill);
+    border:1px solid rgba(244,240,254,.26);background:rgba(244,240,254,.09);
+    color:var(--on-band);font-family:inherit;font-size:.9375rem;
+  }
+  .capture input::placeholder{color:rgba(244,240,254,.5)}
+  .microproof{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;font-size:.8125rem;color:var(--on-band-dim)}
+  .stars{display:flex;gap:2px}
+  .stars svg{width:14px;height:14px;fill:var(--coral)}
+
+  .doodle{position:absolute;color:var(--coral);opacity:.9;pointer-events:none}
+  .doodle--hero{right:6%;top:22%;width:120px;display:none}
+  @media(min-width:1000px){.doodle--hero{display:block}}
+
+  /* ── trust strip ──────────────────────────────────────────────────── */
+  .trust{border-top:1px solid rgba(244,240,254,.14);margin-top:clamp(46px,6vw,74px);padding-top:26px;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .trust__label{font-family:var(--mono);font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,240,254,.5)}
+  .trust__row{display:flex;flex-wrap:wrap;gap:14px 34px;justify-content:center;align-items:center}
+  .trust__row b{font-weight:700;font-size:1.0625rem;letter-spacing:-.03em;color:rgba(244,240,254,.68)}
+
+  /* ── figures ──────────────────────────────────────────────────────── */
+  .figs{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .fig{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:10px}
+  .fig__n{font-size:clamp(2.6rem,5vw,3.4rem);font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums;color:var(--purple)}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .fig__n{color:var(--violet)}}
+  :root[data-theme="dark"] .fig__n{color:var(--violet)}
+  .fig p{font-size:.9375rem;color:var(--ink-dim)}
+
+  /* ── service cards ────────────────────────────────────────────────── */
+  .cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(258px,1fr))}
+  .card{background:var(--paper);border:1px solid var(--rule);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:12px}
+  .card h3{min-height:2.5em}
+  .card p{font-size:.9375rem;color:var(--ink-dim)}
+  .icon{width:42px;height:42px;border-radius:12px;background:var(--c2);display:grid;place-items:center;color:var(--purple);margin-bottom:4px}
+  .icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .icon{color:var(--on-band)}}
+  :root[data-theme="dark"] .icon{color:var(--on-band)}
+
+  /* ── phases ───────────────────────────────────────────────────────── */
+  .phases{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));counter-reset:p}
+  .phase{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:11px;counter-increment:p;position:relative}
+  .phase::before{
+    content:"0" counter(p);font-family:var(--mono);font-size:.75rem;font-weight:600;
+    letter-spacing:.1em;color:var(--coral);
+  }
+  .phase span{font-family:var(--mono);font-size:.75rem;color:var(--ink-faint);letter-spacing:.06em}
+  .phase p{font-size:.9375rem;color:var(--ink-dim)}
+
+  /* ── results grid ─────────────────────────────────────────────────── */
+  .results{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+  .res{border-radius:var(--r-lg);padding:26px;display:flex;flex-direction:column;gap:12px;color:var(--ink);background:var(--c1)}
+  .res:nth-child(2){background:var(--c2)}
+  .res:nth-child(3){background:var(--c3)}
+  .res:nth-child(4){background:var(--c4)}
+  .res:nth-child(5){background:var(--c5)}
+  .res__n{font-size:clamp(2.2rem,4vw,2.9rem);font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
+  .res p{font-size:.9rem;line-height:1.5;color:var(--ink);opacity:.84}
+  .res cite{font-style:normal;font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-top:auto}
+
+  /* ── quote ────────────────────────────────────────────────────────── */
+  .quote{max-width:760px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px}
+  .quote blockquote{margin:0;font-size:clamp(1.3rem,2.6vw,1.85rem);font-weight:600;letter-spacing:-.03em;line-height:1.28;text-wrap:balance}
+  .quote footer{display:flex;align-items:center;gap:11px;font-size:.875rem;color:var(--ink-dim)}
+  .avatar{width:38px;height:38px;border-radius:50%;background:var(--c2);flex:none}
+  .placeholder{outline:2px dashed var(--coral);outline-offset:8px;border-radius:6px}
+
+  /* ── pricing ──────────────────────────────────────────────────────── */
+  .tiers{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));align-items:start}
+  .tier{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r-lg);padding:30px;display:flex;flex-direction:column;gap:16px}
+  .tier--pick{background:var(--purple);color:var(--on-band);border-color:var(--purple)}
+  .tier--pick p,.tier--pick li{color:var(--on-band-dim)}
+  .tier__tag{align-self:flex-start;font-family:var(--mono);font-size:.625rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:var(--r-pill);background:var(--coral);color:#26120A}
+  .tier__p{font-size:2.3rem;font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
+  .tier__p small{display:block;margin-top:8px;font-size:.8125rem;font-weight:500;letter-spacing:-.01em;color:var(--ink-faint)}
+  .tier--pick .tier__p small{color:var(--on-band-dim)}
+  .tier ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:.9375rem;color:var(--ink-dim)}
+  .tier li{display:grid;grid-template-columns:18px 1fr;gap:9px;align-items:start}
+  .tier li svg{width:16px;height:16px;margin-top:4px;stroke:var(--coral);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ── faq ──────────────────────────────────────────────────────────── */
+  .faq{max-width:780px;margin:0 auto;border-top:1px solid var(--rule)}
+  .faq details{border-bottom:1px solid var(--rule)}
+  .faq summary{cursor:pointer;list-style:none;padding:22px 44px 22px 0;position:relative;font-weight:600;font-size:1.0625rem;letter-spacing:-.02em}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";position:absolute;right:6px;top:20px;font-family:var(--mono);font-size:1.25rem;color:var(--coral);line-height:1}
+  .faq details[open] summary::after{content:"\2212"}
+  .faq details>p{padding:0 0 24px;color:var(--ink-dim);font-size:.9688rem}
+
+  /* ── close ────────────────────────────────────────────────────────── */
+  .close{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;position:relative}
+  .close h2{max-width:16ch;font-size:clamp(2.1rem,5.4vw,3.6rem)}
+
+  /* ── footer ───────────────────────────────────────────────────────── */
+  .foot{background:var(--void);color:var(--on-band);padding:64px 0 40px}
+  .foot__grid{display:grid;gap:38px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:44px}
+  .foot h4{font-family:var(--mono);font-size:.6875rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,240,254,.5);margin:0 0 16px}
+  .foot ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px;font-size:.9375rem}
+  .foot a{color:var(--on-band-dim);text-decoration:none}
+  .foot a:hover{color:var(--on-band)}
+  .foot__base{border-top:1px solid rgba(244,240,254,.14);padding-top:24px;display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;font-size:.8125rem;color:rgba(244,240,254,.5)}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+}
+</style>
+
+<!-- ══ nav ══ -->
+<nav class="nav">
+  <div class="wrap nav__in">
+    <a class="logo" href="#top">
+      <span class="chip" aria-hidden="true">
+        <!-- TODO: replace with the real Dunk SVG (white, on this purple chip) -->
+        <svg width="19" height="19" viewBox="0 0 19 19" fill="#fff"><path d="M13.4 1.4h3.2v16.2h-3.2v-2a5.6 5.6 0 1 1 0-7.1V1.4ZM9.3 9.3a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4Z"/></svg>
+      </span>
+      dunk
+    </a>
+    <div class="nav__links">
+      <a href="#services">What we do</a>
+      <a href="#process">Process</a>
+      <a href="#results">Results</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <a class="btn btn--dark btn--sm" href="#audit">Free audit</a>
+  </div>
+</nav>
+
+<!-- ══ hero ══ -->
+<header class="band band--purple hero" id="top">
+  <svg class="doodle doodle--hero" viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+    <path d="M112 8c-8 22-26 44-52 56M60 64c-14 6-28 8-42 6"/>
+    <path d="M56 56c2 5 3 9 4 13-5-1-9-1-14 0"/>
+  </svg>
+  <div class="wrap hero__in">
+    <span class="eyebrow">SEO for trade &amp; service businesses</span>
+    <h1>Get found by the people already searching for you</h1>
+    <p class="hero__sub">We build fast sites and rank them for the searches that turn into jobs — not vanity keywords. Melbourne trades and service businesses who are tired of paying for clicks they should be getting free.</p>
+
+    <form class="capture" id="audit" onsubmit="return false">
+      <label class="visually-hidden" for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your email</label>
+      <input id="email" type="email" placeholder="you@yourbusiness.com.au" autocomplete="email">
+      <button class="btn btn--solid" type="submit">Get a free audit</button>
+    </form>
+
+    <div class="microproof">
+      <span class="stars" aria-label="Five star rated">
+        <svg viewBox="0 0 20 20"><path d="M10 1.5 12.6 7l6 .8-4.3 4.2 1 6-5.3-2.9-5.3 2.9 1-6L1.4 7.8l6-.8z"/></svg>
+        <svg viewBox="0 0 20 20"><path d="M10 1.5 12.6 7l6 .8-4.3 4.2 1 6-5.3-2.9-5.3 2.9 1-6L1.4 7.8l6-.8z"/></svg>
+        <svg viewBox="0 0 20 20"><path d="M10 1.5 12.6 7l6 .8-4.3 4.2 1 6-5.3-2.9-5.3 2.9 1-6L1.4 7.8l6-.8z"/></svg>
+        <svg viewBox="0 0 20 20"><path d="M10 1.5 12.6 7l6 .8-4.3 4.2 1 6-5.3-2.9-5.3 2.9 1-6L1.4 7.8l6-.8z"/></svg>
+        <svg viewBox="0 0 20 20"><path d="M10 1.5 12.6 7l6 .8-4.3 4.2 1 6-5.3-2.9-5.3 2.9 1-6L1.4 7.8l6-.8z"/></svg>
+      </span>
+      <span>20-minute audit &middot; No lock-in contracts &middot; Melbourne-based</span>
+    </div>
+
+    <div class="trust">
+      <span class="trust__label">Currently ranking</span>
+      <div class="trust__row">
+        <b>Revelectrical</b><b>DetailSplash</b><b>Your business</b>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ figures ══ -->
+<section class="band">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Week one, not month six</span>
+      <h2>Results start showing before the invoice does</h2>
+      <p>Figures below are from a live client site in its first week after launch, measured against the two weeks prior.</p>
+    </div>
+    <div class="figs">
+      <div class="fig">
+        <span class="fig__n">10</span>
+        <h3>New terms ranking</h3>
+        <p>Searches the business had no recorded appearances for the week before &mdash; live in Google inside seven days.</p>
+      </div>
+      <div class="fig">
+        <span class="fig__n">+217%</span>
+        <h3>Growth on the best mover</h3>
+        <p>&ldquo;Solar battery installers melbourne&rdquo; went from a handful of impressions to a term worth chasing.</p>
+      </div>
+      <div class="fig">
+        <span class="fig__n">$0</span>
+        <h3>Spent on ads</h3>
+        <p>Every one of those positions is earned. Turn the ad spend off and the traffic stays where it is.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ services ══ -->
+<section class="band band--panel" id="services">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">What we do</span>
+      <h2>Four things, done properly</h2>
+      <p>No retainer padding, no 40-page reports nobody reads. These are the levers that actually move a local service business.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 4.5 13.5H11l-1 8.5 8.5-11.5H12z"/></svg></span>
+        <h3>Technical foundation</h3>
+        <p>Fast, crawlable, structured. Sub-second loads, clean markup and schema so Google understands what you do and where you do it.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+        <h3>Local &amp; map pack</h3>
+        <p>Suburb pages that read like they were written by someone who works there, plus a Google Business Profile that actually converts.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9m5 10V5m5 14v-7m5 7V8"/></svg></span>
+        <h3>Content that ranks</h3>
+        <p>Pages built around what people type, not what sounds good in a meeting. Every page targets a search with a job at the end of it.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8.5 12.5h7M8.5 16h4M8.5 8h7"/></svg></span>
+        <h3>Reporting you can read</h3>
+        <p>One page a month, plain English, showing which searches moved and what it meant. No dashboard logins, no jargon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ process ══ -->
+<section class="band" id="process">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">How it works</span>
+      <h2>Three phases, no mystery</h2>
+    </div>
+    <div class="phases">
+      <div class="phase">
+        <span>Week 1</span>
+        <h3>Audit</h3>
+        <p>We crawl the site, pull your current rankings, and look at who is beating you and why. You get the findings whether or not you hire us.</p>
+      </div>
+      <div class="phase">
+        <span>Weeks 2&ndash;4</span>
+        <h3>Build</h3>
+        <p>Technical fixes, page structure, suburb coverage and the content that was missing. Most of the movement comes from this month.</p>
+      </div>
+      <div class="phase">
+        <span>Ongoing</span>
+        <h3>Rank &amp; report</h3>
+        <p>New pages as the terms open up, and a monthly report showing exactly what shifted. Cancel any month &mdash; the work stays yours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ results ══ -->
+<section class="band band--void" id="results">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Real numbers</span>
+      <h2>What that looks like in practice</h2>
+      <p>Pulled from client search consoles. Placeholder cards are marked &mdash; swap them as more data comes in.</p>
+    </div>
+    <div class="results">
+      <div class="res">
+        <span class="res__n">10</span>
+        <p>New search terms ranking in the first week after launch, none of which had recorded impressions before.</p>
+        <cite>Revelectrical</cite>
+      </div>
+      <div class="res">
+        <span class="res__n">+217%</span>
+        <p>Impression growth on &ldquo;solar battery installers melbourne&rdquo; across the first two weeks.</p>
+        <cite>Revelectrical</cite>
+      </div>
+      <div class="res">
+        <span class="res__n">80KB</span>
+        <p>Page weight after rebuild, down from 2.5MB. Load time is a ranking factor and a conversion factor.</p>
+        <cite>DetailSplash</cite>
+      </div>
+      <div class="res">
+        <span class="res__n">&mdash;</span>
+        <p>Placeholder. Drop in a third client result here once the next month of data lands.</p>
+        <cite>To confirm</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ quote ══ -->
+<section class="band band--panel">
+  <div class="wrap quote">
+    <blockquote class="placeholder">[ Client quote goes here &mdash; something specific about leads or phone calls, not &ldquo;great to work with&rdquo; ]</blockquote>
+    <footer>
+      <span class="avatar" aria-hidden="true"></span>
+      <span>[ Name ], [ Business ]</span>
+    </footer>
+  </div>
+</section>
+
+<!-- ══ pricing ══ -->
+<section class="band" id="pricing">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Pricing</span>
+      <h2>Priced so the first month pays for itself</h2>
+      <p>No setup fees, no lock-in. Cancel any month and every page we built stays on your site.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <h3>Audit</h3>
+        <span class="tier__p">$490<small>one-off &middot; credited if you continue</small></span>
+        <p>Find out exactly where you stand before spending anything ongoing.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>Full technical crawl</li>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>Current ranking snapshot</li>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>Competitor gap analysis</li>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>Prioritised fix list</li>
+        </ul>
+      </div>
+      <div class="tier tier--pick">
+        <span class="tier__tag">Most take this</span>
+        <h3>Growth</h3>
+        <span class="tier__p">$1,290<small>per month</small></span>
+        <p>The full programme. Build, rank, report, repeat.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>Everything in Audit</li>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>Technical fixes implemented</li>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>Suburb &amp; service pages</li>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>Google Business Profile</li>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>Monthly plain-English report</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <h3>Site + SEO</h3>
+        <span class="tier__p">From $4,900<small>build, then $1,290/mo</small></span>
+        <p>When the site itself is the problem. We rebuild it, then rank it.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>New site, built to rank</li>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>CMS you can actually edit</li>
+          <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>Everything in Growth</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ faq ══ -->
+<section class="band band--panel">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Questions</span>
+      <h2>The ones everybody asks</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>How long until I see something?</summary>
+        <p>New terms usually start appearing within the first two weeks, because most local sites have obvious gaps that fill fast. Competitive terms take three to six months. Anyone promising page one in 30 days is selling you ads.</p>
+      </details>
+      <details>
+        <summary>Am I locked into a contract?</summary>
+        <p>No. Month to month. Every page, fix and piece of content we produce lives on your site and stays there if you leave.</p>
+      </details>
+      <details>
+        <summary>Do I need a new website?</summary>
+        <p>Often not. We audit first and tell you honestly. If your site is fast and structured we work with it &mdash; a rebuild is only worth it when the platform itself is holding you back.</p>
+      </details>
+      <details>
+        <summary>What if I already run Google Ads?</summary>
+        <p>Keep them running. SEO and ads answer different searches. The point of SEO is that you stop paying for the clicks you should already own, so the ad budget can go somewhere it earns more.</p>
+      </details>
+      <details>
+        <summary>Which businesses is this for?</summary>
+        <p>Melbourne trades and local service businesses &mdash; electricians, detailers, plumbers, installers. If your customers search by suburb and then call someone, this works.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ══ close ══ -->
+<section class="band band--purple">
+  <div class="wrap close">
+    <span class="eyebrow">Free, no pitch</span>
+    <h2>Find out what you&rsquo;re missing out on</h2>
+    <p>Twenty minutes, your actual numbers, and a list of what we&rsquo;d fix first. You keep the findings either way.</p>
+    <form class="capture" onsubmit="return false">
+      <label for="email2" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your email</label>
+      <input id="email2" type="email" placeholder="you@yourbusiness.com.au" autocomplete="email">
+      <button class="btn btn--solid" type="submit">Book the audit</button>
+    </form>
+    <p style="font-size:.8125rem">Or email <a href="mailto:oliver@dunk.agency">oliver@dunk.agency</a> directly.</p>
+  </div>
+</section>
+
+<!-- ══ footer ══ -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div>
+        <a class="logo" href="#top" style="color:var(--on-band)">
+          <span class="chip" aria-hidden="true">
+            <svg width="19" height="19" viewBox="0 0 19 19" fill="#fff"><path d="M13.4 1.4h3.2v16.2h-3.2v-2a5.6 5.6 0 1 1 0-7.1V1.4ZM9.3 9.3a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4Z"/></svg>
+          </span>
+          dunk
+        </a>
+        <p style="margin-top:14px;font-size:.875rem;color:var(--on-band-dim);max-width:26ch">Websites and search for Melbourne service businesses.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">SEO</a></li>
+          <li><a href="#pricing">Website builds</a></li>
+          <li><a href="#services">Local &amp; map pack</a></li>
+          <li><a href="#services">Reporting</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#results">Work</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:oliver@dunk.agency">oliver@dunk.agency</a></li>
+          <li><a href="#audit">Book an audit</a></li>
+          <li><span style="color:var(--on-band-dim)">Melbourne, Australia</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 Dunk Agency</span>
+      <span>Built with Astro &amp; Sanity, hosted on Netlify</span>
+    </div>
+  </div>
+</footer>
