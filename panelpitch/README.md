@@ -19,6 +19,10 @@ There is no build step and no dependency to install.
 
 ## How it is put together
 
+`DESIGN-MODEL.md` is the design handover: palette, type, components, the
+issue → fix → tier model, and which decisions are deliberate. Read it before
+changing how anything looks.
+
 | File | What it holds |
 | ---- | ------------- |
 | `js/catalogue.js` | The domain model — issues, fixes, coaching lines, tiers |
