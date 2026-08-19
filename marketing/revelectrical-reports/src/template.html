@@ -70,12 +70,11 @@ p{margin:0}
    client actually reads; the figure only means something once they have. */
 .stats{display:grid;gap:12px;margin:26px 0 0}
 @media (min-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
-@media (min-width:940px){.stats{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:940px){.stats{grid-template-columns:repeat(3,1fr)}}
 .stat{
   background:var(--panel);border:1px solid var(--rule);border-radius:14px;
   padding:20px;display:flex;flex-direction:column;
 }
-.stat--hero{border-color:var(--lime);border-width:2px;background:var(--panel-2)}
 .stat h3{font-size:1rem;font-weight:700;line-height:1.25;letter-spacing:-.018em;color:var(--fg);min-height:2.5em}
 .stat__row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:16px}
 .stat__num{font-family:var(--display);font-weight:800;font-size:2.75rem;letter-spacing:-.045em;line-height:.95;font-variant-numeric:tabular-nums}
@@ -98,22 +97,6 @@ p{margin:0}
 @media (max-width:760px){.sec h2{text-wrap:balance}}
 .sec h2 .hl{color:var(--up)}
 .say{margin:14px 0 0;max-width:70ch;color:var(--fg-dim);font-size:.9375rem}
-
-/* ---------- the headline win ---------- */
-.win{
-  margin:26px 0 0;background:var(--ink);color:var(--cream);border-radius:18px;
-  padding:clamp(26px,3.4vw,40px);
-}
-.win h2{font-size:clamp(1.6rem,3.6vw,2.4rem);font-weight:800;max-width:none}
-.win h2 .hl{color:var(--lime)}
-.win__say{margin:16px 0 0;color:rgba(244,246,239,.74);font-size:.9375rem;max-width:62ch}
-.terms{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 0}
-.termchip{
-  background:rgba(244,246,239,.1);border:1px solid rgba(244,246,239,.22);
-  border-radius:999px;padding:8px 16px;font-weight:700;font-size:.9375rem;
-}
-.termchip b{color:var(--lime);font-weight:800}
-.termchip--sum{background:transparent;border-style:dashed}
 
 /* ---------- tables ---------- */
 .tablewrap{margin:22px 0 0;overflow-x:auto;border:1px solid var(--rule);border-radius:14px;background:var(--panel)}
@@ -209,26 +192,6 @@ details.notes[open] summary::after{content:'\2212'}
       <div class="stat__row"><span class="stat__num">0.5%</span><span class="stat__was">was 0.3%</span></div>
       <span class="delta">+67%</span>
     </div>
-    <div class="stat stat--hero">
-      <h3>Visits from people not searching your name</h3>
-      <div class="stat__row"><span class="stat__num">2</span><span class="stat__was">was 0</span></div>
-      <span class="delta">New this week</span>
-    </div>
-  </div>
-
-  <div class="win">
-    <h2>Two visits came from <span class="hl">job searches, not your name</span></h2>
-    <p class="win__say">
-      In the week measured, every click the old site got came from someone typing
-      &ldquo;revelectrical&rdquo;. In the new site's week, two came from these searches instead.
-    </p>
-    <!-- The source says two clicks came from these two terms. It does not say
-         which term got which, so neither does this. -->
-    <div class="terms">
-      <span class="termchip">&ldquo;electrician williamstown&rdquo;</span>
-      <span class="termchip">&ldquo;electrician near me&rdquo;</span>
-      <span class="termchip termchip--sum"><b>2 visits</b> between them</span>
-    </div>
   </div>
 
   <section class="sec">
@@ -321,8 +284,8 @@ details.notes[open] summary::after{content:'\2212'}
       </p>
       <p>
         Click volumes are small in absolute terms, so percentages will swing hard week to week until the
-        numbers grow. The three reliable signals this week are the rise in appearances, the arrival of
-        non-brand clicks, and three service categories appearing that the old site's week recorded nothing for.
+        numbers grow. The reliable signals this week are the rise in appearances and the three service
+        categories that appeared, which the old site's week recorded nothing for.
       </p>
     </div>
   </details>
