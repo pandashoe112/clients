@@ -54,3 +54,24 @@ the network — Google Fonts is blocked from the build environment anyway.
 This sits outside `revelectrical-site/` and `detailsplash-site/` on purpose.
 Each Netlify project skips builds that do not touch its own folder, so changes
 in here never trigger a deploy of either site.
+
+## Handover package
+
+`handover/` is a standalone copy for anyone outside this repo — another Claude
+session, a freelancer, the client. It carries the logo, both typefaces, all 24
+job photos, the template, the build scripts, the four approved PNGs as a
+reference to diff against, and three docs: `PROMPT.md` to paste into a fresh
+Claude session, `BRAND.md` for the design system, and `HANDOVER.md` for how it
+is built plus every trap that cost a render.
+
+It depends on nothing in this repo. `npm install && npm run all` reproduces the
+four PNGs pixel-identical to `handover/reference/` — verified, not assumed.
+
+`revelectrical-ev-social-handover.zip` is that folder, zipped, for sending.
+Rebuild it with:
+
+```sh
+cd marketing/revelectrical-ev-social
+rm -f revelectrical-ev-social-handover.zip
+zip -qr revelectrical-ev-social-handover.zip handover
+```

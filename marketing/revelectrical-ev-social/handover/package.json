@@ -1,0 +1,16 @@
+{
+  "name": "revelectrical-ev-social",
+  "private": true,
+  "type": "module",
+  "description": "Four 1080x1350 EV charging social posts for Revelectrical.",
+  "scripts": {
+    "crops": "node src/crops.mjs",
+    "build": "node src/build.mjs",
+    "export": "node src/export.mjs",
+    "all": "npm run crops && npm run build && npm run export"
+  },
+  "dependencies": {
+    "playwright": "^1.47.0",
+    "sharp": "^0.33.0"
+  }
+}

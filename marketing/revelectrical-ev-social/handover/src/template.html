@@ -1,0 +1,379 @@
+<title>Revelectrical EV Social Set</title>
+<style>
+/* ------------------------------------------------------------------
+   Fonts. Inlined rather than linked: these boards get screenshotted to
+   PNG, and a font that arrives late renders the whole set in Arial.
+------------------------------------------------------------------ */
+@font-face{font-family:'Outfit';font-weight:600;font-style:normal;font-display:block;src:url(__F_OUTFIT600__) format('woff2')}
+@font-face{font-family:'Outfit';font-weight:700;font-style:normal;font-display:block;src:url(__F_OUTFIT700__) format('woff2')}
+@font-face{font-family:'Outfit';font-weight:800;font-style:normal;font-display:block;src:url(__F_OUTFIT800__) format('woff2')}
+@font-face{font-family:'Manrope';font-weight:500;font-style:normal;font-display:block;src:url(__F_MANROPE500__) format('woff2')}
+@font-face{font-family:'Manrope';font-weight:700;font-style:normal;font-display:block;src:url(__F_MANROPE700__) format('woff2')}
+@font-face{font-family:'Manrope';font-weight:800;font-style:normal;font-display:block;src:url(__F_MANROPE800__) format('woff2')}
+
+/* ------------------------------------------------------------------
+   Board tokens. Lifted from revelectrical-site/src/styles/global.css so
+   the posts and the site are the same colours, not similar ones.
+------------------------------------------------------------------ */
+:root{
+  --ink:#032F35;
+  --deep:#0B3A40;
+  --deep-card:#10484E;
+  --cream:#F4F6EF;
+  --paper:#FFFFFF;
+  --lime:#B6ED3E;
+  --muted:#4C6B6E;
+  --muted-light:rgba(244,246,239,.76);
+  --line-light:rgba(244,246,239,.18);
+  --star:#F5B301;
+  --display:'Outfit',system-ui,sans-serif;
+  --body:'Manrope',system-ui,sans-serif;
+
+  /* Page chrome around the boards - theme-aware, unlike the boards. */
+  --pg-bg:#EDEFE7;
+  --pg-fg:#032F35;
+  --pg-dim:#4C6B6E;
+  --pg-rule:rgba(3,47,53,.14);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --pg-bg:#04252A; --pg-fg:#F4F6EF; --pg-dim:rgba(244,246,239,.62); --pg-rule:rgba(244,246,239,.16);
+  }
+}
+:root[data-theme="dark"]{
+  --pg-bg:#04252A; --pg-fg:#F4F6EF; --pg-dim:rgba(244,246,239,.62); --pg-rule:rgba(244,246,239,.16);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--pg-bg);color:var(--pg-fg);
+  font-family:var(--body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------------- page chrome ---------------- */
+.sheet{max-width:1180px;margin:0 auto;padding:56px 28px 96px}
+.sheet__head{border-bottom:1px solid var(--pg-rule);padding-bottom:30px;margin-bottom:44px}
+.sheet__eyebrow{margin:0;font-size:.75rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--pg-dim)}
+.sheet__title{margin:12px 0 0;font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:1.05;font-size:clamp(2rem,4.6vw,2.9rem)}
+.sheet__note{margin:16px 0 0;max-width:62ch;color:var(--pg-dim);font-size:1rem}
+.boards{display:grid;gap:64px}
+.slot{display:grid;gap:14px;justify-items:start}
+.slot__meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px}
+.slot__no{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
+.slot__what{font-size:.9375rem;color:var(--pg-dim)}
+.frame{width:100%;max-width:540px;overflow:hidden;border-radius:14px;box-shadow:0 2px 5px rgba(3,47,53,.1),0 26px 60px rgba(3,47,53,.22)}
+/* The boards are authored at true 1080px and scaled down for the screen,
+   so what you see here is exactly what exports. */
+.frame__inner{width:1080px;transform-origin:top left}
+
+/* ---------------- shared board furniture ---------------- */
+.post{
+  position:relative;width:1080px;height:1350px;overflow:hidden;
+  background:var(--ink);color:var(--cream);
+  font-family:var(--body);font-size:20px;line-height:1.6;
+}
+.post *{box-sizing:border-box}
+
+.eyebrow{
+  margin:0;font-family:var(--body);font-weight:800;font-size:21px;
+  letter-spacing:.19em;text-transform:uppercase;color:var(--lime);
+}
+.eyebrow--dark{color:var(--ink);opacity:.62}
+.dsp{
+  margin:0;font-family:var(--display);font-weight:800;
+  letter-spacing:-.035em;line-height:.98;text-wrap:balance;
+}
+.hl{color:var(--lime)}
+
+/* The charge rule. On the site the process steps are joined by a wire that
+   fills with lime as you scroll. Here it carries the same idea and doubles
+   as the carousel position: one quarter more lime on each board. */
+.charge{position:relative;height:5px;border-radius:3px;background:var(--line-light);overflow:hidden}
+.charge--dark{background:rgba(3,47,53,.14)}
+.charge i{display:block;height:100%;background:var(--lime);border-radius:3px}
+
+.ticks{list-style:none;margin:0;padding:0;display:grid;gap:19px}
+.ticks li{display:flex;align-items:flex-start;gap:16px;font-weight:700;font-size:26px;line-height:1.32}
+.tickmark{
+  flex:none;width:34px;height:34px;margin-top:2px;border-radius:50%;
+  background:var(--lime);color:var(--ink);display:grid;place-items:center;
+}
+.tickmark svg{display:block}
+
+.cta{display:flex;align-items:center;gap:22px}
+.cta__pill{
+  display:inline-flex;align-items:center;gap:14px;background:var(--lime);color:var(--ink);
+  font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:-.02em;
+  padding:22px 34px;border-radius:10px;
+}
+.cta__phone{font-family:var(--display);font-weight:700;font-size:30px;letter-spacing:-.02em;white-space:nowrap}
+.cta__phone span{display:block;font-family:var(--body);font-weight:700;font-size:16px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted-light);margin-bottom:3px}
+.cta__phone--dark span{color:var(--muted)}
+
+.foot{
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  font-weight:700;font-size:19px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted-light);
+}
+.foot--dark{color:var(--muted)}
+.foot img{width:236px;height:auto;display:block}
+.foot__lic{display:flex;align-items:center;gap:12px;white-space:nowrap}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--lime);flex:none}
+
+/* ---------------- 1. hero ---------------- */
+.p1{display:block}
+.p1__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* Four stops, not a single fade. The charger sits in the top third and has to
+   keep its own light, so the scrim stays thin down to 40%; below that it ramps
+   hard to solid ink, because 26px body copy over brick is unreadable. */
+.p1__scrim{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,
+    rgba(3,47,53,.55) 0%,
+    rgba(3,47,53,.10) 20%,
+    rgba(3,47,53,.20) 40%,
+    rgba(3,47,53,.88) 52%,
+    rgba(3,47,53,.98) 68%,
+    #032F35 88%);
+}
+.p1__body{position:absolute;inset:0;padding:70px 72px 62px;display:flex;flex-direction:column;justify-content:space-between}
+.p1__top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
+.p1__badge{
+  display:inline-flex;align-items:center;gap:12px;padding:13px 22px;border-radius:999px;
+  background:rgba(3,47,53,.62);border:1.5px solid var(--line-light);
+  font-weight:800;font-size:18px;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap;
+}
+.p1__main{display:grid;gap:34px}
+.p1 .dsp{font-size:98px}
+.p1__lede{margin:0;font-size:27px;line-height:1.5;color:var(--muted-light);max-width:22ch}
+
+/* ---------------- 2. service areas ---------------- */
+.p2{display:flex;flex-direction:column;background:var(--ink)}
+/* The homepage hero sits on ink with a soft green light bloomed in from the
+   right. Same wash here so the two read as one brand. */
+.p2::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(120% 78% at 88% 6%,rgba(182,237,62,.17) 0%,rgba(182,237,62,0) 58%);
+}
+.p2__body{position:relative;padding:60px 72px 0;display:grid;gap:26px}
+.p2 .dsp{font-size:66px}
+.p2__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.chip{
+  background:var(--deep-card);border:1.5px solid var(--line-light);border-radius:12px;
+  padding:15px 19px;display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+}
+.chip b{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.022em;line-height:1.1}
+.chip span{font-weight:700;font-size:17px;color:var(--muted-light);font-variant-numeric:tabular-nums}
+.chip--more{background:transparent;border-style:dashed;border-color:rgba(182,237,62,.42)}
+.chip--more b{color:var(--lime);font-size:21px}
+.p2__foot{position:relative;margin-top:auto;padding:0 72px 62px;display:grid;gap:26px}
+.p2__photo{position:relative;height:330px;border-radius:16px;overflow:hidden}
+.p2__photo img{width:100%;height:100%;object-fit:cover;display:block}
+.p2__photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(3,47,53,.55),rgba(3,47,53,0) 52%)}
+
+/* ---------------- 3. review ---------------- */
+.p3{background:var(--cream);color:var(--ink);display:flex;flex-direction:column}
+.p3__photo{height:660px;flex:none;position:relative}
+.p3__photo img{width:100%;height:100%;object-fit:cover;display:block}
+.p3__body{flex:1;padding:52px 72px 62px;display:flex;flex-direction:column;gap:32px}
+.p3__score{display:flex;align-items:center;gap:20px}
+.p3__num{font-family:var(--display);font-weight:800;font-size:70px;letter-spacing:-.04em;line-height:1}
+.p3__stars{display:flex;gap:5px;color:var(--star)}
+.p3__from{font-weight:700;font-size:20px;color:var(--muted);margin-top:5px}
+.p3__quote{
+  margin:0;font-family:var(--display);font-weight:700;font-size:49px;line-height:1.17;
+  letter-spacing:-.028em;text-wrap:balance;
+}
+.p3__by{margin:0;font-weight:700;font-size:22px;color:var(--muted)}
+.p3__cta{margin-top:auto;display:grid;gap:26px}
+
+/* ---------------- 4. what's included ---------------- */
+.p4{display:grid;grid-template-columns:470px minmax(0,1fr)}
+.p4__photo{position:relative;overflow:hidden}
+.p4__photo img{width:100%;height:100%;object-fit:cover;display:block}
+.p4__photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(3,47,53,0) 62%,rgba(3,47,53,.55) 100%)}
+.p4__body{padding:66px 62px 62px;display:flex;flex-direction:column;gap:40px}
+.p4 .dsp{font-size:62px}
+.p4 .ticks{gap:36px}
+.p4 .ticks li{font-size:26px}
+.p4 .ticks small{display:block;font-weight:500;font-size:21px;line-height:1.45;color:var(--muted-light);margin-top:7px}
+.p4__cta{margin-top:auto;display:grid;gap:26px}
+.p4 .cta__pill{font-size:26px;padding:19px 28px}
+.p4 .cta__phone{font-size:26px}
+.p4 .foot{font-size:17px}
+.p4 .foot img{width:200px}
+
+@media print{.sheet__head,.slot__meta{display:none}}
+</style>
+
+<div class="sheet">
+  <header class="sheet__head">
+    <p class="sheet__eyebrow">Revelectrical &middot; paid and organic social</p>
+    <h1 class="sheet__title">EV charging, four ways</h1>
+    <p class="sheet__note">
+      Four 1080&times;1350 posts for Instagram and Facebook, built from the site's own
+      colours, type and job photos. Post them in order as a carousel or run them
+      separately &mdash; the lime rule at the base of each board fills a quarter further
+      on every one, so a sequence reads as a sequence.
+    </p>
+  </header>
+
+  <div class="boards">
+
+    <!-- ============ 1 ============ -->
+    <section class="slot">
+      <div class="slot__meta"><span class="slot__no">01</span><span class="slot__what">The offer &mdash; lead board of the carousel</span></div>
+      <div class="frame"><div class="frame__inner">
+        <article class="post p1">
+          <img class="p1__bg" src="__IMG_P1BG__" alt="Home EV charger installed on a red brick wall in Melbourne">
+          <div class="p1__scrim"></div>
+          <div class="p1__body">
+            <div class="p1__top">
+              <img src="__IMG_LOGO__" alt="Revelectrical" style="width:250px;height:auto;display:block">
+              <span class="p1__badge"><i class="dot"></i>REC 38205</span>
+            </div>
+            <div class="p1__main">
+              <p class="eyebrow">Melbourne home EV charging</p>
+              <h2 class="dsp">Home EV chargers,<br><span class="hl">done properly.</span></h2>
+              <ul class="ticks">
+                <li><span class="tickmark">__SVG_TICK__</span>Dedicated 40A circuit on every install</li>
+                <li><span class="tickmark">__SVG_TICK__</span>Certificate of Electrical Safety supplied</li>
+                <li><span class="tickmark">__SVG_TICK__</span>Lifetime workmanship guarantee</li>
+              </ul>
+              <div class="cta">
+                <span class="cta__pill">Quote within 24 hours</span>
+                <span class="cta__phone"><span>Call us first</span>0432 555 826</span>
+              </div>
+              <div class="charge"><i style="width:25%"></i></div>
+            </div>
+          </div>
+        </article>
+      </div></div>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="slot">
+      <div class="slot__meta"><span class="slot__no">02</span><span class="slot__what">Service areas &mdash; the local hook, one chip per suburb we have a page for</span></div>
+      <div class="frame"><div class="frame__inner">
+        <article class="post p2">
+          <div class="p2__body">
+            <div class="p1__top">
+              <img src="__IMG_LOGO__" alt="Revelectrical" style="width:250px;height:auto;display:block">
+              <span class="p1__badge"><i class="dot"></i>Licensed &amp; insured</span>
+            </div>
+            <p class="eyebrow">Service areas</p>
+            <h2 class="dsp">EV chargers installed<br>across Melbourne's<br><span class="hl">north and west.</span></h2>
+            <div class="p2__grid">
+              <div class="chip"><b>Ascot Vale</b><span>3032</span></div>
+              <div class="chip"><b>Brunswick</b><span>3056</span></div>
+              <div class="chip"><b>Coburg</b><span>3058</span></div>
+              <div class="chip"><b>Essendon</b><span>3040</span></div>
+              <div class="chip"><b>Fitzroy</b><span>3065</span></div>
+              <div class="chip"><b>Footscray</b><span>3011</span></div>
+              <div class="chip"><b>Kensington</b><span>3031</span></div>
+              <div class="chip"><b>Moonee Ponds</b><span>3039</span></div>
+              <div class="chip"><b>Newport</b><span>3015</span></div>
+              <div class="chip"><b>Northcote</b><span>3070</span></div>
+              <div class="chip"><b>Broadmeadows</b><span>3047</span></div>
+              <div class="chip chip--more"><b>+ everywhere between</b></div>
+            </div>
+          </div>
+          <div class="p2__foot">
+            <div class="p2__photo"><img src="__IMG_P2__" alt="Driver plugging in an electric car at home"></div>
+            <p class="p1__lede" style="max-width:46ch;font-size:25px">Not on the list? Send your postcode and we'll confirm.</p>
+            <div class="cta">
+              <span class="cta__pill">Quote within 24 hours</span>
+              <span class="cta__phone"><span>Call us first</span>0432 555 826</span>
+            </div>
+            <div class="charge"><i style="width:50%"></i></div>
+          </div>
+        </article>
+      </div></div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="slot">
+      <div class="slot__meta"><span class="slot__no">03</span><span class="slot__what">Proof &mdash; a real Google review, quoted as written</span></div>
+      <div class="frame"><div class="frame__inner">
+        <article class="post p3">
+          <div class="p3__photo"><img src="__IMG_P3__" alt="EV charger installed inside a Melbourne garage next to the car"></div>
+          <div class="p3__body">
+            <div class="p3__score">
+              <span class="p3__num">5.0</span>
+              <div>
+                <div class="p3__stars">__SVG_STARS__</div>
+                <div class="p3__from">from 52 Google reviews</div>
+              </div>
+            </div>
+            <blockquote class="p3__quote">&ldquo;Excellent install and service by Revelectrical. Arrived on time, very polite and clean install of the EV charger.&rdquo;</blockquote>
+            <p class="p3__by">Prab Pandher &middot; Google review</p>
+            <div class="p3__cta">
+              <div class="cta">
+                <span class="cta__pill">Quote within 24 hours</span>
+                <span class="cta__phone cta__phone--dark"><span>Call us first</span>0432 555 826</span>
+              </div>
+              <div class="charge charge--dark"><i style="width:75%"></i></div>
+              <div class="foot foot--dark">
+                <img src="__IMG_LOGO_DARK__" alt="Revelectrical">
+                <span class="foot__lic"><i class="dot"></i>REC 38205 &nbsp;&middot;&nbsp; revelectrical.com.au</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div></div>
+    </section>
+
+    <!-- ============ 4 ============ -->
+    <section class="slot">
+      <div class="slot__meta"><span class="slot__no">04</span><span class="slot__what">What's included &mdash; the closer, answers &ldquo;what am I paying for&rdquo;</span></div>
+      <div class="frame"><div class="frame__inner">
+        <article class="post p4">
+          <div class="p4__photo"><img src="__IMG_P4__" alt="EV charger wired back to the switchboard on the same visit"></div>
+          <div class="p4__body">
+            <p class="eyebrow">Every install includes</p>
+            <h2 class="dsp">What you actually get for the price.</h2>
+            <ul class="ticks">
+              <li><span class="tickmark">__SVG_TICK__</span><div>A dedicated 40A circuit<small>Not a shared one. Safe, reliable power to the charger.</small></div></li>
+              <li><span class="tickmark">__SVG_TICK__</span><div>Testing and a COES<small>Comprehensive testing and an official Certificate of Electrical Safety.</small></div></li>
+              <li><span class="tickmark">__SVG_TICK__</span><div>Switchboard work in the same visit<small>If the board needs upgrading first, we handle it in one go.</small></div></li>
+              <li><span class="tickmark">__SVG_TICK__</span><div>Cables run neatly, garage left spotless<small>We route every cable tidily and clean up after ourselves.</small></div></li>
+              <li><span class="tickmark">__SVG_TICK__</span><div>A lifetime workmanship guarantee<small>Plus an upfront quote with zero hidden fees.</small></div></li>
+            </ul>
+            <div class="p4__cta">
+              <div class="cta">
+                <span class="cta__pill">Quote within 24 hours</span>
+                <span class="cta__phone"><span>Call us first</span>0432 555 826</span>
+              </div>
+              <div class="charge"><i style="width:100%"></i></div>
+              <div class="foot">
+                <img src="__IMG_LOGO__" alt="Revelectrical">
+                <span class="foot__lic"><i class="dot"></i>revelectrical.com.au</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div></div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+// The boards are 1080px wide by definition. Scale each one to whatever width
+// its frame actually got, so the page is responsive without the artwork
+// being authored in relative units.
+(function () {
+  var fit = function () {
+    document.querySelectorAll('.frame').forEach(function (f) {
+      var inner = f.firstElementChild;
+      var k = f.clientWidth / 1080;
+      inner.style.transform = 'scale(' + k + ')';
+      f.style.height = Math.round(1350 * k) + 'px';
+    });
+  };
+  fit();
+  window.addEventListener('resize', fit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+})();
+</script>
