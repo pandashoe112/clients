@@ -6,9 +6,9 @@
 
 | File | What it is |
 | ---- | ---------- |
-| `style.css` | The design system. Tokens at the top mirror the reference build's names and values |
-| `body1.html` | Nav + sheet, hero, logo bar, proof cards, bento, team marquees |
-| `body2.html` | Feature grid (light), integrations (mint), client feedback, pricing (light) |
+| `style.css` | The design system. Reference-build token names, DUNK's palette and Sahar display face |
+| `body1.html` | Nav + sheet, DUNK split hero (logo strip inside it), proof cards, bento, team marquees |
+| `body2.html` | Feature grid, integrations (mint), client feedback, pricing (light) |
 | `body3.html` | FAQ, recent work (light), final CTA, footer |
 | `app.js` | Reveal observer, canvas starfield, FAQ accordion, pricing toggle, mobile sheet |
 | `logo.svg` | The DUNK wordmark |
@@ -26,9 +26,15 @@ key fails the build instead of shipping a broken `src`.
   `PLACEHOLDER PORTRAIT` in `body1.html`.
 - **The team marquee names and roles are invented** (`PEOPLE` in `gen.py`).
   Real names, roles and headshots should replace them.
-- **`BDO Grotesk` is not embedded.** The reference loads it from a Webflow CDN,
-  which this build can't reach, so the stack falls back to the already-inlined
-  Manrope. Drop a woff2 in and add a `@font-face` to get the real face.
+- **`BDO Grotesk` is not embedded.** The reference loads it from a Webflow CDN
+  this build can't reach. Headings now use DUNK's own Sahar instead, which is
+  already inlined; body copy is Manrope.
+
+## Section rhythm
+
+Dark by default. Light sections, in order: the proof block straight after the
+hero (`sec--light`), integrations (`sec--mint`), pricing (`sec--light`) and
+recent work (`sec--light`).
 
 ## Traps worth knowing
 
@@ -44,5 +50,11 @@ key fails the build instead of shipping a broken `src`.
   `<svg>` counts as a child and shifts every index by one.
 - **`<figure>`/`<blockquote>`/`<dl>` are reset in `style.css`** — the UA
   `margin: 1em 40px` on `figure` breaks any flex row it sits in.
+- **Muted text and hairlines come from `--muted` and `--stroke`, not
+  `--colors--white-70` / `--colors--stroke-white` directly.** Those two flip on
+  `.sec--light` / `.sec--mint` / `.sec--butter`. Hardcoding the white tokens is
+  how the proof block rendered lavender-on-paper when it moved to a light
+  ground. Always-dark surfaces (nav, sheet, footer, hero, final CTA, the dark
+  plan, the review rail) pin them back at the bottom of the file.
 - **Marquee lists must be exactly doubled.** The keyframe ends at
   `translateX(-50%)`, so an odd count makes it jump.

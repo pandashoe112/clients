@@ -11,6 +11,10 @@
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav__right">
+      <a class="nav__tel" href="tel:0396994585">
+        <span class="live" aria-hidden="true"></span>
+        <span><small>Call us &mdash; open now</small><b>03 9699 4585</b></span>
+      </a>
       <button class="nav__burger" type="button" data-sheet aria-expanded="false" aria-controls="sheet" aria-label="Open menu"><i aria-hidden="true"></i></button>
       <a class="btn btn--y btn--sm" href="#contact">Contact Us</a>
     </div>
@@ -24,67 +28,60 @@
   <a href="tel:0396994585">03 9699 4585</a>
 </div>
 
-<!-- ══ hero ════════════════════════════════════════════════════════════ -->
+<!-- ══ hero — DUNK's split storefront ═════════════════════════════════ -->
 <section class="hero" id="top">
-  <div class="hero__sky" aria-hidden="true"></div>
-  <canvas class="hero__stars" aria-hidden="true"></canvas>
   <div class="hero__glow" aria-hidden="true"></div>
-  <div class="hero__vig" aria-hidden="true"></div>
-  <svg class="hero__moon" viewBox="0 0 600 600" aria-hidden="true">
-    <defs>
-      <radialGradient id="mn" cx="46%" cy="14%" r="72%">
-        <stop offset="0%" stop-color="#cfcfd6"/><stop offset="26%" stop-color="#8d8d99"/>
-        <stop offset="52%" stop-color="#4a4a57"/><stop offset="76%" stop-color="#1d1d26"/>
-        <stop offset="100%" stop-color="#08080c"/>
-      </radialGradient>
-      <radialGradient id="mnf" cx="50%" cy="50%" r="50%">
-        <stop offset="72%" stop-color="#fff" stop-opacity="1"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-      </radialGradient>
-      <filter id="crat"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="4" seed="7"/>
-        <feColorMatrix type="saturate" values="0"/></filter>
-      <mask id="mnm"><circle cx="300" cy="300" r="288" fill="url(#mnf)"/></mask>
-      <mask id="lit"><rect width="600" height="600" fill="url(#mnf)"/></mask>
-    </defs>
-    <g mask="url(#mnm)">
-      <circle cx="300" cy="300" r="288" fill="url(#mn)"/>
-      <rect width="600" height="600" filter="url(#crat)" opacity=".26" style="mix-blend-mode:overlay"/>
-      <circle cx="300" cy="300" r="288" fill="none" stroke="#ffffff26" stroke-width="1.5"/>
-    </g>
-  </svg>
+  <canvas class="hero__stars" aria-hidden="true"></canvas>
 
   <div class="wrap hero__in">
-    <span class="tag rv">Strategy before spend &mdash; the way it should be</span>
-    <h1 class="h1 rv">Turn your goal into<br>a marketing plan</h1>
-    <p class="p1 dim hero__sub rv">Tell us what the business needs to do. We work out whether
-    that&rsquo;s search, paid or content, then run it and report what it made you.</p>
-    <div class="btns btns--c rv">
-      <a class="btn btn--y" href="#contact">Get Started Now
-        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a class="btn btn--g" href="#pricing">See Pricing</a>
+    <div class="hero__split">
+      <div>
+        <div class="hero__eyebrow rv">
+          <span class="tcluster" aria-hidden="true">
+            <img src="{{IMG0}}" alt=""><img src="{{IMG1}}" alt=""><img src="{{IMG2}}" alt=""><img src="{{IMG3}}" alt="">
+          </span>
+          <b>An expert team based in Melbourne</b>
+        </div>
+        <h1 class="h1 rv">Marketing you<br><em>don&rsquo;t have to manage.</em></h1>
+        <p class="p1 dim hero__sub rv">You tell us what you&rsquo;re trying to achieve. We work out
+        which of search, paid and content actually gets you there &mdash; then we run it. Senior
+        people, your own accounts, no lock-in.</p>
+        <div class="btns rv">
+          <a class="btn btn--pill" href="#contact">Book a Free Growth Call
+            <i aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></i>
+          </a>
+          <a class="btn btn--g" href="#pricing">See Pricing</a>
+        </div>
+      </div>
+
+      <div class="hero__shot rv">
+        <div class="hero__frame">
+          <img src="{{IMG4}}" alt="Two DUNK strategists mapping out a client campaign" loading="eager" width="880" height="660">
+          <svg class="burst" viewBox="0 0 100 100" aria-hidden="true"><g fill="#D7F24C"><rect x="0" y="0" width="25" height="25"/><rect x="50" y="0" width="25" height="25"/><rect x="25" y="25" width="25" height="25"/><rect x="75" y="25" width="25" height="25"/><rect x="0" y="50" width="25" height="25"/><rect x="50" y="50" width="25" height="25"/><rect x="25" y="75" width="25" height="25"/></g></svg>
+          <svg class="hero__ast" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="#D7F24C" stroke-width="5" stroke-linecap="round"><path d="M50 8v84M8 50h84M20.5 20.5l59 59M79.5 20.5l-59 59"/></svg>
+        </div>
+        <span class="ratepill">Rated 4.9 stars by our clients <b aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</b></span>
+      </div>
+    </div>
+
+    <div class="hero__logos">
+      <p class="logos__lab rv">Trusted by growing Australian businesses</p>
+      <div class="logos__row rv">
+        <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><path d="M11 2c4 4.6 6.4 7.6 6.4 10.4A6.4 6.4 0 0 1 4.6 12.4C4.6 9.6 7 6.6 11 2Z"/></svg>BISSELL</span>
+        <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><circle cx="11" cy="8.6" r="5.4"/><path d="M3.4 15.6c1.5 0 2 1.6 3.6 1.6s2.1-1.6 3.6-1.6 2.1 1.6 3.6 1.6 2.1-1.6 3.6-1.6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg>Yellow Octopus</span>
+        <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><path d="M11 1.8 19 6.4v9.2L11 20.2 3 15.6V6.4Z"/></svg>Wax Obsession</span>
+        <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><path d="M3 3h16l-7 7.6V17h3.4v2H7.6v-2H11v-6.4Z"/></svg>Marttini</span>
+        <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><path d="M12.4 1.6 4 12.2h5.2L8.4 20.4 17 9.4h-5.4Z"/></svg>Approved Electrix</span>
+        <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><path d="M11 1.8 19 5v6.4c0 4.6-3.2 8.2-8 9.8-4.8-1.6-8-5.2-8-9.8V5Z"/></svg>Pestline</span>
+      </div>
     </div>
   </div>
 </section>
 
 <main id="main">
 
-<!-- ══ logo bar ════════════════════════════════════════════════════════ -->
-<section class="logos">
-  <div class="wrap">
-    <p class="p2 logos__lab rv">Partnering with growing Australian businesses</p>
-    <div class="logos__row rv">
-      <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><path d="M11 2c4 4.6 6.4 7.6 6.4 10.4A6.4 6.4 0 0 1 4.6 12.4C4.6 9.6 7 6.6 11 2Z"/></svg>BISSELL</span>
-      <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><circle cx="11" cy="8.6" r="5.4"/><path d="M3.4 15.6c1.5 0 2 1.6 3.6 1.6s2.1-1.6 3.6-1.6 2.1 1.6 3.6 1.6 2.1-1.6 3.6-1.6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg>Yellow Octopus</span>
-      <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><path d="M11 1.8 19 6.4v9.2L11 20.2 3 15.6V6.4Z"/></svg>Wax Obsession</span>
-      <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><path d="M3 3h16l-7 7.6V17h3.4v2H7.6v-2H11v-6.4Z"/></svg>Marttini</span>
-      <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><path d="M12.4 1.6 4 12.2h5.2L8.4 20.4 17 9.4h-5.4Z"/></svg>Approved Electrix</span>
-      <span><svg viewBox="0 0 22 22" fill="currentColor" aria-hidden="true"><path d="M11 1.8 19 5v6.4c0 4.6-3.2 8.2-8 9.8-4.8-1.6-8-5.2-8-9.8V5Z"/></svg>Pestline</span>
-    </div>
-  </div>
-</section>
-
 <!-- ══ proof ═══════════════════════════════════════════════════════════ -->
-<section class="sec" id="about">
+<section class="sec sec--light" id="about">
   <div class="wrap">
     <div class="head rv">
       <span class="tag">Why clients stay</span>
