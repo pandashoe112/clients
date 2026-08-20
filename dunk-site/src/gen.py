@@ -2,7 +2,12 @@ import io, json, os, re
 HERE = os.path.dirname(os.path.abspath(__file__))
 def here(*p): return os.path.join(HERE, *p)
 
-A = json.load(io.open(here('assets.json')))
+A = json.load(io.open(here(os.pardir, 'assets.json')))
+# Only Sahar and Manrope ship. The three IBM Plex Mono faces are dropped here
+# rather than in the markup, so the payload drops with them.
+KEEP = ('Sahar', 'Manrope')
+A['fonts'] = [f for f in A['fonts'] if any("'%s'" % k in f for k in KEEP)]
+assert len(A['fonts']) == 5, 'expected 3 Manrope + 2 Sahar faces, got %d' % len(A['fonts'])
 imgs = [i['uri'] for i in A['images']]
 logo = io.open(here('logo.svg')).read()
 body = ''.join(io.open(here('body%d.html' % n), encoding='utf-8').read() for n in (1, 2, 3))
@@ -57,5 +62,5 @@ page = ('<!doctype html>\n<html lang="en-AU">\n<head>\n<meta charset="utf-8">\n'
  '<style>\n' + '\n'.join(A['fonts']) + '\n\n'
  + io.open(here('style.css'), encoding='utf-8').read() + '</style>\n</head>\n<body>\n'
  + body + '\n<script>\n' + io.open(here('app.js'), encoding='utf-8').read() + '\n</script>\n</body>\n</html>\n')
-io.open(here(os.pardir, 'index.html'), 'w', encoding='utf-8').write(page)
+io.open(here(os.pardir, 'setrex.html'), 'w', encoding='utf-8').write(page)
 print('built %.1f KB' % (len(page.encode()) / 1024))
