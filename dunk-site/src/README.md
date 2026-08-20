@@ -42,11 +42,22 @@ Three references are layered, deliberately:
   the bento, the pricing pair with its period toggle, the FAQ accordion.
 - **SaleUnion** — the type scale (h1 76 / h2 64 / h3 54 / h4 44 / h5 32 /
   h6 24 at 100–130% with per-heading tracking), the container at 81rem, the
-  mono uppercase section eyebrow that replaced the bordered pill, the
   announcement bar, the pastel stat trio, the tall photo cards with their
   category labels, the circular arrow button, and the dark stat panel. Its
   turquoise `#A4F7D2` and the pink/blue pastels sit alongside DUNK's lime as
   a secondary set. Its `--su-*` tokens are grouped in `:root`.
+
+## Card components
+
+Three, and they should not multiply:
+
+- `.tall` — image, pastel `.lab`, gradient, title, copy, `.arw`. Used for the
+  four disciplines and, as `.tall--case`, the three case studies. This is the
+  card the page leans on.
+- `.feat` — the six-up grid. Ghost numeral behind, icon, title, copy, then a
+  `.feat__fact` row carrying one concrete number. The lime hairline draws
+  across the top on hover.
+- `.card` — the plain container everything else sits in.
 
 ## Section rhythm
 
@@ -74,8 +85,10 @@ recent work (`sec--light`).
   how the proof block rendered lavender-on-paper when it moved to a light
   ground. Always-dark surfaces (nav, sheet, footer, hero, final CTA, the dark
   plan, the review rail) pin them back at the bottom of the file.
-- **The section eyebrow is `.tag`, and it is no longer a pill.** The bordered
-  version lives on as `.pill` where it still earns its place.
+- **There are no section eyebrows, and adding one back is a regression.** They
+  read as filler when every section carries one. Orientation comes from the
+  heading plus `.meta` — a row of real facts separated by hairlines. The
+  bordered pill survives as `.pill` only where it does actual work.
 - **`.arw` inherits `currentColor` and fills on parent hover.** Nest it inside
   the `<a>`/`.wcard`/`.tall` you want driving it, not beside.
 - **Marquee lists must be exactly doubled.** The keyframe ends at

@@ -85,6 +85,14 @@
     });
   });
 
+  /* nav gains weight once you leave the hero */
+  var nav = document.querySelector('.nav');
+  if (nav){
+    var onScroll = function(){ nav.classList.toggle('stuck', window.scrollY > 40); };
+    onScroll();
+    addEventListener('scroll', onScroll, { passive: true });
+  }
+
   /* mobile sheet */
   var sheet = document.getElementById('sheet'), open = document.querySelector('[data-sheet]');
   function set(on){
