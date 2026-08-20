@@ -91,5 +91,9 @@ recent work (`sec--light`).
   bordered pill survives as `.pill` only where it does actual work.
 - **`.arw` inherits `currentColor` and fills on parent hover.** Nest it inside
   the `<a>`/`.wcard`/`.tall` you want driving it, not beside.
+- **`gen.py` writes to `../index.html`.** It is easy to copy a scratch copy of
+  the generator over this one and have it quietly write somewhere else, leaving
+  a stale `index.html` that looks committed. Check the reported size against
+  the file after building.
 - **Marquee lists must be exactly doubled.** The keyframe ends at
   `translateX(-50%)`, so an odd count makes it jump.
