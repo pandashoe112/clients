@@ -304,15 +304,17 @@ because the OS-rendered arrow ignores the dark surface.
 **It does not submit.** `onsubmit="return false"`, no action, no endpoint.
 The revenue and spend ranges are invented brackets.
 
-## The CTA colour band, second attempt
+## The CTA and footer, both flat dark
 
-The band is now its own layer (`.cta::before`, a fixed-height strip) that
-is **masked out downward** with `mask-image`, over a flat `#0D0A14`
-section. The previous version painted an `rgba(13,10,20,…)` gradient over
-the pastels inside one background stack, which greys them: dark over
-pastel is mud, every time. Fading the colour's alpha instead keeps it
-clean and lets the flat dark below show through, and that dark is the same
-value the footer starts on.
+**The colour band is gone.** It went through three versions and none of
+them worked: a dark gradient over the pastels greyed them to mud, and the
+masked rebuild still fought the lead form sitting on top of it. `.cta` is
+now a flat `#0D0A14` and `.foot` a flat `#15131C`, one step apart, so the
+two read as two bands with no rule needed between them.
+
+If a colour treatment comes back here, put it somewhere the form is not:
+overlaying dark on pastel always greys it, and masking the colour out
+still leaves form fields sitting on a moving background.
 
 `.cta__panel` is a two-column grid: copy left, lead form right, one column
 below 1024px. The `.cta__arc` glow is gone; it was drawn for the old
