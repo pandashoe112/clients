@@ -56,10 +56,17 @@ zig-zag on desktop and the mobile query resets it.
 
 The art panels are pure CSS: four stacked `radial-gradient`s over a
 `linear-gradient` base, plus a 3px dot grid at `mix-blend-mode:overlay`
-for grain. The white `.stat` cards inside them carry **illustrative
-numbers, not real results** — they are `aria-hidden="true"` so no screen
-reader reads them out as fact. Swap them for real figures or leave them
-as texture, but do not present them as case-study data.
+for grain. Floating on each is a `.ui` tile mocking that channel's actual
+surface — a Google Ads campaign table, Meta's Ads Manager with delivery
+toggles, an organic result on a search page, and a referring-domains
+list. All CSS and inline SVG, no images.
+
+**Every figure in those tiles is invented**, and the platform marks are
+palette nods rather than reproductions of anyone's logo. The tiles are
+`aria-hidden="true"` so none of it reaches a screen reader as fact. The
+domains are deliberately made up too — naming a real publisher would
+imply a placement that does not exist. Swap in real numbers or label them
+as illustrative, but do not ship them as case-study data.
 
 `.cta` is the footer CTA: a gradient bleed with a near-black panel inset
 by the section padding. `.cta__arc` is the soft sweep — one wide ellipse

@@ -973,45 +973,131 @@
     box-shadow:0 10px 24px rgba(0,0,0,.22);
   }
 
-  /* illustrative figures only — aria-hidden in the markup so no screen
-     reader reads these placeholder numbers out as real results */
-  .stat{
+  /* Mock platform tiles that sit on the gradient panels. Illustrative UI
+     only — every figure is invented, and the tiles are aria-hidden in the
+     markup so none of it reaches a screen reader as fact. */
+  .ui{
     position:relative;z-index:2;
-    width:min(19rem,100%);
-    padding:1.25rem 1.35rem;
-    border-radius:1.1rem;
-    background:rgba(255,255,255,.94);
+    width:min(23rem,100%);
+    border-radius:1rem;
+    background:#fff;
     color:var(--ink-dark);
-    box-shadow:0 22px 50px rgba(0,0,0,.3);
+    box-shadow:0 24px 54px rgba(0,0,0,.34);
+    overflow:hidden;
+    font-size:.75rem;line-height:1.35;
+    font-variant-numeric:tabular-nums;
+    text-align:left;
   }
-  .stat__label{margin:0;font-size:.875rem;font-weight:500;color:#54545a;}
-  .stat__value{
-    margin:.5rem 0 0;
-    font-family:var(--font-head);
-    font-size:2rem;font-weight:600;letter-spacing:-.03em;line-height:1;
+  .ui__bar{
+    display:flex;align-items:center;gap:.5rem;
+    padding:.7rem .85rem;
+    border-bottom:1px solid rgba(0,0,0,.08);
   }
-  .stat__foot{
-    margin:.85rem 0 0;
-    display:flex;align-items:center;gap:.55rem;
-    font-size:.8125rem;color:#54545a;
+  .ui__mark{width:1.15rem;height:1.15rem;border-radius:.32rem;flex:0 0 auto;}
+  /* a nod to each platform's palette, not a reproduction of its logo */
+  .ui__mark--g{background:conic-gradient(from 210deg,#4285F4,#34A853,#FBBC05,#EA4335,#4285F4);border-radius:50%;}
+  .ui__mark--m{background:linear-gradient(135deg,#0866FF,#7B4CFF);}
+  .ui__name{font-weight:600;font-size:.8125rem;}
+  .ui__meta{margin-left:auto;color:#8a8a92;font-size:.6875rem;white-space:nowrap;}
+
+  .ui__head,.ui__row{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 2.8rem 2.8rem 2.4rem;
+    gap:.4rem;align-items:center;
+    padding:.5rem .85rem;
   }
-  .stat__pill{
-    display:inline-flex;align-items:center;gap:.2rem;
-    padding:.2rem .55rem;
+  .ui__head{
+    font-size:.625rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    color:#9a9aa2;border-bottom:1px solid rgba(0,0,0,.06);
+  }
+  .ui__row{border-bottom:1px solid rgba(0,0,0,.05);}
+  .ui__row > *:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ui__row > *:not(:first-child),.ui__head > *:not(:first-child){text-align:right;}
+  .ui__row b{font-weight:600;}
+
+  .ui__foot{
+    display:flex;align-items:center;gap:.45rem;
+    padding:.7rem .85rem;
+    background:#FAFAF9;
+    font-size:.6875rem;color:#54545a;
+  }
+  .ui__pill{
+    display:inline-flex;align-items:center;gap:.15rem;
+    padding:.15rem .5rem;border-radius:var(--radius-full);
+    background:#E8FCA6;color:#2F3D00;font-weight:700;font-size:.6875rem;
+  }
+  .ui__big{
+    margin-left:auto;
+    font-family:var(--font-head);font-size:1.05rem;font-weight:600;
+    letter-spacing:-.02em;color:var(--ink-dark);
+  }
+
+  /* Meta Ads: ad sets with delivery toggles */
+  .ui__set{
+    display:flex;align-items:center;gap:.6rem;
+    padding:.55rem .85rem;
+    border-bottom:1px solid rgba(0,0,0,.05);
+  }
+  .ui__tog{
+    position:relative;flex:0 0 auto;
+    width:1.6rem;height:.9rem;border-radius:var(--radius-full);
+    background:#0866FF;
+  }
+  .ui__tog::after{
+    content:"";position:absolute;top:.13rem;right:.13rem;
+    width:.64rem;height:.64rem;border-radius:50%;background:#fff;
+  }
+  .ui__tog--off{background:#D4D4D8;}
+  .ui__tog--off::after{right:auto;left:.13rem;}
+  .ui__set-body{display:grid;min-width:0;}
+  .ui__set-name{font-weight:600;font-size:.75rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ui__set-sub{display:flex;align-items:center;gap:.3rem;color:#8a8a92;font-size:.6875rem;}
+  .ui__dot{width:.35rem;height:.35rem;border-radius:50%;background:#22B14C;flex:0 0 auto;}
+  .ui__dot--off{background:#B4B4BC;}
+  .ui__set-val{margin-left:auto;font-weight:600;font-size:.75rem;}
+
+  /* SEO: an organic result on a search page */
+  .ui__search{
+    display:flex;align-items:center;gap:.5rem;
+    margin:.85rem .85rem .55rem;
+    padding:.45rem .7rem;
+    border:1px solid rgba(0,0,0,.14);
     border-radius:var(--radius-full);
-    font-size:.75rem;font-weight:600;
-    background:#E8FCA6;color:#2F3D00;
+    color:#3c4043;
   }
-  .stat__spark{display:block;width:100%;height:2.6rem;margin:.9rem 0 0;overflow:visible;}
-  .stat__bars{display:flex;flex-direction:column;gap:.45rem;margin:.9rem 0 0;}
-  .stat__bar{display:flex;align-items:center;gap:.6rem;font-size:.75rem;color:#54545a;}
-  .stat__bar em{flex:0 0 3.1rem;font-style:normal;}
-  .stat__bar i{height:.4rem;border-radius:var(--radius-full);background:#2A1D63;flex:0 0 auto;}
-  .stat__drs{display:flex;flex-wrap:wrap;gap:.35rem;margin:.9rem 0 0;}
-  .stat__drs span{
-    padding:.15rem .45rem;border-radius:.4rem;
-    background:#E6E1FA;color:#2A1D63;
-    font-size:.7rem;font-weight:600;
+  .ui__search svg{width:.8rem;height:.8rem;flex:0 0 auto;color:#9a9aa2;}
+  .ui__count{margin:0;padding:0 .95rem .55rem;font-size:.625rem;color:#9a9aa2;}
+  .serp{
+    margin:0 .6rem .45rem;
+    padding:.6rem .7rem;
+    border-radius:.6rem;
+    background:#F1F5FF;
+    border:1px solid #DAE4FF;
+  }
+  .serp--dim{background:transparent;border-color:transparent;opacity:.45;}
+  .serp__url{display:flex;align-items:center;gap:.35rem;font-size:.6875rem;color:#4d5156;}
+  .serp__fav{width:.8rem;height:.8rem;border-radius:50%;background:#2A1D63;flex:0 0 auto;}
+  .serp__title{margin:.3rem 0 .2rem;font-size:.8125rem;font-weight:500;line-height:1.25;color:#1a0dab;}
+  .serp__desc{margin:0;font-size:.6875rem;color:#4d5156;}
+
+  /* Link building: earned placements */
+  .ui__link-row{
+    display:grid;grid-template-columns:2.7rem minmax(0,1fr) auto;
+    gap:.55rem;align-items:center;
+    padding:.5rem .85rem;
+    border-bottom:1px solid rgba(0,0,0,.05);
+  }
+  .ui__dr{
+    padding:.2rem 0;border-radius:.35rem;text-align:center;
+    background:#E6E1FA;color:#2A1D63;font-weight:700;font-size:.625rem;
+  }
+  .ui__link-body{display:grid;min-width:0;}
+  .ui__dom{font-weight:600;font-size:.75rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ui__anchor{color:#8a8a92;font-size:.625rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ui__tagf{
+    padding:.15rem .4rem;border-radius:.3rem;
+    background:#E8FCA6;color:#2F3D00;
+    font-size:.5625rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
   }
 
   @media (max-width:1024px){
@@ -1253,8 +1339,8 @@
   <section class="suite" id="services">
     <div class="suite__head">
       <p class="eyebrow-line eyebrow-line--light"><span>What we do</span><span class="eyebrow-line__rule"></span><span>03</span></p>
-      <h2>Four services. You only pay for the ones you need.</h2>
-      <p class="suite__lede">Google Ads, Meta Ads, SEO and link building. Most businesses need two of them, and we would rather run two properly than four badly.</p>
+      <h2>These are the four services we offer</h2>
+      <p class="suite__lede">Google Ads, Meta Ads, SEO and link building &mdash; that is the whole list. Most businesses only need two of them, and we would rather run two properly than four badly.</p>
     </div>
 
     <div class="suite__rows">
@@ -1269,10 +1355,17 @@
         </div>
         <div class="suite__art suite__art--google">
           <span class="suite__go" aria-hidden="true">&#8599;</span>
-          <div class="stat" aria-hidden="true">
-            <p class="stat__label">Cost per lead</p>
-            <p class="stat__value">$38.40</p>
-            <p class="stat__foot"><span class="stat__pill">&#8595; 22%</span> than last month</p>
+          <div class="ui" aria-hidden="true">
+            <div class="ui__bar">
+              <span class="ui__mark ui__mark--g"></span>
+              <span class="ui__name">Google Ads</span>
+              <span class="ui__meta">Last 30 days</span>
+            </div>
+            <div class="ui__head"><span>Campaign</span><span>Clicks</span><span>Cost</span><span>CPA</span></div>
+            <div class="ui__row"><span>Brand &ndash; Search</span><span>1,284</span><span>$612</span><b>$38</b></div>
+            <div class="ui__row"><span>Emergency 24/7</span><span>902</span><span>$488</span><b>$41</b></div>
+            <div class="ui__row"><span>Shopping &ndash; AU</span><span>641</span><span>$305</span><b>$34</b></div>
+            <div class="ui__foot"><span class="ui__pill">&#8595; 22%</span> cost per lead<span class="ui__big">$38.40</span></div>
           </div>
         </div>
       </article>
@@ -1288,14 +1381,37 @@
         </div>
         <div class="suite__art suite__art--meta">
           <span class="suite__go" aria-hidden="true">&#8599;</span>
-          <div class="stat" aria-hidden="true">
-            <p class="stat__label">People reached</p>
-            <p class="stat__value">1.24M</p>
-            <div class="stat__bars">
-              <span class="stat__bar"><em>Feed</em><i style="width:76%"></i></span>
-              <span class="stat__bar"><em>Reels</em><i style="width:52%"></i></span>
-              <span class="stat__bar"><em>Stories</em><i style="width:31%"></i></span>
+          <div class="ui" aria-hidden="true">
+            <div class="ui__bar">
+              <span class="ui__mark ui__mark--m"></span>
+              <span class="ui__name">Ads Manager</span>
+              <span class="ui__meta">3 ad sets</span>
             </div>
+            <div class="ui__set">
+              <span class="ui__tog"></span>
+              <span class="ui__set-body">
+                <span class="ui__set-name">Retargeting &ndash; 30 day</span>
+                <span class="ui__set-sub"><i class="ui__dot"></i>Active &middot; Feed</span>
+              </span>
+              <span class="ui__set-val">614K</span>
+            </div>
+            <div class="ui__set">
+              <span class="ui__tog"></span>
+              <span class="ui__set-body">
+                <span class="ui__set-name">Lookalike 1% &ndash; Reels</span>
+                <span class="ui__set-sub"><i class="ui__dot"></i>Active &middot; Reels</span>
+              </span>
+              <span class="ui__set-val">428K</span>
+            </div>
+            <div class="ui__set">
+              <span class="ui__tog ui__tog--off"></span>
+              <span class="ui__set-body">
+                <span class="ui__set-name">Broad &ndash; Stories</span>
+                <span class="ui__set-sub"><i class="ui__dot ui__dot--off"></i>Paused</span>
+              </span>
+              <span class="ui__set-val">212K</span>
+            </div>
+            <div class="ui__foot"><span class="ui__pill">&#8593; 34%</span> people reached<span class="ui__big">1.24M</span></div>
           </div>
         </div>
       </article>
@@ -1311,14 +1427,22 @@
         </div>
         <div class="suite__art suite__art--seo">
           <span class="suite__go" aria-hidden="true">&#8599;</span>
-          <div class="stat" aria-hidden="true">
-            <p class="stat__label">Ranking keywords</p>
-            <p class="stat__value">412</p>
-            <svg class="stat__spark" viewBox="0 0 120 32" fill="none" preserveAspectRatio="none">
-              <path d="M2 29 L20 26 L38 27 L56 19 L74 16 L92 9 L118 3" stroke="#2A1D63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="118" cy="3" r="3" fill="#2A1D63"/>
-            </svg>
-            <p class="stat__foot"><span class="stat__pill">&#8593; 87</span> in the last 90 days</p>
+          <div class="ui" aria-hidden="true">
+            <span class="ui__search">
+              <svg viewBox="0 0 16 16" fill="none"><circle cx="6.8" cy="6.8" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M10.4 10.4 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              melbourne electrician
+            </span>
+            <p class="ui__count">About 2,140,000 results</p>
+            <div class="serp">
+              <span class="serp__url"><i class="serp__fav"></i>dunk.agency &rsaquo; services &rsaquo; seo</span>
+              <p class="serp__title">SEO Melbourne &mdash; rank for what your customers search</p>
+              <p class="serp__desc">Build the demand you will capture next year. Technical SEO, content and local search, measured on leads&nbsp;&mdash;&nbsp;not impressions.</p>
+            </div>
+            <div class="serp serp--dim">
+              <span class="serp__url"><i class="serp__fav"></i>competitor.com.au</span>
+              <p class="serp__title">Digital marketing agency Melbourne</p>
+            </div>
+            <div class="ui__foot"><span class="ui__pill">&#8593; 87</span> ranking keywords<span class="ui__big">412</span></div>
           </div>
         </div>
       </article>
@@ -1334,11 +1458,27 @@
         </div>
         <div class="suite__art suite__art--links">
           <span class="suite__go" aria-hidden="true">&#8599;</span>
-          <div class="stat" aria-hidden="true">
-            <p class="stat__label">Referring domains</p>
-            <p class="stat__value">68</p>
-            <div class="stat__drs"><span>DR 74</span><span>DR 68</span><span>DR 61</span><span>DR 57</span><span>DR 52</span></div>
-            <p class="stat__foot"><span class="stat__pill">&#8593; 19</span> this quarter</p>
+          <div class="ui" aria-hidden="true">
+            <div class="ui__bar">
+              <span class="ui__name">Referring domains</span>
+              <span class="ui__meta">Won this quarter</span>
+            </div>
+            <div class="ui__link-row">
+              <span class="ui__dr">DR 74</span>
+              <span class="ui__link-body"><span class="ui__dom">citynews.com.au</span><span class="ui__anchor">&ldquo;melbourne electrician&rdquo;</span></span>
+              <span class="ui__tagf">Dofollow</span>
+            </div>
+            <div class="ui__link-row">
+              <span class="ui__dr">DR 68</span>
+              <span class="ui__link-body"><span class="ui__dom">tradehub.com.au</span><span class="ui__anchor">&ldquo;solar battery installer&rdquo;</span></span>
+              <span class="ui__tagf">Dofollow</span>
+            </div>
+            <div class="ui__link-row">
+              <span class="ui__dr">DR 61</span>
+              <span class="ui__link-body"><span class="ui__dom">homestyle.com.au</span><span class="ui__anchor">&ldquo;ev charger installation&rdquo;</span></span>
+              <span class="ui__tagf">Dofollow</span>
+            </div>
+            <div class="ui__foot"><span class="ui__pill">&#8593; 19</span> live placements<span class="ui__big">68</span></div>
           </div>
         </div>
       </article>
