@@ -83,3 +83,14 @@ single-class rule, so they silently flattened the nav's `z-index:40` and
 killed the arc's `position:absolute`. Both are now scoped around
 (`.hero > .nav`, `> *:not(.cta__arc)`). If something inside a section
 mysteriously loses its positioning, check for a `> *` rule first.
+
+## The three light tones
+
+`--page` `#EFEEEB` (the ground) → `--paper` `#F5F4F1` (the light sections)
+→ `#fff` (the cards inside them). `--paper` was pure white, which put the
+white `.pick` cards white-on-white and left them relying entirely on
+their border and shadow to read as cards.
+
+`--paper` is used by exactly two sections, `.approach` and `.picker`, so
+one token moves both and they stay in step. The cards use a literal
+`#fff` rather than a token, which is why they stayed put.
