@@ -1595,12 +1595,81 @@
     .why{grid-template-columns:minmax(0,1fr);}
   }
 
+  /* ---------- lead form ---------- */
+  .lead{
+    max-width:46rem;margin:clamp(2.5rem,4vw,3.5rem) auto 0;
+    padding:clamp(1.5rem,3vw,2.5rem);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:1.5rem;
+    background:linear-gradient(180deg, rgba(255,255,255,.055) 0%, rgba(255,255,255,.022) 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 24px 60px rgba(0,0,0,.35);
+    text-align:left;
+  }
+  .lead__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem 1.1rem;}
+  .lead__field{display:flex;flex-direction:column;gap:.45rem;min-width:0;}
+  .lead__field--wide{grid-column:1 / -1;}
+  .lead__field label{
+    font-size:.6875rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--grey-200);
+  }
+  .lead__field label i{font-style:normal;color:var(--lime);}
+  .lead__field input,
+  .lead__field select,
+  .lead__field textarea{
+    width:100%;
+    padding:.8rem .9rem;
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:.7rem;
+    background:rgba(0,0,0,.28);
+    font:inherit;font-size:.9375rem;color:#fff;
+    transition:border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
+  }
+  .lead__field textarea{min-height:6.5rem;resize:vertical;}
+  .lead__field input::placeholder,.lead__field textarea::placeholder{color:rgba(255,255,255,.35);}
+  .lead__field input:focus,
+  .lead__field select:focus,
+  .lead__field textarea:focus{
+    outline:none;
+    border-color:var(--lime);
+    background:rgba(0,0,0,.4);
+    box-shadow:0 0 0 3px rgba(230,255,2,.18);
+  }
+  /* native selects render their own arrow in the OS colour, so draw one */
+  .lead__select{position:relative;}
+  .lead__select select{appearance:none;-webkit-appearance:none;padding-right:2.4rem;cursor:pointer;}
+  .lead__select select option{color:#111;}
+  .lead__select::after{
+    content:"";
+    position:absolute;right:1rem;bottom:1.15rem;
+    width:.42rem;height:.42rem;
+    border-right:2px solid var(--grey-200);
+    border-bottom:2px solid var(--grey-200);
+    transform:rotate(45deg);
+    pointer-events:none;
+  }
+  .lead__submit{
+    width:100%;justify-content:center;
+    margin-top:1.5rem;
+    padding:1.05rem 1.5rem;
+    border-radius:.85rem;
+    font-size:.875rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  }
+  .lead__note{
+    margin:1.1rem 0 0;
+    font-size:.75rem;line-height:1.6;color:var(--grey-300);
+  }
+  .lead__note b{color:var(--grey-200);font-weight:600;}
+  @media (max-width:640px){
+    .lead__grid{grid-template-columns:minmax(0,1fr);}
+  }
+
   /* ---------- footer ---------- */
   .foot{
-    margin-top:var(--shell);
-    padding:clamp(3rem,5vw,4.5rem) var(--edge) 2rem;
-    border-radius:var(--radius-main);
-    background:var(--surface);
+    margin:0 calc(var(--shell) * -1) calc(var(--shell) * -1);
+    padding:clamp(3rem,5vw,4.5rem) var(--edge) 2.5rem;
+    border-radius:0;
+    /* starts on the exact value the CTA band ends on, then deepens */
+    background:linear-gradient(180deg, #0D0A14 0%, #131118 46%, #08070C 100%);
     color:#fff;
   }
   .foot__top{
@@ -1721,23 +1790,132 @@
   .ph__need{margin:1.15rem 0 0;max-width:46rem;font-size:.9375rem;line-height:1.65;color:#6b6b73;}
   .ph__need b{color:var(--ink-dark);font-weight:600;}
 
-  /* ---------- footer CTA ---------- */
-  .cta{
+  /* ---------- insights ---------- */
+  .blog{
     margin-top:var(--shell);
-    padding:clamp(1.25rem,3.5vw,4rem);
+    padding:clamp(4rem,6vw,6rem) var(--edge);
     border-radius:var(--radius-main);
+    background:var(--paper);
+    color:var(--ink-dark);
+  }
+  .blog__head{
+    display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
+    gap:clamp(1.5rem,4vw,4rem);align-items:end;
+    margin-bottom:clamp(2.5rem,4vw,3.5rem);
+  }
+  .blog__eyebrow{
+    margin:0 0 1rem;
+    font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:#5B7A00;
+  }
+  .blog__head h2{
+    margin:0;
+    font-family:var(--font-head);
+    font-size:clamp(1.875rem,3.4vw,3rem);
+    line-height:1.08;letter-spacing:-.035em;font-weight:600;
+    text-wrap:balance;
+  }
+  .blog__lede{margin:0;font-size:.9375rem;line-height:1.65;color:#54545a;}
+
+  .blog__feature{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:clamp(2rem,4vw,4rem);align-items:stretch;
+  }
+  .blog__art{
+    position:relative;overflow:hidden;
+    border-radius:1.25rem;
+    min-height:22rem;
+    background:#0E0D12;
+    display:flex;align-items:center;justify-content:center;
+  }
+  /* stands in for the post's hero image: a lime orb bleeding into the dark,
+     built in CSS so the section needs no asset */
+  .blog__orb{
+    width:56%;aspect-ratio:1/1;border-radius:50%;
     background:
-      radial-gradient(58% 78% at 10% 18%, #C9B7FF 0%, rgba(201,183,255,0) 62%),
-      radial-gradient(54% 70% at 90% 10%, #FFD98A 0%, rgba(255,217,138,0) 60%),
-      radial-gradient(70% 78% at 80% 98%, #D6F27A 0%, rgba(214,242,122,0) 62%),
-      radial-gradient(60% 70% at 20% 94%, #9FE3D0 0%, rgba(159,227,208,0) 60%),
-      #E7E2D6;
+      radial-gradient(circle at 50% 62%, #F4FFC4 0%, #E6FF02 26%, #B9CE2E 46%, rgba(122,140,20,.55) 62%, rgba(90,80,160,.28) 78%, rgba(14,13,18,0) 92%);
+    filter:blur(2px);
+  }
+  .blog__art::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    opacity:.5;mix-blend-mode:overlay;
+    background-image:radial-gradient(rgba(255,255,255,.5) .5px, transparent .5px);
+    background-size:3px 3px;
+  }
+  .blog__body{display:flex;flex-direction:column;}
+  .blog__meta{
+    display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;
+    margin:0 0 1rem;
+    font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:#54545a;
+  }
+  .blog__meta span{display:inline-flex;align-items:center;gap:.45rem;}
+  .blog__meta svg{width:.95rem;height:.95rem;flex:0 0 auto;color:#8a8a92;}
+  .blog__body h3{
+    margin:0;
+    font-family:var(--font-head);
+    font-size:clamp(1.375rem,2.3vw,1.875rem);
+    line-height:1.18;letter-spacing:-.025em;font-weight:600;
+  }
+  .blog__excerpt{margin:1.1rem 0 0;font-size:.9375rem;line-height:1.7;color:#54545a;}
+  .blog__more{
+    align-self:flex-start;margin-top:auto;padding-top:0;
+    display:inline-flex;align-items:center;gap:.6rem;
+  }
+  .blog__more{margin-top:2.5rem;}
+  .blog__links{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:1rem clamp(1.5rem,3vw,2.5rem);
+    margin-top:clamp(2.5rem,4vw,3.5rem);
+    padding-top:2rem;
+    border-top:1px solid rgba(0,0,0,.1);
+  }
+  .blog__links a{
+    font-family:var(--font-head);
+    font-size:1rem;font-weight:600;line-height:1.3;letter-spacing:-.015em;
+    color:var(--ink-dark);
+  }
+  .blog__links a:hover{color:#5B7A00;}
+  .blog__links span{
+    display:block;margin-top:.35rem;
+    font-family:var(--font-body);font-size:.75rem;font-weight:400;
+    letter-spacing:.06em;text-transform:uppercase;color:#8a8a92;
+  }
+  @media (max-width:1024px){
+    .blog__head,.blog__feature{grid-template-columns:minmax(0,1fr);}
+    .blog__head{align-items:start;}
+    .blog__art{min-height:16rem;}
+    .blog__links{grid-template-columns:minmax(0,1fr);}
+  }
+
+  /* ---------- footer CTA ---------- */
+  /* full bleed, and the colour band dissolves downward into the same value
+     the footer starts on, so the two read as one block rather than two
+     rounded cards with a gap */
+  .cta{
+    margin:var(--shell) calc(var(--shell) * -1) 0;
+    padding:clamp(3.5rem,6vw,5.5rem) var(--edge) clamp(4rem,7vw,6rem);
+    border-radius:0;
+    /* the colour band is a fixed 320px strip pinned to the top, not a
+       percentage of the section: the section's height changes with the form,
+       and percentage stops left the colour sitting behind the first fields */
+    background:
+      linear-gradient(180deg, rgba(13,10,20,0) 0%, rgba(13,10,20,.5) 52%, #0D0A14 100%) top center / 100% 320px no-repeat,
+      radial-gradient(64% 100% at 10% 0%, #C9B7FF 0%, rgba(201,183,255,0) 68%) top center / 100% 320px no-repeat,
+      radial-gradient(58% 100% at 88% 0%, #FFD98A 0%, rgba(255,217,138,0) 66%) top center / 100% 320px no-repeat,
+      radial-gradient(66% 110% at 74% 30%, #D6F27A 0%, rgba(214,242,122,0) 66%) top center / 100% 320px no-repeat,
+      radial-gradient(60% 110% at 24% 26%, #9FE3D0 0%, rgba(159,227,208,0) 64%) top center / 100% 320px no-repeat,
+      /* a colour cannot be sized in the shorthand, so the band's own base is
+         a flat gradient; only the last layer may be a bare colour */
+      linear-gradient(#E7E2D6, #E7E2D6) top center / 100% 320px no-repeat,
+      #0D0A14;
   }
   .cta__panel{
     position:relative;overflow:hidden;isolation:isolate;
-    border-radius:1.75rem;
-    background:#0D0A14;
-    padding:clamp(3rem,6vw,6rem) clamp(1.5rem,5vw,5rem);
+    max-width:var(--max);margin-inline:auto;
+    border-radius:0;
+    background:none;
+    padding:clamp(1rem,2vw,2rem) 0 0;
     text-align:center;
   }
   /* the soft arc sweep: one wide ellipse centred below the panel, showing
@@ -2232,13 +2410,86 @@
     </div>
   </section>
 
+  <section class="blog" id="insights">
+    <div class="blog__head">
+      <div>
+        <p class="blog__eyebrow">Strategic insights</p>
+        <h2>Ideas, insights and what is actually working</h2>
+      </div>
+      <p class="blog__lede">Plain-English writing on Google Ads, Meta Ads, SEO and link building. What we are seeing in client accounts, what changed this month, and what we would do about it.</p>
+    </div>
+
+    <article class="blog__feature">
+      <div class="blog__art"><span class="blog__orb" aria-hidden="true"></span></div>
+      <div class="blog__body">
+        <p class="blog__meta">
+          <span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.6" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.6h17M8 3.5v3M16 3.5v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg> 6 July 2026</span>
+          <span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.6" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.4V12l3.2 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg> 6 min read</span>
+        </p>
+        <h3>The truth about backlinks: are they still relevant?</h3>
+        <p class="blog__excerpt">Every year someone declares links dead, and every year the sites with better links keep winning. Here is what still moves rankings, what is a waste of budget, and how to tell a placement worth paying for from one you will be disavowing in twelve months.</p>
+        <a class="btn btn--ink blog__more" href="/blog/the-truth-about-backlinks">Read more <span class="btn__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+    </article>
+
+    <div class="blog__links">
+      <a href="/blog/common-marketing-mistakes">Common marketing mistakes small businesses make<span>4 min read</span></a>
+      <a href="/blog/web-copy-not-ranking">Why your web copy is not ranking, and the fixes that work<span>5 min read</span></a>
+      <a href="/blog/seo-mistakes">Ten SEO mistakes that are hurting your rankings<span>7 min read</span></a>
+    </div>
+  </section>
+
   <section class="cta" id="contact">
     <div class="cta__panel">
       <span class="cta__arc" aria-hidden="true"></span>
       <p class="cta__eyebrow"><span class="cta__dot" aria-hidden="true"></span>Let's talk</p>
       <h2>Let's work out what your marketing should actually be doing</h2>
       <p class="cta__lede">A free half hour on the phone. We will look at what you are running now, tell you what we would change, and you can take that away whether you work with us or not.</p>
-      <a class="btn btn--lime" href="https://calendly.com/dunk-agency/growth-call">Book a Free Growth Call<span class="btn__arrow" aria-hidden="true">&#8599;</span></a>
+        <form class="lead" onsubmit="return false">
+          <div class="lead__grid">
+            <p class="lead__field">
+              <label for="lead-name">Full name <i aria-hidden="true">*</i></label>
+              <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Jane Chen" required>
+            </p>
+            <p class="lead__field">
+              <label for="lead-email">Email address <i aria-hidden="true">*</i></label>
+              <input id="lead-email" name="email" type="email" autocomplete="email" placeholder="jane@yourbusiness.com.au" required>
+            </p>
+            <p class="lead__field">
+              <label for="lead-phone">Phone <i aria-hidden="true">*</i></label>
+              <input id="lead-phone" name="phone" type="tel" autocomplete="tel" placeholder="0400 000 000" required>
+            </p>
+            <p class="lead__field">
+              <label for="lead-company">Company name <i aria-hidden="true">*</i></label>
+              <input id="lead-company" name="company" type="text" autocomplete="organization" placeholder="Your business" required>
+            </p>
+            <p class="lead__field lead__field--wide">
+              <label for="lead-site">Website</label>
+              <input id="lead-site" name="website" type="url" autocomplete="url" placeholder="https://yourbusiness.com.au">
+            </p>
+            <p class="lead__field lead__select">
+              <label for="lead-rev">Average monthly revenue <i aria-hidden="true">*</i></label>
+              <select id="lead-rev" name="revenue" required>
+                <option value="" selected>Select a range</option>
+                <option>Under $50k</option><option>$50k to $100k</option><option>$100k to $250k</option><option>$250k to $500k</option><option>$500k or more</option>
+              </select>
+            </p>
+            <p class="lead__field lead__select">
+              <label for="lead-spend">Monthly marketing spend <i aria-hidden="true">*</i></label>
+              <select id="lead-spend" name="spend" required>
+                <option value="" selected>Select a range</option>
+                <option>Under $2k</option><option>$2k to $5k</option><option>$5k to $10k</option><option>$10k to $25k</option><option>$25k or more</option>
+              </select>
+            </p>
+            <p class="lead__field lead__field--wide">
+              <label for="lead-help">How can we help? <i aria-hidden="true">*</i></label>
+              <textarea id="lead-help" name="message" placeholder="What you are running now, and what you want more of." required></textarea>
+            </p>
+          </div>
+
+          <button class="btn btn--lime lead__submit" type="submit">Book a free growth call</button>
+          <p class="lead__note">Fields marked <b>*</b> are required. Please do not send card numbers, passwords or any other sensitive details through this form.</p>
+        </form>
     </div>
   </section>
 

@@ -268,3 +268,38 @@ link columns and a newsletter block right, separated by a rule drawn as a
   study rests on. Only one office is listed; that source names three.
 - The newsletter form has `onsubmit="return false"` and no action. It is
   presentational.
+
+## Insights, and the CTA-to-footer block
+
+`.blog` sits between the FAQs and the CTA: eyebrow and heading left, lede
+right, then a featured post with the artwork left and meta/title/excerpt
+right, and three secondary posts under a rule. The featured artwork is a
+CSS orb, not an image, so the section needs no asset.
+
+`.cta` and `.foot` are both full bleed now, breaking out of the shell with
+`calc(var(--shell) * -1)` side margins, no border-radius, and zero gap
+between them. The footer also pulls its bottom margin negative so it
+reaches the document edge.
+
+Two things make the seam work:
+
+- **The colour band is a fixed 320px strip pinned to the top of `.cta`**,
+  not a percentage of its height. Percentage stops broke once the lead form
+  made the section much taller: the colour ended up behind the first
+  fields and washed them out.
+- **`.cta` ends on `#0D0A14` and `.foot` starts on it**, so the two read as
+  one block.
+
+A colour cannot be positioned or sized in the `background` shorthand, only
+the final bare colour can. Writing `#E7E2D6 top center / 100% 320px` made
+the whole declaration invalid and the section fell back to the page ground.
+The band's base is a flat `linear-gradient` for that reason.
+
+## Lead form
+
+`.lead`, in the CTA. Eight fields, every one with a real `<label for>`.
+Two selects have their native arrow suppressed and one drawn in CSS,
+because the OS-rendered arrow ignores the dark surface.
+
+**It does not submit.** `onsubmit="return false"`, no action, no endpoint.
+The revenue and spend ranges are invented brackets.
