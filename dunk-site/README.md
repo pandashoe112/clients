@@ -325,10 +325,11 @@ full-bleed.
 three cards across, two below 1024px, one below 640px. Cards are flex
 columns so all three bottom out level (measured 582px each).
 
-**The third card is a deliberate placeholder.** Solargain and Pestline
-carry real figures. There is no third case study with data, and inventing
-a number against a named real client is the one thing not to do here, so
-that card reads "Stat to confirm" in grey and its copy says so. It uses
-the Naked Harvest logo on a wash, since no photo was supplied for them,
-darkened with `filter:brightness(0)` because the supplied logos are white
-artwork.
+All three cards now carry real client copy and figures: Pestline 641%,
+Solargain 220%, Approved Electrix 318%. The plate behind each logo is
+white because the supplied logos are **JPEGs with a white background**, not
+transparent PNGs; on a white plate they read as though they were cut out.
+Put them on any tinted surface and the white box shows.
+
+The `View SEO case study` links point at `/case-studies/<client>` routes
+that do not exist yet.
