@@ -228,3 +228,18 @@ The service copy card. Four things carry it, and they interlock:
 `.suite__chips` carries `margin-bottom:1.9rem` and the link `margin-top:auto`.
 The auto alone gives no floor, so on a card whose copy nearly fills the
 height the rule crowds straight up against the chips.
+
+### Tile sizing
+
+`.ui` is `width:100%` — it fills the art panel's content box (92% of the
+panel, the rest being the panel's 1.6rem padding). It was `min(23rem,100%)`,
+which used about 63% of the width and left the data cramped.
+
+The panel's decorative corner arrow (`.suite__go`) is gone. A full-width
+tile leaves no room for it, and it was rendering as a half-circle behind
+the tile; the copy card's "See how we run X" link already carries that
+affordance.
+
+`.ui--links .ui__head > *:nth-child(2)` re-left-aligns "Domain": the
+generic `> *:not(:first-child)` right-align rule threw it into the traffic
+column.
