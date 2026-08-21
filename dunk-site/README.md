@@ -221,3 +221,20 @@ both are verified clear of the panel edge.
 **The avatar is a plum gradient placeholder, not Oliver.** No headshot was
 supplied. Drop a portrait in and swap the `data:` URI on
 `.call__avatar img`; the circle, ring and lime live-dot are already there.
+
+## Logo wall
+
+Six logos, alpha-trimmed at encode time and fitted to a 300x88 box rather
+than sized by height. Both matter: the source PNGs are square canvases
+with the mark floating in transparent padding, and the wordmarks run as
+wide as 12:1, so height-sizing made Naked Harvest tower over Dometic and
+left every square mark looking tiny.
+
+All are flattened to white with `filter:brightness(0) invert(1)` — two of
+the six are black artwork and would vanish on the plum otherwise.
+
+`.marquee__set` gap is 8rem, and that is load-bearing. The track holds two
+identical sets and animates to `translateX(-50%)`, so **one set has to be
+at least as wide as the marquee container** or the loop shows a hole. Six
+logos only reach 1353px against a 1184px container because of that gap;
+tighten it and the seam reappears.
