@@ -56,17 +56,24 @@ zig-zag on desktop and the mobile query resets it.
 
 The art panels are pure CSS: four stacked `radial-gradient`s over a
 `linear-gradient` base, plus a 3px dot grid at `mix-blend-mode:overlay`
-for grain. Floating on each is a `.ui` tile mocking that channel's actual
+for grain — one shared gradient across all four panels. Floating on each
+is a `.ui` tile mocking that channel's actual
 surface — a Google Ads campaign table, Meta's Ads Manager with delivery
 toggles, an organic result on a search page, and a referring-domains
 list. All CSS and inline SVG, no images.
 
-**Every figure in those tiles is invented**, and the platform marks are
-palette nods rather than reproductions of anyone's logo. The tiles are
-`aria-hidden="true"` so none of it reaches a screen reader as fact. The
-domains are deliberately made up too — naming a real publisher would
-imply a placement that does not exist. Swap in real numbers or label them
-as illustrative, but do not ship them as case-study data.
+The Google and Meta marks are the real logos, supplied by the client and
+inlined as base64 WebP. They were downscaled first: the Meta source was
+3840x2551 and 80 KB for an 18px mark, so both are re-encoded at 72px tall
+(9 KB the pair). Re-encode rather than restyle if they ever need to be
+bigger.
+
+**Every figure in those tiles is invented**, and the tiles are
+`aria-hidden="true"` so none of it reaches a screen reader as fact. So
+are the names: the referring domains, the SERP competitor, and
+**`summitwindowcare.com.au` in the SEO tile — that is a placeholder, not
+a client.** Swap in the real client and real numbers, or label them as
+illustrative, but do not ship them as case-study data.
 
 `.cta` is the footer CTA: a gradient bleed with a near-black panel inset
 by the section padding. `.cta__arc` is the soft sweep — one wide ellipse

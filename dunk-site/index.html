@@ -894,12 +894,8 @@
     border:1px solid var(--hairline);
     background:rgba(255,255,255,.04);
   }
-  .suite__no{
-    font-size:.75rem;font-weight:600;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--grey-300);
-  }
   .suite__copy h3{
-    margin:1.5rem 0 0;
+    margin:0;
     font-family:var(--font-head);
     font-size:clamp(1.375rem,1.9vw,1.75rem);
     line-height:1.15;letter-spacing:-.025em;font-weight:600;
@@ -928,6 +924,11 @@
     min-height:25rem;
     display:flex;align-items:center;justify-content:center;
     padding:2rem;
+    background:
+      radial-gradient(72% 80% at 84% 14%, #FF6FC4 0%, rgba(255,111,196,0) 62%),
+      radial-gradient(66% 72% at 12% 26%, #8A5CFF 0%, rgba(138,92,255,0) 60%),
+      radial-gradient(86% 74% at 40% 100%, #4B4BE8 0%, rgba(75,75,232,0) 64%),
+      linear-gradient(200deg,#3A1C74 0%,#2A1458 100%);
   }
   /* fine grain over the mesh, the way the reference panels read */
   .suite__art::after{
@@ -937,34 +938,6 @@
     opacity:.4;mix-blend-mode:overlay;
     background-image:radial-gradient(rgba(255,255,255,.55) .5px, transparent .5px);
     background-size:3px 3px;
-  }
-  .suite__art--google{
-    background:
-      radial-gradient(70% 80% at 12% 16%, #8877FF 0%, rgba(136,119,255,0) 62%),
-      radial-gradient(66% 74% at 90% 24%, #3FBDF7 0%, rgba(63,189,247,0) 60%),
-      radial-gradient(84% 72% at 68% 98%, #23E3C4 0%, rgba(35,227,196,0) 64%),
-      linear-gradient(150deg,#2A1458 0%,#123A4C 100%);
-  }
-  .suite__art--meta{
-    background:
-      radial-gradient(72% 80% at 84% 14%, #FF6FC4 0%, rgba(255,111,196,0) 62%),
-      radial-gradient(66% 72% at 12% 26%, #8A5CFF 0%, rgba(138,92,255,0) 60%),
-      radial-gradient(86% 74% at 40% 100%, #4B4BE8 0%, rgba(75,75,232,0) 64%),
-      linear-gradient(200deg,#3A1C74 0%,#2A1458 100%);
-  }
-  .suite__art--seo{
-    background:
-      radial-gradient(70% 78% at 16% 22%, #D6F27A 0%, rgba(214,242,122,0) 60%),
-      radial-gradient(68% 74% at 88% 30%, #38D9A9 0%, rgba(56,217,169,0) 60%),
-      radial-gradient(84% 76% at 62% 100%, #1F8F8F 0%, rgba(31,143,143,0) 64%),
-      linear-gradient(160deg,#123A4C 0%,#2A1458 100%);
-  }
-  .suite__art--links{
-    background:
-      radial-gradient(70% 78% at 86% 18%, #FFC96B 0%, rgba(255,201,107,0) 60%),
-      radial-gradient(66% 72% at 14% 24%, #FF8A6B 0%, rgba(255,138,107,0) 60%),
-      radial-gradient(86% 76% at 50% 100%, #B65CFF 0%, rgba(182,92,255,0) 64%),
-      linear-gradient(200deg,#4A1F5C 0%,#2A1458 100%);
   }
   .suite__go{
     position:absolute;top:1.25rem;right:1.25rem;z-index:2;
@@ -995,10 +968,9 @@
     padding:.7rem .85rem;
     border-bottom:1px solid rgba(0,0,0,.08);
   }
-  .ui__mark{width:1.15rem;height:1.15rem;border-radius:.32rem;flex:0 0 auto;}
-  /* a nod to each platform's palette, not a reproduction of its logo */
-  .ui__mark--g{background:conic-gradient(from 210deg,#4285F4,#34A853,#FBBC05,#EA4335,#4285F4);border-radius:50%;}
-  .ui__mark--m{background:linear-gradient(135deg,#0866FF,#7B4CFF);}
+  .ui__logo{display:block;flex:0 0 auto;width:auto;}
+  .ui__logo--g{height:1rem;}
+  .ui__logo--m{height:.8rem;}
   .ui__name{font-weight:600;font-size:.8125rem;}
   .ui__meta{margin-left:auto;color:#8a8a92;font-size:.6875rem;white-space:nowrap;}
 
@@ -1348,18 +1320,17 @@
     <div class="suite__rows">
       <article class="suite__row">
         <div class="suite__copy">
-          <span class="suite__no">01 &mdash; Paid search</span>
           <h3>Google Advertising</h3>
           <p class="suite__tag">Capture the demand that exists today</p>
           <p class="suite__body">People are already searching for what you sell. Search, Shopping and Performance Max put you in front of them at the moment they are looking &mdash; and we only bid on the terms that turn into work, not the ones that flatter the report.</p>
           <div class="suite__chips"><span>Search Ads</span><span>Shopping</span><span>Performance Max</span></div>
           <a class="suite__link" href="/services/google-ads">See how we run Google Ads <span aria-hidden="true">&#8594;</span></a>
         </div>
-        <div class="suite__art suite__art--google">
+        <div class="suite__art">
           <span class="suite__go" aria-hidden="true">&#8599;</span>
           <div class="ui" aria-hidden="true">
             <div class="ui__bar">
-              <span class="ui__mark ui__mark--g"></span>
+              <img class="ui__logo ui__logo--g" alt="" src="data:image/webp;base64,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">
               <span class="ui__name">Google Ads</span>
               <span class="ui__meta">Last 30 days</span>
             </div>
@@ -1374,18 +1345,17 @@
 
       <article class="suite__row">
         <div class="suite__copy">
-          <span class="suite__no">02 &mdash; Paid social</span>
           <h3>Meta Advertising</h3>
           <p class="suite__tag">Create demand before anyone searches</p>
           <p class="suite__body">Not everyone is ready to search yet. Facebook and Instagram put your best creative in front of the people who will be, then quietly follow up with the ones who nearly bought.</p>
           <div class="suite__chips"><span>Facebook Ads</span><span>Instagram Ads</span><span>Retargeting</span></div>
           <a class="suite__link" href="/services/meta-ads">See how we run Meta Ads <span aria-hidden="true">&#8594;</span></a>
         </div>
-        <div class="suite__art suite__art--meta">
+        <div class="suite__art">
           <span class="suite__go" aria-hidden="true">&#8599;</span>
           <div class="ui" aria-hidden="true">
             <div class="ui__bar">
-              <span class="ui__mark ui__mark--m"></span>
+              <img class="ui__logo ui__logo--m" alt="" src="data:image/webp;base64,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">
               <span class="ui__name">Ads Manager</span>
               <span class="ui__meta">3 ad sets</span>
             </div>
@@ -1420,29 +1390,28 @@
 
       <article class="suite__row">
         <div class="suite__copy">
-          <span class="suite__no">03 &mdash; Organic</span>
           <h3>Search Engine Optimisation</h3>
           <p class="suite__tag">Build the demand you will capture next year</p>
           <p class="suite__body">Rankings compound. We fix what is holding the site back, then build the pages that earn positions you do not have to keep paying for every time someone clicks.</p>
           <div class="suite__chips"><span>Technical SEO</span><span>Content</span><span>Local SEO</span></div>
           <a class="suite__link" href="/services/seo">See how we run SEO <span aria-hidden="true">&#8594;</span></a>
         </div>
-        <div class="suite__art suite__art--seo">
+        <div class="suite__art">
           <span class="suite__go" aria-hidden="true">&#8599;</span>
           <div class="ui" aria-hidden="true">
             <span class="ui__search">
               <svg viewBox="0 0 16 16" fill="none"><circle cx="6.8" cy="6.8" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M10.4 10.4 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-              melbourne electrician
+              commercial window cleaning melbourne
             </span>
-            <p class="ui__count">About 2,140,000 results</p>
+            <p class="ui__count">About 1,860,000 results</p>
             <div class="serp">
-              <span class="serp__url"><i class="serp__fav"></i>dunk.agency &rsaquo; services &rsaquo; seo</span>
-              <p class="serp__title">SEO Melbourne &mdash; rank for what your customers search</p>
-              <p class="serp__desc">Build the demand you will capture next year. Technical SEO, content and local search, measured on leads&nbsp;&mdash;&nbsp;not impressions.</p>
+              <span class="serp__url"><i class="serp__fav"></i>summitwindowcare.com.au &rsaquo; commercial</span>
+              <p class="serp__title">Commercial Window Cleaning Melbourne | Summit Window Care</p>
+              <p class="serp__desc">High-rise and ground-level window cleaning for offices, retail and body corporate. Fully insured, rope access certified, after-hours available.</p>
             </div>
             <div class="serp serp--dim">
               <span class="serp__url"><i class="serp__fav"></i>competitor.com.au</span>
-              <p class="serp__title">Digital marketing agency Melbourne</p>
+              <p class="serp__title">Office &amp; strata window cleaners Melbourne</p>
             </div>
             <div class="ui__foot"><span class="ui__pill">&#8593; 87</span> ranking keywords<span class="ui__big">412</span></div>
           </div>
@@ -1451,14 +1420,13 @@
 
       <article class="suite__row">
         <div class="suite__copy">
-          <span class="suite__no">04 &mdash; Authority</span>
           <h3>Link Building</h3>
           <p class="suite__tag">The part most agencies quietly skip</p>
           <p class="suite__body">Google still counts who vouches for you. We earn placements on real sites with real audiences &mdash; no networks, no private blog farms, nothing you will have to disavow in a year.</p>
           <div class="suite__chips"><span>Digital PR</span><span>Guest placements</span><span>Citations</span></div>
           <a class="suite__link" href="/services/link-building">See how we build links <span aria-hidden="true">&#8594;</span></a>
         </div>
-        <div class="suite__art suite__art--links">
+        <div class="suite__art">
           <span class="suite__go" aria-hidden="true">&#8599;</span>
           <div class="ui" aria-hidden="true">
             <div class="ui__bar">
