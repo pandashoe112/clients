@@ -1123,6 +1123,7 @@
     border-radius:1.25rem;
   }
   .who__panel{
+    display:flex;flex-direction:column;
     background:#F7FBE3;
     border:1px solid rgba(0,0,0,.06);
     border-radius:1.25rem;
@@ -1136,34 +1137,52 @@
     text-wrap:balance;
   }
   .who__lede{margin:1.1rem 0 0;font-size:1rem;line-height:1.6;color:#54545a;}
+  /* these mirror the .pick cards in the picker section: white card, hairline
+     border, soft lift, and a lime "NN / LABEL" badge */
+  /* full width under the grid rather than inside the panel: six of these
+     pushed the panel to 924px tall, which squeezed the 4:3 photo beside it
+     into a 0.67 box. Out here the panel stays short and the crop stays mild. */
   .who__list{
-    list-style:none;margin:2rem 0 0;padding:0;
-    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:1.4rem 1.75rem;
+    list-style:none;margin:1.5rem 0 0;padding:0;
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:.85rem;
   }
-  .who__list li{display:flex;gap:.7rem;}
-  .who__tick{
-    flex:0 0 auto;
-    width:1.15rem;height:1.15rem;margin-top:.15rem;
-    border:1px solid rgba(0,0,0,.3);
-    border-radius:50%;
-    display:inline-flex;align-items:center;justify-content:center;
-    font-size:.55rem;line-height:1;
+  .who__list li{
+    display:flex;flex-direction:column;
+    padding:1.1rem 1.2rem 1.25rem;
+    border:1px solid rgba(0,0,0,.09);
+    border-radius:1rem;
+    background:#fff;
+    box-shadow:0 4px 14px rgba(0,0,0,.05);
   }
+  .who__num{
+    align-self:flex-start;
+    display:inline-flex;align-items:center;gap:.35rem;
+    height:1.7rem;padding:0 .7rem;margin-bottom:.8rem;
+    border-radius:var(--radius-full);
+    background:var(--lime);color:var(--ink-dark);
+    font-size:.625rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .who__num i{font-style:normal;opacity:.45;}
   .who__list strong{
     display:block;
-    font-family:var(--font-head);font-size:.9375rem;font-weight:600;letter-spacing:-.01em;
+    font-family:var(--font-head);
+    font-size:1.0625rem;line-height:1.25;letter-spacing:-.022em;font-weight:700;
+    color:var(--ink-dark);
   }
-  .who__d{display:block;margin-top:.2rem;font-size:.8125rem;line-height:1.45;color:#54545a;}
+  .who__d{display:block;margin-top:.4rem;font-size:.875rem;line-height:1.45;color:#4f4f4f;}
   .btn--ink{background:var(--ink-dark);color:#fff;font-weight:600;}
   .btn--ink:hover{background:#000;}
-  .who__panel .btn{margin-top:2.25rem;}
+  /* anchored to the panel foot so it lines up with the photo's bottom edge */
+  .who__panel .btn{margin-top:auto;align-self:flex-start;}
 
   @media (max-width:1024px){
     .who{padding:4rem var(--edge) 4.5rem;}
     .who__grid{grid-template-columns:minmax(0,1fr);}
     .who__media{height:auto;aspect-ratio:4/3;}
     .who__panel{padding:2rem;}
+    .who__list{grid-template-columns:repeat(2,minmax(0,1fr));}
   }
   @media (max-width:640px){
     .who__list{grid-template-columns:minmax(0,1fr);}
@@ -1732,17 +1751,18 @@
         <p class="eyebrow-line"><span>Who we work with</span><span class="eyebrow-line__rule"></span><span>04</span></p>
         <h2>The businesses we work best with.</h2>
         <p class="who__lede">Australian small businesses ready to spend properly on marketing, without paying for the layers a big agency comes with.</p>
-        <ul class="who__list">
-          <li><span class="who__tick" aria-hidden="true">&#10003;</span><span><strong>Owners who&rsquo;ve been burned</strong><span class="who__d">You&rsquo;ve paid for reports you couldn&rsquo;t read.</span></span></li>
-          <li><span class="who__tick" aria-hidden="true">&#10003;</span><span><strong>Businesses ready to scale</strong><span class="who__d">It works. You want more of it, consistently.</span></span></li>
-          <li><span class="who__tick" aria-hidden="true">&#10003;</span><span><strong>Not sure where to start</strong><span class="who__d">Google, Meta or SEO? We&rsquo;ll tell you which.</span></span></li>
-          <li><span class="who__tick" aria-hidden="true">&#10003;</span><span><strong>Owners running their own ads</strong><span class="who__d">Working just enough to be frustrating.</span></span></li>
-          <li><span class="who__tick" aria-hidden="true">&#10003;</span><span><strong>Trades, retail and services</strong><span class="who__d">Measured in enquiries, not brand awards.</span></span></li>
-          <li><span class="who__tick" aria-hidden="true">&#10003;</span><span><strong>No marketing team</strong><span class="who__d">We&rsquo;re the department you don&rsquo;t have.</span></span></li>
-        </ul>
         <a class="btn btn--ink" href="https://calendly.com/dunk-agency/growth-call">See if we&rsquo;re a fit<span aria-hidden="true">&#8594;</span></a>
       </div>
     </div>
+
+    <ul class="who__list">
+      <li><span class="who__num">01 <i>/</i> Burned</span><strong>Owners who&rsquo;ve been burned</strong><span class="who__d">You&rsquo;ve paid for reports you couldn&rsquo;t read.</span></li>
+      <li><span class="who__num">02 <i>/</i> Scaling</span><strong>Businesses ready to scale</strong><span class="who__d">It works. You want more of it, consistently.</span></li>
+      <li><span class="who__num">03 <i>/</i> Starting</span><strong>Not sure where to start</strong><span class="who__d">Google, Meta or SEO? We&rsquo;ll tell you which.</span></li>
+      <li><span class="who__num">04 <i>/</i> DIY ads</span><strong>Owners running their own ads</strong><span class="who__d">Working just enough to be frustrating.</span></li>
+      <li><span class="who__num">05 <i>/</i> Trades</span><strong>Trades, retail and services</strong><span class="who__d">Measured in enquiries, not brand awards.</span></li>
+      <li><span class="who__num">06 <i>/</i> No team</span><strong>No marketing team</strong><span class="who__d">We&rsquo;re the department you don&rsquo;t have.</span></li>
+    </ul>
   </section>
 
   <section class="case" id="results">

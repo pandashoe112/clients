@@ -109,10 +109,17 @@ proof. `.who` carries `id="who-we-work-with"`, which the two nav dropdown
 links and the mobile drawer had been pointing at with nothing there.
 
 `.who` is an image column stretched to the panel's height, so the two
-columns bottom out together — the office photo is 4:3 and gets cropped to
-roughly square by `object-fit:cover`. Its six items are a two-column grid
-inside the panel, which is what keeps the panel short enough for that crop
-to stay mild. One column below 640px.
+columns bottom out together. The panel is a flex column with the CTA on
+`margin-top:auto`, which lines the button up with the photo's bottom edge.
+
+The six audience items are `.pick`-style cards — white, hairline border,
+soft lift, lime "NN / LABEL" badge — and they sit **full width below** the
+grid, three across, not inside the panel. That placement is load-bearing:
+six cards inside the panel pushed it to 924px tall, which squeezed the
+615px-wide photo beside it into a 0.67 box and cropped a 1.33 source down
+to about half its width. Out here the panel stays at 461px, the photo box
+lands at exactly 1.33, and nothing is cropped at all. Three across, two
+below 1024px, one below 640px.
 
 `.case` puts the photo across the top rather than beside the copy: the
 Solargain shot is 2.17:1 and a side-by-side column would have cut people
