@@ -930,7 +930,17 @@
   }
 
   .suite__rows{display:flex;flex-direction:column;gap:1.25rem;}
-  .suite__row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.25rem;}
+  /* the copy and the art are two halves of one card, not two cards: the row
+     owns the rounding, the clip, the hairline and the shadow, so the halves
+     meet on a seam and the alternating order needs no per-corner rules */
+  .suite__row{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;
+    border-radius:1.5rem;
+    overflow:hidden;
+    border:1px solid rgba(0,0,0,.09);
+    background:#fff;
+    box-shadow:0 8px 24px rgba(0,0,0,.07);
+  }
   /* copy stays first in the DOM so the single-column order reads
      service-then-artwork; the flip is presentational only */
   .suite__row:nth-child(even) .suite__copy{order:2;}
@@ -938,10 +948,6 @@
   .suite__copy{
     display:flex;flex-direction:column;justify-content:center;
     padding:2.5rem;
-    border-radius:1.5rem;
-    border:1px solid rgba(0,0,0,.09);
-    background:#fff;
-    box-shadow:0 8px 24px rgba(0,0,0,.07);
   }
   /* the service name, at .pick__title's weight and tracking */
   .suite__copy h3{
@@ -993,7 +999,8 @@
 
   .suite__art{
     position:relative;overflow:hidden;
-    border-radius:1.5rem;
+    /* the row clips the outer corners now */
+    border-radius:0;
     /* one height across all four, so the rows line up down the section */
     min-height:38rem;
     display:flex;align-items:center;justify-content:center;

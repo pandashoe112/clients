@@ -49,10 +49,19 @@ faq (04) → cta. The eyebrow numbers are hand-written, so inserting a
 section means renumbering the ones after it.
 
 `.suite` is the four-service grid. Each service is a `.suite__row` — a
-two-column grid holding a `.suite__copy` card and a `.suite__art` panel.
+two-column grid holding a `.suite__copy` half and a `.suite__art` half.
+The row is the card: it owns the `1.5rem` radius, the `overflow:hidden`,
+the hairline and the shadow, and its `gap` is `0`, so the two halves meet
+on a seam and read as one block rather than two floating cards. Doing the
+rounding on the row rather than the halves is what lets the zig-zag work
+without per-corner rules — whichever half lands on the left gets the left
+rounding for free. So neither half sets a radius of its own.
+
 Copy always comes first in the DOM so the single-column order reads
 service-then-artwork; `:nth-child(even) .suite__copy{order:2}` does the
-zig-zag on desktop and the mobile query resets it.
+zig-zag on desktop and the mobile query resets it. The gap between rows
+stays at `1.25rem`: within a row the halves are one service, between rows
+they are different ones.
 
 The art panels are pure CSS: four stacked `radial-gradient`s over a
 `linear-gradient` base, plus a 3px dot grid at `mix-blend-mode:overlay`
