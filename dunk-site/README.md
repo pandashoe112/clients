@@ -164,32 +164,32 @@ have gone invisible on the dark ground. Its eyebrow also needed
 `eyebrow-line--light` added in the markup — that variant is what swaps
 the rule from black to white.
 
-## Case studies
+## Case study
 
-`.case__grid` holds two `.case__card`s side by side, one column below
-1024px. Each card is a flex column with the CTA on `margin-top:auto`, so
-both cards and both CTAs bottom out level regardless of copy length —
-measured equal at 1014px. Adding a third means the grid needs a
-`repeat(3,...)` or a rail; two is what the current column count assumes.
+One block, `.cs`, on the template the client supplied: photo left with a
+lime `NN / LABEL` badge, a white card riding up over the photo's bottom
+edge and hanging below it, and the copy right — eyebrow, client name,
+three stats, timeframe note, dark uppercase CTA.
 
-Both photos share `aspect-ratio:16/9` so the cards align. The Solargain
-shot is 2.168:1 natively and loses roughly 9% off each end to get there —
-a deliberate trade for alignment, since two cards at different ratios read
-as a mistake.
+The card is inset from the left and stops short of the photo's right edge,
+so it reads as an overlay rather than a caption bar. It carries
+`position:relative;z-index:1`: `.cs__shot` is positioned, and a positioned
+element paints above a static sibling whatever the DOM order — without it
+the card's overlapping top, and the "What we did" heading in it, sits
+behind the photo.
 
-`.case__kicker` needs `align-self:flex-start`. In a flex column the pill
-stretches to the full card width without it.
+The photo runs 16:9 and the card only reaches up 44px, so it covers the
+grass rather than the row of people. The badge clears the card by 18px at
+every width.
 
 ### Content status
 
-**Solargain and Pestline are both from Top Rankings case studies**, and
-both quotes originally named that agency. Same bracket treatment as
-before: "We have used [them]…", "[They] took the time…". Restore the real
-name or get fresh quotes.
-
-Solargain carries "Across twelve months" because its source states that
-window. Pestline has no `.case__note` — no timeframe was given for the
-641% and 18K figures, and inventing one seemed worse than leaving it off.
+Solargain, from the Top Rankings case study for the same business — the
+phone number on this page matches theirs. **Pestline was removed** when
+this template replaced the two-card grid; its content and image are in
+git history (see the two-up commit) if it should come back as a second
+instance. The pull quotes are gone with it, so the bracketed-brand problem
+no longer applies to this page.
 
 ## Placeholders
 
