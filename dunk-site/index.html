@@ -936,7 +936,7 @@
   .suite__row:nth-child(even) .suite__copy{order:2;}
 
   .suite__copy{
-    display:flex;flex-direction:column;
+    display:flex;flex-direction:column;justify-content:center;
     padding:2.5rem;
     border-radius:1.5rem;
     border:1px solid rgba(0,0,0,.09);
@@ -964,7 +964,7 @@
     font-size:.8125rem;font-weight:600;
   }
   .suite__body{margin:1.35rem 0 0;font-size:1.0625rem;line-height:1.62;color:#4f4f4f;}
-  .suite__chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.6rem 0 1.9rem;}
+  .suite__chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.6rem 0 0;}
   .suite__chips span{
     padding:.4rem .85rem;
     border-radius:var(--radius-full);
@@ -975,7 +975,7 @@
   /* the slack under the chips is the art panel's height showing through, so
      make it a card foot: hairline rule, link pinned beneath it */
   .suite__link{
-    margin-top:auto;padding-top:1.6rem;
+    margin-top:1.9rem;padding-top:1.6rem;
     border-top:1px solid rgba(0,0,0,.09);
     display:flex;align-items:center;gap:.6rem;
     font-weight:600;color:var(--ink-dark);
@@ -1374,13 +1374,13 @@
     width:.7rem;height:.7rem;border-radius:50%;
     background:var(--lime);border:2px solid #FAFAF8;
   }
-  .call__who{margin:.9rem 0 0;font-size:1rem;font-weight:500;}
+  .call__who{margin:.9rem 0 0;font-family:var(--font-head);font-size:1.0625rem;font-weight:600;letter-spacing:-.015em;}
   .call__role{
     margin:.5rem 0 0;
-    font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    font-size:.6875rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
     color:var(--ink-dark);
   }
-  .call__note{margin:.9rem 0 0;font-size:.8125rem;line-height:1.5;color:#54545a;}
+  .call__note{margin:.9rem 0 0;font-size:.75rem;line-height:1.5;color:#54545a;}
   .call__slot{
     display:flex;align-items:center;gap:.75rem;
     margin:1.15rem 0 0;
@@ -1391,8 +1391,8 @@
   }
   .call__dot{width:.85rem;height:.85rem;border-radius:50%;background:var(--lime);flex:0 0 auto;}
   .call__slot-t{min-width:0;}
-  .call__slot-t b{display:block;font-size:.8125rem;font-weight:600;}
-  .call__slot-t span{display:block;margin-top:.15rem;font-size:.75rem;line-height:1.35;color:#54545a;}
+  .call__slot-t b{display:block;font-family:var(--font-head);font-size:.875rem;font-weight:700;letter-spacing:-.012em;}
+  .call__slot-t span{display:block;margin-top:.2rem;font-size:.6875rem;line-height:1.45;color:#54545a;}
   .call__slot-go{margin-left:auto;flex:0 0 auto;color:#8a8a92;font-size:.75rem;}
   .call__days{display:flex;justify-content:center;flex-wrap:wrap;gap:.35rem;margin:1.15rem 0 0;}
   .call__meta{

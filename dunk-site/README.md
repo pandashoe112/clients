@@ -159,9 +159,13 @@ The service copy card. Four things carry it, and they interlock:
   of chip rather than one chip row and one stray coloured line. It needs
   `align-self:flex-start` or the flex column stretches it.
 - **A card foot**: hairline rule, link beneath it with a circular arrow
-  that nudges on hover. The slack under the chips is the art panel's
-  25rem min-height showing through, so this turns dead space into
-  structure instead of trying to remove it.
+  that nudges on hover.
+
+The copy block is **vertically centred** (`justify-content:center`), not
+top-aligned with the link pinned to the bottom. The card is taller than
+its copy because it matches the art panel beside it, and centring splits
+that slack evenly above and below rather than banking it all in one gap.
+Measured equal to the pixel on all four cards.
 
 `.suite__chips` carries `margin-bottom:1.9rem` and the link `margin-top:auto`.
 The auto alone gives no floor, so on a card whose copy nearly fills the
