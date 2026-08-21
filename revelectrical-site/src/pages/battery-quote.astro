@@ -2,8 +2,7 @@
 import ServiceBase from '../layouts/ServiceBase.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import BatteryQuoteForm from '../components/BatteryQuoteForm.astro';
-import Icon from '../components/Icon.astro';
+import BatteryQuoteSection from '../components/BatteryQuoteSection.astro';
 import { sanity } from '../lib/sanity.js';
 
 // A page rather than a section on /services/solar-battery/. The form asks
@@ -24,22 +23,6 @@ const { settings, services, areas, navBrands } = await sanity.fetch(`{
 
 const canonical = 'https://www.revelectrical.com.au/battery-quote/';
 
-// What answering it gets them. The reason to fill in twenty questions has to
-// be on the page, next to the questions.
-const WHY = [
-  {
-    title: 'A real number, not a range',
-    text: 'Enough detail to price the battery, the switchboard work and the cable run together, rather than quoting a band and revising it after a visit.'
-  },
-  {
-    title: 'Often no site visit first',
-    text: 'With photos of the board and the spot, we can usually quote from the desk and only come out to install.'
-  },
-  {
-    title: 'Sized on your usage, not a guess',
-    text: 'Your bill and your solar tell us what you actually use and when, which is what decides the capacity.'
-  }
-];
 ---
 <ServiceBase
   title={`Battery Storage Quote | ${settings.businessName}`}
@@ -51,41 +34,7 @@ const WHY = [
   <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} contactHref="#quote" />
 
   <main id="main">
-    <section class="section bg-cream">
-      <div class="wrap bqpage">
-        <div class="bqpage__intro reveal">
-          <p class="eyebrow">Battery storage</p>
-          <h1 class="h1" style="margin-top:12px;max-width:16ch">Get a price for battery storage</h1>
-          <p class="lede" style="margin-top:20px;max-width:44ch">
-            The more you can tell us, the closer the number. Only your name, email and phone are
-            needed &mdash; skip anything you're not sure about and we'll work it out on site.
-          </p>
-
-          <ul class="bqwhy">
-            {WHY.map((w) => (
-              <li>
-                <span class="bqwhy__tick"><Icon name="check" size={15} stroke={3} /></span>
-                <div>
-                  <h2 class="h4">{w.title}</h2>
-                  <p>{w.text}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          <div class="bqpage__call">
-            <p class="lede" style="font-size:.9375rem">Would rather talk it through?</p>
-            <a class="btn btn-outline js-call" href={settings.phoneHref}>
-              <Icon name="phone" size={16} stroke={2.2} /> Call {settings.phone}
-            </a>
-          </div>
-        </div>
-
-        <div class="bqpage__form reveal reveal-d1" id="quote">
-          <BatteryQuoteForm settings={settings} />
-        </div>
-      </div>
-    </section>
+    <BatteryQuoteSection settings={settings} level={1} />
   </main>
 
   <SiteFooter settings={settings} contactHref="#quote" />

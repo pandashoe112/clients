@@ -13,7 +13,7 @@ import FaqList from '../../components/FaqList.astro';
 import RelatedServices from '../../components/RelatedServices.astro';
 import FinalCta from '../../components/FinalCta.astro';
 import RebateBand from '../../components/RebateBand.astro';
-import BatteryQuoteBand from '../../components/BatteryQuoteBand.astro';
+import BatteryQuoteSection from '../../components/BatteryQuoteSection.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import { sanity } from '../../lib/sanity.js';
 import { SERVICE_QUERY, SERVICE_PATHS_QUERY } from '../../lib/queries.js';
@@ -49,14 +49,17 @@ const description = service.seoDescription || service.summary;
     <GuaranteeBand service={service} settings={settings} />
     <ServiceSteps service={service} />
     {service.slug === 'ev-charging' && <ChargerTypes service={service} />}
-    {service.slug === 'solar-battery' && <BatteryQuoteBand />}
     <DiffGrid service={service} />
     <WorkGrid service={service} />
     {service.slug === 'ev-charging' && <BrandList service={service} brands={brands} settings={settings} navBrands={navBrands} />}
     <ServiceAreasBand service={service} suburbs={suburbs} tone={service.slug === 'ev-charging' ? 'bg-cream' : 'bg-paper'} />
     <RelatedServices service={service} />
     <FaqList service={service} settings={settings} />
-    <FinalCta service={service} settings={settings} />
+    {/* Ben's brief: the battery form replaces the generic contact form on
+        battery jobs. On this one page it is the form, not a link to one. */}
+    {service.slug === 'solar-battery'
+      ? <BatteryQuoteSection settings={settings} heading={service.ctaHeading} intro={service.ctaText} />
+      : <FinalCta service={service} settings={settings} />}
   </main>
 
   <SiteFooter settings={settings} contactHref="#quote" />
