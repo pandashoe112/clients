@@ -22,6 +22,8 @@ export async function GET() {
     ...services.map((s) => ({ loc: `/services/${s.slug}/`, priority: '0.9' })),
     ...areas.map((a) => ({ loc: `/electrician-${a.slug}/`, priority: '0.8' })),
     ...brands.map((b) => ({ loc: `/brands/${b.slug}/`, priority: '0.8' })),
+    // The long battery quote form. Indexable and worth landing ads on.
+    { loc: '/battery-quote/', priority: '0.7' },
     // Indexable, so it belongs here even though nobody is searching for it.
     { loc: '/privacy/', priority: '0.2' }
   ];

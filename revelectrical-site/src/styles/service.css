@@ -728,3 +728,14 @@ button{font:inherit}
 .offer__text{margin:12px 0 0;font-size:.9375rem;line-height:1.65;color:var(--muted-light)}
 .offer__actions{margin-top:20px}
 .offer__terms{margin:16px 0 0;font-size:.75rem;line-height:1.5;color:rgba(244,246,239,.55)}
+
+/* ---------- battery quote band ---------- */
+.bqband{
+  display:grid;gap:clamp(20px,3vw,40px);align-items:center;
+  background:var(--cream);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:clamp(24px,3.4vw,40px);
+}
+@media (min-width:860px){.bqband{grid-template-columns:minmax(0,1fr) auto}}
+.bqband__go{display:grid;gap:10px;justify-items:start}
+@media (min-width:860px){.bqband__go{justify-items:center}}
+.bqband__note{margin:0;font-size:.8125rem;color:var(--muted)}

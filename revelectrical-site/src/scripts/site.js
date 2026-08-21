@@ -259,6 +259,100 @@ import { attribution, leadType, fillAttribution } from './attribution.js';
     set.addEventListener('change', function(){ syncTiles(set); });
   });
 
+  // ---- battery quote form -------------------------------------------------
+  // Three behaviours the shorter forms do not need: a cap on how many boxes a
+  // multi-select accepts, panels that appear once a particular answer is
+  // chosen, and "I don't know" checkboxes that disable the field they cover.
+  var bq = document.getElementById('batteryQuote');
+  if (bq) {
+    // Cap: disable the unticked boxes at the limit rather than ignoring a
+    // click. A control that silently refuses you reads as broken.
+    bq.querySelectorAll('[data-max]').forEach(function(set){
+      var max = Number(set.getAttribute('data-max'));
+      var boxes = [].slice.call(set.querySelectorAll('input[type="checkbox"]'));
+      var count = set.querySelector('[data-tilecount]');
+      var sync = function(){
+        var picked = boxes.filter(function(b){ return b.checked; }).length;
+        boxes.forEach(function(b){ b.disabled = !b.checked && picked >= max; });
+        if (count){
+          count.textContent = picked ? picked + ' of ' + max : '';
+          count.hidden = picked === 0;
+        }
+      };
+      set.addEventListener('change', sync);
+      sync();
+    });
+
+    // Reveal panels. Radios in a group are mutually exclusive, so the panel
+    // closes when a sibling is chosen, and clears so a changed mind cannot
+    // submit a stale answer.
+    bq.querySelectorAll('[data-reveal]').forEach(function(trigger){
+      var panel = bq.querySelector('[data-cond="' + trigger.getAttribute('data-reveal') + '"]');
+      if (!panel) return;
+      var group = bq.querySelectorAll('[name="' + trigger.name + '"]');
+      var sync = function(){
+        var open = trigger.checked;
+        if (!open && !panel.hidden){
+          panel.querySelectorAll('input, textarea').forEach(function(el){
+            if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+            else if (el.type === 'file') el.value = '';
+            else el.value = '';
+          });
+        }
+        panel.hidden = !open;
+      };
+      group.forEach(function(el){ el.addEventListener('change', sync); });
+      sync();
+    });
+
+    // "I don't know" boxes grey out what they replace, so the two cannot
+    // disagree about the answer.
+    bq.querySelectorAll('[data-unsure]').forEach(function(box){
+      var scope = box.closest('.condfield, .field') || bq;
+      var covered = [].slice.call(scope.querySelectorAll('input.input, textarea.input'));
+      var sync = function(){
+        covered.forEach(function(el){
+          el.disabled = box.checked;
+          if (box.checked) el.value = '';
+        });
+        scope.classList.toggle('is-unsure', box.checked);
+      };
+      box.addEventListener('change', sync);
+      sync();
+    });
+
+    // Ben's pricing tool expects counts and statuses as text rather than the
+    // files themselves, so they are derived here at submit.
+    bq.addEventListener('submit', function(){
+      var count = function(id){ var el = document.getElementById(id); return el ? el.files.length : 0; };
+      var files = function(n){ return n ? n + ' file(s) attached' : ''; };
+      var set = function(key, value){
+        var el = bq.querySelector('[data-derived="' + key + '"]');
+        if (el) el.value = value;
+      };
+      set('photos', String(count('bq_photos')));
+      set('bill', count('bq_bill')
+        ? files(count('bq_bill'))
+        : (document.getElementById('bq_billlater') || {}).checked ? 'Sending later' : 'Not supplied');
+      set('solar_docs', document.getElementById('bq_solunsure') && document.getElementById('bq_solunsure').checked
+        ? 'Customer unsure'
+        : files(count('bq_soldocs')));
+      set('submitted', new Date().toISOString());
+      // A disabled input is not submitted, and the "not sure" boxes disable the
+      // fields they cover - so the answer has to be written back before send.
+      if (document.getElementById('bq_rununsure') && document.getElementById('bq_rununsure').checked){
+        var run = document.getElementById('bq_run');
+        if (run){ run.disabled = false; run.type = 'text'; run.value = 'Not sure'; }
+      }
+      if (document.getElementById('bq_solunsure') && document.getElementById('bq_solunsure').checked){
+        ['bq_solsize', 'bq_solinv'].forEach(function(id){
+          var el = document.getElementById(id);
+          if (el){ el.disabled = false; el.value = 'Customer unsure'; }
+        });
+      }
+    });
+  }
+
   document.querySelectorAll('form[data-netlify]').forEach(function(form){
     // A checkbox cannot carry `required` - on a checkbox that attribute means
     // "this exact box must be ticked", not "tick one of these". The tile group
@@ -326,6 +420,9 @@ import { attribution, leadType, fillAttribution } from './attribution.js';
       var KEEP = { 'form-name': 1, 'bot-field': 1, subject: 1 };
       form.querySelectorAll('input, textarea, select').forEach(function(el){
         if (KEEP[el.name] || el.type === 'radio' || el.type === 'checkbox') return;
+        // Derived fields carry a contract key that a downstream mapper expects
+        // to exist, so an empty one is still sent rather than dropped.
+        if (el.hasAttribute('data-derived')) return;
         if (el.type === 'file' ? el.files.length === 0 : !el.value) el.disabled = true;
       });
       trackEvent('generate_lead', {form: form.getAttribute('name') || 'enquiry'});

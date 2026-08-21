@@ -1,0 +1,29 @@
+---
+import Icon from './Icon.astro';
+// Sends people from the solar battery service page to the long quote form.
+//
+// The service page sells; the quote page prices. Keeping them apart means the
+// service page does not open with twenty questions, and the quote page does
+// not have to re-sell someone who has already decided.
+---
+<section class="section section--tight-b bg-paper">
+  <div class="wrap">
+    <div class="bqband reveal">
+      <div>
+        <p class="eyebrow">Battery quote</p>
+        <h2 class="h2" style="margin-top:10px;max-width:20ch">Get a price without a site visit first</h2>
+        <p class="lede" style="margin-top:16px;max-width:52ch">
+          Answer what you can about your roof, your switchboard and how you use power, and we
+          come back within 24 hours with an upfront number. Only name, email and phone are
+          required.
+        </p>
+      </div>
+      <div class="bqband__go">
+        <a class="btn btn-ink" href="/battery-quote/">
+          Start the battery quote <Icon name="chevron" size={15} stroke={2.6} />
+        </a>
+        <p class="bqband__note">Takes about three minutes</p>
+      </div>
+    </div>
+  </div>
+</section>

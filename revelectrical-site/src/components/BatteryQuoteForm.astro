@@ -1,0 +1,437 @@
+---
+import Icon from './Icon.astro';
+import Attribution from './Attribution.astro';
+const { settings } = Astro.props;
+
+// The battery quote form.
+//
+// The questions come from a standalone six-step form Ben had built: they are
+// what his pricing tool needs to size a battery without a site visit. The
+// markup does not. This is our own form architecture - the same .formgrid,
+// .input, .tileset and .tile classes every other enquiry form on the site
+// uses - so it inherits the styling, the validation, the tracking fields and
+// the Netlify wiring rather than arriving as a second system to maintain.
+//
+// Field names match Ben's data contract exactly. They map onto his pricing
+// tool, so renaming one means he re-maps it by hand.
+//
+// Only name, email and phone are required, deliberately. This is a trade where
+// customers routinely do not know their own switchboard details, and a hard
+// gate loses the enquiry rather than improving it. Every "Not sure" option is
+// real data - someone ticking "I really can't tell" on the cable run is telling
+// us it is a measure-on-site job, which is different from leaving it blank.
+
+const PROPERTY = ['House', 'Townhouse or unit', 'Business premises'];
+const PHASES = ['Single phase', 'Three phase', 'Not sure'];
+const ROOF = ['Tile', 'Tin or Colorbond', 'Something else', 'Not sure'];
+
+const LOCATION = [
+  ['Garage', ''],
+  ['Outside, against a wall', ''],
+  ['Shed or outbuilding', ''],
+  ['Open to suggestions', "We'll work out the best spot on site."]
+];
+
+const SWITCHBOARD = [
+  ['Outside in its own box', ''],
+  ['Set into a wall', ''],
+  ['Inside — garage, hallway or laundry', ''],
+  ['Not sure', '']
+];
+
+const CAPACITY = [
+  ['Around 10 kWh', 'Carries a typical household through the evening peak.'],
+  ['Around 20 kWh', 'Covers the evening and runs overnight into the morning.'],
+  ['28 kWh or more', 'Suits high consumption, electric hot water, or EV charging at home.'],
+  ['Recommend something', "We'll size it from your usage and show you the options."]
+];
+
+const BRANDS = [
+  ['No preference', "We'll recommend what suits the site and your usage."],
+  ['Fox ESS', ''],
+  ['AlphaESS', ''],
+  ['Sigenergy', ''],
+  ['GoodWe', ''],
+  ['Something else', '']
+];
+
+const BACKUP = [
+  ['Yes, include it', ''],
+  ['Show it as an option', 'Priced separately so you can decide.'],
+  ['Not needed', ''],
+  ['Not sure — talk me through it', "We'll explain what it covers and what it doesn't."]
+];
+
+const TIMEFRAME = ['As soon as possible', 'Next month or two', 'Still researching'];
+
+const TRIGGER = [
+  'Getting almost nothing for what my solar exports',
+  'Bills have gone up',
+  'Heard about the rebate',
+  'Got an EV, or getting one',
+  'Going all-electric',
+  'Want to rely on the retailers less',
+  'Power outages',
+  'Environmental reasons',
+  'Renovating or building',
+  'Just moved in',
+  'Been thinking about it a while'
+];
+
+const PRIORITIES = [
+  ['Lowest upfront cost', ''],
+  ['Equipment that lasts', ''],
+  ['Local support after install', "Someone who picks up the phone in a few years' time."],
+  ['As much storage as possible', ''],
+  ['Getting it done quickly', ''],
+  ['Best long-term return', 'Happy to spend more upfront if it pays back better.'],
+  ['Room to expand later', 'Start smaller, add more down the track.']
+];
+
+const QUOTES = ["You're the first", 'Got one or two others', 'Comparing several', 'Rather not say'];
+---
+<form
+  class="formgrid bq"
+  name="battery-quote"
+  method="POST"
+  action="/thank-you/"
+  enctype="multipart/form-data"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  id="batteryQuote"
+  novalidate>
+  <input type="hidden" name="form-name" value="battery-quote" />
+  <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+  {/* ---------- how to reach you ---------- */}
+  <fieldset class="bq__group">
+    <legend class="bq__legend">How to reach you</legend>
+
+    <div class="field">
+      <label class="label" for="bq_name">Your name</label>
+      <input class="input" type="text" id="bq_name" name="name" autocomplete="name" placeholder="First and last name" required />
+    </div>
+    <div class="fieldrow">
+      <div class="field">
+        <label class="label" for="bq_email">Email</label>
+        <input class="input" type="email" id="bq_email" name="email" autocomplete="email" placeholder="Email address" required />
+      </div>
+      <div class="field">
+        <label class="label" for="bq_phone">Phone</label>
+        <input class="input" type="tel" id="bq_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
+      </div>
+    </div>
+  </fieldset>
+
+  {/* ---------- the property ---------- */}
+  <fieldset class="bq__group">
+    <legend class="bq__legend">About the property</legend>
+
+    <div class="field">
+      <label class="label" for="bq_addr">Street address <span class="label__opt">Optional</span></label>
+      <input class="input" type="text" id="bq_addr" name="address" autocomplete="street-address" placeholder="Street number and name" />
+    </div>
+    <div class="fieldrow">
+      <div class="field">
+        <label class="label" for="bq_suburb">Suburb <span class="label__opt">Optional</span></label>
+        <input class="input" type="text" id="bq_suburb" name="suburb" autocomplete="address-level2" placeholder="Suburb" />
+      </div>
+      <div class="field">
+        <label class="label" for="bq_pcode">Postcode <span class="label__opt">Optional</span></label>
+        <input class="input" type="text" id="bq_pcode" name="postcode" autocomplete="postal-code" inputmode="numeric" placeholder="3000" />
+      </div>
+    </div>
+
+    <fieldset class="tileset">
+      <legend class="label">Property type <span class="label__opt">Optional</span></legend>
+      <div class="tilegrid tilegrid--slim">
+        {PROPERTY.map((v, i) => (
+          <div class="tile">
+            <input type="radio" name="property_type" id={`bq_pt${i}`} value={v} />
+            <label for={`bq_pt${i}`}>{v}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+
+    <fieldset class="tileset">
+      <legend class="label">Power supply <span class="label__opt">Optional</span></legend>
+      <div class="tilegrid tilegrid--slim">
+        {PHASES.map((v, i) => (
+          <div class="tile">
+            <input type="radio" name="phases" id={`bq_ph${i}`} value={v} />
+            <label for={`bq_ph${i}`}>{v}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+
+    <fieldset class="tileset">
+      <legend class="label">Roof type <span class="label__opt">Optional</span></legend>
+      <div class="tilegrid tilegrid--slim tilegrid--4">
+        {ROOF.map((v, i) => (
+          <div class="tile">
+            <input type="radio" name="roof_type" id={`bq_rf${i}`} value={v} />
+            <label for={`bq_rf${i}`}>{v}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+  </fieldset>
+
+  {/* ---------- existing solar ---------- */}
+  <fieldset class="bq__group">
+    <legend class="bq__legend">Your solar</legend>
+
+    <fieldset class="tileset">
+      <legend class="label">Do you have solar already? <span class="label__opt">Optional</span></legend>
+      <div class="tilegrid tilegrid--rich tilegrid--2">
+        <div class="tile">
+          <input type="radio" name="existing_solar" id="bq_sol_y" value="Yes" data-reveal="solar" />
+          <label for="bq_sol_y">
+            <b>Yes, already installed</b>
+            <small>We'll size storage around what your system produces.</small>
+          </label>
+        </div>
+        <div class="tile">
+          <input type="radio" name="existing_solar" id="bq_sol_n" value="No" />
+          <label for="bq_sol_n"><b>No solar yet</b></label>
+        </div>
+      </div>
+    </fieldset>
+
+    {/* Only relevant once they have said yes. Hidden server-side to start, and
+        cleared on close so a changed mind does not submit stale answers. */}
+    <div class="condfield" data-cond="solar" hidden>
+      <div class="fieldrow">
+        <div class="field">
+          <label class="label" for="bq_solsize">System size <span class="label__opt">Optional</span></label>
+          <input class="input" type="text" id="bq_solsize" name="existing_solar_size" placeholder="e.g. 6.6 kW" />
+        </div>
+        <div class="field">
+          <label class="label" for="bq_solinv">Inverter brand and model <span class="label__opt">Optional</span></label>
+          <input class="input" type="text" id="bq_solinv" name="existing_solar_inverter" placeholder="e.g. Fronius Primo 5.0" />
+        </div>
+      </div>
+
+      <label class="checkline">
+        <input type="checkbox" id="bq_solunsure" data-unsure="solar" />
+        <span>I don't know these details <em>We'll work it out on site.</em></span>
+      </label>
+
+      <div class="uploadfield" style="margin-top:14px">
+        <span class="label">Solar paperwork or photos <span class="label__opt">Optional</span></span>
+        <div class="filerow">
+          <label class="filebtn" for="bq_soldocs"><Icon name="upload" size={17} /> Add files</label>
+          <input type="file" id="bq_soldocs" name="solar_docs" multiple accept="image/*,.pdf" data-filehint />
+          <span class="filehint">Images or PDF</span>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  {/* ---------- where it goes ---------- */}
+  <fieldset class="bq__group">
+    <legend class="bq__legend">Where the battery would go</legend>
+
+    <fieldset class="tileset">
+      <legend class="label">Where were you thinking? <span class="label__opt">Optional</span></legend>
+      <div class="tilegrid tilegrid--rich tilegrid--2">
+        {LOCATION.map(([v, note], i) => (
+          <div class="tile">
+            <input type="radio" name="battery_location" id={`bq_loc${i}`} value={v} />
+            <label for={`bq_loc${i}`}><b>{v}</b>{note && <small>{note}</small>}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+
+    <div class="field">
+      <label class="label" for="bq_run">Rough distance from there to your switchboard <span class="label__opt">Optional</span></label>
+      <div class="withunit">
+        <input class="input" type="number" id="bq_run" name="cable_run_m" min="0" max="200" inputmode="numeric" placeholder="10" />
+        <span class="withunit__u">metres</span>
+      </div>
+      <label class="checkline">
+        <input type="checkbox" id="bq_rununsure" data-unsure="run" />
+        <span>I really can't tell <em>We'll measure it when we're there.</em></span>
+      </label>
+    </div>
+
+    <fieldset class="tileset">
+      <legend class="label">Where's your switchboard? <span class="label__opt">Optional</span></legend>
+      <div class="tilegrid tilegrid--rich tilegrid--2">
+        {SWITCHBOARD.map(([v, note], i) => (
+          <div class="tile">
+            <input type="radio" name="switchboard" id={`bq_sb${i}`} value={v} />
+            <label for={`bq_sb${i}`}><b>{v}</b>{note && <small>{note}</small>}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+
+    <div class="uploadfield">
+      <span class="label">Photos of the switchboard and the proposed spot <span class="label__opt">Optional, but worth it</span></span>
+      <div class="filerow">
+        <label class="filebtn" for="bq_photos"><Icon name="upload" size={17} /> Add photos</label>
+        <input type="file" id="bq_photos" name="photos" multiple accept="image/*" data-filehint />
+        <span class="filehint">Max 10MB each</span>
+      </div>
+      <p class="condfield__why">These are what let us price the job properly instead of booking a look first.</p>
+    </div>
+  </fieldset>
+
+  {/* ---------- what they want ---------- */}
+  <fieldset class="bq__group">
+    <legend class="bq__legend">What you're after</legend>
+
+    <div class="uploadfield">
+      <span class="label">Your most recent electricity bill <span class="label__opt">Optional</span></span>
+      <div class="filerow">
+        <label class="filebtn" for="bq_bill"><Icon name="upload" size={17} /> Add bill</label>
+        <input type="file" id="bq_bill" name="bill" multiple accept="image/*,.pdf" data-filehint />
+        <span class="filehint">Image or PDF</span>
+      </div>
+      <label class="checkline">
+        <input type="checkbox" id="bq_billlater" />
+        <span>I'll send it through later <em>No problem — we'll follow up by email.</em></span>
+      </label>
+    </div>
+
+    <fieldset class="tileset">
+      <legend class="label">Capacity you have in mind <span class="label__opt">Optional</span></legend>
+      <div class="tilegrid tilegrid--rich tilegrid--2">
+        {CAPACITY.map(([v, note], i) => (
+          <div class="tile">
+            <input type="radio" name="capacity_pref" id={`bq_cap${i}`} value={v} />
+            <label for={`bq_cap${i}`}><b>{v}</b>{note && <small>{note}</small>}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+
+    <fieldset class="tileset">
+      <legend class="label">Any brand preference? <span class="label__opt">Optional</span></legend>
+      <div class="tilegrid tilegrid--rich tilegrid--3">
+        {BRANDS.map(([v, note], i) => (
+          <div class="tile">
+            <input
+              type="radio"
+              name="brand_pref"
+              id={`bq_br${i}`}
+              value={v}
+              data-reveal={v === 'Something else' ? 'brand' : undefined} />
+            <label for={`bq_br${i}`}><b>{v}</b>{note && <small>{note}</small>}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+
+    <div class="condfield" data-cond="brand" hidden>
+      <label class="label" for="bq_brother">Which one?</label>
+      <input class="input" type="text" id="bq_brother" name="brand_other" placeholder="Brand name" />
+    </div>
+
+    <fieldset class="tileset">
+      <legend class="label">Backup power during an outage <span class="label__opt">Optional</span></legend>
+      <div class="tilegrid tilegrid--rich tilegrid--2">
+        {BACKUP.map(([v, note], i) => (
+          <div class="tile">
+            <input type="radio" name="backup" id={`bq_bk${i}`} value={v} />
+            <label for={`bq_bk${i}`}><b>{v}</b>{note && <small>{note}</small>}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+
+    <fieldset class="tileset">
+      <legend class="label">When are you looking to go ahead? <span class="label__opt">Optional</span></legend>
+      <div class="tilegrid tilegrid--slim">
+        {TIMEFRAME.map((v, i) => (
+          <div class="tile">
+            <input type="radio" name="timeframe" id={`bq_tf${i}`} value={v} />
+            <label for={`bq_tf${i}`}>{v}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+  </fieldset>
+
+  {/* ---------- context ---------- */}
+  <fieldset class="bq__group">
+    <legend class="bq__legend">A bit of context</legend>
+
+    {/* Capped multi-selects. The cap is enforced in site.js by disabling the
+        unticked boxes once it is reached, rather than by rejecting a click
+        after the fact - a control that silently ignores you reads as broken. */}
+    <fieldset class="tileset" data-max="3">
+      <legend class="label">
+        What's prompted you to look into this?
+        <span class="label__opt">Optional, pick up to three</span>
+        <span class="tilecount" data-tilecount hidden></span>
+      </legend>
+      <div class="tilegrid tilegrid--slim tilegrid--wrap">
+        {TRIGGER.map((v, i) => (
+          <div class="tile">
+            <input type="checkbox" name="trigger" id={`bq_tr${i}`} value={v} />
+            <label for={`bq_tr${i}`}>{v}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+
+    <fieldset class="tileset" data-max="2">
+      <legend class="label">
+        What matters most to you?
+        <span class="label__opt">Optional, pick up to two</span>
+        <span class="tilecount" data-tilecount hidden></span>
+      </legend>
+      <div class="tilegrid tilegrid--rich tilegrid--3">
+        {PRIORITIES.map(([v, note], i) => (
+          <div class="tile">
+            <input type="checkbox" name="priorities" id={`bq_pr${i}`} value={v} />
+            <label for={`bq_pr${i}`}><b>{v}</b>{note && <small>{note}</small>}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+
+    <fieldset class="tileset">
+      <legend class="label">Are you getting other quotes? <span class="label__opt">Optional</span></legend>
+      <div class="tilegrid tilegrid--slim tilegrid--4">
+        {QUOTES.map((v, i) => (
+          <div class="tile">
+            <input type="radio" name="other_quotes" id={`bq_oq${i}`} value={v} />
+            <label for={`bq_oq${i}`}>{v}</label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
+
+    <div class="field">
+      <label class="label" for="bq_notes">Anything else we should know? <span class="label__opt">Optional</span></label>
+      <textarea class="input" id="bq_notes" name="notes" placeholder="Anything that would help us quote it"></textarea>
+    </div>
+  </fieldset>
+
+  <button class="btn btn-lime btn-block" type="submit">Send my details</button>
+  <p class="promise">
+    <Icon name="checkCircle" size={15} stroke={2.3} />
+    We reply within 24 hours, Mon&ndash;Sat. No call-out fee, no obligation.
+  </p>
+  <p class="formnote">
+    <Icon name="lock" size={15} stroke={2.2} />
+    Only name, email and phone are needed. Skip anything you're not sure about.
+  </p>
+
+  {/* Ben's pricing tool expects these three as text, and they are derived from
+      the uploads rather than typed. site.js fills them at submit. */}
+  <input type="hidden" name="photos_supplied" data-derived="photos" />
+  <input type="hidden" name="bill_supplied" data-derived="bill" />
+  <input type="hidden" name="existing_solar_docs" data-derived="solar_docs" />
+  <input type="hidden" name="submitted" data-derived="submitted" />
+  <input type="hidden" name="page_url" />
+  <input type="hidden" name="subject" value="🔋 New Battery Quote on Revelectrical" />
+  {/* Tracking, last so the email opens with the customer, not the UTMs. */}
+  <Attribution />
+</form>

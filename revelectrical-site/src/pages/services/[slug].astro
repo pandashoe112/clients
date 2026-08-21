@@ -13,6 +13,7 @@ import FaqList from '../../components/FaqList.astro';
 import RelatedServices from '../../components/RelatedServices.astro';
 import FinalCta from '../../components/FinalCta.astro';
 import RebateBand from '../../components/RebateBand.astro';
+import BatteryQuoteBand from '../../components/BatteryQuoteBand.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import { sanity } from '../../lib/sanity.js';
 import { SERVICE_QUERY, SERVICE_PATHS_QUERY } from '../../lib/queries.js';
@@ -48,6 +49,7 @@ const description = service.seoDescription || service.summary;
     <GuaranteeBand service={service} settings={settings} />
     <ServiceSteps service={service} />
     {service.slug === 'ev-charging' && <ChargerTypes service={service} />}
+    {service.slug === 'solar-battery' && <BatteryQuoteBand />}
     <DiffGrid service={service} />
     <WorkGrid service={service} />
     {service.slug === 'ev-charging' && <BrandList service={service} brands={brands} settings={settings} navBrands={navBrands} />}
