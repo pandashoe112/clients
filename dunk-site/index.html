@@ -956,7 +956,7 @@
     border-radius:1.5rem;
     min-height:25rem;
     display:flex;align-items:center;justify-content:center;
-    padding:1.6rem;
+    padding:3rem 1.6rem;
     background:
       radial-gradient(72% 80% at 84% 14%, #FF6FC4 0%, rgba(255,111,196,0) 62%),
       radial-gradient(66% 72% at 12% 26%, #8A5CFF 0%, rgba(138,92,255,0) 60%),
@@ -1137,10 +1137,14 @@
      own padding. Any more and it clips the right-hand column mid-number,
      which reads as a bug rather than as layering; the drop shadow is what
      sells the depth. */
-  .stack{position:relative;width:min(37rem,100%);}
+  /* padding-bottom IS the cascade: .ovl bottoms out on the stack's padding
+     edge, so this sets how far below the base tile it hangs, and it keeps
+     the overhang inside the stack box so the panel's padding still reads as
+     even space above and below the whole composition */
+  .stack{position:relative;width:min(37rem,100%);padding-bottom:2.4rem;}
   .stack > .ui{width:64%;}
   .ovl{
-    position:absolute;right:0;bottom:-1.6rem;z-index:3;
+    position:absolute;right:0;bottom:0;z-index:3;
     width:38%;
     border-radius:.9rem;overflow:hidden;
     background:#fff;color:var(--ink-dark);
@@ -1213,6 +1217,22 @@
     margin:.3rem 0 0;font-size:.5625rem;color:#5f6368;
   }
   .serp__stars i{font-style:normal;color:#FFC02E;letter-spacing:-.06em;}
+
+  .ui__st{
+    display:inline-block;width:.4rem;height:.4rem;margin-right:.45rem;
+    border-radius:50%;background:#22B14C;vertical-align:middle;
+  }
+  .ui__head i{font-style:normal;opacity:.55;}
+  .fb__more{margin-left:auto;align-self:flex-start;color:#65676b;font-size:.75rem;line-height:1;letter-spacing:.05em;}
+  .paa{margin:.15rem .6rem .5rem;border:1px solid rgba(0,0,0,.1);border-radius:.6rem;overflow:hidden;}
+  .paa__h{margin:0;padding:.5rem .7rem .4rem;font-size:.6875rem;font-weight:600;color:#202124;}
+  .paa__q{
+    display:flex;align-items:center;gap:.5rem;
+    padding:.45rem .7rem;
+    border-top:1px solid rgba(0,0,0,.07);
+    font-size:.625rem;color:#202124;
+  }
+  .paa__q span{margin-left:auto;flex:0 0 auto;color:#5f6368;font-size:.5625rem;}
 
   @media (max-width:1024px){
     .suite{padding:4.5rem var(--edge) 5rem;}
@@ -1651,11 +1671,11 @@
               <div class="ui__bar"><img class="ui__logo ui__logo--g" alt="" src="data:image/webp;base64,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"><span class="ui__name">Google Ads<span class="ui__sub">Melbourne &mdash; all campaigns</span></span><span class="ui__meta">Last 30 days</span></div>
               <div class="ui__chart"><i style="height:24%"></i><i style="height:30%"></i><i style="height:27%"></i><i style="height:36%"></i><i style="height:33%"></i><i style="height:42%"></i><i style="height:39%"></i><i style="height:48%"></i><i style="height:45%"></i><i class="on" style="height:54%"></i><i class="on" style="height:51%"></i><i class="on" style="height:60%"></i><i class="on" style="height:66%"></i><i class="on" style="height:73%"></i></div>
               <div class="ui__chartlab"><span>Conversions, daily</span><span>47 total</span></div>
-              <div class="ui__head"><span>Campaign</span><span>Clicks</span><span>Cost</span><span>Conv.</span><span>CPA</span></div>
-              <div class="ui__row"><span>Brand &ndash; Search</span><span>1,284</span><span>$612</span><span>16</span><b>$38</b></div>
-              <div class="ui__row"><span>Emergency 24/7</span><span>902</span><span>$488</span><span>12</span><b>$41</b></div>
-              <div class="ui__row"><span>Shopping &ndash; AU</span><span>641</span><span>$305</span><span>9</span><b>$34</b></div>
-              <div class="ui__row"><span>Performance Max</span><span>512</span><span>$274</span><span>7</span><b>$39</b></div>
+              <div class="ui__head"><span>Campaign</span><span>Clicks</span><span>Cost</span><span>Conv.</span><span>CPA <i>&#9662;</i></span></div>
+              <div class="ui__row"><span><i class="ui__st"></i>Brand &ndash; Search</span><span>1,284</span><span>$612</span><span>16</span><b>$38</b></div>
+              <div class="ui__row"><span><i class="ui__st"></i>Emergency 24/7</span><span>902</span><span>$488</span><span>12</span><b>$41</b></div>
+              <div class="ui__row"><span><i class="ui__st"></i>Shopping &ndash; AU</span><span>641</span><span>$305</span><span>9</span><b>$34</b></div>
+              <div class="ui__row"><span><i class="ui__st"></i>Performance Max</span><span>512</span><span>$274</span><span>7</span><b>$39</b></div>
               <div class="ui__foot"><span class="ui__pill">&#8595; 22%</span> cost per lead<span class="ui__big">$38.40</span></div>
             </div>
             <div class="ovl" aria-hidden="true">
@@ -1690,7 +1710,7 @@
               <div class="ui__foot"><span class="ui__pill">&#8593; 34%</span> people reached<span class="ui__big">1.24M</span></div>
             </div>
             <div class="ovl" aria-hidden="true">
-              <div class="fb__head"><span class="fb__av"></span><span class="fb__who"><b>Summit Window Care</b><span>Sponsored &middot; &#9432;</span></span></div>
+              <div class="fb__head"><span class="fb__av"></span><span class="fb__who"><b>Summit Window Care</b><span>Sponsored &middot; &#9432;</span></span><span class="fb__more">&#8943;</span></div>
               <p class="fb__copy">Streaky windows putting customers off? We are in and out before opening.</p>
               <div class="fb__shot"><span>Spotless by 9am.<br>Every time.</span></div>
               <div class="fb__foot"><span class="fb__foot-t"><b>summitwindowcare.com.au</b><span>Book a free quote</span></span><span class="fb__cta">Learn more</span></div>
@@ -1725,10 +1745,11 @@
               <p class="serp__title">Office &amp; strata window cleaners Melbourne</p>
               <p class="serp__desc">Servicing the Melbourne CBD and inner suburbs for commercial clients.</p>
           </div>
-            <div class="serp serp--dim">
-              <span class="serp__url"><i class="serp__fav"></i>another-cleaner.com.au</span>
-              <p class="serp__title">Window cleaning services &ndash; Melbourne wide</p>
-          </div>
+            <div class="paa">
+              <p class="paa__h">People also ask</p>
+              <div class="paa__q">How much does commercial window cleaning cost?<span>&#9662;</span></div>
+              <div class="paa__q">How often should office windows be cleaned?<span>&#9662;</span></div>
+            </div>
             <div class="ui__foot"><span class="ui__pill">&#8593; 87</span> ranking keywords<span class="ui__big">412</span></div>
           </div>
         </div>
