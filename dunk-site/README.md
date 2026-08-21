@@ -102,68 +102,6 @@ their border and shadow to read as cards.
 one token moves both and they stay in step. The cards use a literal
 `#fff` rather than a token, which is why they stayed put.
 
-## Who we work with, and the case study
-
-Both sit between the services and the FAQs: audience fit first, then
-proof. `.who` carries `id="who-we-work-with"`, which the two nav dropdown
-links and the mobile drawer had been pointing at with nothing there.
-
-`.who` is an image column stretched to the panel's height, so the two
-columns bottom out together. The panel is a flex column with the CTA on
-`margin-top:auto`, which lines the button up with the photo's bottom edge.
-
-The six audience items are `.pick`-style cards — white, hairline border,
-soft lift, lime "NN / LABEL" badge — and they sit **full width below** the
-grid, three across, not inside the panel. That placement is load-bearing:
-six cards inside the panel pushed it to 924px tall, which squeezed the
-615px-wide photo beside it into a 0.67 box and cropped a 1.33 source down
-to about half its width. Out here the panel stays at 461px, the photo box
-lands at exactly 1.33, and nothing is cropped at all. Three across, two
-below 1024px, one below 640px.
-
-`.case` puts the photo across the top rather than beside the copy: the
-Solargain shot is 2.17:1 and a side-by-side column would have cut people
-off both ends, so it keeps its native ratio at every width. The results
-column is a flex column with the CTA on `margin-top:auto`, so it anchors
-to the bottom of the card instead of leaving a hole under the list.
-
-### The Solargain content
-
-Supplied by the client, from the Top Rankings case study for the same
-business — the phone number on this page matches theirs, so this is read
-as their own client work rather than someone else's. Worth confirming
-before it goes live.
-
-The pull quote originally named TopRankings. Rather than put a different
-agency's name on a DUNK page, or silently reword a client's words, the
-brand is bracketed: "We have used [them] for a number of years…". Restore
-the original name or get a fresh quote — do not just delete the brackets.
-
-## Why DUNK
-
-`.whyus`, between the case study and the FAQs. Content and the six inline
-SVG icons came from the client's own `index_5.html`; the layout is ported
-onto this file's tokens rather than its source variables, and its
-`min-width` breakpoints were flipped to the `max-width` ones this file
-uses everywhere else.
-
-It uses a lime pill eyebrow, not a numbered `.eyebrow-line`, so the
-numbered run is unbroken: 01 why us, 02 get started, 03 what we do,
-04 who we work with, 05 case study, 06 FAQ. The pill puts it in the same
-class as the footer CTA's dot eyebrow — a voice section rather than a
-numbered content one.
-
-## Light and dark run
-
-hero (plum) → approach (plum) → picker (paper) → suite (plum) → who
-(paper) → case (paper) → whyus (plum) → faq (`--surface`) → cta (gradient).
-
-`.approach` was paper and is now plum, which is why `.approach .logo`
-exists: `.logo` hardcodes `#1c1c20`, so the marquee brand names would
-have gone invisible on the dark ground. Its eyebrow also needed
-`eyebrow-line--light` added in the markup — that variant is what swaps
-the rule from black to white.
-
 ## Case study
 
 One block, `.cs`, on the template the client supplied: photo left with a
@@ -243,3 +181,19 @@ affordance.
 `.ui--links .ui__head > *:nth-child(2)` re-left-aligns "Domain": the
 generic `> *:not(:first-child)` right-align rule threw it into the traffic
 column.
+
+## Dangling in-page links
+
+Ten `href="#..."` links on the page resolve to nothing:
+
+- **`#who-we-work-with` (8)** — the entire "Who We Work With" nav
+  dropdown: its three items and its foot link, in both the desktop nav and
+  the mobile drawer. The section they pointed at was removed. Either
+  rebuild a section with that id, repoint them (`#get-started` is the
+  nearest fit — it segments by what the visitor is trying to achieve), or
+  drop the nav item.
+- **`#about` (2)** — the "Who We Are" nav item and its mobile equivalent.
+  This one has never had a target; it predates any of this work.
+
+Everything else resolves: `#get-started`, `#services`, `#results`,
+`#why-dunk`, `#faq`, `#contact`.
