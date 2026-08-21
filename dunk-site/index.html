@@ -387,12 +387,14 @@
     position:relative;
     /* isolate so the photo layer's negative z-index is clamped inside this
        section: it then paints above the section's own background and below
-       its content, instead of dropping behind the plum entirely */
+       its content, instead of dropping behind the ground entirely */
     isolation:isolate;
     margin-top:var(--shell);
+    /* deliberately neutral, not the plum the other dark sections use, and
+       the top bloom is a plain white lift rather than a purple one */
     background:
-      radial-gradient(ellipse 80% 70% at 50% 0%, rgba(var(--purple-accent),.20) 0%, rgba(var(--purple-accent),0) 64%),
-      #1C1729;
+      radial-gradient(ellipse 80% 70% at 50% 0%, rgba(255,255,255,.055) 0%, rgba(255,255,255,0) 64%),
+      var(--surface);
     border-radius:var(--radius-main);
     padding:6.5rem 0 4.5rem;
     text-align:center;
@@ -1798,7 +1800,7 @@
   <section class="picker" id="get-started">
     <div class="picker__head">
       <p class="eyebrow-line"><span>Get started</span><span class="eyebrow-line__rule"></span><span>01</span></p>
-      <h2>What are you trying to achieve?</h2>
+      <h2>What are your current digital marketing challenges?</h2>
       <p class="picker__lede">Pick the one that sounds like you. We'll tell you which channels actually fit, what it costs, and what to expect.</p>
     </div>
 
