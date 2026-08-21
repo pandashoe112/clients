@@ -978,13 +978,13 @@
      markup so none of it reaches a screen reader as fact. */
   .ui{
     position:relative;z-index:2;
-    width:100%;
+    width:min(24rem,100%);
     border-radius:1rem;
     background:#fff;
     color:var(--ink-dark);
     box-shadow:0 24px 54px rgba(0,0,0,.34);
     overflow:hidden;
-    font-size:.8125rem;line-height:1.35;
+    font-size:.75rem;line-height:1.35;
     font-variant-numeric:tabular-nums;
     text-align:left;
   }
@@ -1101,7 +1101,7 @@
 
   /* --- wider tiles carry more columns and a couple of extra readouts --- */
   .ui__sub{display:block;margin-top:.05rem;font-size:.6875rem;font-weight:400;color:#8a8a92;}
-  .ui--ads .ui__head,.ui--ads .ui__row{grid-template-columns:minmax(0,1fr) 3.2rem 2.9rem 2.9rem 2.4rem 2.7rem;}
+  .ui--ads .ui__head,.ui--ads .ui__row{grid-template-columns:minmax(0,1fr) 2.7rem 2.6rem 2.1rem 2.5rem;}
   .ui__chart{display:flex;align-items:flex-end;gap:2px;height:3.1rem;padding:.8rem .95rem .3rem;}
   .ui__chart i{flex:1 1 0;min-width:0;border-radius:2px 2px 0 0;background:#DBD5F3;}
   .ui__chart i.on{background:#4C1D95;}
@@ -1132,6 +1132,88 @@
   .ui--links .ui__head > *:nth-child(2){text-align:left;}
   .ui__num{text-align:right;font-weight:600;font-size:.75rem;}
 
+  /* --- a base tile with a second card offset over its bottom-right --- */
+  /* wide enough that the overlay only laps the base tile by ~16px — its
+     own padding. Any more and it clips the right-hand column mid-number,
+     which reads as a bug rather than as layering; the drop shadow is what
+     sells the depth. */
+  .stack{position:relative;width:min(37rem,100%);}
+  .stack > .ui{width:64%;}
+  .ovl{
+    position:absolute;right:0;bottom:-1.6rem;z-index:3;
+    width:38%;
+    border-radius:.9rem;overflow:hidden;
+    background:#fff;color:var(--ink-dark);
+    box-shadow:0 22px 50px rgba(0,0,0,.4);
+    font-size:.6875rem;line-height:1.35;text-align:left;
+  }
+  /* a Google search ad */
+  .ad{padding:.75rem .8rem .8rem;}
+  .ad__spon{margin:0;font-size:.625rem;font-weight:700;color:#202124;}
+  .ad__site{display:flex;align-items:center;gap:.4rem;margin-top:.45rem;}
+  .ad__fav{width:.95rem;height:.95rem;border-radius:50%;background:#2A1D63;flex:0 0 auto;}
+  .ad__dom{min-width:0;font-size:.6875rem;font-weight:600;line-height:1.15;color:#202124;}
+  .ad__url{display:block;font-size:.5625rem;font-weight:400;color:#5f6368;}
+  .ad__title{margin:.45rem 0 .3rem;font-size:.8125rem;line-height:1.25;font-weight:500;color:#1a0dab;}
+  .ad__desc{margin:0;font-size:.625rem;line-height:1.42;color:#4d5156;}
+  .ad__ext{display:flex;align-items:center;gap:.3rem;margin:.5rem 0 0;font-size:.5625rem;color:#5f6368;}
+  .ad__stars{color:#FFC02E;letter-spacing:-.06em;}
+  /* a Meta feed ad */
+  .fb__head{display:flex;align-items:center;gap:.5rem;padding:.65rem .7rem .5rem;}
+  .fb__av{
+    width:1.65rem;height:1.65rem;border-radius:50%;flex:0 0 auto;
+    background:linear-gradient(135deg,#2A1458,#8A5CFF);
+  }
+  .fb__who b{display:block;font-size:.6875rem;font-weight:700;}
+  .fb__who span{display:block;font-size:.5625rem;color:#65676b;}
+  .fb__copy{margin:0;padding:0 .7rem .55rem;font-size:.625rem;line-height:1.45;color:#050505;}
+  .fb__shot{
+    aspect-ratio:1.91/1;
+    display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(72% 92% at 18% 18%, #8A5CFF 0%, rgba(138,92,255,0) 62%),
+      radial-gradient(72% 92% at 86% 84%, #FF6FC4 0%, rgba(255,111,196,0) 60%),
+      #2A1458;
+  }
+  .fb__shot span{
+    padding:0 .9rem;text-align:center;
+    font-family:var(--font-head);font-size:.8125rem;font-weight:700;letter-spacing:-.02em;
+    color:#fff;line-height:1.2;
+  }
+  .fb__foot{display:flex;align-items:center;gap:.5rem;padding:.5rem .7rem;background:#F0F2F5;}
+  .fb__foot-t{min-width:0;}
+  .fb__foot-t b{display:block;font-size:.5625rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#65676b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .fb__foot-t span{display:block;font-size:.6875rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .fb__cta{
+    margin-left:auto;flex:0 0 auto;
+    padding:.32rem .6rem;border-radius:.35rem;
+    background:#E4E6EB;font-size:.5625rem;font-weight:700;white-space:nowrap;
+  }
+  .fb__stats{
+    display:flex;gap:.7rem;padding:.45rem .7rem;
+    font-size:.5625rem;color:#65676b;
+    border-top:1px solid rgba(0,0,0,.07);
+  }
+  /* a fuller results page */
+  .ui__tabs{
+    display:flex;gap:.9rem;
+    padding:0 .95rem .45rem;
+    font-size:.6875rem;color:#5f6368;
+    border-bottom:1px solid rgba(0,0,0,.07);
+  }
+  .ui__tabs b{color:#1a73e8;font-weight:600;}
+  .serp__rank{
+    margin-left:auto;flex:0 0 auto;
+    padding:.1rem .4rem;border-radius:.3rem;
+    background:#E8FCA6;color:#2F3D00;
+    font-size:.5625rem;font-weight:700;
+  }
+  .serp__stars{
+    display:flex;align-items:center;gap:.3rem;
+    margin:.3rem 0 0;font-size:.5625rem;color:#5f6368;
+  }
+  .serp__stars i{font-style:normal;color:#FFC02E;letter-spacing:-.06em;}
+
   @media (max-width:1024px){
     .suite{padding:4.5rem var(--edge) 5rem;}
     .suite__head{margin-bottom:2.75rem;}
@@ -1140,6 +1222,8 @@
     .suite__art{min-height:19rem;}
   }
   @media (max-width:640px){
+    .stack > .ui{width:100%;}
+    .ovl{position:static;width:100%;margin-top:.9rem;box-shadow:0 14px 30px rgba(0,0,0,.3);}
     .suite__copy{padding:1.75rem;}
     .suite__art{min-height:16rem;padding:1.5rem;}
   }
@@ -1562,17 +1646,27 @@
           <a class="suite__link" href="/services/google-ads">See how we run Google Ads <span aria-hidden="true">&#8594;</span></a>
         </div>
         <div class="suite__art">
-          <div class="ui ui--ads" aria-hidden="true">
-            <div class="ui__bar"><img class="ui__logo ui__logo--g" alt="" src="data:image/webp;base64,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"><span class="ui__name">Google Ads<span class="ui__sub">Melbourne &mdash; all campaigns</span></span><span class="ui__meta">Last 30 days</span></div>
-            <div class="ui__chart"><i style="height:22%"></i><i style="height:28%"></i><i style="height:25%"></i><i style="height:34%"></i><i style="height:31%"></i><i style="height:40%"></i><i style="height:37%"></i><i style="height:46%"></i><i style="height:43%"></i><i class="on" style="height:52%"></i><i class="on" style="height:49%"></i><i class="on" style="height:58%"></i><i class="on" style="height:63%"></i><i class="on" style="height:71%"></i></div>
-            <div class="ui__chartlab"><span>Conversions, daily</span><span>47 total</span></div>
-            <div class="ui__head"><span>Campaign</span><span>Impr.</span><span>Clicks</span><span>Cost</span><span>Conv.</span><span>CPA</span></div>
-            <div class="ui__row"><span>Brand &ndash; Search</span><span>18,402</span><span>1,284</span><span>$612</span><span>16</span><b>$38</b></div>
-            <div class="ui__row"><span>Emergency 24/7</span><span>12,915</span><span>902</span><span>$488</span><span>12</span><b>$41</b></div>
-            <div class="ui__row"><span>Shopping &ndash; AU</span><span>9,644</span><span>641</span><span>$305</span><span>9</span><b>$34</b></div>
-            <div class="ui__row"><span>Performance Max</span><span>7,180</span><span>512</span><span>$274</span><span>7</span><b>$39</b></div>
-            <div class="ui__row"><span>Suburbs &ndash; Local</span><span>4,231</span><span>318</span><span>$161</span><span>3</span><b>$54</b></div>
-            <div class="ui__foot"><span class="ui__pill">&#8595; 22%</span> cost per lead<span class="ui__big">$38.40</span></div>
+          <div class="stack">
+            <div class="ui ui--ads" aria-hidden="true">
+              <div class="ui__bar"><img class="ui__logo ui__logo--g" alt="" src="data:image/webp;base64,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"><span class="ui__name">Google Ads<span class="ui__sub">Melbourne &mdash; all campaigns</span></span><span class="ui__meta">Last 30 days</span></div>
+              <div class="ui__chart"><i style="height:24%"></i><i style="height:30%"></i><i style="height:27%"></i><i style="height:36%"></i><i style="height:33%"></i><i style="height:42%"></i><i style="height:39%"></i><i style="height:48%"></i><i style="height:45%"></i><i class="on" style="height:54%"></i><i class="on" style="height:51%"></i><i class="on" style="height:60%"></i><i class="on" style="height:66%"></i><i class="on" style="height:73%"></i></div>
+              <div class="ui__chartlab"><span>Conversions, daily</span><span>47 total</span></div>
+              <div class="ui__head"><span>Campaign</span><span>Clicks</span><span>Cost</span><span>Conv.</span><span>CPA</span></div>
+              <div class="ui__row"><span>Brand &ndash; Search</span><span>1,284</span><span>$612</span><span>16</span><b>$38</b></div>
+              <div class="ui__row"><span>Emergency 24/7</span><span>902</span><span>$488</span><span>12</span><b>$41</b></div>
+              <div class="ui__row"><span>Shopping &ndash; AU</span><span>641</span><span>$305</span><span>9</span><b>$34</b></div>
+              <div class="ui__row"><span>Performance Max</span><span>512</span><span>$274</span><span>7</span><b>$39</b></div>
+              <div class="ui__foot"><span class="ui__pill">&#8595; 22%</span> cost per lead<span class="ui__big">$38.40</span></div>
+            </div>
+            <div class="ovl" aria-hidden="true">
+              <div class="ad">
+                <p class="ad__spon">Sponsored</p>
+                <div class="ad__site"><span class="ad__fav"></span><span class="ad__dom">Summit Window Care<span class="ad__url">https://www.summitwindowcare.com.au</span></span></div>
+                <p class="ad__title">Commercial Window Cleaning Melbourne &mdash; Free Quote</p>
+                <p class="ad__desc">High-rise and ground level. Fully insured, rope access certified, after-hours available across Melbourne.</p>
+                <p class="ad__ext"><span class="ad__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.9 (312) &middot; Get a quote &middot; Service areas</p>
+              </div>
+            </div>
           </div>
         </div>
       </article>
@@ -1586,14 +1680,22 @@
           <a class="suite__link" href="/services/meta-ads">See how we run Meta Ads <span aria-hidden="true">&#8594;</span></a>
         </div>
         <div class="suite__art">
-          <div class="ui" aria-hidden="true">
-            <div class="ui__bar"><img class="ui__logo ui__logo--m" alt="" src="data:image/webp;base64,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"><span class="ui__name">Ads Manager<span class="ui__sub">5 ad sets &middot; 2 paused</span></span><span class="ui__meta">Last 30 days</span></div>
-            <div class="ui__set"><span class="ui__tog"></span><span class="ui__set-body"><span class="ui__set-name">Retargeting &ndash; 30 day</span><span class="ui__set-sub"><i class="ui__dot"></i>Active &middot; Feed</span></span><span class="ui__set-val"><b>614K</b><em>$4.10 / result</em></span></div>
-            <div class="ui__set"><span class="ui__tog"></span><span class="ui__set-body"><span class="ui__set-name">Lookalike 1% &ndash; Reels</span><span class="ui__set-sub"><i class="ui__dot"></i>Active &middot; Reels</span></span><span class="ui__set-val"><b>428K</b><em>$5.60 / result</em></span></div>
-            <div class="ui__set"><span class="ui__tog"></span><span class="ui__set-body"><span class="ui__set-name">Interest &ndash; Home reno</span><span class="ui__set-sub"><i class="ui__dot"></i>Active &middot; Feed</span></span><span class="ui__set-val"><b>196K</b><em>$6.20 / result</em></span></div>
-            <div class="ui__set"><span class="ui__tog ui__tog--off"></span><span class="ui__set-body"><span class="ui__set-name">Broad &ndash; Stories</span><span class="ui__set-sub"><i class="ui__dot ui__dot--off"></i>Paused</span></span><span class="ui__set-val"><b>212K</b><em>$9.40 / result</em></span></div>
-            <div class="ui__set"><span class="ui__tog ui__tog--off"></span><span class="ui__set-body"><span class="ui__set-name">Winter promo &ndash; Video</span><span class="ui__set-sub"><i class="ui__dot ui__dot--off"></i>Paused</span></span><span class="ui__set-val"><b>84K</b><em>$7.80 / result</em></span></div>
-            <div class="ui__foot"><span class="ui__pill">&#8593; 34%</span> people reached<span class="ui__big">1.24M</span></div>
+          <div class="stack">
+            <div class="ui" aria-hidden="true">
+              <div class="ui__bar"><img class="ui__logo ui__logo--m" alt="" src="data:image/webp;base64,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"><span class="ui__name">Ads Manager<span class="ui__sub">4 ad sets &middot; 1 paused</span></span><span class="ui__meta">Last 30 days</span></div>
+              <div class="ui__set"><span class="ui__tog"></span><span class="ui__set-body"><span class="ui__set-name">Retargeting &ndash; 30 day</span><span class="ui__set-sub"><i class="ui__dot"></i>Active &middot; Feed</span></span><span class="ui__set-val"><b>614K</b><em>$4.10 / result</em></span></div>
+              <div class="ui__set"><span class="ui__tog"></span><span class="ui__set-body"><span class="ui__set-name">Lookalike 1% &ndash; Reels</span><span class="ui__set-sub"><i class="ui__dot"></i>Active &middot; Reels</span></span><span class="ui__set-val"><b>428K</b><em>$5.60 / result</em></span></div>
+              <div class="ui__set"><span class="ui__tog"></span><span class="ui__set-body"><span class="ui__set-name">Interest &ndash; Home reno</span><span class="ui__set-sub"><i class="ui__dot"></i>Active &middot; Feed</span></span><span class="ui__set-val"><b>196K</b><em>$6.20 / result</em></span></div>
+              <div class="ui__set"><span class="ui__tog ui__tog--off"></span><span class="ui__set-body"><span class="ui__set-name">Broad &ndash; Stories</span><span class="ui__set-sub"><i class="ui__dot ui__dot--off"></i>Paused</span></span><span class="ui__set-val"><b>212K</b><em>$9.40 / result</em></span></div>
+              <div class="ui__foot"><span class="ui__pill">&#8593; 34%</span> people reached<span class="ui__big">1.24M</span></div>
+            </div>
+            <div class="ovl" aria-hidden="true">
+              <div class="fb__head"><span class="fb__av"></span><span class="fb__who"><b>Summit Window Care</b><span>Sponsored &middot; &#9432;</span></span></div>
+              <p class="fb__copy">Streaky windows putting customers off? We are in and out before opening.</p>
+              <div class="fb__shot"><span>Spotless by 9am.<br>Every time.</span></div>
+              <div class="fb__foot"><span class="fb__foot-t"><b>summitwindowcare.com.au</b><span>Book a free quote</span></span><span class="fb__cta">Learn more</span></div>
+              <div class="fb__stats"><span>&#9825; 428</span><span>&#128172; 31</span><span>&#8599; 12</span></div>
+            </div>
           </div>
         </div>
       </article>
@@ -1609,13 +1711,24 @@
         <div class="suite__art">
           <div class="ui" aria-hidden="true">
             <span class="ui__search"><svg viewBox="0 0 16 16" fill="none"><circle cx="6.8" cy="6.8" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M10.4 10.4 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> commercial window cleaning melbourne</span>
+            <div class="ui__tabs"><b>All</b><span>Images</span><span>Maps</span><span>News</span></div>
             <p class="ui__count">About 1,860,000 results (0.42 seconds)</p>
-            <div class="serp"><span class="serp__url"><i class="serp__fav"></i>summitwindowcare.com.au &rsaquo; commercial</span><p class="serp__title">Commercial Window Cleaning Melbourne | Summit Window Care</p><p class="serp__desc">High-rise and ground-level window cleaning for offices, retail and body corporate. Fully insured and rope access certified.</p><span class="serp__links"><span>Get a quote</span><span>High-rise</span><span>Service areas</span></span></div>
-            <div class="serp serp--dim"><span class="serp__url"><i class="serp__fav"></i>competitor.com.au</span><p class="serp__title">Office &amp; strata window cleaners Melbourne</p></div>
-            <div class="ui__kwhead"><span>Tracked keyword</span><span>Pos.</span><span>Change</span></div>
-            <div class="ui__kw"><span>commercial window cleaning melbourne</span><span>1</span><span class="ui__up">&#8593; 7</span></div>
-            <div class="ui__kw"><span>high rise window cleaning</span><span>2</span><span class="ui__up">&#8593; 11</span></div>
-            <div class="ui__kw"><span>strata window cleaners melbourne</span><span>3</span><span class="ui__up">&#8593; 4</span></div>
+            <div class="serp">
+              <span class="serp__url"><i class="serp__fav"></i>summitwindowcare.com.au &rsaquo; commercial<span class="serp__rank">#1</span></span>
+              <p class="serp__title">Commercial Window Cleaning Melbourne | Summit Window Care</p>
+              <p class="serp__desc">High-rise and ground-level window cleaning for offices, retail and body corporate. Fully insured and rope access certified.</p>
+              <p class="serp__stars"><i>&#9733;&#9733;&#9733;&#9733;&#9733;</i> 4.9 (312 reviews) &middot; Melbourne VIC</p>
+              <span class="serp__links"><span>Get a quote</span><span>High-rise</span><span>Service areas</span></span>
+          </div>
+            <div class="serp serp--dim">
+              <span class="serp__url"><i class="serp__fav"></i>competitor.com.au</span>
+              <p class="serp__title">Office &amp; strata window cleaners Melbourne</p>
+              <p class="serp__desc">Servicing the Melbourne CBD and inner suburbs for commercial clients.</p>
+          </div>
+            <div class="serp serp--dim">
+              <span class="serp__url"><i class="serp__fav"></i>another-cleaner.com.au</span>
+              <p class="serp__title">Window cleaning services &ndash; Melbourne wide</p>
+          </div>
             <div class="ui__foot"><span class="ui__pill">&#8593; 87</span> ranking keywords<span class="ui__big">412</span></div>
           </div>
         </div>
@@ -1637,7 +1750,6 @@
             <div class="ui__link-row"><span class="ui__dr">DR 68</span><span class="ui__link-body"><span class="ui__dom">tradehub.com.au</span><span class="ui__anchor">&ldquo;solar battery installer&rdquo;</span></span><span class="ui__num">22K</span><span class="ui__tagf">Dofollow</span></div>
             <div class="ui__link-row"><span class="ui__dr">DR 61</span><span class="ui__link-body"><span class="ui__dom">homestyle.com.au</span><span class="ui__anchor">&ldquo;ev charger installation&rdquo;</span></span><span class="ui__num">17K</span><span class="ui__tagf">Dofollow</span></div>
             <div class="ui__link-row"><span class="ui__dr">DR 57</span><span class="ui__link-body"><span class="ui__dom">buildwise.com.au</span><span class="ui__anchor">&ldquo;switchboard upgrade&rdquo;</span></span><span class="ui__num">9.4K</span><span class="ui__tagf">Dofollow</span></div>
-            <div class="ui__link-row"><span class="ui__dr">DR 52</span><span class="ui__link-body"><span class="ui__dom">localliving.com.au</span><span class="ui__anchor">&ldquo;heat pump hot water&rdquo;</span></span><span class="ui__num">6.1K</span><span class="ui__tagf">Dofollow</span></div>
             <div class="ui__foot"><span class="ui__pill">&#8593; 19</span> new domains<span class="ui__big">68</span></div>
           </div>
         </div>

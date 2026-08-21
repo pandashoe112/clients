@@ -167,11 +167,21 @@ The service copy card. Four things carry it, and they interlock:
 The auto alone gives no floor, so on a card whose copy nearly fills the
 height the rule crowds straight up against the chips.
 
-### Tile sizing
+### Tile sizing and the offset overlays
 
-`.ui` is `width:100%` — it fills the art panel's content box (92% of the
-panel, the rest being the panel's 1.6rem padding). It was `min(23rem,100%)`,
-which used about 63% of the width and left the data cramped.
+`.ui` is back to `min(24rem,100%)`. Google Ads and Meta each sit in a
+`.stack`: base tile at `64%`, a second card (`.ovl`) absolutely placed at
+`right:0; bottom:-1.6rem`, width `38%`.
+
+Those are **percentages that sum to ~102% on purpose** — the lap stays
+about 12px at every panel width instead of growing as the panel narrows.
+The lap has to stay that small: it is roughly the tile's own right
+padding, so nothing is covered. Anything larger clips the right-hand
+column mid-number, which reads as a rendering bug rather than as layering.
+The drop shadow is what sells the depth, not the amount of overlap.
+
+Below 640px there is no room to offset, so `.ovl` goes `position:static`
+and full width under the tile.
 
 The panel's decorative corner arrow (`.suite__go`) is gone. A full-width
 tile leaves no room for it, and it was rendering as a half-circle behind
