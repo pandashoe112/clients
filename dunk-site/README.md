@@ -207,3 +207,17 @@ Ten `href="#..."` links on the page resolve to nothing:
 
 Everything else resolves: `#get-started`, `#services`, `#results`,
 `#why-dunk`, `#faq`, `#contact`.
+
+## Strategy call panel
+
+`.call`, between the picker (02) and the services (03). A white panel
+inset in a plum section, with the lime pixel motif top-left and the arrow
+bottom-right sitting in the plum margin. Those two are `z-index:0` behind
+the panel, so the section's padding has to be wide enough for them to
+clear it — at the original `clamp(2rem,4vw,3.5rem)` they ran under the
+white and read as clipped. Padding is now `clamp(2.5rem,5vw,4.75rem)` and
+both are verified clear of the panel edge.
+
+**The avatar is a plum gradient placeholder, not Oliver.** No headshot was
+supplied. Drop a portrait in and swap the `data:` URI on
+`.call__avatar img`; the circle, ring and lime live-dot are already there.

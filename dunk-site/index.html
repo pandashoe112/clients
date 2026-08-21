@@ -1286,6 +1286,103 @@
 
   .btn--ink{background:var(--ink-dark);color:#fff;font-weight:600;}
   .btn--ink:hover{background:#000;}
+  /* ---------- strategy call ---------- */
+  .call{
+    position:relative;isolation:isolate;
+    margin-top:var(--shell);
+    padding:clamp(2.5rem,5vw,4.75rem);
+    border-radius:var(--radius-main);
+    background:
+      radial-gradient(ellipse 70% 60% at 12% 8%, rgba(var(--purple-accent),.22) 0%, rgba(var(--purple-accent),0) 60%),
+      #1C1729;
+    overflow:hidden;
+  }
+  /* the pixel motif and the arrow, sitting in the plum margin either side
+     of the white panel */
+  .call__pips,.call__arrow{position:absolute;z-index:0;pointer-events:none;color:var(--lime);}
+  .call__pips{top:clamp(.8rem,1.5vw,1.4rem);left:clamp(.8rem,1.5vw,1.4rem);width:clamp(2rem,3vw,2.9rem);}
+  .call__arrow{right:clamp(.8rem,1.5vw,1.5rem);bottom:clamp(.8rem,1.5vw,1.4rem);width:clamp(1.9rem,2.6vw,2.5rem);}
+  .call__pips svg,.call__arrow svg{display:block;width:100%;height:auto;}
+  .call__panel{
+    position:relative;z-index:1;
+    display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+    gap:clamp(2rem,4vw,4rem);
+    align-items:center;
+    padding:clamp(2rem,4.5vw,4rem);
+    border-radius:1.5rem;
+    background:#fff;
+    color:var(--ink-dark);
+  }
+  .call__panel h2{
+    margin:0;
+    font-family:var(--font-head);
+    font-size:clamp(1.625rem,2.9vw,2.5rem);
+    line-height:1.1;letter-spacing:-.03em;font-weight:600;
+    text-wrap:balance;
+  }
+  .call__lede{margin:1.15rem 0 0;font-size:1rem;line-height:1.65;color:#54545a;}
+  .call__lede b{color:var(--ink-dark);font-weight:600;border-bottom:2px solid var(--lime);}
+  .call__panel .btn{margin-top:2rem;}
+
+  .call__card{
+    padding:1.75rem 1.5rem 1.6rem;
+    border:1px solid rgba(0,0,0,.09);
+    border-radius:1.25rem;
+    background:#FAFAF8;
+    text-align:center;
+  }
+  .call__avatar{
+    width:4.5rem;height:4.5rem;margin:0 auto;
+    position:relative;
+    border-radius:50%;
+    background:linear-gradient(150deg,#7C5CFF,#2A1458);
+    display:flex;align-items:flex-end;justify-content:center;
+    overflow:hidden;
+    box-shadow:0 0 0 4px #fff, 0 8px 20px rgba(0,0,0,.14);
+  }
+  .call__avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+  .call__live{
+    position:absolute;right:.1rem;bottom:.35rem;
+    width:.7rem;height:.7rem;border-radius:50%;
+    background:var(--lime);border:2px solid #FAFAF8;
+  }
+  .call__who{margin:.9rem 0 0;font-size:1rem;font-weight:500;}
+  .call__role{
+    margin:.5rem 0 0;
+    font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-dark);
+  }
+  .call__note{margin:.9rem 0 0;font-size:.8125rem;line-height:1.5;color:#54545a;}
+  .call__slot{
+    display:flex;align-items:center;gap:.75rem;
+    margin:1.15rem 0 0;
+    padding:.85rem .9rem;
+    border:1px solid rgba(0,0,0,.1);
+    border-radius:.9rem;
+    background:#fff;text-align:left;
+  }
+  .call__dot{width:.85rem;height:.85rem;border-radius:50%;background:var(--lime);flex:0 0 auto;}
+  .call__slot-t{min-width:0;}
+  .call__slot-t b{display:block;font-size:.8125rem;font-weight:600;}
+  .call__slot-t span{display:block;margin-top:.15rem;font-size:.75rem;line-height:1.35;color:#54545a;}
+  .call__slot-go{margin-left:auto;flex:0 0 auto;color:#8a8a92;font-size:.75rem;}
+  .call__days{display:flex;justify-content:center;gap:.4rem;margin:1.15rem 0 0;}
+  .call__days span{
+    padding:.35rem .55rem;border-radius:.5rem;
+    background:var(--lime);color:var(--ink-dark);
+    font-size:.6875rem;font-weight:700;
+  }
+  .call__days span.is-off{background:#EDEDEA;color:#9a9aa2;}
+  .call__tz{
+    margin:1.15rem 0 0;
+    font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dark);
+  }
+
+  @media (max-width:1024px){
+    .call__panel{grid-template-columns:minmax(0,1fr);gap:2.25rem;}
+    .call__pips,.call__arrow{display:none;}
+  }
+
   /* ---------- case study ---------- */
   .case{
     margin-top:var(--shell);
@@ -1724,6 +1821,32 @@
 
 
 
+
+  <section class="call" id="strategy-call">
+    <span class="call__pips" aria-hidden="true"><svg viewBox="0 0 60 60" fill="currentColor"><rect x="0" y="0" width="15" height="15"/><rect x="30" y="0" width="15" height="15"/><rect x="15" y="15" width="15" height="15"/><rect x="45" y="15" width="15" height="15"/><rect x="0" y="30" width="15" height="15"/><rect x="30" y="30" width="15" height="15"/><rect x="15" y="45" width="15" height="15"/></svg></span>
+    <span class="call__arrow" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M10 38 38 10" stroke="currentColor" stroke-width="8" stroke-linecap="square"/><path d="M18 10h20v20" stroke="currentColor" stroke-width="8" stroke-linejoin="miter"/></svg></span>
+    <div class="call__panel">
+      <div class="call__copy">
+        <h2>Book your free digital marketing strategy call.</h2>
+        <p class="call__lede">Whichever of those sounds like you, the first step is the same. We look at your current marketing performance together: what is bringing in enquiries, what is wasting money, and what we would change first. <b>No obligation either way.</b></p>
+        <a class="btn btn--lime" href="https://calendly.com/dunk-agency/growth-call">Book your free call<span class="btn__arrow" aria-hidden="true">&#8599;</span></a>
+      </div>
+
+      <div class="call__card">
+        <span class="call__avatar"><img alt="" src="data:image/webp;base64,UklGRsgDAABXRUJQVlA4WAoAAAAgAAAAswAAswAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDgg2gEAANAPAJ0BKrQAtAA+USiSRyOioaEgSABwCglpbuAz6VphPx5c/vPi4oI1pDquFUnwD/ql8ACfisR1k26Ap1o8Rc60NLJt0R1k2XtyZQCrJy1bcmUAqybL25MoBVk2XtyZQCrJsvbkygFWTX6LnWjxF0O0BVk26I6vAaI6ybdEV7mNNi8RKjILgAD+4yRRA//7Sz//6ln//1LP/vyX6BJR7h+ZZq7qgXfHoVcSaWBQZStc6B8CU6tx/sZlWg4G/gKNcyiClIieY/t3eTE2ZNdNxztD1QFpUspdqmaY/T72/DruAKTANA/gD2gA3uXHuTq3avmPEVW94Gdtw9xyw7MLSzq9U6yUSs9IODz9cQhGeiD3OVdCkGJb4amybCBQTFtEH67pENPse+Oz8ewk5LtVvnv8bNCvMGWgexSjPs9v27ryGRoSD/zBm02qrnRpnnBRmVn59nt+3deQyI5/Rq8Ro+dz6S1N2kDuMluz2/buvIZEczVyVcKzQUeP/nj6YafkfkU5z6oCnlEHctTsQmjrBg6LaEoFgYZI3eUi+FkN5YO0GaUVFwhh+HUFBWYDhVWlw9XU6GjDrf79wjs/f2ZI1vkrPZ9jyZ9bu82BGHIuL9YAamOuilKGwAAAAA=="><i class="call__live" aria-hidden="true"></i></span>
+        <p class="call__who">Oliver Wales</p>
+        <p class="call__role">Head of Growth &middot; DUNK</p>
+        <p class="call__note">You will be talking to Oliver. Pick a time that suits you and it drops straight into his calendar.</p>
+        <div class="call__slot">
+          <span class="call__dot" aria-hidden="true"></span>
+          <span class="call__slot-t"><b>Strategy call (virtual)</b><span>Where you are now, where the opportunity is, what we would do first.</span></span>
+          <span class="call__slot-go" aria-hidden="true">&#9656;</span>
+        </div>
+        <div class="call__days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span class="is-off">Fri</span></div>
+        <p class="call__tz">Melbourne time &middot; AEST</p>
+      </div>
+    </div>
+  </section>
 
   <section class="suite" id="services">
     <div class="suite__head">
