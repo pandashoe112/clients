@@ -238,3 +238,15 @@ identical sets and animates to `translateX(-50%)`, so **one set has to be
 at least as wide as the marquee container** or the loop shows a hole. Six
 logos only reach 1353px against a 1184px container because of that gap;
 tighten it and the seam reappears.
+
+## Booking card availability
+
+Set from the client's real Calendly-style config: 15 minutes, Mon to Fri,
+9:30am to 4:30pm, Australia/Melbourne. Sat and Sun render as `is-off`
+chips rather than being omitted, so the card says what is *not* available
+as well as what is. If the real availability changes, these are hand-typed
+values in the markup, not fed from anything.
+
+**The avatar is still a placeholder.** A portrait was described but arrived
+as a pasted image rather than a file, so there was nothing to encode. Send
+it as an attachment and swap the `data:` URI on `.call__avatar img`.

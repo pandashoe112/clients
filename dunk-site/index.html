@@ -125,17 +125,23 @@
     align-items:center;
     gap:.4rem;
     padding:.6rem 1.1rem;
-    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.06);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.07);
     backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
     font-size:1rem;
     font-weight:400;
     color:var(--grey-100);
     border-radius:var(--radius-full);
-    transition:color .18s ease, background-color .18s ease;
+    transition:color .18s ease, background-color .18s ease, border-color .18s ease;
     white-space:nowrap;
   }
-  .nav__link:hover{background:rgba(255,255,255,.16);color:#fff;}
-  .nav__item.is-open .nav__link{background:var(--lime);color:var(--ink-dark);}
+  .nav__link:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.22);color:#fff;}
+  .nav__item.is-open .nav__link{
+    background:var(--lime);color:var(--ink-dark);
+    border-color:transparent;
+    box-shadow:0 0 0 4px rgba(230,255,2,.15);
+  }
   .nav__item.is-open .nav__link svg{opacity:1;}
   .nav__link svg{width:.7rem;height:.7rem;transition:transform .2s ease;opacity:.7;}
   .nav__item.is-open .nav__link svg{transform:rotate(180deg);}
@@ -186,7 +192,7 @@
     transition:transform .18s ease, background-color .18s ease, color .18s ease, border-color .18s ease;
   }
   .btn:hover{transform:translateY(-1px);}
-  .btn--white{background:#fff;color:#101010;}
+  .btn--white{background:#fff;color:#101010;box-shadow:0 6px 18px rgba(0,0,0,.28);}
   .btn--white:hover{background:var(--lime);}
   .btn--lime{background:var(--lime);color:#101010;font-weight:600;padding:.75rem .75rem .75rem 1.75rem;font-size:1rem;}
   .btn__arrow{
@@ -250,13 +256,33 @@
     transition:opacity .2s ease, transform .2s ease, visibility .2s;
   }
   .nav__item.is-open .drop{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0);}
+  /* a notch pointing back at the pill that opened it */
+  .drop::before{
+    content:"";
+    position:absolute;top:-.4rem;left:50%;
+    width:.8rem;height:.8rem;
+    transform:translateX(-50%) rotate(45deg);
+    background:var(--panel);
+    border-left:1px solid var(--hairline);
+    border-top:1px solid var(--hairline);
+    border-radius:.15rem 0 0 0;
+  }
   .drop__link{
     display:block;
     padding:.85rem .95rem;
     border-radius:.85rem;
     transition:background-color .16s ease;
   }
-  .drop__link:hover{background:rgba(255,255,255,.06);}
+  .drop__link{position:relative;}
+  .drop__link::before{
+    content:"";
+    position:absolute;left:.3rem;top:.6rem;bottom:.6rem;
+    width:2px;border-radius:2px;background:var(--lime);
+    opacity:0;transform:scaleY(.35);
+    transition:opacity .16s ease, transform .16s ease;
+  }
+  .drop__link:hover{background:rgba(255,255,255,.07);}
+  .drop__link:hover::before{opacity:1;transform:scaleY(1);}
   .drop__title{
     display:flex;align-items:center;justify-content:space-between;gap:1rem;
     font-family:var(--font-head);
@@ -1373,15 +1399,30 @@
   .call__slot-t b{display:block;font-size:.8125rem;font-weight:600;}
   .call__slot-t span{display:block;margin-top:.15rem;font-size:.75rem;line-height:1.35;color:#54545a;}
   .call__slot-go{margin-left:auto;flex:0 0 auto;color:#8a8a92;font-size:.75rem;}
-  .call__days{display:flex;justify-content:center;gap:.4rem;margin:1.15rem 0 0;}
+  .call__days{display:flex;justify-content:center;flex-wrap:wrap;gap:.35rem;margin:1.15rem 0 0;}
+  .call__meta{
+    display:flex;justify-content:center;flex-wrap:wrap;gap:.4rem;
+    margin:.85rem 0 0;
+  }
+  .call__meta span{
+    padding:.25rem .6rem;border-radius:var(--radius-full);
+    border:1px solid rgba(0,0,0,.1);background:#fff;
+    font-size:.6875rem;font-weight:600;color:#54545a;
+  }
+  .call__hours{
+    display:flex;align-items:center;justify-content:center;gap:.4rem;
+    margin:.9rem 0 0;
+    font-size:.8125rem;font-weight:600;
+  }
+  .call__hours span{color:var(--lime);-webkit-text-stroke:.5px rgba(0,0,0,.25);}
   .call__days span{
-    padding:.35rem .55rem;border-radius:.5rem;
+    padding:.35rem .5rem;border-radius:.5rem;
     background:var(--lime);color:var(--ink-dark);
     font-size:.6875rem;font-weight:700;
   }
   .call__days span.is-off{background:#EDEDEA;color:#9a9aa2;}
   .call__tz{
-    margin:1.15rem 0 0;
+    margin:.7rem 0 0;
     font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dark);
   }
 
@@ -1822,14 +1863,16 @@
         <span class="call__avatar"><img alt="" src="data:image/webp;base64,UklGRsgDAABXRUJQVlA4WAoAAAAgAAAAswAAswAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDgg2gEAANAPAJ0BKrQAtAA+USiSRyOioaEgSABwCglpbuAz6VphPx5c/vPi4oI1pDquFUnwD/ql8ACfisR1k26Ap1o8Rc60NLJt0R1k2XtyZQCrJy1bcmUAqybL25MoBVk2XtyZQCrJsvbkygFWTX6LnWjxF0O0BVk26I6vAaI6ybdEV7mNNi8RKjILgAD+4yRRA//7Sz//6ln//1LP/vyX6BJR7h+ZZq7qgXfHoVcSaWBQZStc6B8CU6tx/sZlWg4G/gKNcyiClIieY/t3eTE2ZNdNxztD1QFpUspdqmaY/T72/DruAKTANA/gD2gA3uXHuTq3avmPEVW94Gdtw9xyw7MLSzq9U6yUSs9IODz9cQhGeiD3OVdCkGJb4amybCBQTFtEH67pENPse+Oz8ewk5LtVvnv8bNCvMGWgexSjPs9v27ryGRoSD/zBm02qrnRpnnBRmVn59nt+3deQyI5/Rq8Ro+dz6S1N2kDuMluz2/buvIZEczVyVcKzQUeP/nj6YafkfkU5z6oCnlEHctTsQmjrBg6LaEoFgYZI3eUi+FkN5YO0GaUVFwhh+HUFBWYDhVWlw9XU6GjDrf79wjs/f2ZI1vkrPZ9jyZ9bu82BGHIuL9YAamOuilKGwAAAAA=="><i class="call__live" aria-hidden="true"></i></span>
         <p class="call__who">Oliver Wales</p>
         <p class="call__role">Head of Growth &middot; DUNK</p>
+        <p class="call__meta"><span>15 min</span><span>Virtual</span><span>No cost</span></p>
         <p class="call__note">You will be talking to Oliver. Pick a time that suits you and it drops straight into his calendar.</p>
         <div class="call__slot">
           <span class="call__dot" aria-hidden="true"></span>
-          <span class="call__slot-t"><b>Strategy call (virtual)</b><span>Where you are now, where the opportunity is, what we would do first.</span></span>
+          <span class="call__slot-t"><b>Strategy call</b><span>Where you are now, where the opportunity is, what we would do first.</span></span>
           <span class="call__slot-go" aria-hidden="true">&#9656;</span>
         </div>
-        <div class="call__days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span class="is-off">Fri</span></div>
-        <p class="call__tz">Melbourne time &middot; AEST</p>
+        <div class="call__days"><span class="is-off">Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span class="is-off">Sat</span></div>
+        <p class="call__hours"><span aria-hidden="true">&#9711;</span> 9:30am to 4:30pm</p>
+        <p class="call__tz">Melbourne &middot; AEST (GMT+10)</p>
       </div>
     </div>
   </section>
