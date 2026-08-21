@@ -250,3 +250,21 @@ values in the markup, not fed from anything.
 **The avatar is still a placeholder.** A portrait was described but arrived
 as a pasted image rather than a file, so there was nothing to encode. Send
 it as an attachment and swap the `data:` URI on `.call__avatar img`.
+
+## Footer
+
+`.foot` replaces the placeholder. Brand, address and socials left; three
+link columns and a newsletter block right, separated by a rule drawn as a
+`border-left` on the right column so it stretches to the taller side.
+
+**Invented values to replace before this ships:**
+
+- `hello@dunk.agency` is a plausible guess, not a supplied address. The
+  account email was deliberately not used: putting a personal address in a
+  public footer is a different decision from using it for attribution.
+- The three social links are `href="#"`. No URLs were supplied.
+- `Level 5, 171 Collins Street, Melbourne VIC 3000` is the Melbourne
+  address off the Top Rankings footer, on the same assumption the case
+  study rests on. Only one office is listed; that source names three.
+- The newsletter form has `onsubmit="return false"` and no action. It is
+  presentational.
