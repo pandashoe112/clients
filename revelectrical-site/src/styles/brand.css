@@ -19,6 +19,13 @@
 .prodcard__figure img{width:100%;max-width:150px;height:auto;mix-blend-mode:multiply}
 .prodcard__h{margin:0 0 4px;font-family:var(--font-head);font-size:1.1875rem;letter-spacing:-.015em}
 .prodcard__tag{margin:0 0 16px;font-size:.75rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:#4a7a12}
+.prodcard__overview{margin:0 0 16px;font-size:.9375rem;line-height:1.6;color:#3b585c}
+/* The divider under the tagline is the spec list's own top border. On a card
+   with no published power or cable figures there is no spec list, so the
+   overview carries the divider instead. */
+.prodcard:not(:has(.prodcard__specs)) .prodcard__overview{
+  padding-bottom:16px;border-bottom:1px solid rgba(3,47,53,.09);
+}
 .prodcard__specs{margin:0;padding:16px 0;border-top:1px solid rgba(3,47,53,.09);border-bottom:1px solid rgba(3,47,53,.09);display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:.875rem}
 .prodcard__specs dt{color:#5d7b7f}
 .prodcard__specs dd{margin:0;font-weight:700;text-align:right}

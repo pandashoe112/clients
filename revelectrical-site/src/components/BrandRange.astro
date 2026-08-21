@@ -37,11 +37,20 @@ const shown = HEADLINE.filter(([, key]) => products.some((p) => p[key]));
               )}
               <h3 class="prodcard__h">{p.name}</h3>
               {p.tagline && <p class="prodcard__tag">{p.tagline}</p>}
-              <dl class="prodcard__specs">
-                {p.power && <><dt>Power</dt><dd>{p.power}</dd></>}
-                {p.rangePerHour && <><dt>Range</dt><dd>{p.rangePerHour}</dd></>}
-                {p.cableLength && <><dt>Cable</dt><dd>{p.cableLength}</dd></>}
-              </dl>
+              {/* The overview was captured in the Studio and then never
+                  rendered, so both brands had a paragraph of copy going
+                  nowhere. */}
+              {p.overview && <p class="prodcard__overview">{p.overview}</p>}
+              {/* A brand whose datasheet does not publish these leaves an
+                  empty dl behind, which renders as a band of dead space
+                  between the tagline and the copy. */}
+              {(p.power || p.rangePerHour || p.cableLength) && (
+                <dl class="prodcard__specs">
+                  {p.power && <><dt>Power</dt><dd>{p.power}</dd></>}
+                  {p.rangePerHour && <><dt>Range</dt><dd>{p.rangePerHour}</dd></>}
+                  {p.cableLength && <><dt>Cable</dt><dd>{p.cableLength}</dd></>}
+                </dl>
+              )}
               {p.bestFor && <p class="prodcard__best">{p.bestFor}</p>}
               {p.weInstall && (
                 <p class="prodcard__note"><strong>What it means for the install:</strong>{' '}{p.weInstall}</p>
@@ -56,7 +65,7 @@ const shown = HEADLINE.filter(([, key]) => products.some((p) => p[key]));
       {shown.length > 0 && (
         <div class="reveal">
           <h3 class="h3 comparetitle">Side by side</h3>
-          <div class="tablescroll">
+          <div class="tablescroll" data-table="headline">
             <table class="spectable">
               <thead>
                 <tr>
@@ -74,30 +83,35 @@ const shown = HEADLINE.filter(([, key]) => products.some((p) => p[key]));
               </tbody>
             </table>
           </div>
+        </div>
+      )}
 
-          {specRows.length > 0 && (
-            <details class="specmore">
-              <summary>{brand.specsHeading || 'Every specification'}</summary>
-              <div class="tablescroll">
-                <table class="spectable">
-                  <thead>
+      {/* The detailed table used to be nested inside the headline one, so a
+          brand whose datasheet publishes no power or cable figures lost every
+          specification on the page rather than just the summary row. */}
+      {specRows.length > 0 && (
+        <div class="reveal">
+          <details class="specmore">
+            <summary>{brand.specsHeading || 'Every specification'}</summary>
+            <div class="tablescroll">
+              <table class="spectable">
+                <thead>
+                  <tr>
+                    <th scope="col">Specification</th>
+                    {products.map((p) => <th scope="col">{p.name}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {specRows.map((r) => (
                     <tr>
-                      <th scope="col">Specification</th>
-                      {products.map((p) => <th scope="col">{p.name}</th>)}
+                      <th scope="row">{r.label}</th>
+                      {products.map((_, i) => <td>{(r.values || [])[i] || '—'}</td>)}
                     </tr>
-                  </thead>
-                  <tbody>
-                    {specRows.map((r) => (
-                      <tr>
-                        <th scope="row">{r.label}</th>
-                        {products.map((_, i) => <td>{(r.values || [])[i] || '—'}</td>)}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </details>
-          )}
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </details>
         </div>
       )}
     </div>

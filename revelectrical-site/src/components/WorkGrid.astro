@@ -56,6 +56,14 @@ const BY_SERVICE = {
     { src: '/photos/induction-fit.webp', cap: 'Induction cooktop going in' },
     { src: '/photos/induction-fit2.webp', cap: 'Cooktop commissioned' },
     { src: '/photos/kitchen-reno.webp', cap: 'Benchtop prepared for the circuit' }
+  ],
+  // Only genuine FoxESS hardware. Falling through to the ev-charging set put
+  // six photos of other brands' chargers under a heading that said "FoxESS
+  // installs we have done", which is not true. Two real ones beat six that
+  // claim something we did not do. Add to this list as FoxESS jobs get shot.
+  foxess: [
+    { src: '/photos/battery-foxess.webp', cap: 'FoxESS battery and inverter' },
+    { src: '/photos/battery-foxess-meter.webp', cap: 'FoxESS tied in beside the meter' }
   ]
 };
 const WORK = BY_SERVICE[service.slug] || BY_SERVICE['ev-charging'];
