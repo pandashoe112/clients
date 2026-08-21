@@ -303,3 +303,32 @@ because the OS-rendered arrow ignores the dark surface.
 
 **It does not submit.** `onsubmit="return false"`, no action, no endpoint.
 The revenue and spend ranges are invented brackets.
+
+## The CTA colour band, second attempt
+
+The band is now its own layer (`.cta::before`, a fixed-height strip) that
+is **masked out downward** with `mask-image`, over a flat `#0D0A14`
+section. The previous version painted an `rgba(13,10,20,…)` gradient over
+the pastels inside one background stack, which greys them: dark over
+pastel is mud, every time. Fading the colour's alpha instead keeps it
+clean and lets the flat dark below show through, and that dark is the same
+value the footer starts on.
+
+`.cta__panel` is a two-column grid: copy left, lead form right, one column
+below 1024px. The `.cta__arc` glow is gone; it was drawn for the old
+rounded dark card and had nothing to sit on once the section went
+full-bleed.
+
+## Case studies
+
+`.cases` replaces the single `.cs` block: a light section, centred head,
+three cards across, two below 1024px, one below 640px. Cards are flex
+columns so all three bottom out level (measured 582px each).
+
+**The third card is a deliberate placeholder.** Solargain and Pestline
+carry real figures. There is no third case study with data, and inventing
+a number against a named real client is the one thing not to do here, so
+that card reads "Stat to confirm" in grey and its copy says so. It uses
+the Naked Harvest logo on a wash, since no photo was supplied for them,
+darkened with `filter:brightness(0)` because the supplied logos are white
+artwork.
