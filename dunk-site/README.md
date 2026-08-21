@@ -156,3 +156,46 @@ exists: `.logo` hardcodes `#1c1c20`, so the marquee brand names would
 have gone invisible on the dark ground. Its eyebrow also needed
 `eyebrow-line--light` added in the markup — that variant is what swaps
 the rule from black to white.
+
+## Case studies
+
+`.case__grid` holds two `.case__card`s side by side, one column below
+1024px. Each card is a flex column with the CTA on `margin-top:auto`, so
+both cards and both CTAs bottom out level regardless of copy length —
+measured equal at 1014px. Adding a third means the grid needs a
+`repeat(3,...)` or a rail; two is what the current column count assumes.
+
+Both photos share `aspect-ratio:16/9` so the cards align. The Solargain
+shot is 2.168:1 natively and loses roughly 9% off each end to get there —
+a deliberate trade for alignment, since two cards at different ratios read
+as a mistake.
+
+`.case__kicker` needs `align-self:flex-start`. In a flex column the pill
+stretches to the full card width without it.
+
+### Content status
+
+**Solargain and Pestline are both from Top Rankings case studies**, and
+both quotes originally named that agency. Same bracket treatment as
+before: "We have used [them]…", "[They] took the time…". Restore the real
+name or get fresh quotes.
+
+Solargain carries "Across twelve months" because its source states that
+window. Pestline has no `.case__note` — no timeframe was given for the
+641% and 18K figures, and inventing one seemed worse than leaving it off.
+
+## Placeholders
+
+Five `.ph` sections mark what Clearwater's content flow has and this page
+does not: methodology, awards, creative showcase, testimonials, footer.
+Each carries an amber tag and a dashed rule so it cannot be mistaken for
+real content, plus a note on what content it needs. Delete the `.ph`
+classes as each gets built.
+
+Two notes on the flow itself:
+
+- **Client logos** is not a placeholder because the marquee already does
+  the job — but it lives *inside* `.approach` rather than standing alone.
+- **The CTA and FAQ are in the opposite order to Clearwater's flow.** It
+  lists CTA then FAQs; this page runs FAQs then CTA. Left as it was rather
+  than reordering unasked.
