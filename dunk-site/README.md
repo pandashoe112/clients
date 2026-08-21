@@ -1,10 +1,16 @@
 # DUNK — split hero variant
 
-A single self-contained HTML page (`index.html`): the DUNK marketing site with the
-split hero layout. Photos are inlined as base64, so the file is large but opens
-straight from disk with no build step and no network.
+Two self-contained HTML pages: `index.html`, the DUNK marketing site with the
+split hero layout, and `seo.html`, the first service page. Photos are inlined as
+base64, so the files are large but open straight from disk with no build step and
+no network.
 
-Open it with `open index.html`, or serve the folder with any static server.
+Open them with `open index.html`, or serve the folder with any static server.
+
+The two pages share the nav, the dropdowns, the mobile panel and the nav script
+by copy, not by include. There is no build step, so a change to any of them has
+to be made in both files. `seo.html` was generated from `index.html` by a script
+in the session scratchpad, which is the only reason the two are identical today.
 
 ## Hero background
 
@@ -140,11 +146,11 @@ no longer applies to this page.
 
 ## Placeholders
 
-Five `.ph` sections mark what Clearwater's content flow has and this page
-does not: methodology, awards, creative showcase, testimonials, footer.
-Each carries an amber tag and a dashed rule so it cannot be mistaken for
-real content, plus a note on what content it needs. Delete the `.ph`
-classes as each gets built.
+The `.ph` machinery is still in the stylesheet but nothing uses it any
+more: methodology, awards and creative showcase were removed on request,
+and testimonials and the footer are built. Keep the classes only as long
+as another section is coming; an amber tag and a dashed rule is what stops
+an unfinished block being mistaken for real content in a review.
 
 Two notes on the flow itself:
 
@@ -282,12 +288,11 @@ link columns and a newsletter block right, separated by a rule drawn as a
 - The newsletter form has `onsubmit="return false"` and no action. It is
   presentational.
 
-## Insights, and the CTA-to-footer block
+## The CTA-to-footer block
 
-`.blog` sits between the FAQs and the CTA: eyebrow and heading left, lede
-right, then a featured post with the artwork left and meta/title/excerpt
-right, and three secondary posts under a rule. The featured artwork is a
-CSS orb, not an image, so the section needs no asset.
+The `.blog` insights section that used to sit between the FAQs and the CTA
+was removed on request, markup and CSS both. Nothing links to `#insights`
+any more.
 
 `.cta` and `.foot` are both full bleed now, breaking out of the shell with
 `calc(var(--shell) * -1)` side margins, no border-radius, and zero gap
@@ -348,3 +353,111 @@ Put them on any tinted surface and the white box shows.
 
 The `View SEO case study` links point at `/case-studies/<client>` routes
 that do not exist yet.
+
+## Client reviews
+
+`.voices`, between Why DUNK and the FAQs. Centred head, a three-figure stat
+row, then three vertical rails of cards.
+
+The rails are the logo marquee's trick turned 90 degrees. Each
+`.vrail__set` carries a `padding-bottom` equal to its own card gap, so one
+set is exactly half the track and `translateY(-50%)` loops with no seam.
+Two constraints follow from that:
+
+- **A set must be taller than its rail** or a bald patch scrolls through.
+  Measured: 938px of cards against a 672px rail. That is what fixes four
+  cards per rail, not taste.
+- **The middle rail runs in reverse and starts 3.5rem high**, so the three
+  columns do not move as one slab.
+
+Below 700px the rails stop being rails: the animation is off, the mask is
+off, the height is auto and the duplicate sets are hidden, so it becomes
+one plain column of twelve cards. Three auto-scrolling rails on a phone is
+unreadable.
+
+### Where the reviews came from, and what needs replacing
+
+The quotes are the Google reviews supplied in the brief, with the agency
+name swapped for DUNK as asked. They are **attributed to another agency at
+source**, and so are the figures in the stat row: 4.9 average, 123 reviews.
+The 300+ businesses figure came from the earlier brief. All of it needs
+swapping for DUNK's own before this page goes anywhere public, because as
+it stands the page puts real named people's words against the wrong
+business.
+
+Two things deliberately not carried across:
+
+- **The staff first names inside the review bodies.** They name another
+  agency's employees. The sentences that mentioned them are trimmed out.
+- **Photographs.** These are real people who left real reviews, so a stock
+  face on a named person invents them. The avatars are monograms.
+
+One reviewer in the source is listed only as initials, so that review is
+not used at all.
+
+## Fonts
+
+Three faces, taken from the reference the client supplied:
+
+| Role | Face | Where it comes from |
+| ---- | ---- | ------------------- |
+| Body | Geist | Google Fonts, already loaded |
+| Headings | General Sans | **Fontshare**, not Google Fonts |
+| Accent | Instrument Serif | Google Fonts, loaded and unused |
+
+General Sans is the catch. It is a Fontshare face, so:
+
+- The `<link>` to `api.fontshare.com` loads it for real visitors on a
+  deployed site.
+- It does **not** load inside an Artifact preview: that CSP allows Google
+  Fonts and nothing else. Headings fall back there.
+- It could not be fetched and inlined from this environment either.
+  Fontshare is outside the network policy and it is not on npm.
+
+So `--font-head` is `'General Sans','Plus Jakarta Sans',...`. The fallback
+is deliberate rather than arbitrary: the two are the same
+geometric-humanist genre, so losing General Sans shifts the metrics
+slightly and nothing else. Drop the woff2 files into the repo and they can
+be inlined, at which point both pages get the real face everywhere.
+
+`--font-style` holds Instrument Serif. It is wired and applied to nothing;
+scattering serif italics around unasked seemed worse than leaving the
+token ready.
+
+## seo.html
+
+The first service page. Same tokens, same nav component, light chrome.
+
+The nav is the homepage's markup with `nav--light` added, and the overrides
+sit in one block. The wordmark needs no work: its svg is `currentColor`, so
+it turns black off the body colour on its own. Everything the dark nav
+painted in white alpha needs a black-alpha equivalent, and two colours
+cannot survive the flip:
+
+- **The lime asterisk** is nearly invisible on a warm off-white, so on
+  light grounds it deepens to `#B9CE2E`.
+- **Lime accents inside the dropdown** go to `#5B7A00` for the same reason.
+
+One rule had to change rather than be re-tinted. The dark nav ordered its
+divider with `.nav__right .btn--white{order:2}`, keyed to the class name.
+This page's CTA is `.btn--ink`, so the divider fell to the end of the row
+until the selector was loosened to `.nav__right .btn`.
+
+`.phero` is a photo card inset by the shell rather than a full-bleed hero,
+because the light header above it is the page ground and the card has to
+read as a card. The crop is pulled to `50% 32%`: the faces sit in the upper
+middle of the frame, and the empty foreground is what the copy sits on.
+
+### Other services
+
+`.others` shows the two services the page is **not** about. On this page
+that is Google and Meta; on either ads page it would be whichever two are
+left, which is the pattern to follow when those pages get built.
+
+The card artwork is the homepage's own gradient panels, **captured** rather
+than rebuilt: the two `.suite__art` elements screenshotted at 2x, cropped
+44 device px in on every side to drop the row's rounded corners, and
+re-encoded as WebP. The alternative was porting 300 lines of tile CSS to a
+second file where it would drift. The aspect ratio is pinned to `1100/1004`
+so the crop is never squeezed. It also means the panels have to be
+recaptured if the homepage tiles change.
