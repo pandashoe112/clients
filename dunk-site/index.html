@@ -390,7 +390,11 @@
   }
   .approach__statement{
     margin:0 auto;
-    padding:0 var(--edge);
+    /* --edge resolves 100% against this element's containing block, not the
+       viewport. Combined with max-width + border-box that lets the padding
+       eat the whole column past ~1600px, so use the plain gutter: the box is
+       already capped and centred and needs no viewport-edge maths. */
+    padding:0 var(--gutter);
     max-width:74rem;
     font-family:var(--font-head);
     font-size:clamp(1.5rem,2.2vw,2.25rem);
@@ -839,6 +843,242 @@
     .hero__rating{font-size:.8125rem;}
     .hero__burst{width:4.5rem;height:4.5rem;}
   }
+
+  /* ---------- service suite ---------- */
+  .suite{
+    position:relative;
+    margin-top:var(--shell);
+    padding:6rem var(--edge) 6.5rem;
+    border-radius:var(--radius-main);
+    background:
+      radial-gradient(ellipse 85% 65% at 100% 0%, rgba(var(--purple-accent),.22) 0%, rgba(var(--purple-accent),0) 62%),
+      #1C1729;
+    overflow:hidden;
+  }
+  .suite::before{
+    content:"";
+    position:absolute;inset:0;
+    pointer-events:none;
+    opacity:.45;
+    background-image:radial-gradient(rgba(255,255,255,.13) 1px, transparent 1px);
+    background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 125% 115% at 100% 0%, #000 20%, rgba(0,0,0,.5) 68%, rgba(0,0,0,.34) 100%);
+    mask-image:radial-gradient(ellipse 125% 115% at 100% 0%, #000 20%, rgba(0,0,0,.5) 68%, rgba(0,0,0,.34) 100%);
+  }
+  .suite > *{position:relative;z-index:1;}
+  .suite__head{max-width:46rem;margin:0 0 3.75rem;}
+  .suite__head h2{
+    margin:0;
+    font-family:var(--font-head);
+    font-size:clamp(1.75rem,2.9vw,2.75rem);
+    line-height:1.1;letter-spacing:-.03em;font-weight:600;
+    color:#fff;text-wrap:balance;
+  }
+  .suite__lede{
+    margin:1.25rem 0 0;max-width:38rem;
+    font-size:1.0625rem;line-height:1.6;color:var(--grey-200);
+  }
+
+  .suite__rows{display:flex;flex-direction:column;gap:1.25rem;}
+  .suite__row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.25rem;}
+  /* copy stays first in the DOM so the single-column order reads
+     service-then-artwork; the flip is presentational only */
+  .suite__row:nth-child(even) .suite__copy{order:2;}
+
+  .suite__copy{
+    display:flex;flex-direction:column;
+    padding:2.5rem;
+    border-radius:1.5rem;
+    border:1px solid var(--hairline);
+    background:rgba(255,255,255,.04);
+  }
+  .suite__no{
+    font-size:.75rem;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--grey-300);
+  }
+  .suite__copy h3{
+    margin:1.5rem 0 0;
+    font-family:var(--font-head);
+    font-size:clamp(1.375rem,1.9vw,1.75rem);
+    line-height:1.15;letter-spacing:-.025em;font-weight:600;
+    color:#fff;
+  }
+  .suite__tag{margin:.65rem 0 0;font-size:1rem;color:var(--lime);}
+  .suite__body{margin:1.15rem 0 0;font-size:1rem;line-height:1.6;color:var(--grey-200);}
+  .suite__chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.75rem 0 0;}
+  .suite__chips span{
+    padding:.35rem .8rem;
+    border-radius:var(--radius-full);
+    border:1px solid var(--hairline);
+    background:rgba(255,255,255,.05);
+    font-size:.8125rem;color:var(--grey-100);
+  }
+  .suite__link{
+    margin-top:auto;padding-top:2rem;
+    display:inline-flex;align-items:center;gap:.5rem;
+    font-weight:600;color:var(--lime);
+  }
+  .suite__link:hover{text-decoration:underline;text-underline-offset:3px;}
+
+  .suite__art{
+    position:relative;overflow:hidden;
+    border-radius:1.5rem;
+    min-height:25rem;
+    display:flex;align-items:center;justify-content:center;
+    padding:2rem;
+  }
+  /* fine grain over the mesh, the way the reference panels read */
+  .suite__art::after{
+    content:"";
+    position:absolute;inset:0;
+    pointer-events:none;
+    opacity:.4;mix-blend-mode:overlay;
+    background-image:radial-gradient(rgba(255,255,255,.55) .5px, transparent .5px);
+    background-size:3px 3px;
+  }
+  .suite__art--google{
+    background:
+      radial-gradient(70% 80% at 12% 16%, #8877FF 0%, rgba(136,119,255,0) 62%),
+      radial-gradient(66% 74% at 90% 24%, #3FBDF7 0%, rgba(63,189,247,0) 60%),
+      radial-gradient(84% 72% at 68% 98%, #23E3C4 0%, rgba(35,227,196,0) 64%),
+      linear-gradient(150deg,#2A1458 0%,#123A4C 100%);
+  }
+  .suite__art--meta{
+    background:
+      radial-gradient(72% 80% at 84% 14%, #FF6FC4 0%, rgba(255,111,196,0) 62%),
+      radial-gradient(66% 72% at 12% 26%, #8A5CFF 0%, rgba(138,92,255,0) 60%),
+      radial-gradient(86% 74% at 40% 100%, #4B4BE8 0%, rgba(75,75,232,0) 64%),
+      linear-gradient(200deg,#3A1C74 0%,#2A1458 100%);
+  }
+  .suite__art--seo{
+    background:
+      radial-gradient(70% 78% at 16% 22%, #D6F27A 0%, rgba(214,242,122,0) 60%),
+      radial-gradient(68% 74% at 88% 30%, #38D9A9 0%, rgba(56,217,169,0) 60%),
+      radial-gradient(84% 76% at 62% 100%, #1F8F8F 0%, rgba(31,143,143,0) 64%),
+      linear-gradient(160deg,#123A4C 0%,#2A1458 100%);
+  }
+  .suite__art--links{
+    background:
+      radial-gradient(70% 78% at 86% 18%, #FFC96B 0%, rgba(255,201,107,0) 60%),
+      radial-gradient(66% 72% at 14% 24%, #FF8A6B 0%, rgba(255,138,107,0) 60%),
+      radial-gradient(86% 76% at 50% 100%, #B65CFF 0%, rgba(182,92,255,0) 64%),
+      linear-gradient(200deg,#4A1F5C 0%,#2A1458 100%);
+  }
+  .suite__go{
+    position:absolute;top:1.25rem;right:1.25rem;z-index:2;
+    width:2.6rem;height:2.6rem;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,.92);color:var(--ink-dark);
+    font-size:1rem;
+    box-shadow:0 10px 24px rgba(0,0,0,.22);
+  }
+
+  /* illustrative figures only — aria-hidden in the markup so no screen
+     reader reads these placeholder numbers out as real results */
+  .stat{
+    position:relative;z-index:2;
+    width:min(19rem,100%);
+    padding:1.25rem 1.35rem;
+    border-radius:1.1rem;
+    background:rgba(255,255,255,.94);
+    color:var(--ink-dark);
+    box-shadow:0 22px 50px rgba(0,0,0,.3);
+  }
+  .stat__label{margin:0;font-size:.875rem;font-weight:500;color:#54545a;}
+  .stat__value{
+    margin:.5rem 0 0;
+    font-family:var(--font-head);
+    font-size:2rem;font-weight:600;letter-spacing:-.03em;line-height:1;
+  }
+  .stat__foot{
+    margin:.85rem 0 0;
+    display:flex;align-items:center;gap:.55rem;
+    font-size:.8125rem;color:#54545a;
+  }
+  .stat__pill{
+    display:inline-flex;align-items:center;gap:.2rem;
+    padding:.2rem .55rem;
+    border-radius:var(--radius-full);
+    font-size:.75rem;font-weight:600;
+    background:#E8FCA6;color:#2F3D00;
+  }
+  .stat__spark{display:block;width:100%;height:2.6rem;margin:.9rem 0 0;overflow:visible;}
+  .stat__bars{display:flex;flex-direction:column;gap:.45rem;margin:.9rem 0 0;}
+  .stat__bar{display:flex;align-items:center;gap:.6rem;font-size:.75rem;color:#54545a;}
+  .stat__bar em{flex:0 0 3.1rem;font-style:normal;}
+  .stat__bar i{height:.4rem;border-radius:var(--radius-full);background:#2A1D63;flex:0 0 auto;}
+  .stat__drs{display:flex;flex-wrap:wrap;gap:.35rem;margin:.9rem 0 0;}
+  .stat__drs span{
+    padding:.15rem .45rem;border-radius:.4rem;
+    background:#E6E1FA;color:#2A1D63;
+    font-size:.7rem;font-weight:600;
+  }
+
+  @media (max-width:1024px){
+    .suite{padding:4.5rem var(--edge) 5rem;}
+    .suite__head{margin-bottom:2.75rem;}
+    .suite__row{grid-template-columns:minmax(0,1fr);}
+    .suite__row:nth-child(even) .suite__copy{order:0;}
+    .suite__art{min-height:19rem;}
+  }
+  @media (max-width:640px){
+    .suite__copy{padding:1.75rem;}
+    .suite__art{min-height:16rem;padding:1.5rem;}
+  }
+
+  /* ---------- footer CTA ---------- */
+  .cta{
+    margin-top:var(--shell);
+    padding:clamp(1.25rem,3.5vw,4rem);
+    border-radius:var(--radius-main);
+    background:
+      radial-gradient(58% 78% at 10% 18%, #C9B7FF 0%, rgba(201,183,255,0) 62%),
+      radial-gradient(54% 70% at 90% 10%, #FFD98A 0%, rgba(255,217,138,0) 60%),
+      radial-gradient(70% 78% at 80% 98%, #D6F27A 0%, rgba(214,242,122,0) 62%),
+      radial-gradient(60% 70% at 20% 94%, #9FE3D0 0%, rgba(159,227,208,0) 60%),
+      #E7E2D6;
+  }
+  .cta__panel{
+    position:relative;overflow:hidden;isolation:isolate;
+    border-radius:1.75rem;
+    background:#0D0A14;
+    padding:clamp(3rem,6vw,6rem) clamp(1.5rem,5vw,5rem);
+    text-align:center;
+  }
+  /* the soft arc sweep: one wide ellipse centred below the panel, showing
+     only its glowing edge. Sized off the panel box so the band always
+     crosses it — a fixed circle ends up entirely out of frame. */
+  .cta__arc{
+    position:absolute;inset:0;
+    pointer-events:none;
+    background:radial-gradient(ellipse 150% 190% at 50% 152%,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0) 58%,
+      rgba(255,255,255,.16) 70%,
+      rgba(255,255,255,.05) 79%,
+      rgba(255,255,255,0) 89%);
+  }
+  /* the arc is excluded: a bare `> *` here would override its
+     position:absolute and collapse it to a zero-width inline span */
+  .cta__panel > *:not(.cta__arc){position:relative;z-index:1;}
+  .cta__eyebrow{
+    display:inline-flex;align-items:center;gap:.55rem;margin:0;
+    font-size:.8125rem;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--grey-100);
+  }
+  .cta__dot{width:.4rem;height:.4rem;border-radius:50%;background:var(--lime);}
+  .cta__panel h2{
+    margin:1.5rem auto 0;max-width:46rem;
+    font-family:var(--font-head);
+    font-size:clamp(2rem,4vw,3.25rem);
+    line-height:1.08;letter-spacing:-.035em;font-weight:600;
+    color:#fff;text-wrap:balance;
+  }
+  .cta__lede{
+    margin:1.5rem auto 0;max-width:36rem;
+    font-size:1.0625rem;line-height:1.6;color:var(--grey-200);
+  }
+  .cta__panel .btn{margin-top:2.5rem;}
 </style>
 </head>
 <body>
@@ -1010,10 +1250,105 @@
 
 
 
+  <section class="suite" id="services">
+    <div class="suite__head">
+      <p class="eyebrow-line eyebrow-line--light"><span>What we do</span><span class="eyebrow-line__rule"></span><span>03</span></p>
+      <h2>Four services. You only pay for the ones you need.</h2>
+      <p class="suite__lede">Google Ads, Meta Ads, SEO and link building. Most businesses need two of them, and we would rather run two properly than four badly.</p>
+    </div>
+
+    <div class="suite__rows">
+      <article class="suite__row">
+        <div class="suite__copy">
+          <span class="suite__no">01 &mdash; Paid search</span>
+          <h3>Google Advertising</h3>
+          <p class="suite__tag">Capture the demand that exists today</p>
+          <p class="suite__body">People are already searching for what you sell. Search, Shopping and Performance Max put you in front of them at the moment they are looking &mdash; and we only bid on the terms that turn into work, not the ones that flatter the report.</p>
+          <div class="suite__chips"><span>Search Ads</span><span>Shopping</span><span>Performance Max</span></div>
+          <a class="suite__link" href="/services/google-ads">See how we run Google Ads <span aria-hidden="true">&#8594;</span></a>
+        </div>
+        <div class="suite__art suite__art--google">
+          <span class="suite__go" aria-hidden="true">&#8599;</span>
+          <div class="stat" aria-hidden="true">
+            <p class="stat__label">Cost per lead</p>
+            <p class="stat__value">$38.40</p>
+            <p class="stat__foot"><span class="stat__pill">&#8595; 22%</span> than last month</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="suite__row">
+        <div class="suite__copy">
+          <span class="suite__no">02 &mdash; Paid social</span>
+          <h3>Meta Advertising</h3>
+          <p class="suite__tag">Create demand before anyone searches</p>
+          <p class="suite__body">Not everyone is ready to search yet. Facebook and Instagram put your best creative in front of the people who will be, then quietly follow up with the ones who nearly bought.</p>
+          <div class="suite__chips"><span>Facebook Ads</span><span>Instagram Ads</span><span>Retargeting</span></div>
+          <a class="suite__link" href="/services/meta-ads">See how we run Meta Ads <span aria-hidden="true">&#8594;</span></a>
+        </div>
+        <div class="suite__art suite__art--meta">
+          <span class="suite__go" aria-hidden="true">&#8599;</span>
+          <div class="stat" aria-hidden="true">
+            <p class="stat__label">People reached</p>
+            <p class="stat__value">1.24M</p>
+            <div class="stat__bars">
+              <span class="stat__bar"><em>Feed</em><i style="width:76%"></i></span>
+              <span class="stat__bar"><em>Reels</em><i style="width:52%"></i></span>
+              <span class="stat__bar"><em>Stories</em><i style="width:31%"></i></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="suite__row">
+        <div class="suite__copy">
+          <span class="suite__no">03 &mdash; Organic</span>
+          <h3>Search Engine Optimisation</h3>
+          <p class="suite__tag">Build the demand you will capture next year</p>
+          <p class="suite__body">Rankings compound. We fix what is holding the site back, then build the pages that earn positions you do not have to keep paying for every time someone clicks.</p>
+          <div class="suite__chips"><span>Technical SEO</span><span>Content</span><span>Local SEO</span></div>
+          <a class="suite__link" href="/services/seo">See how we run SEO <span aria-hidden="true">&#8594;</span></a>
+        </div>
+        <div class="suite__art suite__art--seo">
+          <span class="suite__go" aria-hidden="true">&#8599;</span>
+          <div class="stat" aria-hidden="true">
+            <p class="stat__label">Ranking keywords</p>
+            <p class="stat__value">412</p>
+            <svg class="stat__spark" viewBox="0 0 120 32" fill="none" preserveAspectRatio="none">
+              <path d="M2 29 L20 26 L38 27 L56 19 L74 16 L92 9 L118 3" stroke="#2A1D63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="118" cy="3" r="3" fill="#2A1D63"/>
+            </svg>
+            <p class="stat__foot"><span class="stat__pill">&#8593; 87</span> in the last 90 days</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="suite__row">
+        <div class="suite__copy">
+          <span class="suite__no">04 &mdash; Authority</span>
+          <h3>Link Building</h3>
+          <p class="suite__tag">The part most agencies quietly skip</p>
+          <p class="suite__body">Google still counts who vouches for you. We earn placements on real sites with real audiences &mdash; no networks, no private blog farms, nothing you will have to disavow in a year.</p>
+          <div class="suite__chips"><span>Digital PR</span><span>Guest placements</span><span>Citations</span></div>
+          <a class="suite__link" href="/services/link-building">See how we build links <span aria-hidden="true">&#8594;</span></a>
+        </div>
+        <div class="suite__art suite__art--links">
+          <span class="suite__go" aria-hidden="true">&#8599;</span>
+          <div class="stat" aria-hidden="true">
+            <p class="stat__label">Referring domains</p>
+            <p class="stat__value">68</p>
+            <div class="stat__drs"><span>DR 74</span><span>DR 68</span><span>DR 61</span><span>DR 57</span><span>DR 52</span></div>
+            <p class="stat__foot"><span class="stat__pill">&#8593; 19</span> this quarter</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <section class="faq" id="faq">
     <div class="faq__inner">
       <div class="faq__side">
-        <p class="eyebrow-line eyebrow-line--light"><span>FAQ</span><span class="eyebrow-line__rule"></span><span>03</span></p>
+        <p class="eyebrow-line eyebrow-line--light"><span>FAQ</span><span class="eyebrow-line__rule"></span><span>04</span></p>
         <h2>Questions people ask before they sign up</h2>
         <a class="btn btn--lime" href="#contact">Book a Free Growth Call<span class="btn__arrow" aria-hidden="true">&#8599;</span></a>
       </div>
@@ -1049,6 +1384,16 @@
           <div class="qa__body"><p>We are based in South Melbourne and work with businesses right across Australia. Plenty of clients we have never met in person.</p></div>
         </details>
       </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contact">
+    <div class="cta__panel">
+      <span class="cta__arc" aria-hidden="true"></span>
+      <p class="cta__eyebrow"><span class="cta__dot" aria-hidden="true"></span>Let's talk</p>
+      <h2>Let's work out what your marketing should actually be doing</h2>
+      <p class="cta__lede">A free half hour on the phone. We will look at what you are running now, tell you what we would change, and you can take that away whether you work with us or not.</p>
+      <a class="btn btn--lime" href="https://calendly.com/dunk-agency/growth-call">Book a Free Growth Call<span class="btn__arrow" aria-hidden="true">&#8599;</span></a>
     </div>
   </section>
 </div>
