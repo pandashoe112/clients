@@ -218,9 +218,8 @@ clear it — at the original `clamp(2rem,4vw,3.5rem)` they ran under the
 white and read as clipped. Padding is now `clamp(2.5rem,5vw,4.75rem)` and
 both are verified clear of the panel edge.
 
-**The avatar is a plum gradient placeholder, not Oliver.** No headshot was
-supplied. Drop a portrait in and swap the `data:` URI on
-`.call__avatar img`; the circle, ring and lime live-dot are already there.
+The avatar holds the supplied portrait, cropped square and encoded to
+280px WebP.
 
 ## Logo wall
 
@@ -247,9 +246,10 @@ chips rather than being omitted, so the card says what is *not* available
 as well as what is. If the real availability changes, these are hand-typed
 values in the markup, not fed from anything.
 
-**The avatar is still a placeholder.** A portrait was described but arrived
-as a pasted image rather than a file, so there was nothing to encode. Send
-it as an attachment and swap the `data:` URI on `.call__avatar img`.
+The avatar is the real portrait: cropped square from a 2552x2552 source at
+80% centred slightly left and high, encoded to 280px WebP (21 KB). The
+circle went from 4.5rem to 5.5rem now that it holds a face rather than a
+placeholder wash, and the gradient fallback behind it is gone.
 
 ## Footer
 
