@@ -1568,6 +1568,122 @@
     .why{grid-template-columns:minmax(0,1fr);}
   }
 
+  /* ---------- client reviews ----------
+     Three vertical rails on the same duplicated-set trick as the logo
+     marquee: each .vrail__set carries a padding-bottom equal to its own
+     card gap, so one set is exactly half the track and translateY(-50%)
+     loops with no seam. A set must also be taller than the rail or a bald
+     patch scrolls through, which is what sets the 4-cards-per-rail count.
+     The middle rail runs in reverse so the three do not move as one slab. */
+  .voices{
+    margin-top:var(--shell);
+    padding:clamp(4rem,6vw,6.5rem) var(--edge) clamp(3rem,5vw,4.5rem);
+    border-radius:var(--radius-main);
+    background:var(--paper);
+    color:var(--ink-dark);
+  }
+  .voices__head{max-width:44rem;margin:0 auto;text-align:center;}
+  .voices__head h2{
+    margin:0;
+    font-family:var(--font-head);
+    font-size:clamp(2rem,3.8vw,3.25rem);
+    line-height:1.06;letter-spacing:-.035em;font-weight:600;
+    text-wrap:balance;
+  }
+  .voices__lede{
+    margin:1.25rem auto 0;max-width:34rem;
+    font-size:1.0625rem;line-height:1.6;color:#54545a;
+  }
+
+  .voices__stats{
+    display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+    margin:clamp(2.5rem,4vw,3.5rem) auto clamp(2.5rem,4vw,3.5rem);
+  }
+  .vstat{padding:0 clamp(1.25rem,2.6vw,2.25rem);text-align:center;}
+  .vstat + .vstat{border-left:1px solid rgba(0,0,0,.13);}
+  .vstat__n{
+    display:flex;align-items:center;justify-content:center;gap:.5rem;
+    margin:0;
+    font-family:var(--font-head);
+    font-size:clamp(1.75rem,3vw,2.5rem);
+    line-height:1.1;letter-spacing:-.035em;font-weight:700;
+  }
+  .vstat__n .stars{font-size:.6em;}
+  .vstat__l{margin:.5rem 0 0;font-size:.9375rem;color:#54545a;}
+
+  .voices__rails{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:1.25rem;
+    align-items:start;
+  }
+  .vrail{
+    position:relative;overflow:hidden;
+    height:42rem;
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 5rem,#000 calc(100% - 5rem),transparent 100%);
+    mask-image:linear-gradient(180deg,transparent 0,#000 5rem,#000 calc(100% - 5rem),transparent 100%);
+  }
+  /* the middle rail starts part-way up so the three do not line up on load */
+  .vrail--mid{margin-top:-3.5rem;}
+  .vrail__track{display:flex;flex-direction:column;animation:vscroll 60s linear infinite;}
+  .vrail--rev .vrail__track{animation-direction:reverse;}
+  .vrail:hover .vrail__track{animation-play-state:paused;}
+  @keyframes vscroll{to{transform:translateY(-50%);}}
+  .vrail__set{display:flex;flex-direction:column;gap:1.25rem;padding-bottom:1.25rem;}
+
+  .vcard{
+    padding:1.75rem;
+    border:1px solid rgba(0,0,0,.09);
+    border-radius:1.25rem;
+    background:#fff;
+    box-shadow:0 8px 24px rgba(0,0,0,.06);
+  }
+  .vcard__who{display:flex;align-items:center;gap:.85rem;}
+  /* monograms rather than photographs: these are real people who left real
+     reviews, and putting a stock face on a named person invents them */
+  .vcard__av{
+    flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+    width:2.75rem;height:2.75rem;
+    border-radius:50%;
+    font-family:var(--font-head);
+    font-size:.875rem;font-weight:700;letter-spacing:.01em;
+    color:#1A1030;
+  }
+  .vcard__av--a{background:#EDE7FB;}
+  .vcard__av--b{background:#E8FCA6;}
+  .vcard__av--c{background:#E3E6FF;}
+  .vcard__av--d{background:#F2EBE1;}
+  .vcard__name{
+    margin:0;
+    font-family:var(--font-head);
+    font-size:1.0625rem;font-weight:600;letter-spacing:-.015em;
+  }
+  .vcard__role{margin:.15rem 0 0;font-size:.8125rem;color:#6b6b73;}
+  .vcard__quote{
+    margin:1.4rem 0 0;
+    font-family:var(--font-head);
+    font-size:1rem;line-height:1.55;font-weight:500;letter-spacing:-.01em;
+    color:var(--ink-dark);
+  }
+
+  @media (max-width:1024px){
+    .voices__rails{grid-template-columns:repeat(2,minmax(0,1fr));}
+    /* the third rail's cards are still in the DOM, they just scroll on
+       whichever of the two columns they land in */
+    .vrail{height:38rem;}
+    .vrail--mid{margin-top:0;}
+  }
+  @media (max-width:700px){
+    /* three stacked auto-scrolling rails on a phone is unreadable, so the
+       rails become one plain column and the duplicate sets drop out */
+    .voices__rails{grid-template-columns:minmax(0,1fr);gap:1rem;}
+    .vrail{height:auto;overflow:visible;-webkit-mask-image:none;mask-image:none;}
+    .vrail__track{animation:none;}
+    .vrail__set[aria-hidden="true"]{display:none;}
+    .vstat + .vstat{border-left:0;}
+    .voices__stats{gap:1.75rem 0;}
+  }
+
   /* ---------- lead form ---------- */
   .lead{
     max-width:none;margin:0;
@@ -2318,12 +2434,294 @@
 
 
 
-  <!-- PLACEHOLDER: the content for this one already exists, see the note -->
-  <section class="ph" id="testimonials">
-    <p class="ph__tag">Placeholder</p>
-    <h2 class="ph__title">Testimonials</h2>
-    <p class="ph__what">What clients say</p>
-    <p class="ph__need"><b>Ready to build:</b> the supplied <code>index_5.html</code> carries a finished Google reviews section: 4.9 from 312 reviews, with named quotes from BISSELL Australia, Marttini By Lana, Wax Obsession, Yellow Octopus, Approved Electrix and Pestline, on two auto-scrolling rails. Those are real testimonials, so this can become live content rather than a placeholder whenever you want it.</p>
+  <section class="voices" id="testimonials">
+    <div class="voices__head">
+      <p class="cases__eyebrow">Client reviews</p>
+      <h2>Growth stories from our clients</h2>
+      <p class="voices__lede">Real experiences from the Australian businesses we run search and paid for, in their own words.</p>
+    </div>
+
+    <div class="voices__stats">
+      <div class="vstat">
+        <p class="vstat__n">4.9 <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span></p>
+        <p class="vstat__l">Average Google rating</p>
+      </div>
+      <div class="vstat">
+        <p class="vstat__n">123</p>
+        <p class="vstat__l">Google reviews</p>
+      </div>
+      <div class="vstat">
+        <p class="vstat__n">300+</p>
+        <p class="vstat__l">Australian businesses grown</p>
+      </div>
+    </div>
+
+    <div class="voices__rails">
+      <div class="vrail">
+        <div class="vrail__track">
+        <div class="vrail__set">
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--a" aria-hidden="true">RS</span>
+              <div>
+                <p class="vcard__name">Russell Smith</p>
+                <p class="vcard__role">Strategic Regrouting &middot; Google review</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;After trying a few different SEO companies over the past 10 years, finding DUNK has been a complete game changer for my business. Since coming on board, my workload has tripled.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--b" aria-hidden="true">TD</span>
+              <div>
+                <p class="vcard__name">Toni-Rose Davies</p>
+                <p class="vcard__role">Google review</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Highly recommend for their SEO and social media ad services.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--c" aria-hidden="true">KO</span>
+              <div>
+                <p class="vcard__name">Kevin Omoro</p>
+                <p class="vcard__role">Google review &middot; 2 years ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;They have an impressive portfolio of quality publishers that helped elevate our site&rsquo;s visibility and organic rankings.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--d" aria-hidden="true">AM</span>
+              <div>
+                <p class="vcard__name">Ange Mcdougal</p>
+                <p class="vcard__role">Google review &middot; 2 years ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;DUNK have helped our business massively with funnelling more organic users to our website, resulting in more revenue than ever before.&rdquo;</p>
+          </article>
+        </div>
+        <div class="vrail__set" aria-hidden="true">
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--a" aria-hidden="true">RS</span>
+              <div>
+                <p class="vcard__name">Russell Smith</p>
+                <p class="vcard__role">Strategic Regrouting &middot; Google review</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;After trying a few different SEO companies over the past 10 years, finding DUNK has been a complete game changer for my business. Since coming on board, my workload has tripled.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--b" aria-hidden="true">TD</span>
+              <div>
+                <p class="vcard__name">Toni-Rose Davies</p>
+                <p class="vcard__role">Google review</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Highly recommend for their SEO and social media ad services.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--c" aria-hidden="true">KO</span>
+              <div>
+                <p class="vcard__name">Kevin Omoro</p>
+                <p class="vcard__role">Google review &middot; 2 years ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;They have an impressive portfolio of quality publishers that helped elevate our site&rsquo;s visibility and organic rankings.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--d" aria-hidden="true">AM</span>
+              <div>
+                <p class="vcard__name">Ange Mcdougal</p>
+                <p class="vcard__role">Google review &middot; 2 years ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;DUNK have helped our business massively with funnelling more organic users to our website, resulting in more revenue than ever before.&rdquo;</p>
+          </article>
+        </div>
+        </div>
+      </div>
+      <div class="vrail vrail--mid vrail--rev">
+        <div class="vrail__track">
+        <div class="vrail__set">
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--c" aria-hidden="true">MB</span>
+              <div>
+                <p class="vcard__name">Matthew Behman</p>
+                <p class="vcard__role">Google review &middot; a year ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;They took the time to understand our goals and delivered a strategy that not only made sense but actually worked. The communication has been seamless and the results measurable.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--b" aria-hidden="true">EU</span>
+              <div>
+                <p class="vcard__name">Eddy Ung</p>
+                <p class="vcard__role">Google review</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Any request I have is executed in a timely manner.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--a" aria-hidden="true">LL</span>
+              <div>
+                <p class="vcard__name">Lisa Liesmann</p>
+                <p class="vcard__role">Google review &middot; a year ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;From the first contact to the fulfilment of all our requests, DUNK have been superb to work with. Our websites run smoothly and we are grateful for the prompt assistance.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--d" aria-hidden="true">DD</span>
+              <div>
+                <p class="vcard__name">Dipal Dayaram</p>
+                <p class="vcard__role">Google review &middot; a year ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Extremely supportive, and they assisted us greatly with our organisation&rsquo;s portfolio. I highly recommend the DUNK team.&rdquo;</p>
+          </article>
+        </div>
+        <div class="vrail__set" aria-hidden="true">
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--c" aria-hidden="true">MB</span>
+              <div>
+                <p class="vcard__name">Matthew Behman</p>
+                <p class="vcard__role">Google review &middot; a year ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;They took the time to understand our goals and delivered a strategy that not only made sense but actually worked. The communication has been seamless and the results measurable.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--b" aria-hidden="true">EU</span>
+              <div>
+                <p class="vcard__name">Eddy Ung</p>
+                <p class="vcard__role">Google review</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Any request I have is executed in a timely manner.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--a" aria-hidden="true">LL</span>
+              <div>
+                <p class="vcard__name">Lisa Liesmann</p>
+                <p class="vcard__role">Google review &middot; a year ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;From the first contact to the fulfilment of all our requests, DUNK have been superb to work with. Our websites run smoothly and we are grateful for the prompt assistance.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--d" aria-hidden="true">DD</span>
+              <div>
+                <p class="vcard__name">Dipal Dayaram</p>
+                <p class="vcard__role">Google review &middot; a year ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Extremely supportive, and they assisted us greatly with our organisation&rsquo;s portfolio. I highly recommend the DUNK team.&rdquo;</p>
+          </article>
+        </div>
+        </div>
+      </div>
+      <div class="vrail">
+        <div class="vrail__track">
+        <div class="vrail__set">
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--d" aria-hidden="true">MC</span>
+              <div>
+                <p class="vcard__name">Mic Cohen</p>
+                <p class="vcard__role">Google review &middot; a year ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Their expertise and dedication have taken our SEO to the next level, and the results have been remarkable. Highly recommend DUNK for anyone looking to boost their online presence.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--a" aria-hidden="true">TM</span>
+              <div>
+                <p class="vcard__name">Tom M</p>
+                <p class="vcard__role">Google review</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Keep up the great work and customer service, you really do ROCK!&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--c" aria-hidden="true">PA</span>
+              <div>
+                <p class="vcard__name">Pirk Au</p>
+                <p class="vcard__role">Google review &middot; a year ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;They upgraded our website&rsquo;s backend to support a more effective SEO structure and we are already seeing the benefits. Straightforward, honest and truly dedicated to their craft.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--b" aria-hidden="true">SP</span>
+              <div>
+                <p class="vcard__name">Sam Perkins</p>
+                <p class="vcard__role">Google review &middot; 3 years ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Highly recommended. They helped my rankings improve, which saw my business pop up where it matters.&rdquo;</p>
+          </article>
+        </div>
+        <div class="vrail__set" aria-hidden="true">
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--d" aria-hidden="true">MC</span>
+              <div>
+                <p class="vcard__name">Mic Cohen</p>
+                <p class="vcard__role">Google review &middot; a year ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Their expertise and dedication have taken our SEO to the next level, and the results have been remarkable. Highly recommend DUNK for anyone looking to boost their online presence.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--a" aria-hidden="true">TM</span>
+              <div>
+                <p class="vcard__name">Tom M</p>
+                <p class="vcard__role">Google review</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Keep up the great work and customer service, you really do ROCK!&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--c" aria-hidden="true">PA</span>
+              <div>
+                <p class="vcard__name">Pirk Au</p>
+                <p class="vcard__role">Google review &middot; a year ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;They upgraded our website&rsquo;s backend to support a more effective SEO structure and we are already seeing the benefits. Straightforward, honest and truly dedicated to their craft.&rdquo;</p>
+          </article>
+          <article class="vcard">
+            <div class="vcard__who">
+              <span class="vcard__av vcard__av--b" aria-hidden="true">SP</span>
+              <div>
+                <p class="vcard__name">Sam Perkins</p>
+                <p class="vcard__role">Google review &middot; 3 years ago</p>
+              </div>
+            </div>
+            <p class="vcard__quote">&ldquo;Highly recommended. They helped my rankings improve, which saw my business pop up where it matters.&rdquo;</p>
+          </article>
+        </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="faq" id="faq">
