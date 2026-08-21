@@ -530,16 +530,10 @@ textarea.input{min-height:132px;resize:vertical}
 .uploadfield{display:grid;gap:0}
 .filehint.is-on{color:var(--ink);font-weight:700}
 
-/* Two questions side by side rather than stacked: they are both one-line
-   answers, and stacking them added 120px to a form that is already tall. */
+/* One question, one row. This was a two-column split until the client asked
+   for the "Best time" half to go. */
 .prefs{display:grid;gap:14px}
-@media (min-width:520px){.prefs{grid-template-columns:3fr 4fr;gap:14px}}
-.tilegrid--slim{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.tilegrid--slim.tilegrid--four{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media (max-width:640px){
-  .tilegrid--slim{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .tilegrid--slim.tilegrid--four{grid-template-columns:repeat(4,minmax(0,1fr))}
-}
+.tilegrid--slim{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;max-width:420px}
 .tilegrid--slim .tile label{min-height:40px;padding:7px 6px;font-size:.8125rem;text-align:center;justify-content:center}
 
 .promise{

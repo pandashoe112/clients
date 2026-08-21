@@ -1,13 +1,16 @@
 ---
-// How and when to reach them. Two compact chip rows, side by side on a desktop.
+// How to reach them. One compact chip row.
 //
 // Phone tag is where jobs get lost: we ring at 11am, they are on site, they
-// ring back at 6pm, we are under a house. Two taps here removes most of that,
-// and neither is required - an unanswered question should never be the reason
+// ring back at 6pm, we are under a house. One tap removes most of that, and it
+// is not required - an unanswered optional question should never be the reason
 // an enquiry does not get sent.
+//
+// There was a "Best time" row beside this one. The client asked for it to go:
+// two optional questions in a row is one more than an enquiry form can afford,
+// and at four columns "Afternoon" did not fit its chip.
 const { idPrefix = 'pref' } = Astro.props;
 const CONTACT = ['Call', 'Text', 'Email'];
-const TIME = ['Morning', 'Afternoon', 'Evening', 'Anytime'];
 ---
 <div class="prefs">
   <fieldset class="tileset">
@@ -17,17 +20,6 @@ const TIME = ['Morning', 'Afternoon', 'Evening', 'Anytime'];
         <div class="tile">
           <input type="radio" name="preferred_contact" id={`${idPrefix}_c${i}`} value={c} />
           <label for={`${idPrefix}_c${i}`}>{c}</label>
-        </div>
-      ))}
-    </div>
-  </fieldset>
-  <fieldset class="tileset">
-    <legend class="label">Best time <span class="label__opt">Optional</span></legend>
-    <div class="tilegrid tilegrid--slim tilegrid--four">
-      {TIME.map((t, i) => (
-        <div class="tile">
-          <input type="radio" name="best_time" id={`${idPrefix}_t${i}`} value={t} />
-          <label for={`${idPrefix}_t${i}`}>{t}</label>
         </div>
       ))}
     </div>
