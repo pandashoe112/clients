@@ -1004,15 +1004,6 @@
       radial-gradient(86% 74% at 40% 100%, #4B4BE8 0%, rgba(75,75,232,0) 64%),
       linear-gradient(200deg,#3A1C74 0%,#2A1458 100%);
   }
-  /* fine grain over the mesh, the way the reference panels read */
-  .suite__art::after{
-    content:"";
-    position:absolute;inset:0;
-    pointer-events:none;
-    opacity:.4;mix-blend-mode:overlay;
-    background-image:radial-gradient(rgba(255,255,255,.55) .5px, transparent .5px);
-    background-size:3px 3px;
-  }
 
   /* Mock platform tiles that sit on the gradient panels. Illustrative UI
      only: every figure is invented, and the tiles are aria-hidden in the
