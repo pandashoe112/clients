@@ -101,3 +101,33 @@ their border and shadow to read as cards.
 `--paper` is used by exactly two sections, `.approach` and `.picker`, so
 one token moves both and they stay in step. The cards use a literal
 `#fff` rather than a token, which is why they stayed put.
+
+## Who we work with, and the case study
+
+Both sit between the services and the FAQs: audience fit first, then
+proof. `.who` carries `id="who-we-work-with"`, which the two nav dropdown
+links and the mobile drawer had been pointing at with nothing there.
+
+`.who` is an image column stretched to the panel's height, so the two
+columns bottom out together — the office photo is 4:3 and gets cropped to
+roughly square by `object-fit:cover`. Its six items are a two-column grid
+inside the panel, which is what keeps the panel short enough for that crop
+to stay mild. One column below 640px.
+
+`.case` puts the photo across the top rather than beside the copy: the
+Solargain shot is 2.17:1 and a side-by-side column would have cut people
+off both ends, so it keeps its native ratio at every width. The results
+column is a flex column with the CTA on `margin-top:auto`, so it anchors
+to the bottom of the card instead of leaving a hole under the list.
+
+### The Solargain content
+
+Supplied by the client, from the Top Rankings case study for the same
+business — the phone number on this page matches theirs, so this is read
+as their own client work rather than someone else's. Worth confirming
+before it goes live.
+
+The pull quote originally named TopRankings. Rather than put a different
+agency's name on a DUNK page, or silently reword a client's words, the
+brand is bracketed: "We have used [them] for a number of years…". Restore
+the original name or get a fresh quote — do not just delete the brackets.
