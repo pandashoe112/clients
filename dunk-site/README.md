@@ -131,3 +131,28 @@ The pull quote originally named TopRankings. Rather than put a different
 agency's name on a DUNK page, or silently reword a client's words, the
 brand is bracketed: "We have used [them] for a number of years…". Restore
 the original name or get a fresh quote — do not just delete the brackets.
+
+## Why DUNK
+
+`.whyus`, between the case study and the FAQs. Content and the six inline
+SVG icons came from the client's own `index_5.html`; the layout is ported
+onto this file's tokens rather than its source variables, and its
+`min-width` breakpoints were flipped to the `max-width` ones this file
+uses everywhere else.
+
+It uses a lime pill eyebrow, not a numbered `.eyebrow-line`, so the
+numbered run is unbroken: 01 why us, 02 get started, 03 what we do,
+04 who we work with, 05 case study, 06 FAQ. The pill puts it in the same
+class as the footer CTA's dot eyebrow — a voice section rather than a
+numbered content one.
+
+## Light and dark run
+
+hero (plum) → approach (plum) → picker (paper) → suite (plum) → who
+(paper) → case (paper) → whyus (plum) → faq (`--surface`) → cta (gradient).
+
+`.approach` was paper and is now plum, which is why `.approach .logo`
+exists: `.logo` hardcodes `#1c1c20`, so the marquee brand names would
+have gone invisible on the dark ground. Its eyebrow also needed
+`eyebrow-line--light` added in the markup — that variant is what swaps
+the rule from black to white.
