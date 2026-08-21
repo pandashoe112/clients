@@ -206,3 +206,25 @@ Two notes on the flow itself:
 - **The CTA and FAQ are in the opposite order to Clearwater's flow.** It
   lists CTA then FAQs; this page runs FAQs then CTA. Left as it was rather
   than reordering unasked.
+
+## .suite__copy
+
+The service copy card. Four things carry it, and they interlock:
+
+- **A lit top edge**, not one flat wash: a vertical gradient plus an inset
+  1px white highlight, so it reads as a raised surface the way the `.pick`
+  cards do on the light sections.
+- **The service name at `.pick__title`'s weight and tracking** — 700 and
+  -.022em, up from 600/-.025em, and a size step larger.
+- **The tagline is a label chip**, not loose lime body text. Same
+  vocabulary as the sub-service chips below it, so the card has two tiers
+  of chip rather than one chip row and one stray coloured line. It needs
+  `align-self:flex-start` or the flex column stretches it.
+- **A card foot**: hairline rule, link beneath it with a circular arrow
+  that nudges on hover. The slack under the chips is the art panel's
+  25rem min-height showing through, so this turns dead space into
+  structure instead of trying to remove it.
+
+`.suite__chips` carries `margin-bottom:1.9rem` and the link `margin-top:auto`.
+The auto alone gives no floor, so on a card whose copy nearly fills the
+height the rule crowds straight up against the chips.
