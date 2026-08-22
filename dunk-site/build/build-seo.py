@@ -26,6 +26,11 @@ def one(pat, flags=re.S):
 
 head_links = css('<link rel="preconnect" href="https://fonts.googleapis.com">', '<style>').rstrip()
 tokens     = css('<style>\n', '  /* ---------- shell ---------- */')[len('<style>\n'):]
+# the carousel photographs are homepage-only, and the token block is copied
+# whole, so they would ride along as ~270KB this page never paints
+for _t in ('--photo-trade', '--photo-desk', '--photo-focus'):
+    tokens = re.sub(r'^ *%s:url\("[^"]*"\);\n' % _t, '', tokens, flags=re.M)
+assert '--photo-trade' not in tokens
 navcss     = css('  /* ---------- nav ---------- */', '  /* ---------- hero content ---------- */')
 marqcss    = css('  /* ---------- logo marquee ---------- */', '  /* ---------- channel picker ---------- */')
 faqcss     = css('  /* ---------- faq ---------- */', '  @media (max-width:1280px){')
@@ -80,6 +85,21 @@ if not logos:
              'Approved Electrix': logos['Approved Electrix']}
 
 hero_b64 = io.open(os.path.join(HERE, 'hero-seo.b64')).read().strip()
+proc_b64 = io.open(os.path.join(HERE, 'process-photo.b64')).read().strip()
+
+# the winning organic result out of the homepage's SERP tile, reused whole as
+# the overlay on the process photograph
+_i = s.index('<div class="serp serp--win">')
+serp_win = s[_i:s.index('</div>', s.index('serp__links', _i)) + 6]
+assert 'serp__title' in serp_win
+
+# the Google mark the overlay's search bar carries, and the two glyphs the
+# homepage draws in that tile
+glogo = re.search(r'<img class="ui__glogo" alt="" src="(data:image/webp;base64,[^"]+)">', s).group(1)
+MAG = ('<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">'
+       '<circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/>'
+       '<path d="M15.5 15.5 20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>')
+UPS = '&#8593;'
 
 # in-page anchors on the homepage become homepage links from a service page
 def relink(frag):
@@ -344,45 +364,100 @@ PAGE_CSS = """
   }
 
   /* ---------- process ----------
-     The connector is drawn once behind the row and clipped to the gaps, so it
-     is a real line through the sequence rather than four separate borders. */
-  .proc{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1.25rem,2.5vw,2rem);}
-  .proc::before{
-    content:"";
-    position:absolute;left:0;right:0;top:1.4rem;height:1px;
-    background:repeating-linear-gradient(90deg,var(--hairline) 0 6px,transparent 6px 12px);
+     Steps down the left against a photograph on the right, with the rail and
+     its markers drawn inside the steps column. Putting the markers in the
+     middle grid track meant aligning them to rows they were not in; drawn on
+     each step, every marker lands on its own step by construction. */
+  .proc{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:clamp(2rem,5vw,5rem);
+    align-items:start;
   }
-  .step{position:relative;display:flex;flex-direction:column;height:100%;}
-  .step__n{
-    position:relative;z-index:1;
+  .proc__steps{position:relative;padding-right:4rem;}
+  /* the connector, behind the markers */
+  .proc__steps::before{
+    content:"";
+    position:absolute;right:1.55rem;top:1.1rem;bottom:1.1rem;
+    width:1px;background:var(--hairline);
+  }
+  .step{position:relative;padding:0 0 clamp(2.25rem,4vw,3.25rem);}
+  .step:last-child{padding-bottom:0;}
+  .step__pin{
+    position:absolute;top:.1rem;right:0;
     display:flex;align-items:center;justify-content:center;
-    width:2.8rem;height:2.8rem;
+    width:2.1rem;height:2.1rem;
     border-radius:50%;
     background:var(--lime);color:var(--ink-dark);
-    font-family:var(--font-head);
-    font-size:.9375rem;font-weight:700;letter-spacing:-.01em;
+    box-shadow:0 0 0 5px #1C1729;
+  }
+  .step__pin svg{width:.85rem;height:.85rem;}
+  .step__n{
+    margin:0;
+    font-size:.875rem;color:var(--grey-200);
   }
   .step h3{
-    margin:1.35rem 0 0;
+    margin:.5rem 0 0;
     font-family:var(--font-head);
-    font-size:1.1875rem;font-weight:600;letter-spacing:-.022em;color:#fff;
+    font-size:1.3125rem;font-weight:600;letter-spacing:-.024em;color:#fff;
   }
-  .step p{margin:.6rem 0 1.15rem;font-size:1rem;line-height:1.62;color:var(--grey-100);}
-  /* the bodies are different lengths, so the chips align to the bottom of
-     the row rather than each to its own paragraph */
+  .step p{margin:.6rem 0 0;max-width:34rem;font-size:1rem;line-height:1.62;color:var(--grey-100);}
   .step__when{
-    display:inline-flex;align-items:center;align-self:flex-start;
-    margin-top:auto;padding:.25rem .6rem;
+    display:inline-flex;align-items:center;
+    margin-top:.9rem;padding:.25rem .6rem;
     border-radius:var(--radius-full);
     border:1px solid var(--hairline);
     font-size:.75rem;font-weight:600;color:var(--grey-200);
   }
+
+  /* the photograph, with the result it produced lapping its bottom-right */
+  .proc__shot{position:relative;padding:0 0 clamp(3rem,6vw,5rem) 0;}
+  /* direct child only: the SERP overlay nested inside carries an <img> of its
+     own, and an unscoped rule here stretched the Google mark to the frame */
+  .proc__shot > img{
+    display:block;width:100%;height:auto;
+    aspect-ratio:4 / 3;object-fit:cover;
+    border-radius:1.25rem;
+    box-shadow:0 2px 4px rgba(0,0,0,.2), 0 24px 60px rgba(0,0,0,.4);
+  }
+  /* 58% wide and pulled 12% past the frame: the lap is deep enough to read as
+     one object and shallow enough that no line of the result is clipped */
+  .proc__serp{
+    position:absolute;right:-3%;bottom:0;
+    width:min(58%,20rem);
+    border-radius:.85rem;
+    background:#fff;
+    overflow:hidden;
+    box-shadow:0 2px 4px rgba(0,0,0,.16), 0 20px 44px rgba(0,0,0,.38);
+  }
+  .proc__serp .serp{margin:0 .55rem .55rem;}
+  .proc__serp .ui__gbar{padding:.7rem .7rem .5rem;}
+  .proc__serpfoot{
+    display:flex;align-items:center;gap:.5rem;
+    padding:.55rem .8rem .65rem;
+    border-top:1px solid rgba(0,0,0,.07);
+    font-size:.6875rem;color:#5f5f68;
+  }
+  .proc__serpfoot b{
+    display:inline-flex;align-items:center;gap:.2rem;
+    padding:.15rem .4rem;border-radius:.3rem;
+    background:#E8FCA6;color:#2F3D00;font-size:.625rem;font-weight:700;
+  }
+  .proc__serpfoot span{margin-left:auto;font-weight:600;color:var(--ink-dark);}
+
   @media (max-width:960px){
-    .proc{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:2.75rem;}
-    .proc::before{display:none;}
+    .proc{grid-template-columns:minmax(0,1fr);gap:2.75rem;}
+    .proc__shot{order:-1;padding-bottom:3.5rem;}
+    .proc__steps{padding-right:3.25rem;}
   }
   @media (max-width:560px){
-    .proc{grid-template-columns:minmax(0,1fr);}
+    /* the photo is only about 270px tall here, so a lapping overlay covers
+       most of it. Below this width it drops into flow and laps the bottom
+       edge by a margin instead. */
+    .proc__shot{padding-bottom:0;}
+    .proc__serp{
+      position:static;
+      width:88%;margin:-1.75rem 0 0 auto;
+    }
   }
 
   /* ---------- other services ----------
@@ -570,13 +645,17 @@ def inc_items():
     return '\n'.join(out)
 
 def steps():
+    chev = ('<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">'
+            '<path d="M6.5 10 12 15.5 17.5 10" stroke="currentColor" stroke-width="2.6" '
+            'stroke-linecap="round" stroke-linejoin="round"/></svg>')
     return '\n'.join(
       '        <div class="step">\n'
-      '          <span class="step__n">0%d</span>\n'
+      '          <span class="step__pin" aria-hidden="true">%s</span>\n'
+      '          <p class="step__n">Step 0%d</p>\n'
       '          <h3>%s</h3>\n'
       '          <p>%s</p>\n'
       '          <span class="step__when">%s</span>\n'
-      '        </div>' % (i, h, p, w) for i, (h, p, w) in enumerate(STEPS, 1))
+      '        </div>' % (chev, i, h, p, w) for i, (h, p, w) in enumerate(STEPS, 1))
 
 def whatlist():
     return '\n'.join(
@@ -712,8 +791,23 @@ BODY = """
       <p class="band__lede">Four stages, in this order, because doing them in any other order wastes your
         money. You see the audit before you commit to anything.</p>
     </div>
+
     <div class="proc">
+      <div class="proc__steps">
 {STEPS}
+      </div>
+
+      <div class="proc__shot">
+        <img alt="Two DUNK strategists working through a client's search plan" src="PROC_SRC">
+        <div class="proc__serp" aria-hidden="true">
+          <div class="ui__gbar">
+            <img class="ui__glogo" alt="" src="GLOGO">
+            <p class="ui__search">{MAG}window cleaning melbourne</p>
+          </div>
+{SERPWIN}
+          <p class="proc__serpfoot"><b>{UPS} 87</b> ranking keywords<span>412</span></p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -824,6 +918,11 @@ BODY = (BODY.replace('{NAV}', nav)
             .replace('{WHATLIST}', whatlist())
             .replace('{INCITEMS}', inc_items())
             .replace('{STEPS}', steps())
+            .replace('PROC_SRC', proc_b64)
+            .replace('{SERPWIN}', serp_win)
+            .replace('GLOGO', glogo)
+            .replace('{MAG}', MAG)
+            .replace('{UPS}', UPS)
             .replace('{CASELIST}', caselist())
             .replace('{REVIEWLIST}', reviewlist())
             .replace('{FAQLIST}', faqlist())

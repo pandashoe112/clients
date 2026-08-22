@@ -56,8 +56,8 @@ and could be dropped if this layout is the one that ships.
 
 ## Sections
 
-Order inside `.shell`: hero → approach → picker → strategy call → suite →
-reviews → case studies → why DUNK → faq → cta → footer. The reviews sit
+Order inside `.shell`: hero → approach → picker → strategy call → services
+carousel → suite → reviews → case studies → why DUNK → faq → cta → footer. The reviews sit
 directly under the services section: what we do, then what people say about
 it. Nothing carries a hand-written section number any more, so inserting a
 section no longer means renumbering anything after it.
@@ -605,3 +605,63 @@ footer.
   render identically. Shrinking the stack was what wrapped a word to a line.
 - **Reviews** are static here, three cards on white. The homepage runs them on
   rails; a service page has one job.
+
+## Services carousel
+
+`.svc`, directly above the four service rows. A sticky copy column against a
+horizontally scrolling rail of four photo cards, one per service, bleeding off
+the right edge so it reads as a rail rather than a row that happens to fit.
+
+Two things worth knowing:
+
+- **It adds no image weight.** The four photographs were already in the file:
+  three were the channel picker's card backgrounds and the fourth is the
+  studio shot the intro and CTA use as texture. All four are `:root` tokens
+  now (`--photo-trade`, `--photo-desk`, `--photo-focus`, `--photo-studio`),
+  and `.pick__bg` changed from an `<img>` to a `<span>` with a background so
+  the picker and the carousel share the same bytes rather than inlining a
+  second copy of each. The `<img>` was decorative anyway: it sits behind a
+  scrim and the card's own heading.
+- **The thumbnail row drives the rail and follows it.** Clicking a thumbnail
+  scrolls the rail; scrolling or swiping the rail moves the active ring. The
+  active index is the card nearest the rail's left edge, computed from
+  `scrollLeft` on a rAF-throttled scroll listener. An IntersectionObserver was
+  the first attempt and picked whichever card it happened to report last on
+  load, which lit the wrong thumbnail.
+
+The section takes the "What are our digital marketing services?" heading, and
+the four rows below it now read **How each one works**. Two sections cannot
+both ask the same question, and the rows are the detail. No other copy moved.
+
+The photographs are real but they are doing double duty: the same three faces
+appear in the channel picker higher up the page. Four photographs shot for
+these four services would be better, and swapping them is four token values.
+
+## The SEO page process section
+
+`.proc`, rebuilt as steps down the left against a photograph on the right.
+
+- **The rail and its markers are drawn inside the steps column**, not in a
+  middle grid track. A middle track means aligning markers to rows they are
+  not in; on each step, every marker lands on its own step by construction.
+  The connector is one absolute hairline behind them.
+- **The SERP overlay is the homepage's own winning result**, lifted out of the
+  SEO tile by the build script, in a white card with a search bar above it and
+  a ranking-keywords foot below. It laps the photograph's bottom-right corner
+  at 58% width and 3% past the frame: deep enough to read as one object,
+  shallow enough that no line of the result is clipped.
+- Two traps it set on the way. `.proc__shot img` matched the Google mark
+  inside the overlay and stretched it to the frame, so the rule is
+  `.proc__shot > img`. And below 560px the photo is only about 270px tall, so
+  a lapping overlay covered nearly all of it; there the overlay drops into
+  flow and laps the bottom edge with a negative margin instead.
+
+The photograph is the homepage hero, re-encoded to 1100px WebP (77KB) and held
+in `build/process-photo.b64`.
+
+### One thing the build script now has to do
+
+The token block is copied to `seo.html` whole, so the three carousel-only
+photographs would ride along as about 270KB the page never paints. The script
+strips those three declarations. Add a homepage-only image token and it needs
+adding to that list.
