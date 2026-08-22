@@ -1,0 +1,56 @@
+---
+/* The html/head/body wrapper every page sits in.
+
+   Stylesheets are plain files in public/css, linked here rather than imported,
+   so what ships is what you can read on disk. `styles` names the extra sheets
+   a page needs on top of global.css.
+
+   The nav is NOT here: all three pages mount it differently. The homepage and
+   the Google Ads page sit it on their hero photograph, inside the hero markup;
+   the SEO page gives it a white bar above the hero. So each page renders it
+   where it belongs and this file stays out of the way.
+
+   The nav script is public/js/site.js rather than an inline block, so the
+   Content-Security-Policy can keep script-src at 'self' with no
+   'unsafe-inline'. Put new client-side JS there for the same reason. */
+import MobileNav from '../includes/mobile-nav.astro';
+import Cta from '../includes/cta.astro';
+import Footer from '../includes/footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  styles?: string[];
+}
+const { title, description, styles = [] } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={canonical}>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/global.css">
+{styles.map((s) => <link rel="stylesheet" href={`/css/${s}.css`} />)}
+</head>
+<body>
+
+<div class="shell">
+<slot />
+<Cta />
+<Footer />
+</div>
+
+<MobileNav />
+
+<script is:inline src="/js/site.js"></script>
+
+</body>
+</html>

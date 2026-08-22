@@ -1,4 +1,67 @@
-# DUNK — split hero variant
+# DUNK site
+
+An Astro site in `dunk-site/`, three pages, no CMS.
+
+    src/pages/          index.astro, services/seo.astro, services/google-ads.astro
+    src/includes/       nav, footer, cta, reviews, cases, why-us, strategy-call, trust
+    src/layouts/        Base.astro, the html/head/body wrapper
+    public/css/         global.css, service.css, suite.css
+    public/img/         every photograph and logo, as files
+    public/js/site.js   the nav and menu script
+
+`npm run dev` to work on it, `npm run build` to produce `dist/`.
+
+## How to change something
+
+- **A section on one page** lives in that page's `.astro` file, as plain HTML.
+  Edit it there.
+- **The nav, footer, contact panel, reviews, results, booking panel** are in
+  `src/includes/`. Edit once, all three pages follow.
+- **Styling** is `public/css/global.css` for everything shared, and
+  `service.css` for the two service pages. They are linked, not imported, so
+  what ships is what you can read.
+- **Images** go in `public/img/` and are referenced by path.
+
+## It used to be built differently, and why that changed
+
+The first page was an Artifact, and an Artifact has to be one self-contained
+file: a strict CSP blocks external images, so every photograph was base64
+inlined. That was fine for one page. When the SEO and Google Ads pages arrived
+the nav, footer and reviews had to match the homepage, so a Python generator
+(`build/build-pages.py`) cut those blocks out of `index.html` by comment marker
+and pasted them into the other two.
+
+It worked, but every change meant patching string anchors in a 900-line script,
+each page carried its own copy of the same 1.2MB of base64, and one mis-set
+marker silently deleted 107 lines of CSS. The port to Astro replaced it:
+
+- three HTML pages: **1.2MB, 960KB, 900KB -> 49KB, 68KB, 64KB**
+- images are 34 files shared between pages, not copied into each
+- the generator and the three root `.html` files are gone
+
+The port was verified section by section against the old output at 1440 and
+414. Every section height matched except one: the FAQ, where
+`.faq__side{position:sticky}` was riding over the questions once the grid
+collapsed to a single column. That was a real bug on all three pages and is
+fixed, so the FAQ is shorter now than it was.
+
+## Still to confirm
+
+- The reviews and the 4.9 / 123 figures came from another agency's listing and
+  need replacing with DUNK's own.
+- The Google Ads prices ($139 / $185 / $275 a week) were quoted to one client.
+  Confirm they are the public rate card.
+- Two Premier Partner mentions survive on the Google Ads page, in the meta
+  description and one hero chip.
+- The Google Ads case cards are the three SEO ones, with their real service
+  tags left on. DUNK's paid case studies are not written up.
+- General Sans cannot be fetched in this environment, so headings fall back to
+  Plus Jakarta Sans in preview. It loads from Fontshare in a browser.
+
+---
+
+## Older notes, kept for the decisions in them
+
 
 Two self-contained HTML pages: `index.html`, the DUNK marketing site with the
 split hero layout, and `seo.html`, the first service page. Photos are inlined as
