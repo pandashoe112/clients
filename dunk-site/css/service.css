@@ -1302,3 +1302,57 @@ body{background:var(--page);color:var(--ink-dark);}
 .cdet__item a{color:var(--ink-dark);text-decoration:underline;text-underline-offset:.18em;}
 .cdet__item a:hover{color:rgb(var(--purple-accent));}
 @media (max-width:820px){ .cdet__grid{grid-template-columns:minmax(0,1fr);} }
+
+/* ---------- the contact section, on paper ----------
+   Only the contact page uses this. Every other page's .cta stays dark, so the
+   whole thing is scoped to .cta--light rather than reworked in global.css.
+   The tokens the dark version leans on (--grey-100/200/300, --hairline) are all
+   white at some alpha, so each one needs a dark counterpart here, not a tweak. */
+.cta--light{background:var(--paper);}
+/* the photograph and its scrim were there to keep white type readable; on
+   paper they only muddy it */
+.cta--light::before,
+.cta--light::after{display:none;}
+.cta--light .eyebrow{color:rgba(18,18,18,.6);}
+.cta--light .cta__panel h2{color:var(--ink-dark);}
+.cta--light .cta__lede{color:rgba(18,18,18,.7);}
+
+.cta--light .cta__proof{border-top-color:rgba(18,18,18,.12);}
+.cta--light .cta__id b{color:var(--ink-dark);}
+.cta--light .cta__id span{color:rgba(18,18,18,.62);}
+.cta--light .cta__stars{color:rgba(18,18,18,.72);}
+.cta--light .cta__stars strong{color:var(--ink-dark);}
+.cta--light .cta__ticks{color:rgba(18,18,18,.74);}
+/* lime on white fails at this size; the tick takes the accent purple instead */
+.cta--light .cta__ticks svg{color:rgb(var(--purple-accent));}
+
+.cta--light .lead{
+  border-color:rgba(18,18,18,.10);
+  background:#fff;
+  box-shadow:0 1px 2px rgba(0,0,0,.04), 0 22px 55px rgba(0,0,0,.10);
+}
+.cta--light .lead__field label{color:rgba(18,18,18,.62);}
+/* the required marker was lime on near-black; on white it needs the purple */
+.cta--light .lead__field label i{color:rgb(var(--purple-accent));}
+.cta--light .lead__field input,
+.cta--light .lead__field select,
+.cta--light .lead__field textarea{
+  border-color:rgba(18,18,18,.16);
+  background:#FBFBFA;
+  color:var(--ink-dark);
+}
+.cta--light .lead__field input::placeholder,
+.cta--light .lead__field textarea::placeholder{color:rgba(18,18,18,.38);}
+.cta--light .lead__field input:focus,
+.cta--light .lead__field select:focus,
+.cta--light .lead__field textarea:focus{
+  border-color:rgb(var(--purple-accent));
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(var(--purple-accent),.16);
+}
+.cta--light .lead__select::after{
+  border-right-color:rgba(18,18,18,.5);
+  border-bottom-color:rgba(18,18,18,.5);
+}
+.cta--light .lead__note{color:rgba(18,18,18,.55);}
+.cta--light .lead__note b{color:rgba(18,18,18,.72);}
