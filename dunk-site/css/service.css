@@ -117,7 +117,9 @@ body{background:var(--page);color:var(--ink-dark);}
 .phero__body{
   position:relative;z-index:1;
   width:100%;max-width:var(--max);margin-inline:auto;
-  padding:clamp(2.25rem,5vw,4rem) clamp(1.75rem,4vw,3.5rem);
+  /* --edge, not a padding of its own: the copy has to start on the same
+     vertical as every band below it */
+  padding:clamp(2.25rem,5vw,4rem) var(--edge);
 }
 .crumbs{
   display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;
@@ -152,10 +154,9 @@ body{background:var(--page);color:var(--ink-dark);}
 .phero__rating .face:last-child{margin-right:0;}
 .phero__rating strong{color:#fff;font-weight:600;}
 .phero__rating .stars{font-size:.875rem;}
-/* stacked, not three across: at two items a row reads as a leftover strip,
-   and a column keeps the eye on the same left edge as the headline */
+/* one line at three items, wrapping rather than squeezing on a narrow screen */
 .phero__proof{
-  display:flex;flex-direction:column;align-items:flex-start;gap:.55rem;
+  display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.6rem;
   margin:1.5rem 0 0;padding-top:1.5rem;
   border-top:1px solid rgba(255,255,255,.18);
   font-size:.9375rem;color:var(--grey-100);
@@ -976,13 +977,15 @@ body{background:var(--page);color:var(--ink-dark);}
   line-height:1.06;letter-spacing:-.032em;font-weight:600;
   text-wrap:balance;
 }
-.majors__grid{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;
-  margin-top:clamp(2.25rem,4vw,3.25rem);
-  text-align:left;
+.majors .tiles{margin-top:clamp(2.25rem,4vw,3.25rem);text-align:left;}
+/* .tiles falls back to two columns, which was right for four tiles and leaves
+   an orphan with three. Hold three until they stop fitting, then go to one —
+   full width either way, so the cards keep the band's own edges. */
+@media (max-width:1024px) and (min-width:821px){
+  .majors .tiles{grid-template-columns:repeat(3,minmax(0,1fr));}
 }
-@media (max-width:1000px){
-  .majors__grid{grid-template-columns:minmax(0,1fr);max-width:34rem;margin-inline:auto;}
+@media (max-width:820px){
+  .majors .tiles{grid-template-columns:minmax(0,1fr);}
 }
 
 /* ---------- how we work: the terms, next to the people ----------

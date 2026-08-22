@@ -1792,7 +1792,7 @@ h1{
 .cta{
   position:relative;isolation:isolate;
   margin:var(--shell) calc(var(--shell) * -1) 0;
-  padding:clamp(3.5rem,6vw,5.5rem) var(--edge) clamp(4rem,7vw,6rem);
+  padding:clamp(3.5rem,6vw,5.5rem) calc(var(--edge) + var(--shell)) clamp(4rem,7vw,6rem);
   border-radius:0;
   background:#0D0A14;
   overflow:hidden;
