@@ -1,0 +1,473 @@
+/* ---------- service suite ---------- */
+.suite{
+  position:relative;
+  margin-top:var(--shell);
+  padding:6rem var(--edge) 6.5rem;
+  border-radius:var(--radius-main);
+  background:var(--paper);
+  color:var(--ink-dark);
+  overflow:hidden;
+}
+.suite::before{
+  content:"";
+  position:absolute;inset:0;
+  pointer-events:none;
+  opacity:.45;
+  background-image:radial-gradient(rgba(0,0,0,.11) 1px, transparent 1px);
+  background-size:26px 26px;
+  -webkit-mask-image:radial-gradient(ellipse 125% 115% at 100% 0%, #000 20%, rgba(0,0,0,.5) 68%, rgba(0,0,0,.34) 100%);
+  mask-image:radial-gradient(ellipse 125% 115% at 100% 0%, #000 20%, rgba(0,0,0,.5) 68%, rgba(0,0,0,.34) 100%);
+}
+.suite > *{position:relative;z-index:1;}
+/* a two-column head: the question on the left at display size, the answer
+   and the count on the right. The old eyebrow-and-number line above the
+   heading said nothing the heading did not. */
+.suite__head{
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:clamp(1.5rem,4vw,4rem);
+  align-items:end;
+  margin:0 0 clamp(2.5rem,4vw,3.75rem);
+  padding-bottom:clamp(1.75rem,3vw,2.5rem);
+  border-bottom:1px solid rgba(0,0,0,.11);
+}
+.suite__count{
+  display:flex;align-items:center;gap:.6rem;
+  margin:1.35rem 0 0;
+  font-size:.8125rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:#5B7A00;
+}
+.suite__count b{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:1.6rem;height:1.6rem;padding:0 .4rem;
+  border-radius:.5rem;
+  background:#E8FCA6;
+  font-family:var(--font-head);font-size:.8125rem;letter-spacing:0;
+  color:#2F3D00;
+}
+.suite__head h2{
+  margin:0;
+  font-family:var(--font-head);
+  font-size:clamp(1.75rem,2.9vw,2.75rem);
+  line-height:1.1;letter-spacing:-.03em;font-weight:600;
+  color:var(--ink-dark);text-wrap:balance;
+}
+.suite__lede{
+  margin:0;max-width:38rem;
+  font-size:1.0625rem;line-height:1.6;color:#54545a;
+}
+
+.suite__rows{display:flex;flex-direction:column;gap:1.25rem;}
+/* the copy and the art are two halves of one card, not two cards: the row
+   owns the rounding, the clip, the hairline and the shadow, so the halves
+   meet on a seam and the alternating order needs no per-corner rules */
+.suite__row{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;
+  border-radius:1.5rem;
+  overflow:hidden;
+  border:1px solid rgba(0,0,0,.09);
+  background:#fff;
+  box-shadow:0 8px 24px rgba(0,0,0,.07);
+}
+/* copy stays first in the DOM so the single-column order reads
+   service-then-artwork; the flip is presentational only */
+.suite__row:nth-child(even) .suite__copy{order:2;}
+
+/* top-aligned with the link pinned to the foot, rather than the whole lot
+   centred as one blob: header, body, chips, foot reads as a module */
+.suite__copy{
+  display:flex;flex-direction:column;
+  padding:2.5rem;
+}
+.suite__bar{
+  display:flex;align-items:center;gap:.9rem;
+  padding-bottom:1.15rem;
+  border-bottom:1px solid rgba(0,0,0,.09);
+}
+/* the index is information, not decoration: the lede claims four services
+   are the whole list, and 01 of 04 is what backs that up */
+.suite__ix{
+  flex:0 0 auto;margin-left:auto;
+  font-family:var(--font-head);
+  font-size:.75rem;font-weight:700;letter-spacing:.06em;
+  /* #8a8a92 came out at 3.4:1 on white, under the floor for 12px */
+  color:#67676f;
+}
+.suite__ix b{color:var(--ink-dark);font-weight:700;}
+/* the service name, at .pick__title's weight and tracking */
+.suite__copy h3{
+  margin:0;
+  font-family:var(--font-head);
+  font-size:clamp(1.5rem,2.2vw,2rem);
+  line-height:1.12;letter-spacing:-.022em;font-weight:700;
+  color:var(--ink-dark);
+}
+/* was loose lime body text; now a label chip, which is the same
+   vocabulary as the chips below it */
+.suite__tag{
+  align-self:flex-start;
+  margin:1.5rem 0 0;
+  padding:.3rem .75rem;
+  border-radius:var(--radius-full);
+  border:1px solid rgba(0,0,0,.06);
+  background:#E8FCA6;
+  color:#2F3D00;
+  font-size:.8125rem;font-weight:600;
+}
+.suite__body{margin:1.35rem 0 1.25rem;font-size:1.0625rem;line-height:1.62;color:#4f4f4f;}
+.suite__chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:0;}
+.suite__chips span{
+  padding:.4rem .85rem;
+  border-radius:var(--radius-full);
+  border:1px solid rgba(0,0,0,.1);
+  background:#F3F3F0;
+  font-size:.8125rem;font-weight:500;color:#3f3f46;
+}
+/* the slack under the chips is the art panel's height showing through, so
+   make it a card foot: hairline rule, link pinned beneath it */
+/* the slack the art panel's height leaves in this column collects here, so
+   the chips ride down with the link as one foot instead of stranding a
+   hole between them */
+.suite__foot{
+  display:flex;flex-direction:column;gap:1.35rem;
+  margin-top:auto;padding-top:1.9rem;
+  border-top:1px solid rgba(0,0,0,.09);
+}
+.suite__link{
+  display:flex;align-items:center;gap:.6rem;
+  font-weight:600;color:var(--ink-dark);
+}
+.suite__link span{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:1.7rem;height:1.7rem;
+  border-radius:50%;
+  border:1px solid rgba(0,0,0,.08);
+  background:var(--lime);color:var(--ink-dark);
+  font-size:.8125rem;
+  transition:transform .18s ease, background-color .18s ease;
+}
+.suite__link:hover span{transform:translateX(.2rem);}
+
+.suite__art{
+  position:relative;overflow:hidden;
+  /* the row clips the outer corners now */
+  border-radius:0;
+  /* one height across all four so the rows line up down the section, set
+     to the tallest panel's natural height (the SERP tile, 604px) rather
+     than a round number above it: every extra pixel here becomes dead air
+     in the copy column opposite */
+  min-height:37.75rem;
+  display:flex;align-items:center;justify-content:center;
+  padding:3rem 1.6rem;
+  background:
+    radial-gradient(72% 80% at 84% 14%, #FF6FC4 0%, rgba(255,111,196,0) 62%),
+    radial-gradient(66% 72% at 12% 26%, #8A5CFF 0%, rgba(138,92,255,0) 60%),
+    radial-gradient(86% 74% at 40% 100%, #4B4BE8 0%, rgba(75,75,232,0) 64%),
+    linear-gradient(200deg,#3A1C74 0%,#2A1458 100%);
+}
+
+/* Mock platform tiles that sit on the gradient panels. Illustrative UI
+   only: every figure is invented, and the tiles are aria-hidden in the
+   markup so none of it reaches a screen reader as fact. */
+.ui{
+  position:relative;z-index:2;
+  width:min(24rem,100%);
+  border-radius:1rem;
+  background:#fff;
+  color:var(--ink-dark);
+  box-shadow:0 24px 54px rgba(0,0,0,.34);
+  overflow:hidden;
+  font-size:.75rem;line-height:1.35;
+  font-variant-numeric:tabular-nums;
+  text-align:left;
+}
+.ui__bar{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.7rem .85rem;
+  border-bottom:1px solid rgba(0,0,0,.08);
+}
+.ui__logo{display:block;flex:0 0 auto;width:auto;}
+.ui__logo--g{height:1rem;}
+.ui__logo--m{height:.8rem;}
+.ui__name{font-weight:600;font-size:.8125rem;}
+.ui__meta{margin-left:auto;color:#8a8a92;font-size:.6875rem;white-space:nowrap;}
+
+.ui__head,.ui__row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 2.8rem 2.8rem 2.4rem;
+  gap:.4rem;align-items:center;
+  padding:.5rem .85rem;
+}
+.ui__head{
+  font-size:.625rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+  color:#9a9aa2;border-bottom:1px solid rgba(0,0,0,.06);
+}
+.ui__row{border-bottom:1px solid rgba(0,0,0,.05);}
+.ui__row > *:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ui__row > *:not(:first-child),.ui__head > *:not(:first-child){text-align:right;}
+.ui__row b{font-weight:600;}
+
+.ui__foot{
+  display:flex;align-items:center;gap:.45rem;
+  padding:.7rem .85rem;
+  background:#FAFAF9;
+  font-size:.6875rem;color:#54545a;
+}
+.ui__pill{
+  display:inline-flex;align-items:center;gap:.15rem;
+  padding:.15rem .5rem;border-radius:var(--radius-full);
+  background:#E8FCA6;color:#2F3D00;font-weight:700;font-size:.6875rem;
+}
+.ui__big{
+  margin-left:auto;
+  font-family:var(--font-head);font-size:1.05rem;font-weight:600;
+  letter-spacing:-.02em;color:var(--ink-dark);
+}
+
+/* Meta Ads: ad sets with delivery toggles */
+.ui__set{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.55rem .85rem;
+  border-bottom:1px solid rgba(0,0,0,.05);
+}
+.ui__tog{
+  position:relative;flex:0 0 auto;
+  width:1.6rem;height:.9rem;border-radius:var(--radius-full);
+  background:#0866FF;
+}
+.ui__tog::after{
+  content:"";position:absolute;top:.13rem;right:.13rem;
+  width:.64rem;height:.64rem;border-radius:50%;background:#fff;
+}
+.ui__tog--off{background:#D4D4D8;}
+.ui__tog--off::after{right:auto;left:.13rem;}
+.ui__set-body{display:grid;min-width:0;}
+.ui__set-name{font-weight:600;font-size:.75rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ui__set-sub{display:flex;align-items:center;gap:.3rem;color:#8a8a92;font-size:.6875rem;}
+.ui__dot{width:.35rem;height:.35rem;border-radius:50%;background:#22B14C;flex:0 0 auto;}
+.ui__dot--off{background:#B4B4BC;}
+.ui__set-val{margin-left:auto;font-weight:600;font-size:.75rem;}
+
+/* SEO: an organic result on a search page */
+.ui__gbar{display:flex;align-items:center;gap:.6rem;padding:.8rem .8rem .55rem;}
+.ui__glogo{height:1.15rem;width:auto;flex:0 0 auto;display:block;}
+.ui__search{
+  display:flex;align-items:center;gap:.5rem;flex:1 1 auto;min-width:0;
+  margin:0;
+  padding:.45rem .7rem;
+  border:1px solid rgba(0,0,0,.14);
+  border-radius:var(--radius-full);
+  color:#3c4043;
+}
+.ui__search svg{width:.8rem;height:.8rem;flex:0 0 auto;color:#9a9aa2;}
+.ui__count{margin:0;padding:0 .95rem .55rem;font-size:.625rem;color:#9a9aa2;}
+/* Google does not box its results, so neither do we; the client's row is
+   annotated with a lime rule rather than a blue panel */
+.serp{margin:0 .55rem .5rem;padding:.15rem .4rem;}
+.serp--win{
+  padding:.45rem .55rem;
+  border-left:2px solid var(--lime);
+  border-radius:.2rem .5rem .5rem .2rem;
+  background:#FBFDF0;
+}
+.serp__url{display:flex;align-items:center;gap:.35rem;font-size:.6875rem;color:#4d5156;}
+.serp__fav{width:.8rem;height:.8rem;border-radius:50%;background:#2A1D63;flex:0 0 auto;}
+.serp__title{margin:.3rem 0 .2rem;font-size:.8125rem;font-weight:500;line-height:1.25;color:#1a0dab;}
+.serp__desc{margin:0;font-size:.6875rem;color:#4d5156;}
+
+/* Link building: earned placements */
+.ui__link-row{
+  display:grid;grid-template-columns:2.7rem minmax(0,1fr) auto;
+  gap:.55rem;align-items:center;
+  padding:.5rem .85rem;
+  border-bottom:1px solid rgba(0,0,0,.05);
+}
+.ui__dr{
+  padding:.2rem 0;border-radius:.35rem;text-align:center;
+  background:#E6E1FA;color:#2A1D63;font-weight:700;font-size:.625rem;
+}
+.ui__link-body{display:grid;min-width:0;}
+.ui__dom{font-weight:600;font-size:.75rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ui__anchor{color:#8a8a92;font-size:.625rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ui__tagf{
+  padding:.15rem .4rem;border-radius:.3rem;
+  background:#E8FCA6;color:#2F3D00;
+  font-size:.5625rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+}
+
+/* --- wider tiles carry more columns and a couple of extra readouts --- */
+.ui__sub{display:block;margin-top:.05rem;font-size:.6875rem;font-weight:400;color:#8a8a92;}
+.ui--ads .ui__head,.ui--ads .ui__row{grid-template-columns:minmax(0,1fr) 2.5rem 2.5rem 2.4rem;}
+.ui__chart{display:flex;align-items:flex-end;gap:2px;height:3.1rem;padding:.8rem .95rem .3rem;}
+.ui__chart i{flex:1 1 0;min-width:0;border-radius:2px 2px 0 0;background:#DBD5F3;}
+.ui__chart i.on{background:#4C1D95;}
+.ui__chartlab{
+  display:flex;justify-content:space-between;
+  padding:0 .95rem .6rem;font-size:.625rem;color:#9a9aa2;
+  border-bottom:1px solid rgba(0,0,0,.06);
+}
+.ui__set-val{margin-left:auto;text-align:right;}
+.ui__set-val b{display:block;font-weight:600;font-size:.8125rem;}
+.ui__set-val em{display:block;font-style:normal;font-size:.625rem;color:#8a8a92;}
+.serp__links{display:flex;gap:.9rem;margin-top:.45rem;font-size:.6875rem;color:#1a0dab;}
+.ui__kwhead,.ui__kw{
+  display:grid;grid-template-columns:minmax(0,1fr) 2.6rem 2.8rem;
+  gap:.4rem;align-items:center;padding:.42rem .95rem;
+}
+.ui__kwhead{
+  font-size:.625rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#9a9aa2;
+  border-top:1px solid rgba(0,0,0,.06);border-bottom:1px solid rgba(0,0,0,.06);
+}
+.ui__kw{border-bottom:1px solid rgba(0,0,0,.05);}
+.ui__kw > *:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ui__kw > *:not(:first-child),.ui__kwhead > *:not(:first-child){text-align:right;}
+.ui__up{color:#1E7B41;font-weight:700;}
+.ui--links .ui__head,.ui--links .ui__link-row{grid-template-columns:2.9rem minmax(0,1fr) 3.4rem 4.6rem;}
+/* the generic rule right-aligns everything after the first cell, which
+   threw "Domain" into the traffic column here */
+.ui--links .ui__head > *:nth-child(2){text-align:left;}
+.ui__num{text-align:right;font-weight:600;font-size:.75rem;}
+
+/* --- a base tile with a second card offset over its bottom-right --- */
+/* wide enough that the overlay only laps the base tile by ~16px, which is
+   own padding. Any more and it clips the right-hand column mid-number,
+   which reads as a bug rather than as layering; the drop shadow is what
+   sells the depth. */
+/* padding-bottom IS the cascade: .ovl bottoms out on the stack's padding
+   edge, so this sets how far below the base tile it hangs, and it keeps
+   the overhang inside the stack box so the panel's padding still reads as
+   even space above and below the whole composition */
+/* padding-bottom drives how far down the overlay sits: it bottoms out on
+   the stack's padding edge, so a bigger value drops it toward the base
+   tile's lower-right instead of running up alongside the whole tile */
+.stack{position:relative;width:min(37rem,100%);padding-bottom:3.5rem;}
+.stack--meta{padding-bottom:11rem;}
+.stack > .ui{width:55%;}
+/* tile% + overlay%/2 = 100 puts exactly half the ad over the tile */
+.stack--meta > .ui{width:82%;}
+.stack--meta .ovl{width:36%;}
+.ovl{
+  position:absolute;right:0;bottom:0;z-index:3;
+  width:62%;
+  border-radius:.9rem;overflow:hidden;
+  background:#fff;color:var(--ink-dark);
+  box-shadow:0 22px 50px rgba(0,0,0,.4);
+  font-size:.6875rem;line-height:1.35;text-align:left;
+}
+/* a Google search ad */
+.ad{padding:.75rem .8rem .8rem;}
+.ad__spon{margin:0;font-size:.625rem;font-weight:700;color:#202124;}
+.ad__site{display:flex;align-items:center;gap:.4rem;margin-top:.45rem;}
+.ad__fav{width:.95rem;height:.95rem;border-radius:50%;background:#2A1D63;flex:0 0 auto;}
+.ad__dom{min-width:0;font-size:.6875rem;font-weight:600;line-height:1.15;color:#202124;}
+.ad__url{display:block;font-size:.5625rem;font-weight:400;color:#5f6368;}
+.ad__title{margin:.45rem 0 .3rem;font-size:.8125rem;line-height:1.25;font-weight:500;color:#1a0dab;}
+.ad__desc{margin:0;font-size:.625rem;line-height:1.42;color:#4d5156;}
+.ad__ext{display:flex;align-items:center;gap:.3rem;margin:.5rem 0 0;font-size:.5625rem;color:#5f6368;}
+.ad__stars{color:#FFC02E;letter-spacing:-.06em;}
+/* a Meta feed ad */
+.fb__head{display:flex;align-items:center;gap:.5rem;padding:.65rem .7rem .5rem;}
+.fb__av{
+  width:1.65rem;height:1.65rem;border-radius:50%;flex:0 0 auto;
+  background:linear-gradient(135deg,#2A1458,#8A5CFF);
+}
+.fb__who b{display:block;font-size:.6875rem;font-weight:700;}
+.fb__who span{display:block;font-size:.5625rem;color:#65676b;}
+.fb__copy{margin:0;padding:0 .7rem .55rem;font-size:.625rem;line-height:1.45;color:#050505;}
+.fb__shot{display:block;width:100%;aspect-ratio:1305/1206;object-fit:cover;}
+.fb__foot{display:flex;align-items:center;gap:.5rem;padding:.5rem .7rem;background:#F0F2F5;}
+.fb__foot-t{min-width:0;}
+.fb__foot-t b{display:block;font-size:.5625rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#65676b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fb__foot-t span{display:block;font-size:.6875rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fb__cta{
+  margin-left:auto;flex:0 0 auto;
+  padding:.32rem .6rem;border-radius:.35rem;
+  background:#E4E6EB;font-size:.5625rem;font-weight:700;white-space:nowrap;
+}
+.fb__stats{
+  display:flex;gap:.7rem;padding:.45rem .7rem;
+  font-size:.5625rem;color:#65676b;
+  border-top:1px solid rgba(0,0,0,.07);
+}
+/* a fuller results page */
+.ui__tabs{
+  display:flex;gap:.9rem;
+  padding:0 .95rem .45rem;
+  font-size:.6875rem;color:#5f6368;
+  border-bottom:1px solid rgba(0,0,0,.07);
+}
+.ui__tabs b{color:#1a73e8;font-weight:600;}
+.serp__rank{
+  margin-left:auto;flex:0 0 auto;
+  padding:.1rem .4rem;border-radius:.3rem;
+  background:#E8FCA6;color:#2F3D00;
+  font-size:.5625rem;font-weight:700;
+}
+.serp__stars{
+  display:flex;align-items:center;gap:.3rem;
+  margin:.3rem 0 0;font-size:.5625rem;color:#5f6368;
+}
+.serp__stars i{font-style:normal;color:#FFC02E;letter-spacing:-.06em;}
+
+.ui__st{
+  display:inline-block;width:.4rem;height:.4rem;margin-right:.45rem;
+  border-radius:50%;background:#22B14C;vertical-align:middle;
+}
+.ui__head i{font-style:normal;opacity:.55;}
+.fb__more{margin-left:auto;align-self:flex-start;color:#65676b;font-size:.75rem;line-height:1;letter-spacing:.05em;}
+
+/* Google's AI Overview: Gemini-gradient sparkle, answer, source chips */
+.ai{
+  margin:.15rem .55rem .6rem;
+  padding:.7rem .8rem .75rem;
+  border-radius:.75rem;
+  border:1px solid rgba(66,133,244,.16);
+  background:linear-gradient(135deg, rgba(66,133,244,.10) 0%, rgba(155,114,203,.10) 55%, rgba(217,101,112,.08) 100%);
+}
+.ai__head{display:flex;align-items:center;gap:.4rem;margin:0 0 .45rem;font-size:.6875rem;font-weight:600;color:#3c4043;}
+.ai__spark{width:1rem;height:1rem;flex:0 0 auto;}
+.ai__body{margin:0;font-size:.625rem;line-height:1.5;color:#202124;}
+.ai__body b{font-weight:600;}
+.ai__list{margin:.45rem 0 0;padding:0;list-style:none;display:grid;gap:.28rem;}
+.ai__list li{position:relative;padding-left:.7rem;font-size:.625rem;line-height:1.45;color:#202124;}
+.ai__list li::before{content:"";position:absolute;left:0;top:.42rem;width:.22rem;height:.22rem;border-radius:50%;background:#5f6368;}
+.ai__src{display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;margin:.6rem 0 0;}
+.ai__src span{
+  display:inline-flex;align-items:center;gap:.25rem;
+  padding:.16rem .42rem;border-radius:.35rem;
+  background:#fff;border:1px solid rgba(0,0,0,.1);
+  font-size:.5rem;color:#3c4043;white-space:nowrap;
+}
+.ai__src i{width:.5rem;height:.5rem;border-radius:50%;background:#2A1D63;flex:0 0 auto;}
+.ai__src span.is-win i{background:var(--lime);border:1px solid rgba(0,0,0,.2);}
+.ai__more{display:flex;align-items:center;gap:.25rem;margin:.55rem 0 0;font-size:.5625rem;font-weight:600;color:#1a73e8;}
+.ui__tabs .ai-tab{display:inline-flex;align-items:center;gap:.25rem;color:#1a73e8;font-weight:600;}
+.ui__tabs .ai-tab svg{width:.7rem;height:.7rem;}
+/* real search ads run wide and carry sitelinks, so give the overlay the
+   proportions of one rather than a squarish card */
+.ad__links{
+  display:flex;flex-wrap:wrap;gap:.3rem .85rem;
+  margin:.5rem 0 0;padding-top:.45rem;
+  border-top:1px solid rgba(0,0,0,.08);
+}
+.ad__links a{font-size:.5625rem;font-weight:500;color:#1a0dab;}
+.ad__call{
+  display:inline-flex;align-items:center;gap:.25rem;
+  margin:.45rem 0 0;font-size:.5625rem;font-weight:600;color:#1a0dab;
+}
+
+@media (max-width:1024px){
+  .suite{padding:4.5rem var(--edge) 5rem;}
+  .suite__head{grid-template-columns:minmax(0,1fr);align-items:start;gap:1.5rem;margin-bottom:2.75rem;}
+  .suite__row{grid-template-columns:minmax(0,1fr);}
+  .suite__row:nth-child(even) .suite__copy{order:0;}
+  .suite__art{min-height:26rem;}
+}
+@media (max-width:640px){
+  .stack > .ui{width:100%;}
+  .ovl{position:static;width:100%;margin-top:.9rem;box-shadow:0 14px 30px rgba(0,0,0,.3);}
+  .suite__copy{padding:1.75rem;}
+  .suite__art{min-height:0;padding:1.5rem;}
+}
+
+.btn--ink{background:var(--ink-dark);color:#fff;font-weight:600;}
+.btn--ink:hover{background:#000;}
