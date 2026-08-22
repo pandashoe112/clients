@@ -56,9 +56,11 @@ and could be dropped if this layout is the one that ships.
 
 ## Sections
 
-Order inside `.shell`: hero → approach (01) → picker (02) → suite (03) →
-faq (04) → cta. The eyebrow numbers are hand-written, so inserting a
-section means renumbering the ones after it.
+Order inside `.shell`: hero → approach → picker → strategy call → suite →
+reviews → case studies → why DUNK → faq → cta → footer. The reviews sit
+directly under the services section: what we do, then what people say about
+it. Nothing carries a hand-written section number any more, so inserting a
+section no longer means renumbering anything after it.
 
 `.suite` is the four-service grid. Each service is a `.suite__row` — a
 two-column grid holding a `.suite__copy` half and a `.suite__art` half.
@@ -373,8 +375,11 @@ Two constraints follow from that:
 - **A set must be taller than its rail** or a bald patch scrolls through.
   Measured: 938px of cards against a 672px rail. That is what fixes four
   cards per rail, not taste.
-- **The middle rail runs in reverse and starts 3.5rem high**, so the three
-  columns do not move as one slab.
+- **The middle rail runs in reverse and a third of a cycle ahead**, so the
+  three columns do not move as one slab. The stagger is
+  `animation-delay:-20s`, not a negative top margin: the margin version
+  staggered them by pulling the rail up into the proof bar above it, which
+  is what closed the gap between the two.
 
 Below 700px the rails stop being rails: the animation is off, the mask is
 off, the height is auto and the duplicate sets are hidden, so it becomes

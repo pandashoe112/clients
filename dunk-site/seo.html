@@ -1043,7 +1043,7 @@
   .voices__stats{
     display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;
     width:fit-content;
-    margin:clamp(2.5rem,4vw,3.5rem) auto clamp(2.5rem,4vw,3.5rem);
+    margin:clamp(2.5rem,4vw,3.5rem) auto clamp(4rem,6vw,5.5rem);
     padding:.5rem;
     border:1px solid rgba(0,0,0,.08);
     border-radius:1.25rem;
@@ -1073,8 +1073,11 @@
     -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 5rem,#000 calc(100% - 5rem),transparent 100%);
     mask-image:linear-gradient(180deg,transparent 0,#000 5rem,#000 calc(100% - 5rem),transparent 100%);
   }
-  /* the middle rail starts part-way up so the three do not line up on load */
-  .vrail--mid{margin-top:-3.5rem;}
+  /* the middle rail is a third of a cycle ahead so the three columns do not
+     line up on load. This used to be a -3.5rem margin, which staggered them
+     by pulling the rail up into the proof bar above it; a negative delay
+     staggers the content instead and leaves the box where it belongs. */
+  .vrail--mid .vrail__track{animation-delay:-20s;}
   .vrail__track{display:flex;flex-direction:column;animation:vscroll 60s linear infinite;}
   .vrail--rev .vrail__track{animation-direction:reverse;}
   .vrail:hover .vrail__track{animation-play-state:paused;}
@@ -1135,7 +1138,6 @@
     /* the third rail's cards are still in the DOM, they just scroll on
        whichever of the two columns they land in */
     .vrail{height:38rem;}
-    .vrail--mid{margin-top:0;}
   }
   @media (max-width:700px){
     /* three stacked auto-scrolling rails on a phone is unreadable, so the
