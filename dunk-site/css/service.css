@@ -101,14 +101,18 @@ body{background:var(--page);color:var(--ink-dark);}
      and the empty foreground is what the copy sits on */
   background-position:var(--hero-pos,50% 30%);background-size:cover;background-repeat:no-repeat;
 }
+/* one diagonal rather than a vertical and a horizontal crossed over each
+   other: the copy sits bottom-left and the faces top-right, so the scrim runs
+   the same way and the photograph is only paid for where the type needs it */
 .phero__scrim{
   position:absolute;inset:0;z-index:-1;
-  background:
-    linear-gradient(0deg,
-      rgba(var(--scrim),.93) 0%, rgba(var(--scrim),.82) 24%,
-      rgba(var(--scrim),.5) 48%, rgba(var(--scrim),.18) 72%, rgba(var(--scrim),0) 92%),
-    linear-gradient(90deg,
-      rgba(var(--scrim),.6) 0%, rgba(var(--scrim),.22) 44%, rgba(var(--scrim),0) 74%);
+  background:linear-gradient(to top right,
+    rgba(var(--scrim),.95) 0%,
+    rgba(var(--scrim),.88) 18%,
+    rgba(var(--scrim),.68) 36%,
+    rgba(var(--scrim),.4) 55%,
+    rgba(var(--scrim),.16) 74%,
+    rgba(var(--scrim),0) 92%);
 }
 .phero__body{
   position:relative;z-index:1;
@@ -126,9 +130,9 @@ body{background:var(--page);color:var(--ink-dark);}
 .crumbs a:hover{color:#fff;}
 .crumbs [aria-current]{color:#fff;}
 .phero h1{
-  margin:0;max-width:20ch;
+  margin:0;max-width:16ch;
   font-family:var(--font-head);
-  font-size:clamp(2.5rem,5.2vw,4.5rem);
+  font-size:clamp(2.125rem,3.9vw,3.25rem);
   line-height:1.02;letter-spacing:-.042em;font-weight:600;
   text-wrap:balance;
 }
@@ -480,7 +484,7 @@ body{background:var(--page);color:var(--ink-dark);}
   :root{--shell:.65rem;--radius-main:1.25rem;}
   .phero{min-height:0;}
   .phero__body{padding:2rem 1.35rem;}
-  .phero h1{font-size:2.375rem;letter-spacing:-.03em;}
+  .phero h1{font-size:2.125rem;letter-spacing:-.03em;}
   .phero__lede{font-size:1rem;}
   .phero__actions .btn{width:100%;}
   .phero__call{width:100%;text-align:center;}
