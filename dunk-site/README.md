@@ -592,6 +592,15 @@ Order: white bar, hero, trust marquee, what you are competing for, what SEO
 includes, how the work runs, results, reviews, FAQ, other services, CTA,
 footer.
 
+**Only seo.html uses the white bar.** ppc.html puts the nav on its hero
+photograph instead, the way the homepage does: `NAV_OVER` in the build names
+the pages that do it, `hero()` takes the nav as an argument and emits it inside
+the `.phero`, the `<header class="topbar">` is skipped, and the nav's
+light-ground overrides come back off (`nav--light` dropped, the CTA back to
+`btn--white`). The scrim is built to darken the foot of the frame where the
+copy sits, so `.phero--nav::before` adds a wash of its own across the top.
+That nav scrolls away rather than sticking, again matching the homepage.
+
 - **The white bar** is sticky and bleeds past the shell padding, so sections
   carry `scroll-margin-top:6.5rem` or an anchored jump lands underneath it.
   The wordmark needs no override: its svg is `currentColor`. Two colours

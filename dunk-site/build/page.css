@@ -77,6 +77,22 @@
     display:flex;align-items:flex-end;
     color:#fff;
   }
+  /* the nav rides the photograph the way it does on the homepage, so the hero
+     stacks header then body and the body is pushed to the foot of the frame */
+  .phero--nav{
+    align-items:stretch;flex-direction:column;
+    margin-top:calc(var(--shell) * -1);
+  }
+  .phero--nav .nav{position:relative;z-index:2;flex:0 0 auto;}
+  .phero--nav .phero__body{margin-top:auto;}
+  /* the scrim is built to darken the foot of the frame, where the copy sits.
+     The nav is at the top, where the photograph is at its lightest, so it gets
+     a wash of its own rather than a bar */
+  .phero--nav::before{
+    content:"";position:absolute;inset:0 0 auto;height:14rem;z-index:1;
+    background:linear-gradient(180deg,rgba(var(--scrim),.72),rgba(var(--scrim),0));
+    pointer-events:none;
+  }
   .phero__media{
     position:absolute;inset:0;z-index:-2;
     background-image:url("HERO_SRC");

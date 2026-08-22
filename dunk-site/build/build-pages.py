@@ -249,12 +249,14 @@ def band(cls, idn, h2, lede, body):
     return ('  <section class="band band--%s" id="%s">\n%s\n%s  </section>\n'
             % (cls, idn, head(h2, lede), body))
 
-def hero(cfg):
+def hero(cfg, nav_html=None):
+    """Pass nav_html to sit the header on the photograph the way the homepage
+    does, rather than on a white bar above it."""
     proof = ''.join('        <span>%s%s</span>\n' % (I['tick'], p) for p in cfg['proof'])
-    return ("""  <section class="phero">
+    return ("""  <section class="phero%s">
     <div class="phero__media" role="img" aria-label="Three people working through a plan together at a table"></div>
     <div class="phero__scrim" aria-hidden="true"></div>
-    <div class="phero__body">
+%s    <div class="phero__body">
       <nav class="crumbs" aria-label="Breadcrumb">
         <a href="/">Home</a>
         <span aria-hidden="true">/</span>
@@ -272,7 +274,9 @@ def hero(cfg):
 %s      </p>
     </div>
   </section>
-""" % (cfg['crumb'], cfg['h1'], cfg['lede'], cfg['cta'], proof))
+""" % (' phero--nav' if nav_html else '',
+       nav_html + '\n' if nav_html else '',
+       cfg['crumb'], cfg['h1'], cfg['lede'], cfg['cta'], proof))
 
 def badges():
     """The certification strip out of the proposal. On white, because every
@@ -784,16 +788,27 @@ PPC_CASES = SEO_CASES  # see the README: DUNK's paid case studies are not writte
 # ==========================================================================
 #  assembly
 # ==========================================================================
+NAV_OVER = {'ppc'}
+
 def build(key):
     c = CFG[key]
     page_nav = mark_current(nav, c['self'])
+    # over the photograph the nav is the homepage's own dark treatment, so the
+    # light-ground overrides come off
+    nav_over = key in NAV_OVER
+    if nav_over:
+        page_nav = page_nav.replace('nav nav--light', 'nav')
+        # black on a dark photograph: the homepage's white pill goes back
+        page_nav = page_nav.replace('btn btn--ink', 'btn btn--white')
+        page_nav = '\n'.join('  ' + l if l.strip() else l
+                             for l in page_nav.split('\n'))
     if key == 'seo':
         what = '\n'.join(
           '          <li>\n            <span class="what__n">0%d</span>\n'
           '            <div>\n              <h3>%s</h3>\n              <p>%s</p>\n            </div>\n'
           '          </li>' % (n, h, p) for n, (h, p) in enumerate(SEO_WHAT, 1))
         body = (
-          hero(c) + '\n' + trust() + '\n'
+          hero(c, page_nav if nav_over else None) + '\n' + trust() + '\n'
           + band('paper', 'what-seo-does', 'What you are actually competing for',
                  'A search result is not a list of ten links any more. It is an answer, a map, a set of '
                  'questions and then the links, and SEO is the work of turning up in as many of those '
@@ -832,7 +847,7 @@ def build(key):
                      '/services/meta-ads')]))
     else:
         body = (
-          hero(c) + '\n' + trust() + '\n'
+          hero(c, page_nav if nav_over else None) + '\n' + trust() + '\n'
           + band('paper', 'ad-types', 'Google Ads services for Australian businesses',
                  'Six campaign types, and an account usually needs two or three of them rather than all '
                  'six. Which ones depends on what you sell and how people buy it.', tiles(PPC_TYPES))
@@ -858,7 +873,8 @@ def build(key):
            + navcss + marqcss + faqcss + suitecss + casecss + callcss + whycss + voicescss
            + leadcss + footcss + ctacss + mobcss + rmcss + PAGE_CSS
            + '</style>\n</head>\n<body>\n\n<div class="shell">\n\n'
-           '  <header class="topbar">\n' + page_nav + '\n  </header>\n\n'
+           + ('' if nav_over else
+              '  <header class="topbar">\n' + page_nav + '\n  </header>\n\n')
            + body + '\n' + cta + '\n\n' + footer + '\n\n</div>\n\n'
            + mobile + '\n\n' + script + '\n\n</body>\n</html>\n')
 
@@ -867,7 +883,7 @@ def build(key):
             continue
         assert bad not in doc, bad
     assert '—' not in doc, 'em dash in ' + key
-    assert doc.count('<nav class="nav nav--light"') == 1
+    assert doc.count('<nav class="nav"') + doc.count('<nav class="nav nav--light"') == 1
     assert doc.count('id="mobile-nav"') == 1
     out = os.path.join(ROOT, c['out'])
     io.open(out, 'w', encoding='utf-8').write(doc)
