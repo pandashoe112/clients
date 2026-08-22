@@ -123,6 +123,7 @@ for _n in range(1, 6):
                    io.open(os.path.join(HERE, 'badges', 'badge-%d.b64' % _n)).read().strip()))
 
 TILE_SEARCH = io.open(os.path.join(HERE, 'tile-search.b64')).read().strip()
+TILE_SERP = io.open(os.path.join(HERE, 'tile-serp.b64')).read().strip()
 
 hero_b64 = io.open(os.path.join(HERE, 'hero-seo.b64')).read().strip()
 proc_b64 = io.open(os.path.join(HERE, 'process-photo.b64')).read().strip()
@@ -268,16 +269,25 @@ def trust():
 
 def tiles(items):
     """The homepage channel-picker card, reused: white panel, display title,
-    grey body, lime chips. The hairline spec sheet read as admin."""
+    grey body, lime chips. The hairline spec sheet read as admin.
+
+    A tile may carry a fifth field, an image that leads the card above its
+    heading. Only the search tile has artwork, so the rest of the row keeps its
+    natural height and the grid stops stretching them to match."""
     out = []
-    for ico, h, p, chips in items:
+    for it in items:
+        ico, h, p, chips = it[:4]
+        shot = it[4] if len(it) > 4 else None
         cs = ''.join('<span>%s</span>' % c for c in chips)
-        out.append('      <article class="tile">\n'
+        art = ('        <div class="tile__shot" aria-hidden="true">'
+               '<img alt="" src="%s"></div>\n' % shot) if shot else ''
+        out.append('      <article class="tile%s">\n%s'
                    '        %s\n'
                    '        <h3>%s</h3>\n'
                    '        <p>%s</p>\n'
                    '        <div class="tile__chips">%s</div>\n'
-                   '      </article>' % (F[ico].replace('why__ico', 'tile__ico'), h, p, cs))
+                   '      </article>' % (' tile--art' if shot else '', art,
+                                         F[ico].replace('why__ico', 'tile__ico'), h, p, cs))
     return '    <div class="tiles">\n' + '\n'.join(out) + '\n    </div>\n'
 
 def feat(cards):
@@ -288,12 +298,13 @@ def feat(cards):
             tk = ('        <ul class="fcard__ticks">\n'
                   + '\n'.join('          <li>%s<span>%s</span></li>' % (I['tick'], t) for t in ticks)
                   + '\n        </ul>\n')
+        art = ' fcard__shot--art' if shot.startswith('<img') else ''
         out.append('      <article class="fcard">\n'
-                   '        <div class="fcard__shot" aria-hidden="true">%s</div>\n'
                    '        <span class="fcard__ico">%s</span>\n'
                    '        <h3>%s</h3>\n'
                    '        <p>%s</p>\n%s'
-                   '      </article>' % (shot, I[ico], h, body, tk))
+                   '        <div class="fcard__shot%s" aria-hidden="true">%s</div>\n'
+                   '      </article>' % (I[ico], h, body, tk, art, shot))
     return '    <div class="feat">\n' + '\n'.join(out) + '\n    </div>\n'
 
 def features(kicker, lead, items):
@@ -640,7 +651,7 @@ SEO_FAQ = [
 PPC_TYPES = [
  ('mag',   'Google Search Ads',
   'We capture high-intent users searching for your products or services, wherever in Australia they are.',
-  ['Exact and phrase', 'Negatives', 'Ad extensions']),
+  ['Exact and phrase', 'Negatives', 'Ad extensions'], TILE_SERP),
  ('cart',  'Google Shopping Ads',
   'We connect your product feed to Shopping campaigns that surface your inventory with pricing, imagery and reviews at the top of search results.',
   ['Feed management', 'Merchant Center', 'Bidding']),
@@ -820,13 +831,11 @@ def build(key):
                        ('cart', 'Google Shopping for eCommerce',
                         'Your product feed, surfaced with pricing, imagery and reviews at the top of the '
                         'results page, and kept clean so nothing gets disapproved.',
-                        ['Merchant Center setup', 'Product feed optimisation',
-                         'Disapproval monitoring', 'Price and stock sync'], SHOP_TILE),
+                        None, SHOP_TILE),
                        ('cycle', 'Remarketing and retargeting',
                         'The people who visited and did not enquire are the cheapest audience you have. '
                         'Dynamic remarketing pulls the exact products they looked at.',
-                        ['Dynamic product ads', 'Cart abandoner lists',
-                         'Audience time windows', 'Frequency capping'], RMKT_TILE)]))
+                        None, RMKT_TILE)]))
           + '\n'
           + features_band('features', 'What you get', 'The parts of a Google Ads account we do '
                           'differently, and why they matter.', PPC_FEATURES)
