@@ -116,9 +116,12 @@ body{background:var(--page);color:var(--ink-dark);}
 }
 .phero__body{
   position:relative;z-index:1;
-  width:100%;max-width:var(--max);margin-inline:auto;
-  /* --edge, not a padding of its own: the copy has to start on the same
-     vertical as every band below it */
+  /* Laid out exactly like a band: full width, --edge for the inline padding,
+     and NO max-width with auto margins. Both together inset the copy twice —
+     the percentage in --edge resolves against the section, not this box, so
+     at 2560 the centring was applied once by the margins and once by the
+     padding and the copy sat 492px in from everything else. */
+  width:100%;
   padding:clamp(2.25rem,5vw,4rem) var(--edge);
 }
 .crumbs{
@@ -1013,14 +1016,19 @@ body{background:var(--page);color:var(--ink-dark);}
   margin:2.25rem 0 0;padding:0;list-style:none;
 }
 .terms__list li{display:flex;gap:.9rem;}
+/* a lime tick on a solid purple disc: the two brand colours doing the work
+   an outlined circle was doing before */
 .terms__tick{
   flex:0 0 auto;
   display:flex;align-items:center;justify-content:center;
   width:1.6rem;height:1.6rem;margin-top:.05rem;
-  border:1px solid rgba(18,18,18,.16);border-radius:50%;
-  color:var(--ink-dark);
+  border-radius:50%;
+  background:rgb(var(--purple-accent));
+  color:var(--lime);
 }
 .terms__tick svg{width:.85rem;height:.85rem;}
+.terms__tick--sm{width:1.15rem;height:1.15rem;margin-top:0;}
+.terms__tick--sm svg{width:.65rem;height:.65rem;}
 .terms__list h3{
   margin:0;
   font-family:var(--font-head);
@@ -1053,17 +1061,44 @@ body{background:var(--page);color:var(--ink-dark);}
   font-size:1.25rem;line-height:1.15;letter-spacing:-.02em;font-weight:600;
   color:var(--ink-dark);
 }
-.terms__note{margin:.2rem 0 0;font-size:.8125rem;color:rgba(18,18,18,.6);}
+/* the icon chip carries the purple; it is what stops each panel reading as a
+   plain paragraph floated over a photograph */
+.terms__chip{
+  flex:0 0 auto;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:2.4rem;height:2.4rem;
+  border-radius:.7rem;
+  background:linear-gradient(160deg,rgba(var(--purple-accent),.16),rgba(var(--purple-accent),.07));
+  color:rgb(var(--purple-accent));
+}
+.terms__chip svg{width:1.2rem;height:1.2rem;}
+.terms__chip--sm{width:1.35rem;height:1.35rem;border-radius:.4rem;}
+.terms__chip--sm svg{width:.8rem;height:.8rem;}
+.terms__float--top{display:flex;align-items:flex-start;gap:.85rem;}
+.terms__label--row{display:flex;align-items:center;gap:.5rem;}
+/* the notice is the reason the card is here, so it gets a shape of its own
+   rather than sitting under the value as small print */
+.terms__pill{
+  display:inline-block;margin:.5rem 0 0;
+  padding:.28rem .6rem;
+  border-radius:var(--radius-full);
+  background:rgba(var(--purple-accent),.1);
+  font-size:.75rem;font-weight:600;
+  color:rgb(var(--purple-accent));
+}
 .terms__mini{
   display:flex;flex-direction:column;gap:.35rem;
   margin:.55rem 0 0;padding:0;list-style:none;
   font-size:.875rem;color:rgba(18,18,18,.74);
 }
-.terms__mini li{display:flex;align-items:center;gap:.45rem;}
-.terms__mini svg{width:.85rem;height:.85rem;color:var(--ink-dark);flex:0 0 auto;}
+.terms__mini li{display:flex;align-items:center;gap:.5rem;}
 @media (max-width:1000px){
   .terms{grid-template-columns:minmax(0,1fr);}
   /* lifted cards need room to overhang; stacked, they read better in flow */
   .terms__float{position:static;inset:auto;margin-top:1rem;}
   .terms__media{display:flex;flex-direction:column;}
 }
+
+/* all three campaign screenshots carry a dark purple ground of their own, so
+   the tile's light artwork panel would flash behind them while they load */
+.majors .tile__shot{background:#1B0F33;}
