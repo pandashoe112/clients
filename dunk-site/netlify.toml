@@ -1,0 +1,59 @@
+# The DUNK site is static HTML: nothing to build, the folder is the deploy.
+[build]
+  base = "dunk-site"
+  publish = "."
+  command = ""
+  # This repo holds several clients, so skip a build when the push did not
+  # touch this folder. INCOMING_HOOK_TITLE is load-bearing: a build hook fires
+  # against the same commit as the last build, so without the guard the diff is
+  # empty and a manual or content-triggered deploy would be cancelled.
+  ignore = "bash -c '[ -n \"$INCOMING_HOOK_TITLE\" ] && exit 1; git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- .'"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # script-src is 'self': the only script is /js/site.js, and there are no
+    # inline scripts left now the forms post to Netlify instead of returning
+    # false. style-src needs 'unsafe-inline' — the hero sections set --hero and
+    # --hero-pos through a style attribute.
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Trailing-slash canonical: /services/seo and /services/seo/ are one page.
+[[redirects]]
+  from = "/services/seo"
+  to = "/services/seo/"
+  status = 301
+
+[[redirects]]
+  from = "/services/google-ads"
+  to = "/services/google-ads/"
+  status = 301
+
+[[redirects]]
+  from = "/services/meta-ads"
+  to = "/services/meta-ads/"
+  status = 301
+
+[[redirects]]
+  from = "/services/digital-pr"
+  to = "/services/digital-pr/"
+  status = 301
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact/"
+  status = 301

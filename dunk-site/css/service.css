@@ -1275,3 +1275,30 @@ body{background:var(--page);color:var(--ink-dark);}
    they share a height and the lists simply run to different depths. */
 .pgrid--top{align-items:stretch;}
 .pgrid--top .pcard{height:100%;}
+
+/* ---------- contact details ---------- */
+.cdet{text-align:center;}
+.cdet > h2{
+  margin:0 auto;max-width:24ch;
+  font-family:var(--font-head);
+  font-size:clamp(1.75rem,3vw,2.5rem);
+  line-height:1.08;letter-spacing:-.03em;font-weight:600;
+  text-wrap:balance;
+}
+.cdet__grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(2rem,4vw,3.5rem);
+  margin-top:clamp(2.25rem,4vw,3rem);
+  text-align:left;
+}
+.cdet__item{padding-top:1.35rem;border-top:2px solid rgb(var(--purple-accent));}
+.cdet__item h3{
+  margin:0;
+  font-family:var(--font-head);
+  font-size:1.25rem;line-height:1.2;letter-spacing:-.018em;font-weight:700;
+  color:var(--ink-dark);
+}
+.cdet__item p{margin:.5rem 0 0;font-size:.9375rem;line-height:1.7;color:rgba(18,18,18,.68);}
+.cdet__item a{color:var(--ink-dark);text-decoration:underline;text-underline-offset:.18em;}
+.cdet__item a:hover{color:rgb(var(--purple-accent));}
+@media (max-width:820px){ .cdet__grid{grid-template-columns:minmax(0,1fr);} }
