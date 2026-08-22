@@ -1116,6 +1116,3 @@ body{background:var(--page);color:var(--ink-dark);}
   .terms__media{display:flex;flex-direction:column;}
 }
 
-/* all three campaign screenshots carry a dark purple ground of their own, so
-   the tile's light artwork panel would flash behind them while they load */
-.majors .tile__shot{background:#1B0F33;}
