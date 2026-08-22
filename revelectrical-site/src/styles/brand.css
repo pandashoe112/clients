@@ -122,7 +122,11 @@
   text-decoration-thickness:1px}
 .banditem__text a:hover,.band__intro a:hover{text-decoration-thickness:2px}
 
-/* Cream needs the card lifted off the ground, deep needs it sunk into it. */
+/* The card has to differ from the ground it sits on. On cream, a white card
+   lifts off it. On paper, a white card was invisible - same colour, held apart
+   by a hairline and a shadow - so it takes the cream fill instead. On deep it
+   sinks into the ground rather than floating over it. */
+.bg-paper .banditem{background:var(--cream);border-color:rgba(3,47,53,.07);box-shadow:none}
 .bg-cream .banditem{box-shadow:none}
 .bg-deep .banditem{background:var(--deep-card);border-color:var(--line-light);box-shadow:none}
 .bg-deep .banditem__icon{background:rgba(182,237,62,.14);color:var(--lime)}
