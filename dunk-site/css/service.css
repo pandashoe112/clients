@@ -233,6 +233,7 @@ body{background:var(--page);color:var(--ink-dark);}
   margin:0;
   font-family:var(--font-head);
   font-size:1.125rem;font-weight:600;letter-spacing:-.02em;
+  text-wrap:balance;
 }
 .what__list p{margin:.4rem 0 0;font-size:1rem;line-height:1.6;color:#54545a;}
 @media (max-width:900px){
@@ -309,6 +310,7 @@ body{background:var(--page);color:var(--ink-dark);}
   margin:.2rem 0 0;
   font-family:var(--font-head);
   font-size:1.1875rem;font-weight:600;letter-spacing:-.022em;
+  text-wrap:balance;
 }
 .inc__item p{margin:.5rem 0 0;font-size:1rem;line-height:1.62;color:#54545a;}
 .inc__item ul{list-style:none;margin:.9rem 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.45rem;}
@@ -358,6 +360,7 @@ body{background:var(--page);color:var(--ink-dark);}
   margin:.5rem 0 0;
   font-family:var(--font-head);
   font-size:1.3125rem;font-weight:600;letter-spacing:-.024em;color:#fff;
+  text-wrap:balance;
 }
 .step p{margin:.6rem 0 0;max-width:34rem;font-size:1rem;line-height:1.62;color:var(--grey-100);}
 .step__when{
@@ -448,6 +451,7 @@ body{background:var(--page);color:var(--ink-dark);}
   font-family:var(--font-head);
   font-size:clamp(1.375rem,2.2vw,1.875rem);
   line-height:1.12;letter-spacing:-.028em;font-weight:700;
+  text-wrap:balance;
 }
 .ocard p{margin:1rem 0 1.5rem;font-size:1rem;line-height:1.62;color:#4f4f4f;}
 .ocard__go{
@@ -797,6 +801,7 @@ body{background:var(--page);color:var(--ink-dark);}
   font-family:var(--font-head);
   font-size:clamp(1.875rem,3.4vw,3rem);
   line-height:1.06;letter-spacing:-.035em;font-weight:600;
+  text-wrap:balance;
 }
 .ct__logo{display:inline-flex;align-items:center;}
 .ct__logo svg{height:1em;width:auto;display:block;color:#fff;}
@@ -828,6 +833,7 @@ body{background:var(--page);color:var(--ink-dark);}
   font-family:var(--font-head);
   font-size:clamp(1.875rem,3.4vw,2.75rem);
   line-height:1.06;letter-spacing:-.035em;font-weight:600;
+  text-wrap:balance;
 }
 .phead p{margin:1rem 0 0;max-width:42rem;font-size:1.0625rem;line-height:1.6;color:#54545a;}
 .pgrid,.pnote{max-width:var(--max);margin-inline:auto;}
@@ -981,6 +987,13 @@ body{background:var(--page);color:var(--ink-dark);}
   text-wrap:balance;
 }
 .majors .tiles{margin-top:clamp(2.25rem,4vw,3.25rem);text-align:left;}
+.majors__cta{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:.9rem 1.25rem;
+  margin-top:clamp(2rem,3.5vw,2.75rem);
+}
+.majors__call{font-size:.9375rem;color:rgba(18,18,18,.62);transition:color .16s ease;}
+.majors__call:hover{color:var(--ink-dark);}
 /* .tiles falls back to two columns, which was right for four tiles and leaves
    an orphan with three. Hold three until they stop fitting, then go to one —
    full width either way, so the cards keep the band's own edges. */
@@ -996,9 +1009,12 @@ body{background:var(--page);color:var(--ink-dark);}
    two cards lifted off it. The cards carry facts that are awkward to fit in a
    list — the notice period, and what is in the price rather than quoted as an
    extra. */
+/* white rather than paper: the panels floated over the photograph carry the
+   tint instead, which is the other way round from the rest of the page */
 .terms{
   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);
   gap:clamp(2.5rem,5vw,5rem);align-items:center;
+  background:#fff;
 }
 .terms__lede{
   margin:1.1rem 0 0;max-width:38rem;
@@ -1024,7 +1040,7 @@ body{background:var(--page);color:var(--ink-dark);}
   width:1.6rem;height:1.6rem;margin-top:.05rem;
   border-radius:50%;
   background:rgb(var(--purple-accent));
-  color:var(--lime);
+  color:#fff;
 }
 .terms__tick svg{width:.85rem;height:.85rem;}
 .terms__tick--sm{width:1.15rem;height:1.15rem;margin-top:0;}
@@ -1032,7 +1048,8 @@ body{background:var(--page);color:var(--ink-dark);}
 .terms__list h3{
   margin:0;
   font-family:var(--font-head);
-  font-size:1.0625rem;line-height:1.3;letter-spacing:-.012em;font-weight:600;
+  font-size:1.3125rem;line-height:1.24;letter-spacing:-.018em;font-weight:600;
+  text-wrap:balance;
 }
 .terms__list p{margin:.3rem 0 0;font-size:.9375rem;line-height:1.55;color:rgba(18,18,18,.66);}
 .terms__media{position:relative;}
@@ -1045,7 +1062,7 @@ body{background:var(--page);color:var(--ink-dark);}
   position:absolute;z-index:1;
   padding:1rem 1.15rem;
   border-radius:1rem;
-  background:#fff;
+  background:#F4F3F0;
   box-shadow:0 2px 6px rgba(0,0,0,.08), 0 16px 38px rgba(0,0,0,.16);
 }
 .terms__float--top{top:1.75rem;left:-1.75rem;right:30%;}

@@ -161,7 +161,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
   font-size:.6875rem;
   letter-spacing:.12em;
   text-transform:uppercase;
-  color:var(--grey-300);
+  /* --grey-300 is .46 white, which was not readable over the photograph */
+  color:rgba(255,255,255,.78);
 }
 .callus__dot{
   width:.4rem;height:.4rem;border-radius:50%;background:var(--lime);
