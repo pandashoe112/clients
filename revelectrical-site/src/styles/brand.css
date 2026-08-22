@@ -113,9 +113,11 @@
   padding:clamp(22px,2.3vw,30px);box-shadow:var(--shadow-card)}
 .banditem__icon{width:38px;height:38px;border-radius:var(--r-sm);background:rgba(3,47,53,.06);
   display:grid;place-items:center;color:var(--ink);margin:0 0 16px}
-.banditem__title{margin:0 0 8px;font-family:var(--font-display);font-size:1.0625rem;
-  font-weight:700;letter-spacing:-.01em;line-height:1.3;color:var(--ink)}
-.banditem__text{margin:0;font-size:.9375rem;line-height:1.62;color:var(--muted)}
+/* Size and weight come from the shared card-title rule in service.css, which
+   loads before this file - only the colour belongs here. Re-declaring the
+   font-size was silently overriding that shared scale. */
+.banditem__title{color:var(--ink)}
+.banditem__text{margin:0;font-size:.9688rem;line-height:1.62;color:var(--muted)}
 .banditem__text a,.band__intro a,.smallprint a{color:inherit;text-underline-offset:3px;
   text-decoration-thickness:1px}
 .banditem__text a:hover,.band__intro a:hover{text-decoration-thickness:2px}
