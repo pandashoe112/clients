@@ -122,6 +122,8 @@ for _n in range(1, 6):
     BADGES.append((io.open(os.path.join(HERE, 'badges', 'badge-%d.txt' % _n)).read().strip(),
                    io.open(os.path.join(HERE, 'badges', 'badge-%d.b64' % _n)).read().strip()))
 
+TILE_SEARCH = io.open(os.path.join(HERE, 'tile-search.b64')).read().strip()
+
 hero_b64 = io.open(os.path.join(HERE, 'hero-seo.b64')).read().strip()
 proc_b64 = io.open(os.path.join(HERE, 'process-photo.b64')).read().strip()
 
@@ -286,12 +288,13 @@ def feat(cards):
             tk = ('        <ul class="fcard__ticks">\n'
                   + '\n'.join('          <li>%s<span>%s</span></li>' % (I['tick'], t) for t in ticks)
                   + '\n        </ul>\n')
+        art = ' fcard__shot--art' if shot.startswith('<img') else ''
         out.append('      <article class="fcard">\n'
                    '        <span class="fcard__ico">%s</span>\n'
                    '        <h3>%s</h3>\n'
                    '        <p>%s</p>\n%s'
-                   '        <div class="fcard__shot" aria-hidden="true">%s</div>\n'
-                   '      </article>' % (I[ico], h, body, tk, shot))
+                   '        <div class="fcard__shot%s" aria-hidden="true">%s</div>\n'
+                   '      </article>' % (I[ico], h, body, tk, art, shot))
     return '    <div class="feat">\n' + '\n'.join(out) + '\n    </div>\n'
 
 def features(kicker, lead, items):
@@ -762,7 +765,7 @@ def build(key):
           '            <div>\n              <h3>%s</h3>\n              <p>%s</p>\n            </div>\n'
           '          </li>' % (n, h, p) for n, (h, p) in enumerate(SEO_WHAT, 1))
         body = (
-          hero(c) + '\n' + badges() + '\n' + trust() + '\n'
+          hero(c) + '\n' + trust() + '\n'
           + band('paper', 'what-seo-does', 'What you are actually competing for',
                  'A search result is not a list of ten links any more. It is an answer, a map, a set of '
                  'questions and then the links, and SEO is the work of turning up in as many of those '
@@ -787,7 +790,7 @@ def build(key):
           + '\n'
           + includes('Every package includes',
                      'The same six things, whatever the scope of the work is.', SEO_INCLUDES)
-          + '\n' + cases(SEO_CASES) + '\n' + reviews() + '\n'
+          + '\n' + cases(SEO_CASES) + '\n' + reviews() + '\n' + badges() + '\n'
           + faq(SEO_FAQ, 'Questions people ask before starting SEO', 'Get a free SEO audit')
           + '\n'
           + others('What else we run alongside SEO',
@@ -801,7 +804,7 @@ def build(key):
                      '/services/meta-ads')]))
     else:
         body = (
-          hero(c) + '\n' + badges() + '\n' + trust() + '\n'
+          hero(c) + '\n' + trust() + '\n'
           + band('paper', 'ad-types', 'Google Ads services for Australian businesses',
                  'Six campaign types, and an account usually needs two or three of them rather than all '
                  'six. Which ones depends on what you sell and how people buy it.', tiles(PPC_TYPES))
@@ -813,7 +816,8 @@ def build(key):
                         'Search catches the people already looking for what you sell. Display keeps you in '
                         'front of them through a longer decision.',
                         ['Exact and phrase match', 'Negative keyword lists', 'Responsive search ads',
-                         'Placement and audience control'], ADS_TILE),
+                         'Placement and audience control'],
+                        '<img alt="" src="%s">' % TILE_SEARCH),
                        ('cart', 'Google Shopping for eCommerce',
                         'Your product feed, surfaced with pricing, imagery and reviews at the top of the '
                         'results page, and kept clean so nothing gets disapproved.',
@@ -826,24 +830,6 @@ def build(key):
           + features_band('features', 'What you get', 'The parts of a Google Ads account we do '
                           'differently, and why they matter.', PPC_FEATURES)
           + '\n'
-          + band('dark', 'premier', 'An accredited Google Premier Partner',
-                 'Premier Partner status puts us in the top 3% of Google Ads agencies in Australia.',
-                 '    <div class="prem">\n'
-                 '      <div class="prem__body">\n'
-                 '        <p>It means access to beta features before they reach the broader market, a '
-                 'dedicated Google support channel, and performance benchmarks against other Australian '
-                 'advertisers.</p>\n'
-                 '        <p>We earned the status through consistent campaign performance. We keep it by '
-                 'delivering results that meet Google&rsquo;s standards year after year.</p>\n'
-                 '        <a class="btn btn--lime" href="#contact">Get a free paid audit'
-                 '<span class="btn__arrow" aria-hidden="true">&#8599;</span></a>\n'
-                 '      </div>\n'
-                 '      <div class="prem__badge">\n'
-                 '        <img alt="Google" src="%s">\n'
-                 '        <p class="prem__pc">Top 3%%</p>\n'
-                 '        <p class="prem__lab">of Google Ads agencies in Australia hold Premier Partner status</p>\n'
-                 '      </div>\n    </div>\n' % GLOGO)
-          + '\n'
           + compare_band('compare', 'Why our ads win at', PPC_COMPARE)
           + '\n'
           + pricing_band(PPC_TIERS,
@@ -852,18 +838,8 @@ def build(key):
           + '\n'
           + includes('Every package includes',
                      'The same six things, whatever you are spending.', PPC_INCLUDES)
-          + '\n' + cases(PPC_CASES) + '\n' + reviews() + '\n'
-          + faq(PPC_FAQ, 'Questions people ask before starting Google Ads', 'Get a free paid audit')
-          + '\n'
-          + others('What else we run alongside Google Ads',
-                   'Ads buy you enquiries this week. These two build the demand you capture next year, '
-                   'and the audience that has already heard of you.',
-                   [('seo', 'Build the demand you capture next year', 'Search Engine Optimisation',
-                     'Rankings compound. We fix what is holding your site back, then build the pages that earn positions you do not pay per click for.',
-                     '/services/seo'),
-                    ('meta', 'Create demand before anyone searches', 'Meta Advertising',
-                     'Not everyone is ready to search yet. Facebook and Instagram put your best creative in front of the people who will be.',
-                     '/services/meta-ads')]))
+          + '\n' + cases(PPC_CASES) + '\n' + reviews() + '\n' + badges() + '\n'
+          + faq(PPC_FAQ, 'Questions people ask before starting Google Ads', 'Get a free paid audit'))
 
     doc = ('<!DOCTYPE html>\n<html lang="en-AU">\n<head>\n<meta charset="utf-8">\n'
            '<meta name="viewport" content="width=device-width, initial-scale=1">\n'

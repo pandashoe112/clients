@@ -73,7 +73,7 @@
   .phero{
     position:relative;isolation:isolate;overflow:hidden;
     border-radius:var(--radius-main);
-    min-height:min(40rem,78svh);
+    min-height:min(54rem,94svh);
     display:flex;align-items:flex-end;
     color:#fff;
   }
@@ -624,34 +624,6 @@
     .proc__tile{position:static;width:100%;margin:-1.75rem 0 0 auto;}
   }
 
-  /* ---------- Premier Partner ---------- */
-  .prem{
-    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,20rem);
-    gap:clamp(2rem,4vw,4rem);align-items:center;
-  }
-  .prem__body p{margin:0 0 1.15rem;font-size:1.0625rem;line-height:1.65;color:var(--grey-100);}
-  .prem__body p:last-of-type{margin-bottom:1.85rem;}
-  .prem__badge{
-    display:flex;flex-direction:column;align-items:center;gap:1rem;
-    padding:2rem 1.5rem;
-    border:1px solid var(--hairline);
-    border-radius:1.5rem;
-    background:rgba(255,255,255,.04);
-    text-align:center;
-  }
-  .prem__badge img{height:2.25rem;width:auto;display:block;}
-  .prem__pc{
-    margin:0;
-    font-family:var(--font-head);
-    font-size:clamp(2.5rem,4vw,3.25rem);
-    font-weight:700;letter-spacing:-.045em;line-height:1;color:var(--lime);
-  }
-  .prem__lab{margin:0;font-size:.9375rem;line-height:1.5;color:var(--grey-100);}
-  @media (max-width:860px){
-    .prem{grid-template-columns:minmax(0,1fr);}
-    .prem__badge{max-width:22rem;}
-  }
-
   /* ---------- feature cards ----------
      Three tinted cards, each with a circular icon badge, and a mock panel
      pinned to the bottom so the card shows the thing rather than describing
@@ -662,7 +634,9 @@
     display:flex;flex-direction:column;
     padding:1.75rem 1.6rem 0;
     border-radius:1.5rem;
-    background:#EFF1E7;
+    /* the ground the client's supplied panel is drawn on, sampled from it, so
+       that card's artwork sits on the card rather than on a patch */
+    background:#EFECFB;
     border:1px solid rgba(0,0,0,.05);
     overflow:hidden;
   }
@@ -690,7 +664,7 @@
     display:flex;align-items:flex-start;gap:.55rem;
     font-size:.9375rem;line-height:1.35;color:var(--ink-dark);
   }
-  .fcard__ticks svg{flex:0 0 auto;width:1.05rem;height:1.05rem;margin-top:.1rem;color:#5B7A00;}
+  .fcard__ticks svg{flex:0 0 auto;width:1.05rem;height:1.05rem;margin-top:.1rem;color:#4C1D95;}
   /* the panel bleeds off the bottom of the card, which is what stops the
      three cards needing equal amounts of copy to look right */
   .fcard__shot{
@@ -698,6 +672,10 @@
     display:flex;justify-content:center;
   }
   .fcard__shot .ui{width:min(20rem,100%);box-shadow:0 10px 26px rgba(0,0,0,.14);}
+  /* the supplied artwork is a whole panel, so it spans the card and bleeds
+     off the bottom the same way the built ones do */
+  .fcard__shot img{display:block;width:100%;height:auto;}
+  .fcard__shot--art{padding-inline:0;}
   @media (max-width:1000px){
     .feat{grid-template-columns:minmax(0,1fr);}
     .fcard__shot .ui{width:min(24rem,100%);}

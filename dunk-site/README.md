@@ -786,7 +786,8 @@ are the site's.
   the middle, which a table cell cannot do without a colgroup hack.
 - **Certification strip (`.badge`).** The five badges out of the proposal, on
   white, because each is artwork on its own white plate and any other ground
-  shows the plates as rectangles.
+  shows the plates as rectangles. It sits low on the page, after the reviews,
+  with the rest of the proof material rather than under the hero.
 
 ## Components built from references
 
@@ -829,3 +830,24 @@ says it works across Australia), the footer address, the Pestline case study,
 and the illustrative SERP tile, whose example client is a Melbourne window
 cleaner. The Google Ads tile carried "Melbourne, all campaigns" as a caption;
 these pages' copy of it reads "All campaigns, last 30 days".
+
+## Removed from the PPC page on request
+
+The Premier Partner section, the how-we-manage-campaigns process, and the
+other-services pair. Two Premier Partner references survive because they were
+not part of what was removed: the meta description and one hero proof chip.
+Say the word and they go too.
+
+Removing the Premier Partner CSS took the feature-card and mock-panel blocks
+with it the first time, because the delete ran from its own marker to the
+*certification strip* marker and those two blocks sit between them. The band
+rendered 10646px tall, which is how it got caught. Delete to the **next**
+`/* ---------- */` marker, not to a named one further down.
+
+## The first capability card's artwork
+
+Client-supplied, not built. The image is a whole card, so only the mock search
+page below its title is used, cropped and re-encoded to `build/tile-search.b64`
+(740px, 24KB). Its ground was sampled at `rgb(239,236,251)` and all three
+feature cards now take that value, so the artwork sits on the card rather than
+on a patch of a different colour.
