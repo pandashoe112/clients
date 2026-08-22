@@ -7,10 +7,16 @@ no network.
 
 Open them with `open index.html`, or serve the folder with any static server.
 
-The two pages share the nav, the dropdowns, the mobile panel and the nav script
-by copy, not by include. There is no build step, so a change to any of them has
-to be made in both files. `seo.html` was generated from `index.html` by a script
-in the session scratchpad, which is the only reason the two are identical today.
+**`seo.html` is generated, not hand-maintained.** `build/build-seo.py` reads
+`index.html` and lifts out everything the two pages share (tokens, nav,
+dropdowns, mobile panel, buttons, the marquee, the service suite's art panels
+and platform tiles, case cards, reviews, FAQ, lead form, CTA, footer, script),
+then adds only the page-specific CSS and copy, which live in the script.
+
+So: **edit `index.html` or the script, then run `python3 build/build-seo.py`.**
+Editing `seo.html` directly means losing the change on the next build. This is
+what keeps a nav change from having to be made twice, and it is the reason the
+other-services tiles are the homepage tiles rather than pictures of them.
 
 ## Hero background
 
@@ -461,3 +467,136 @@ re-encoded as WebP. The alternative was porting 300 lines of tile CSS to a
 second file where it would drift. The aspect ratio is pinned to `1100/1004`
 so the crop is never squeezed. It also means the panels have to be
 recaptured if the homepage tiles change.
+
+## The polish pass
+
+A round of UI work across both pages. What changed, and why each one was a
+change rather than a preference.
+
+### Strategy call
+
+Was a white panel inside the plum card with a third bordered card inside that:
+three nested containers to say one thing. The copy now sits straight on the
+plum and the booking card is the only card in the section, so there is one
+object to look at. The card gained a host row, a definition list of length,
+format and cost, an availability strip and its own button; the live pip moved
+off the photograph, where it was decoration, onto a labelled chip.
+
+The pixel motif went from a corner sticker to a masked ground texture that
+fades out before it reaches the copy.
+
+### Services suite
+
+Packaging only. Every visual and every word is the same.
+
+- The head is a two-column split, question left, answer and count right, over
+  a rule. The numbered eyebrow above it is gone.
+- Each copy half opens with a header bar carrying the service name and its
+  index, under a hairline.
+- **Chips and link are one card foot.** The copy column has to absorb whatever
+  the art panel's height does not use. Centring the lot hid that; top-aligning
+  it stranded 250px between the chips and the link. Collecting both into a
+  foot with `margin-top:auto` puts the slack in one place, above a rule, where
+  it reads as designed space.
+- `min-height` on the art panel dropped from 38rem to 37.75rem, which is the
+  tallest panel's natural height (the SERP tile, 604px). Every pixel above
+  that was dead air in the column opposite.
+
+### Case studies
+
+Was three white cards fronted by a big empty logo plate and a bare percentage,
+which is the stock hero-metric tile. Same three tiles, same figures:
+
+- The client leads, in a tinted band, with the trade underneath. Each card
+  takes one of the three brand hues through a `--case-tint` / `--case-ink`
+  pair, so a fourth client is two custom properties.
+- The number sits in a sentence: `641%` then `more local organic traffic`,
+  rather than `Increase → Local organic traffic`. Same claim, read in one pass.
+- **The logo chip is landscape**, 7rem by 2.6rem. Every supplied logo is
+  roughly 3.5:1, and in the square chip they scaled to fit the height and came
+  out unreadable.
+- The whole card is the link now, not a text link inside it.
+
+### Reviews
+
+The three figures were floating on the section ground with hairlines between
+them, reading as three things. They are on one white panel now, which reads as
+one proof line. Bylines carry the Google mark, and the card under the cursor
+gets a border and shadow, since hovering a rail is what pauses it.
+
+### FAQ
+
+`name="faq"` makes it an exclusive accordion and the first answer opens by
+default, so the section does not present as seven closed rows. The side column
+sticks, because the answer someone is reading is often the one that decides the
+click. Body copy went from 15px grey-200 to 16px grey-100, and the focus ring
+moved onto the row.
+
+### Footer
+
+Three brand hues as a radial wash across the top, masked to fade well before
+the legal bar. Two colours had to move for it: `.foot__label` and the
+newsletter placeholder were set against flat `#15131C` and fell under 4.5:1 on
+the wash, so both went up a step to `--grey-200`.
+
+### CTA
+
+The studio photograph sits behind the panel at .20, anchored to the copy side
+and masked out before it reaches the form, so every field still sits on the
+flat ground its contrast was set against. A second layer scrims the photograph
+only. The eyebrow above the heading is gone, and the heading's measure went
+from 26rem to 34rem: at 52px it was breaking to seven lines.
+
+### Two shared assets became tokens
+
+`--photo-studio` and `--mark-google`. The photograph is used by two sections
+and the Google mark by thirteen elements; both were being inlined again at
+every use.
+
+### Eyebrows and section numbers
+
+All four numbered eyebrow lines (`01 Get started`, `02 What we do`, `04 FAQ`,
+`Let's talk`) are gone and the `.eyebrow-line` component with them. Each said
+less than the heading under it. The one surviving index is `01 / 04` on the
+service rows, which stays because the lede claims four services are the whole
+list and the index is what backs it.
+
+### Known findings left alone
+
+The mechanical design detector flags four things on both pages: Geist as an
+overused face, the dot-grid background, the radial halo on the dark sections,
+and the auto-scrolling marquee. All four are what the client asked for by name.
+They are listed here so the next person knows they were seen and kept, not
+missed.
+
+## seo.html sections
+
+Order: white bar, hero, trust marquee, what you are competing for, what SEO
+includes, how the work runs, results, reviews, FAQ, other services, CTA,
+footer.
+
+- **The white bar** is sticky and bleeds past the shell padding, so sections
+  carry `scroll-margin-top:6.5rem` or an anchored jump lands underneath it.
+  The wordmark needs no override: its svg is `currentColor`. Two colours
+  cannot survive the flip to light, the lime asterisk and the dropdown's lime
+  accents, and both deepen to olive.
+- One rule had to be loosened rather than re-tinted. The dark nav ordered its
+  divider with `.nav__right .btn--white{order:2}`, keyed to a class name this
+  page's CTA does not use, so the divider fell to the end of the row.
+- **What you are competing for** puts the homepage's SERP tile, live markup,
+  next to a numbered list of what each part of a result page is worth. That
+  row's panel holds a bare `.ui` rather than a `.stack`, which is why the
+  build script lifts the tile by class and not by wrapper.
+- **What SEO includes** is a hairline-separated spec sheet, two up, rather than
+  six identical icon cards.
+- **How the work runs** draws its connector once behind the row as a dashed
+  line, so it is one line through the sequence rather than four borders. The
+  stage chips align to the bottom of the row, since the bodies differ in
+  length.
+- **Other services** shows the two services the page is not about. On either
+  ads page it would be whichever two are left. The art is the homepage's own
+  panel markup with nothing but its corners changed: two cards at this width
+  give the stack the same 592px it gets on the homepage, measured, so the tiles
+  render identically. Shrinking the stack was what wrapped a word to a line.
+- **Reviews** are static here, three cards on white. The homepage runs them on
+  rails; a service page has one job.
