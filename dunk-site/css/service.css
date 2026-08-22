@@ -785,14 +785,14 @@ body{background:var(--page);color:var(--ink-dark);}
   flex-wrap:wrap;gap:clamp(2rem,5vw,4.75rem);
 }
 .badge__row img{height:4.25rem;width:auto;display:block;object-fit:contain;}
-.badge__row img:last-child{
+.badge__row img.is-framed{
   height:3rem;
   border:1px solid rgba(0,0,0,.10);border-radius:6px;
 }
 @media (max-width:640px){
   .badge__row{gap:1.75rem;}
   .badge__row img{height:3rem;}
-  .badge__row img:last-child{height:2.25rem;}
+  .badge__row img.is-framed{height:2.25rem;}
 }
 
 /* ---------- comparison band ----------
