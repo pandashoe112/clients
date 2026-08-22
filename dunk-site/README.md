@@ -7,16 +7,21 @@ no network.
 
 Open them with `open index.html`, or serve the folder with any static server.
 
-**`seo.html` is generated, not hand-maintained.** `build/build-seo.py` reads
-`index.html` and lifts out everything the two pages share (tokens, nav,
-dropdowns, mobile panel, buttons, the marquee, the service suite's art panels
-and platform tiles, case cards, reviews, FAQ, lead form, CTA, footer, script),
-then adds only the page-specific CSS and copy, which live in the script.
+**The service pages are generated, not hand-maintained.**
+`build/build-pages.py` emits both `seo.html` and `ppc.html`. It reads
+`index.html` and lifts out everything they share with it (tokens, nav,
+dropdowns, mobile panel, buttons, the marquee, case cards, the reviews
+component, the why-us grid, FAQ, lead form, CTA, footer, script), plus the
+platform-tile CSS and the four gradient art panels out of
+`build/archive/services-suite.html`. Shared page CSS lives in
+`build/page.css`; page content is one `CFG` per page and one set of section
+builders both pages call.
 
-So: **edit `index.html` or the script, then run `python3 build/build-seo.py`.**
-Editing `seo.html` directly means losing the change on the next build. This is
-what keeps a nav change from having to be made twice, and it is the reason the
-other-services tiles are the homepage tiles rather than pictures of them.
+So: **edit `index.html`, `build/page.css` or the script, then run
+`python3 build/build-pages.py`.** Editing `seo.html` or `ppc.html` directly
+means losing the change on the next build. This is what keeps a nav change
+from having to be made three times, and it is the reason the other-services
+tiles are the homepage tiles rather than pictures of them.
 
 ## Hero background
 
@@ -704,3 +709,57 @@ Measured at 1440: 1012px of travel over a 2064px section, so about a screen
 and a bit of extra scrolling. Everything the pin adds is scoped to
 `.svc.is-pinned`, which the script adds, so a JS failure degrades to the
 swipeable rail rather than to a section that cannot be scrolled.
+
+## ppc.html
+
+The Google Ads page. Same chrome and the same section builders as the SEO
+page; what differs is the `CFG` entry and which builders get called.
+
+Order: hero, trust marquee, the six campaign types, Premier Partner, how we
+manage campaigns, why our ads win, pricing, every package includes, results,
+reviews, FAQ, other services, CTA, footer.
+
+Three components are new, and both pages can use all three:
+
+- **`.ct`, the comparison table**, ported from the Solid Ground proposal. It
+  is a grid rather than a `<table>`: the DUNK column has to be paintable as a
+  continuous full-height band down the middle, which a table cell cannot do
+  without a colgroup hack. Below 700px the feature icons drop out and the two
+  verdict columns shrink to fixed widths, because that content is what has to
+  survive.
+- **`.tier`, the three pricing tiers**, ported from the same proposal. The
+  taken tier is raised and its button goes lime rather than being recoloured
+  wholesale, so the three still read as three of the same thing. The
+  proposal's per-client framing ("your recommended tier", "not recommended")
+  is gone, since this page is not addressed to one reader.
+- **`.proc__tile`** is the second overlay for the process photograph. The
+  Google Ads tile is much wider than a search result, so it takes its own
+  width and a plum ground to sit on rather than reusing `.proc__serp`.
+
+### What the PPC page still needs
+
+- **Its own case studies.** The three cards are the SEO ones, with their real
+  service tags (Local SEO / Technical SEO / SEO) left on so nothing implies a
+  paid result. DUNK's paid case studies are not written up yet; three of those
+  and it is a one-line change to `PPC_CASES`.
+- The **pricing figures are the proposal's** ($139 / $185 / $275 a week
+  against $1,500 / $3,000 / $5,000 monthly spend). They were quoted to one
+  client, so confirm they are the public rate card before this ships.
+- **"Top 3% of Google Ads agencies in Australia"** and Premier Partner status
+  came from the supplied copy. Both are checkable claims about DUNK and both
+  should be checked before the page goes live.
+
+### Copy that had to be generalised
+
+Both comparison tables and the SEO includes grid came out of proposals written
+for one client each. The SEO set said "per clinic", "all five clinic profiles"
+and "local dental enquiry"; those are "per location" and "local enquiry" now.
+The SEO comparison row "a page set for every clinic location" is "every
+location you serve". Nothing else in either list changed.
+
+### Icons
+
+The includes grids name their own icons rather than borrowing the homepage's
+why-us set by position, which had put a padlock beside "user journey heatmaps"
+and a person beside "brand vs non-brand". Four were drawn for this: person,
+split, flow and tag.
