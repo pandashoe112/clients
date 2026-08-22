@@ -784,14 +784,16 @@ body{background:var(--page);color:var(--ink-dark);}
   display:flex;align-items:center;justify-content:center;
   flex-wrap:wrap;gap:clamp(2rem,5vw,4.75rem);
 }
-.badge__row img{height:4.25rem;width:auto;display:block;object-fit:contain;}
+.badge__row img{height:5.25rem;width:auto;display:block;object-fit:contain;}
+.badge__row img.is-wide{height:2.4rem;}
 .badge__row img.is-framed{
   height:3rem;
   border:1px solid rgba(0,0,0,.10);border-radius:6px;
 }
 @media (max-width:640px){
   .badge__row{gap:1.75rem;}
-  .badge__row img{height:3rem;}
+  .badge__row img{height:3.5rem;}
+  .badge__row img.is-wide{height:1.7rem;}
   .badge__row img.is-framed{height:2.25rem;}
 }
 
@@ -1241,11 +1243,64 @@ body{background:var(--page);color:var(--ink-dark);}
   font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
   color:rgba(18,18,18,.5);
 }
-.ai__engines span{
-  padding:.32rem .7rem;
-  border-radius:var(--radius-full);
-  border:1px solid rgba(18,18,18,.14);
-  background:#fff;
-  letter-spacing:.02em;text-transform:none;
-  font-size:.8125rem;color:rgba(18,18,18,.74);
+.ai__engines-label{flex:0 0 auto;}
+.ai__engines img{
+  height:1.35rem;width:auto;display:block;
+  opacity:.82;
+}
+
+/* ---------- a second badge row, for press and partnerships ----------
+   Same row as the accreditations, with a label above it and the logos held a
+   little smaller: these are wordmarks rather than round badges, so at 4.25rem
+   they would tower over the certifications above them. */
+.badge--press{background:var(--paper);}
+.badge__label{
+  max-width:var(--max);margin:0 auto 1.75rem;
+  text-align:center;
+  font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(18,18,18,.5);
+}
+.badge--press .badge__row img{height:2.5rem;opacity:.72;transition:opacity .18s ease;}
+/* a wordmark that fills its whole box towers over the ones with clear space
+   built in, so the widest come down to match by eye rather than by number */
+.badge--press .badge__row img.is-wide{height:1.75rem;}
+.badge--press .badge__row img:hover{opacity:1;}
+@media (max-width:640px){
+  .badge--press .badge__row img{height:1.9rem;}
+}
+
+/* ---------- who the clients are, above their own words ----------
+   Three claims about the relationship rather than the work, so they sit on
+   the paper band as a plain three-up: no cards, since a card here would read
+   as another feature grid two sections after the last one. */
+.clients{text-align:center;}
+.clients > h2{
+  margin:0 auto;max-width:26ch;
+  font-family:var(--font-head);
+  font-size:clamp(1.75rem,3vw,2.5rem);
+  line-height:1.08;letter-spacing:-.03em;font-weight:600;
+  text-wrap:balance;
+}
+.clients__grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(2rem,4vw,3.5rem);
+  margin-top:clamp(2.25rem,4vw,3rem);
+  text-align:left;
+}
+.clients__item{
+  padding-top:1.35rem;
+  border-top:2px solid rgb(var(--purple-accent));
+}
+.clients__item h3{
+  margin:0;
+  font-family:var(--font-head);
+  font-size:1.25rem;line-height:1.2;letter-spacing:-.018em;font-weight:600;
+  color:var(--ink-dark);
+}
+.clients__item p{
+  margin:.5rem 0 0;
+  font-size:.9375rem;line-height:1.6;color:rgba(18,18,18,.68);
+}
+@media (max-width:820px){
+  .clients__grid{grid-template-columns:minmax(0,1fr);}
 }

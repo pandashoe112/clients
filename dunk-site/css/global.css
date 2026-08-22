@@ -126,7 +126,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
   display:flex;
   align-items:center;
   gap:.4rem;
-  margin:0 auto;
+  /* auto on the left only: the menu is pushed across to sit next to the
+     call-us block rather than centred in the bar */
+  margin-left:auto;
 }
 .nav__item{position:relative;}
 .nav__link{
@@ -256,8 +258,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
   border:2px solid rgba(255,255,255,.9);
   box-shadow:0 2px 8px rgba(0,0,0,.4);
 }
-.face:nth-child(2){border-color:var(--lime);}
-.face:nth-child(3){border-color:rgba(var(--purple-accent),1);}
 .face:last-child{margin-right:0;}
 .face img{width:100%;height:100%;object-fit:cover;display:block;}
 
