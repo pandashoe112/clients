@@ -1269,3 +1269,9 @@ body{background:var(--page);color:var(--ink-dark);}
   .badge--press .badge__row img{height:1.9rem;}
 }
 
+
+/* the PR packages hold five, six and seven deliverables, and .pgrid centres
+   its cards — which reads as three cards that failed to line up. Stretched,
+   they share a height and the lists simply run to different depths. */
+.pgrid--top{align-items:stretch;}
+.pgrid--top .pcard{height:100%;}
