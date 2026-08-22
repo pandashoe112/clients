@@ -1842,3 +1842,35 @@ h1{
   font-size:1.0625rem;line-height:1.6;color:var(--grey-200);
 }
 .cta__panel .btn{margin-top:2.5rem;}
+
+/* ---------- the proof beside the contact form ----------
+   The call has a person on the other end of it, a rating, and terms; all three
+   sit under the lede rather than in the form, so the form stays a form. The
+   avatar is .call__avatar reused — it is ground-agnostic — while the name and
+   role need their own colours here, the booking card's being set for paper. */
+.cta__proof{
+  margin:2.25rem 0 0;padding-top:1.75rem;
+  border-top:1px solid rgba(255,255,255,.14);
+  display:flex;flex-direction:column;gap:1.35rem;
+  max-width:32rem;
+}
+.cta__host{display:flex;align-items:center;gap:.9rem;}
+.cta__id{display:flex;flex-direction:column;gap:.15rem;min-width:0;}
+.cta__id b{
+  font-family:var(--font-head);
+  font-size:1.0625rem;font-weight:600;letter-spacing:-.018em;color:#fff;
+}
+.cta__id span{font-size:.8125rem;color:var(--grey-200);}
+.cta__stars{
+  display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
+  margin:0;font-size:.9375rem;color:var(--grey-100);
+}
+.cta__stars img{width:1.15rem;height:auto;display:block;}
+.cta__stars strong{color:#fff;font-weight:600;}
+.cta__ticks{
+  display:flex;flex-direction:column;gap:.55rem;
+  margin:0;padding:0;list-style:none;
+  font-size:.9375rem;color:var(--grey-100);
+}
+.cta__ticks li{display:flex;align-items:center;gap:.5rem;}
+.cta__ticks svg{width:1.05rem;height:1.05rem;color:var(--lime);flex:0 0 auto;}
