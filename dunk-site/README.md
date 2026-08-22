@@ -763,3 +763,69 @@ The includes grids name their own icons rather than borrowing the homepage's
 why-us set by position, which had put a padlock beside "user journey heatmaps"
 and a person beside "brand vs non-brand". Four were drawn for this: person,
 split, flow and tag.
+
+## Components ported from the two proposals
+
+The client asked for these to match the supplied HTML rather than be
+reinterpreted, so the values are the proposal's and only the variable names
+are the site's.
+
+- **Pricing (`.pgrid`/`.pcard`).** The brushed-silver gradient, the 4px dot
+  texture over it, the purple tier pill against a right-aligned price, the
+  basketball bullets, and the featured card's plum wash with its lime button
+  and inverted bullet colours. Its head is the proposal's too: a Google mark
+  and a label over a rule, then a left-aligned heading, not the two-column
+  band head the rest of the page uses. What is gone is the per-client framing:
+  a public rate card cannot say "your recommended tier" or mark two of three
+  "not recommended", so every card reads Get started and the featured one is
+  the visual emphasis.
+- **Comparison table (`.ct`).** The wordmark sits in the header cell and again
+  in the heading, feature icons are purple rounded tiles, and where the answer
+  is simply no the cell takes a red cross rather than a word. It is a grid,
+  not a `<table>`: the DUNK column has to paint as one continuous band down
+  the middle, which a table cell cannot do without a colgroup hack.
+- **Certification strip (`.badge`).** The five badges out of the proposal, on
+  white, because each is artwork on its own white plate and any other ground
+  shows the plates as rectangles.
+
+## Components built from references
+
+- **Service tiles (`.tiles`).** The homepage channel-picker card reused: white
+  panel, display title, grey body, lime chips. The hairline spec sheet they
+  replaced read as a list of admin rather than a set of things you can buy.
+- **Feature cards (`.feat`).** Three tinted cards, circular icon badge, and a
+  mock panel pinned to the bottom of each so the card shows the thing instead
+  of describing it. The panels are the `.ui` vocabulary the homepage tiles
+  use, plus two new members of it (`.ui__prow` for a product or audience row,
+  `.ui__chan` for a channel chip row), so they inherit the type scale rather
+  than inventing another. The panel is `margin-top:auto` and bleeds off the
+  card bottom, which is what stops three cards needing equal copy to look
+  right.
+- **Service features (`.svcs`).** Label and heading on the top row, an
+  accordion bottom left, a photograph bottom right. The label sits in its own
+  grid cell rather than stacked over the heading, which is what keeps it a
+  label rather than a kicker.
+- **Case tiles, as photo cards.** Photograph, near-black scrim, then client,
+  result and the line about it at the foot. Near-black rather than a hue
+  because three different photographs have to end up on the same value for the
+  type to read the same on all three. The logo plate is gone: on a photograph
+  a white plate reads as a sticker. Photos are the client-supplied ones,
+  centre-cropped to 4:5 and re-encoded (49 to 129KB each), in
+  `build/case-*.b64`.
+
+## Reviews on the service pages
+
+They are the homepage section, extracted whole: three rails, twelve cards,
+moving. The static three-up that was there first did not move, and the rails
+are the component the client knows.
+
+## Nationwide, not Melbourne
+
+The PPC copy came in written for Melbourne. Targeting language is national
+now: the title, the meta description, the campaign-type copy, the process
+steps, the Premier Partner section and the budget FAQ. What still says
+Melbourne is true and stays: DUNK is Melbourne based (the hero says so, then
+says it works across Australia), the footer address, the Pestline case study,
+and the illustrative SERP tile, whose example client is a Melbourne window
+cleaner. The Google Ads tile carried "Melbourne, all campaigns" as a caption;
+these pages' copy of it reads "All campaigns, last 30 days".

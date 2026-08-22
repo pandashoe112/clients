@@ -69,6 +69,10 @@ suitecss  = css('  /* ---------- service suite ---------- */', '</style>', ARCHI
 nav     = css('<nav class="nav" aria-label="Main">', '</nav>') + '</nav>'
 mobile  = css('<div class="mobile" id="mobile-nav">', '\n<script>').rstrip()
 marquee = css('    <div class="marquee">', '    </div>\n  </section>').rstrip() + '\n    </div>'
+# the whole reviews section, rails and all twelve cards: the static three-up
+# did not move, and the homepage one is the component the client knows
+VOICES = css('  <section class="voices" id="testimonials">', '\n\n  <section class="cases"').rstrip()
+assert VOICES.count('vrail') >= 3 and VOICES.count('vcard') >= 12
 cta     = css('  <section class="cta" id="contact">', '  <footer class="foot"').rstrip()
 footer  = css('  <footer class="foot" id="footer">', '</footer>') + '</footer>'
 
@@ -93,12 +97,30 @@ SERP_WIN = ARCHIVE[_i:ARCHIVE.index('</div>', ARCHIVE.index('serp__links', _i)) 
 GLOGO = re.search(r'<img class="ui__glogo" alt="" src="(data:image/webp;base64,[^"]+)">', ARCHIVE).group(1)
 SERP_TILE = div_block(ART['seo'], ART['seo'].index('<div class="ui'))
 ADS_TILE  = div_block(ART['google'], ART['google'].index('<div class="ui'))
+# the homepage tile is captioned for a Melbourne account; these pages sell
+# nationally, so this copy of it drops the city
+ADS_TILE  = ADS_TILE.replace('Melbourne, all campaigns', 'All campaigns, last 30 days')
 
 logos = dict((m.group(1), m.group(2)) for m in
              re.finditer(r'<img alt="([^"]+)" src="(data:image/jpeg;base64,[^"]+)">', s))
 LOGO = {'Pestline': logos['Pestline Pest Control'],
         'Solargain': logos['Solargain'],
         'Approved Electrix': logos['Approved Electrix']}
+
+WORDMARK = re.search(r'<svg aria-hidden="true" xmlns="http://www\.w3\.org/2000/svg" viewBox="0 0 443\.12 158\.68">.*?</svg>', s, re.S).group(0)
+BALL = ('<span class="pc-ball"><svg viewBox="0 0 24 24"><circle class="b-fill" cx="12" cy="12" r="10"/>'
+        '<path class="b-seam" d="M4 7.5c3.2 1.8 5.2 5 5.2 9M20 7.5c-3.2 1.8-5.2 5-5.2 9'
+        'M4.5 15.5c3-1.2 6-1.5 8-4s2.5-6 3-9"/></svg></span>')
+
+CASE_PHOTO = {}
+for _k, _f in (('Pestline', 'case-pestline.b64'), ('Solargain', 'case-solargain.b64'),
+               ('Approved Electrix', 'case-electrix.b64')):
+    CASE_PHOTO[_k] = io.open(os.path.join(HERE, _f)).read().strip()
+
+BADGES = []
+for _n in range(1, 6):
+    BADGES.append((io.open(os.path.join(HERE, 'badges', 'badge-%d.txt' % _n)).read().strip(),
+                   io.open(os.path.join(HERE, 'badges', 'badge-%d.b64' % _n)).read().strip()))
 
 hero_b64 = io.open(os.path.join(HERE, 'hero-seo.b64')).read().strip()
 proc_b64 = io.open(os.path.join(HERE, 'process-photo.b64')).read().strip()
@@ -132,6 +154,7 @@ I = {
  'arrow':  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M13 6.5 18.5 12 13 17.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
  'up':     '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20V5.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M5 12.2 12 5l7 7.2" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
  'tick':   '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ 'cross':  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>',
  'chev':   '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.5 10 12 15.5 17.5 10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
  'mag':    '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
  'person': '<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="11" r="5.2" stroke="currentColor" stroke-width="2.4"/><path d="M6.5 27c1.4-5.6 4.9-8.6 9.5-8.6s8.1 3 9.5 8.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
@@ -139,7 +162,55 @@ I = {
  'flow':   '<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M4 24c4-1 6-4.5 7.5-9S15 6.5 20 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="4" cy="24" r="2.6" stroke="currentColor" stroke-width="2.2"/><circle cx="22.5" cy="6.5" r="2.6" stroke="currentColor" stroke-width="2.2"/><path d="M18 21.5l4 4 6-8" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
  'tag':    '<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16.5 4H26a2 2 0 0 1 2 2v9.5L15.4 28.1a2 2 0 0 1-2.8 0L3.9 19.4a2 2 0 0 1 0-2.8z" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><circle cx="22" cy="10" r="2.1" fill="currentColor"/></svg>',
 }
+# Filled two-tone icons in the homepage why-us style (48 viewBox, the same
+# #6D28D9 / #4C1D95 / #8B5CF6 / #EDE9FB / lime palette), rather than the thin
+# line set: the includes grid is the homepage component and had to look it.
+F = {
+ 'person': '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="15" r="9" fill="#8B5CF6"/><path d="M7 43c1.9-9.4 8.5-14.6 17-14.6S39.1 33.6 41 43Z" fill="#4C1D95"/></svg>',
+ 'doc':    '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 5h18l10 10v28a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2Z" fill="#4C1D95"/><path d="M28 5l10 10H30a2 2 0 0 1-2-2Z" fill="#8B5CF6"/><rect x="16" y="24" width="16" height="3.4" rx="1.7" fill="#fff"/><rect x="16" y="31" width="11" height="3.4" rx="1.7" fill="#EDE9FB"/></svg>',
+ 'chart':  '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="27" width="8" height="16" rx="2.5" fill="#8B5CF6"/><rect x="20" y="17" width="8" height="26" rx="2.5" fill="#4C1D95"/><rect x="33" y="7" width="8" height="36" rx="2.5" fill="#6D28D9"/></svg>',
+ 'split':  '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="12" width="16" height="24" rx="4" fill="#4C1D95"/><rect x="28" y="18" width="16" height="18" rx="4" fill="#8B5CF6"/><rect x="22.6" y="4" width="2.8" height="40" rx="1.4" fill="#B9CE2E"/></svg>',
+ 'spark':  '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M20 4l3.6 11.4L35 19l-11.4 3.6L20 34l-3.6-11.4L5 19l11.4-3.6Z" fill="#6D28D9"/><path d="M36 28l1.8 5.2L43 35l-5.2 1.8L36 42l-1.8-5.2L29 35l5.2-1.8Z" fill="#B9CE2E"/></svg>',
+ 'flow':   '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 38c7-2 10.5-8 13-16S28 8 38 8" fill="none" stroke="#8B5CF6" stroke-width="5" stroke-linecap="round"/><circle cx="8" cy="38" r="5.5" fill="#4C1D95"/><circle cx="38" cy="8" r="5.5" fill="#6D28D9"/><path d="M27 33l5 5 9-11" fill="none" stroke="#B9CE2E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ 'pin':    '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 45S39 30.7 39 19A15 15 0 1 0 9 19c0 11.7 15 26 15 26Z" fill="#4C1D95"/><circle cx="24" cy="18.5" r="6" fill="#B9CE2E"/></svg>',
+ 'up':     '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 34 18 22l7 7 15-15" fill="none" stroke="#8B5CF6" stroke-width="5.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 14h12v12" fill="none" stroke="#4C1D95" stroke-width="5.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ 'tag':    '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M25 5h16a2 2 0 0 1 2 2v16L22.4 43.6a2 2 0 0 1-2.8 0L4.4 28.4a2 2 0 0 1 0-2.8Z" fill="#4C1D95"/><circle cx="34" cy="14" r="3.6" fill="#B9CE2E"/></svg>',
+ 'cart':   '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 7h5l5 21h21" fill="none" stroke="#4C1D95" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 13h30l-4 13H16Z" fill="#8B5CF6"/><circle cx="17" cy="38" r="4" fill="#4C1D95"/><circle cx="32" cy="38" r="4" fill="#4C1D95"/></svg>',
+ 'mag':    '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="20" cy="20" r="13" fill="none" stroke="#8B5CF6" stroke-width="5.4"/><path d="M30 30l12 12" stroke="#4C1D95" stroke-width="5.4" stroke-linecap="round"/></svg>',
+ 'cycle':  '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M42 24a18 18 0 0 1-30.6 12.8" fill="none" stroke="#4C1D95" stroke-width="5.2" stroke-linecap="round"/><path d="M6 24A18 18 0 0 1 36.6 11.2" fill="none" stroke="#8B5CF6" stroke-width="5.2" stroke-linecap="round"/><path d="M36 5v8h-8" fill="none" stroke="#8B5CF6" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 43v-8h8" fill="none" stroke="#4C1D95" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ 'grid':   '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="5" width="16.5" height="16.5" rx="4.5" fill="#4C1D95"/><rect x="26.5" y="5" width="16.5" height="16.5" rx="4.5" fill="#8B5CF6"/><rect x="5" y="26.5" width="16.5" height="16.5" rx="4.5" fill="#8B5CF6"/><rect x="26.5" y="26.5" width="16.5" height="16.5" rx="4.5" fill="#B9CE2E"/></svg>',
+ 'play':   '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="10" width="40" height="28" rx="7" fill="#4C1D95"/><path d="M20 18l11 6-11 6Z" fill="#B9CE2E"/></svg>',
+ 'code':   '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 13 5 24l11 11M32 13l11 11-11 11" fill="none" stroke="#8B5CF6" stroke-width="5.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 7 20 41" stroke="#4C1D95" stroke-width="5" stroke-linecap="round"/></svg>',
+ 'link':   '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M18 30l12-12" stroke="#B9CE2E" stroke-width="5" stroke-linecap="round"/><path d="M16 23l-4 4a8.5 8.5 0 0 0 12 12l4-4M32 25l4-4a8.5 8.5 0 0 0-12-12l-4 4" fill="none" stroke="#4C1D95" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ 'audit':  '<svg class="why__ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="20" cy="20" r="13" fill="#4C1D95"/><path d="M14 20.5l4.5 4.5L27 16" fill="none" stroke="#B9CE2E" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 30l12 12" stroke="#8B5CF6" stroke-width="5.4" stroke-linecap="round"/></svg>',
+}
+
 UPS = '&#8593;'
+
+# two more tiles in the .ui family, for the feature cards
+SHOP_TILE = ('<div class="ui"><div class="ui__bar"><span class="ui__name">Merchant Center'
+             '<span class="ui__sub">248 products, all approved</span></span>'
+             '<span class="ui__meta">Live</span></div>'
+             + ''.join('<div class="ui__prow"><span class="ui__thumb"></span>'
+                       '<span class="ui__pname"><b>%s</b><span>%s</span></span>'
+                       '<span class="ui__pprice">%s</span></div>' % r for r in
+                       [('Epoxy floor kit, 20sqm', 'In stock', '$489'),
+                        ('Polished concrete sealer', 'In stock', '$129'),
+                        ('Anti-slip additive, 4L', 'Low stock', '$74')])
+             + '<div class="ui__foot"><span class="ui__pill">%s 31%%</span> revenue'
+               '<span class="ui__big">$18.4K</span></div></div>' % UPS)
+
+RMKT_TILE = ('<div class="ui"><div class="ui__bar"><span class="ui__name">Audiences'
+             '<span class="ui__sub">Site visitors, last 30 days</span></span>'
+             '<span class="ui__meta">Active</span></div>'
+             + ''.join('<div class="ui__prow"><span class="ui__thumb"></span>'
+                       '<span class="ui__pname"><b>%s</b><span>%s</span></span>'
+                       '<span class="ui__pprice">%s</span></div>' % r for r in
+                       [('Visited, did not enquire', 'Dynamic', '4,120'),
+                        ('Viewed a product', 'Dynamic', '1,860'),
+                        ('Past customers', 'Standard', '640')])
+             + '<div class="ui__chan"><span class="on">Search</span><span class="on">Display</span>'
+               '<span class="on">YouTube</span><span>Gmail</span><span>Discover</span></div></div>')
 
 PAGE_CSS = io.open(os.path.join(HERE, 'page.css'), encoding='utf-8').read()
 PAGE_CSS = PAGE_CSS.replace('HERO_SRC', hero_b64)
@@ -182,10 +253,64 @@ def hero(cfg):
   </section>
 """ % (cfg['crumb'], cfg['h1'], cfg['lede'], cfg['cta'], proof))
 
+def badges():
+    """The certification strip out of the proposal. On white, because every
+    badge is artwork on a white plate and any other ground shows the plates."""
+    row = '\n'.join('      <img alt="%s" src="%s">' % (a, u) for a, u in BADGES)
+    return ('  <section class="badge">\n    <div class="badge__row">\n%s\n    </div>\n  </section>\n' % row)
+
 def trust():
     return ('  <section class="trust">\n'
             '    <p class="trust__label">Brands we have done this for</p>\n'
             '%s\n  </section>\n' % marquee)
+
+def tiles(items):
+    """The homepage channel-picker card, reused: white panel, display title,
+    grey body, lime chips. The hairline spec sheet read as admin."""
+    out = []
+    for ico, h, p, chips in items:
+        cs = ''.join('<span>%s</span>' % c for c in chips)
+        out.append('      <article class="tile">\n'
+                   '        %s\n'
+                   '        <h3>%s</h3>\n'
+                   '        <p>%s</p>\n'
+                   '        <div class="tile__chips">%s</div>\n'
+                   '      </article>' % (F[ico].replace('why__ico', 'tile__ico'), h, p, cs))
+    return '    <div class="tiles">\n' + '\n'.join(out) + '\n    </div>\n'
+
+def feat(cards):
+    out = []
+    for ico, h, body, ticks, shot in cards:
+        tk = ''
+        if ticks:
+            tk = ('        <ul class="fcard__ticks">\n'
+                  + '\n'.join('          <li>%s<span>%s</span></li>' % (I['tick'], t) for t in ticks)
+                  + '\n        </ul>\n')
+        out.append('      <article class="fcard">\n'
+                   '        <span class="fcard__ico">%s</span>\n'
+                   '        <h3>%s</h3>\n'
+                   '        <p>%s</p>\n%s'
+                   '        <div class="fcard__shot" aria-hidden="true">%s</div>\n'
+                   '      </article>' % (I[ico], h, body, tk, shot))
+    return '    <div class="feat">\n' + '\n'.join(out) + '\n    </div>\n'
+
+def features(kicker, lead, items):
+    rows = []
+    for n, (h, b) in enumerate(items):
+        rows.append('        <details class="sv" name="svcs"%s>\n'
+                    '          <summary>%s<span class="sv__pm" aria-hidden="true"></span></summary>\n'
+                    '          <div class="sv__body"><p>%s</p></div>\n'
+                    '        </details>' % (' open' if n == 0 else '', h, b))
+    return ('    <div class="svcs">\n'
+            '      <p class="svcs__tag"><i aria-hidden="true"></i>%s</p>\n'
+            '      <h2 class="svcs__lead">%s</h2>\n'
+            '      <div class="svcs__list">\n%s\n      </div>\n'
+            '      <div class="svcs__shot" role="img" aria-label="The DUNK team at work"></div>\n'
+            '    </div>\n' % (kicker, lead, '\n'.join(rows)))
+
+def features_band(idn, kicker, lead, items):
+    return ('  <section class="band band--paper" id="%s">\n%s  </section>\n'
+            % (idn, features(kicker, lead, items)))
 
 def spec(items):
     """Hairline-separated spec sheet, two up. Not six identical icon cards."""
@@ -230,43 +355,77 @@ def serp_overlay():
 def ads_overlay():
     return ('        <div class="proc__tile" aria-hidden="true">\n%s\n        </div>\n' % ADS_TILE)
 
-def compare(rows, title, lede):
+def compare(rows):
+    """The proposal's table: the wordmark in the header cell rather than the
+    word, purple icon tiles, and a red cross where the answer is simply no."""
     out = ['    <div class="ct">',
            '      <div class="ct__row ct__head">',
-           '        <span>Feature</span><span>DUNK</span><span>Typical agency</span>',
+           '        <span>Feature</span>',
+           '        <span class="ct__mark">%s</span>' % WORDMARK,
+           '        <span>Typical agency</span>',
            '      </div>']
     for ico, feat, other in rows:
+        cell = ('<span class="ct__x">%s</span>' % I['cross']) if other == 'NO' else other
         out.append('      <div class="ct__row">\n'
                    '        <span class="ct__feat"><i>%s</i>%s</span>\n'
                    '        <span class="ct__yes">%s</span>\n'
                    '        <span class="ct__no">%s</span>\n'
-                   '      </div>' % (I[ico], feat, I['tick'], other))
+                   '      </div>' % (I[ico], feat, I['tick'], cell))
     out.append('    </div>\n')
     return '\n'.join(out)
 
+def compare_band(idn, kicker, rows):
+    return ('  <section class="band band--dark ctband" id="%s">\n'
+            '    <div class="ct__head-copy">\n'
+            '      <h2>%s <span class="ct__logo">%s</span></h2>\n'
+            '    </div>\n%s  </section>\n' % (idn, kicker, WORDMARK, compare(rows)))
+
+PC_INC = ['End-to-end management', 'Full campaign setup', 'Conversion tracking',
+          'Advanced keyword research', 'New ads monthly', 'Ad copy testing',
+          'Transparent reports']
+
 def pricing(tiers, note):
-    out = ['    <div class="tier">']
+    """The proposal's card, down to the brushed-silver gradient, the purple
+    tier pill against a right-aligned price, the basketball bullets and the
+    featured card's plum wash. What is gone is the per-client framing: this
+    page is not addressed to one reader, so no tier is "not recommended"."""
+    inc = '\n'.join('          <li>%s<span>%s</span></li>' % (BALL, t) for t in PC_INC)
+    out = ['    <div class="pgrid">']
     for name, price, spend, desc, feat in tiers:
-        cls = ' tier__card--pick' if feat else ''
-        pick = '        <span class="tier__flag">Most taken</span>\n' if feat else ''
-        out.append('      <div class="tier__card%s">\n%s'
-                   '        <p class="tier__name">%s</p>\n'
-                   '        <p class="tier__price">%s<span>/week</span></p>\n'
-                   '        <p class="tier__spend">%s</p>\n'
-                   '        <p class="tier__desc">%s</p>\n'
-                   '        <a class="btn %s tier__btn" href="#contact">Get started</a>\n'
-                   '      </div>' % (cls, pick, name, price, spend, desc,
-                                     'btn--lime' if feat else 'btn--ink'))
+        out.append('      <div class="pcard%s">\n'
+                   '        <div class="pc-top">\n'
+                   '          <span class="pc-tier">%s</span>\n'
+                   '          <span class="pc-price">%s/<small>week</small></span>\n'
+                   '        </div>\n'
+                   '        <p class="pc-desc">Ad spend up to <b>%s.</b> %s</p>\n'
+                   '        <a class="pc-btn" href="#contact">Get started</a>\n'
+                   '        <p class="pc-micro">Billed monthly. Cancel any time (60 days notice)</p>\n'
+                   '        <div class="pc-inc-label">Included:</div>\n'
+                   '        <ul class="pc-inc">\n%s\n        </ul>\n'
+                   '      </div>' % (' pcard--feat' if feat else '', name, price, spend, desc, inc))
     out.append('    </div>')
-    out.append('    <p class="tier__note">%s</p>\n' % note)
+    out.append('    <p class="pnote">%s</p>\n' % note)
     return '\n'.join(out)
+
+def pricing_band(tiers, note):
+    """Its own head, not the two-column band head: the proposal puts the
+    Google Ads lockup and a rule above a left-aligned heading."""
+    return ('  <section class="band band--paper" id="pricing">\n'
+            '    <div class="plock">\n'
+            '      <img alt="Google Ads" src="%s">\n'
+            '      <span>Google Ads management</span>\n'
+            '    </div>\n'
+            '    <div class="phead">\n'
+            '      <h2>Management pricing by monthly ad spend</h2>\n'
+            '      <p>Management is the same at every level. The difference is how much ad spend we are\n'
+            '        running on your behalf, so you only step up when the results justify it.</p>\n'
+            '    </div>\n%s  </section>\n' % (GLOGO, pricing(tiers, note)))
 
 def includes(h2, lede, items):
     out = []
     for ico, h, p in items:
-        svg = I[ico].replace('<svg ', '<svg class="why__ico" ', 1)
         out.append('      <div class="why__item">\n        %s\n'
-                   '        <h3>%s</h3>\n        <p>%s</p>\n      </div>' % (svg, h, p))
+                   '        <h3>%s</h3>\n        <p>%s</p>\n      </div>' % (F[ico], h, p))
     return ('  <section class="whyus" id="includes">\n'
             '    <div class="whyus__head">\n'
             '      <h2>%s</h2>\n'
@@ -276,27 +435,22 @@ def includes(h2, lede, items):
             '  </section>\n' % (h2, lede, '\n'.join(out)))
 
 def cases(items):
+    """Photo cards: photograph, near-black scrim, then client, result and the
+    line about it stacked at the foot. The logo plate is gone; on three
+    different photographs a white plate reads as a sticker."""
     out = []
     for tint, name, trade, metric, label, text, tag, href in items:
-        out.append('      <a class="ccard ccard--%s" href="%s">\n'
-                   '        <div class="ccard__head">\n'
-                   '          <span class="ccard__mark"><img alt="%s" src="%s"></span>\n'
-                   '          <span class="ccard__id">\n'
-                   '            <span class="ccard__name">%s</span>\n'
-                   '            <span class="ccard__trade">%s</span>\n'
-                   '          </span>\n'
-                   '        </div>\n'
-                   '        <div class="ccard__body">\n'
-                   '          <p class="ccard__metric">%s%s</p>\n'
-                   '          <p class="ccard__label">%s</p>\n'
-                   '          <p class="ccard__text">%s</p>\n'
-                   '          <div class="ccard__foot">\n'
-                   '            <span class="ccard__tag">%s</span>\n'
-                   '            <span class="ccard__go">Read it <span aria-hidden="true">%s</span></span>\n'
-                   '          </div>\n'
-                   '        </div>\n'
-                   '      </a>' % (tint, href, name, LOGO[name], name, trade,
-                                   I['up'], metric, label, text, tag, I['arrow']))
+        out.append('      <a class="ccard ccard--%s" href="%s" style="--case-photo:url(&quot;%s&quot;)">\n'
+                   '        <span class="cc__ph" aria-hidden="true"></span>\n'
+                   '        <span class="cc__scrim" aria-hidden="true"></span>\n'
+                   '        <span class="cc__go" aria-hidden="true">%s</span>\n'
+                   '        <p class="cc__name">%s</p>\n'
+                   '        <p class="cc__metric">%s%s</p>\n'
+                   '        <p class="cc__label">%s</p>\n'
+                   '        <p class="cc__text">%s</p>\n'
+                   '        <span class="cc__tag">%s</span>\n'
+                   '      </a>' % (tint, href, CASE_PHOTO[name], I['arrow'], name,
+                                   I['up'], metric, label, text, tag))
     return ('  <section class="cases" id="results">\n'
             '    <div class="cases__head">\n'
             '      <h2>How Australian businesses grow with DUNK</h2>\n'
@@ -314,47 +468,8 @@ REVIEWS = [
   'Their expertise and dedication have taken our work to the next level, and the results have been remarkable. Highly recommend DUNK for anyone looking to boost their online presence.'),
 ]
 
-def reviews(extra=None):
-    rows = (extra or []) + REVIEWS
-    body = '\n'.join(
-      '        <article class="vcard">\n'
-      '          <div class="vcard__who">\n'
-      '            <span class="vcard__av vcard__av--%s" aria-hidden="true">%s</span>\n'
-      '            <div>\n'
-      '              <p class="vcard__name">%s</p>\n'
-      '              <p class="vcard__role"><i aria-hidden="true"></i>%s</p>\n'
-      '            </div>\n'
-      '          </div>\n'
-      '          <p class="vcard__quote">&ldquo;%s&rdquo;</p>\n'
-      '        </article>' % (tint, ini, name, role, q)
-      for ini, tint, name, role, q in rows[:3])
-    return ("""  <section class="voices" id="reviews">
-    <div class="voices__head">
-      <h2>Growth stories from our clients</h2>
-      <p class="voices__lede">Real experiences from the Australian businesses we run search and paid
-        for, in their own words.</p>
-    </div>
-
-    <div class="voices__stats">
-      <div class="vstat">
-        <p class="vstat__n">4.9 <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span></p>
-        <p class="vstat__l">Average Google rating</p>
-      </div>
-      <div class="vstat">
-        <p class="vstat__n">123</p>
-        <p class="vstat__l">Google reviews</p>
-      </div>
-      <div class="vstat">
-        <p class="vstat__n">300+</p>
-        <p class="vstat__l">Australian businesses grown</p>
-      </div>
-    </div>
-
-    <div class="voices__flat">
-%s
-    </div>
-  </section>
-""" % body)
+def reviews():
+    return VOICES + '\n'
 
 def faq(items, side_h2, cta):
     rows = []
@@ -428,8 +543,8 @@ CFG['seo'] = dict(
 
 CFG['ppc'] = dict(
   out='ppc.html',
-  title='Google Ads Melbourne | PPC Management | DUNK',
-  desc=('Google Ads management for Melbourne businesses. Search, Shopping, Display, YouTube, '
+  title='Google Ads Management Australia | PPC Agency | DUNK',
+  desc=('Google Ads management for Australian businesses. Search, Shopping, Display, YouTube, '
         'Performance Max and remarketing, run by a Google Premier Partner. No lock-in contracts.'),
   artifact_title='DUNK Google Ads Page',
   crumb='Google Ads',
@@ -522,7 +637,7 @@ SEO_FAQ = [
 # ---- PPC page content -----------------------------------------------------
 PPC_TYPES = [
  ('mag',   'Google Search Ads',
-  'We capture high-intent users searching for your products or services across Melbourne and Victoria.',
+  'We capture high-intent users searching for your products or services, wherever in Australia they are.',
   ['Exact and phrase', 'Negatives', 'Ad extensions']),
  ('cart',  'Google Shopping Ads',
   'We connect your product feed to Shopping campaigns that surface your inventory with pricing, imagery and reviews at the top of search results.',
@@ -542,15 +657,15 @@ PPC_TYPES = [
 ]
 
 PPC_STEPS = [
- ('Discovery audit', 'We review your existing account, your business model, your margins and your growth targets within the Melbourne market.', 'Week 1'),
- ('Keyword research', 'We map high-intent keywords across Melbourne and Victoria, analyse competitor bidding and define audience segments on local buyer behaviour.', 'Week 1'),
- ('Campaign structure', 'We architect campaigns with clean structures, tight ad groups and copy that speaks to Melbourne-specific buying intent.', 'Week 2'),
+ ('Discovery audit', 'We review your existing account, your business model, your margins and your growth targets.', 'Week 1'),
+ ('Keyword research', 'We map high-intent keywords across the markets you sell into, analyse competitor bidding and define audience segments on real buyer behaviour.', 'Week 1'),
+ ('Campaign structure', 'We architect campaigns with clean structures, tight ad groups and copy that speaks to how your buyers actually search.', 'Week 2'),
  ('Optimisation', 'We launch with proper conversion tracking in place and monitor daily. Bid adjustments, negative keywords, audience refinements and creative rotations happen continuously.', 'Ongoing'),
  ('Reporting', 'Clear monthly reports connecting ad performance to the metrics your business is measured on. Revenue, pipeline, CPA, ROAS.', 'Monthly'),
 ]
 
 PPC_COMPARE = [
- ('chart', 'Strategy built around revenue', 'Rarely'),
+ ('chart', 'Strategy built around revenue', 'NO'),
  ('audit', 'Senior marketers on the account', 'Sometimes'),
  ('doc',   'Transparent reporting', 'Limited'),
  ('spark', 'Direct access to your strategist', 'Often filtered'),
@@ -561,11 +676,11 @@ PPC_COMPARE = [
 ]
 
 PPC_TIERS = [
- ('Layup', '$139', 'Ad spend to $1,500 a month',
+ ('Layup', '$139', '$1,500 per month',
   '$30 to $40 a day sits inside this, with room to lift spend later without the fee changing.', False),
- ('Alley-oop', '$185', 'Ad spend to $3,000 a month',
+ ('Alley-oop', '$185', '$3,000 per month',
   'The step up once the first months justify putting more behind it.', True),
- ('Slam DUNK', '$275', 'Ad spend to $5,000 a month',
+ ('Slam DUNK', '$275', '$5,000 per month',
   'The tier for scaling, once your cost per enquiry is proven.', False),
 ]
 
@@ -578,9 +693,45 @@ PPC_INCLUDES = [
  ('flow',   'User journey heatmaps', 'See how people interact with your site, and convert more of them.'),
 ]
 
+PPC_FEATURES = [
+ ('Conversion tracking that actually works',
+  'Most accounts we inherit are counting the wrong thing, or counting it twice. We set up calls, forms '
+  'and sales properly before we touch a bid, because every decision after that depends on it.'),
+ ('Search terms managed weekly',
+  'The report shows what people typed, not just the keywords you bought. Anything irrelevant gets '
+  'negatived, and anything converting gets its own ad group.'),
+ ('Landing pages that match the ad',
+  'A click is wasted if the page does not answer the ad. We tell you which pages are losing the click '
+  'and what to change, and we will write the copy if you want us to.'),
+ ('Brand and non-brand kept apart',
+  'Brand search is cheap and converts on its own. Blending it into the account average hides what the '
+  'rest of your spend is really doing, so we separate them from day one.'),
+ ('Reporting on revenue, not clicks',
+  'Impressions and CTR are inputs. The report leads with enquiries, cost per enquiry and revenue, and a '
+  'plain sentence on what changed this month and why.'),
+]
+
+SEO_FEATURES = [
+ ('Technical fixes implemented, not listed',
+  'Plenty of agencies hand you a 90-page audit and wait. We do the work, in your site, and show you the '
+  'before and after in Search Console.'),
+ ('Content built from real search demand',
+  'Every page starts from something people actually search, mapped to where they are in the decision. '
+  'Nothing gets written to hit a word count.'),
+ ('A page set for every area you serve',
+  'One page listing twenty suburbs ranks for none of them. We build the pages and the Business Profile '
+  'signals that make each area winnable.'),
+ ('Links earned, never bought from networks',
+  'Placements on real Australian sites with real audiences, done in house. Nothing you will be '
+  'disavowing in a year, and we will clean up what a previous agency left behind.'),
+ ('Reporting on enquiries, not rankings',
+  'Positions are a means. The report leads with organic traffic, enquiries and revenue by page, so you '
+  'can see what the work bought you.'),
+]
+
 PPC_FAQ = [
  ('How much should I spend on Google Ads?',
-  'Enough to buy a readable number of clicks in your market. For most Melbourne trade and service businesses that is $1,000 to $2,000 a month to start, '
+  'Enough to buy a readable number of clicks in your market. For most Australian trade and service businesses that is $1,000 to $2,000 a month to start, '
   'and we would rather tell you the floor honestly than take a budget that cannot work.'),
  ('Is the ad spend on top of your fee?',
   'Yes. Management is a weekly fee billed monthly; ad spend goes straight to Google on your own card and never through us. '
@@ -611,7 +762,7 @@ def build(key):
           '            <div>\n              <h3>%s</h3>\n              <p>%s</p>\n            </div>\n'
           '          </li>' % (n, h, p) for n, (h, p) in enumerate(SEO_WHAT, 1))
         body = (
-          hero(c) + '\n' + trust() + '\n'
+          hero(c) + '\n' + badges() + '\n' + trust() + '\n'
           + band('paper', 'what-seo-does', 'What you are actually competing for',
                  'A search result is not a list of ten links any more. It is an answer, a map, a set of '
                  'questions and then the links, and SEO is the work of turning up in as many of those '
@@ -629,9 +780,10 @@ def build(key):
                  process(SEO_STEPS, "Two DUNK strategists working through a client's search plan",
                          serp_overlay()))
           + '\n'
-          + band('dark', 'compare', 'Why our SEO wins',
-                 'Here is exactly where we stack up against the agency you are probably comparing us to.',
-                 compare(SEO_COMPARE, None, None))
+          + features_band('features', 'What you get', 'The parts of an SEO programme we do '
+                          'differently, and why they matter.', SEO_FEATURES)
+          + '\n'
+          + compare_band('compare', 'Why our SEO wins at', SEO_COMPARE)
           + '\n'
           + includes('Every package includes',
                      'The same six things, whatever the scope of the work is.', SEO_INCLUDES)
@@ -649,18 +801,38 @@ def build(key):
                      '/services/meta-ads')]))
     else:
         body = (
-          hero(c) + '\n' + trust() + '\n'
-          + band('paper', 'ad-types', 'Google Ads services for Melbourne businesses',
-                 'Six campaign types, and the account usually needs two or three of them rather than all '
-                 'six. Which ones depends on what you sell and how people buy it.', spec(PPC_TYPES))
+          hero(c) + '\n' + badges() + '\n' + trust() + '\n'
+          + band('paper', 'ad-types', 'Google Ads services for Australian businesses',
+                 'Six campaign types, and an account usually needs two or three of them rather than all '
+                 'six. Which ones depends on what you sell and how people buy it.', tiles(PPC_TYPES))
           + '\n'
-          + band('dark', 'premier', 'An accredited Google Premier Partner in Melbourne',
+          + band('paper', 'capability', 'What are the different Google Ads services we offer?',
+                 'Three of them do most of the work for most accounts. Here is what each one actually '
+                 'looks like when it is running.',
+                 feat([('mag', 'Google Search &amp; Display',
+                        'Search catches the people already looking for what you sell. Display keeps you in '
+                        'front of them through a longer decision.',
+                        ['Exact and phrase match', 'Negative keyword lists', 'Responsive search ads',
+                         'Placement and audience control'], ADS_TILE),
+                       ('cart', 'Google Shopping for eCommerce',
+                        'Your product feed, surfaced with pricing, imagery and reviews at the top of the '
+                        'results page, and kept clean so nothing gets disapproved.',
+                        None, SHOP_TILE),
+                       ('cycle', 'Remarketing and retargeting',
+                        'The people who visited and did not enquire are the cheapest audience you have. '
+                        'Dynamic remarketing pulls the exact products they looked at.',
+                        None, RMKT_TILE)]))
+          + '\n'
+          + features_band('features', 'What you get', 'The parts of a Google Ads account we do '
+                          'differently, and why they matter.', PPC_FEATURES)
+          + '\n'
+          + band('dark', 'premier', 'An accredited Google Premier Partner',
                  'Premier Partner status puts us in the top 3% of Google Ads agencies in Australia.',
                  '    <div class="prem">\n'
                  '      <div class="prem__body">\n'
-                 '        <p>For Melbourne clients that means access to beta features before they reach the '
-                 'broader market, a dedicated Google support channel, and performance benchmarks against '
-                 'other Melbourne advertisers.</p>\n'
+                 '        <p>It means access to beta features before they reach the broader market, a '
+                 'dedicated Google support channel, and performance benchmarks against other Australian '
+                 'advertisers.</p>\n'
                  '        <p>We earned the status through consistent campaign performance. We keep it by '
                  'delivering results that meet Google&rsquo;s standards year after year.</p>\n'
                  '        <a class="btn btn--lime" href="#contact">Get a free paid audit'
@@ -672,21 +844,11 @@ def build(key):
                  '        <p class="prem__lab">of Google Ads agencies in Australia hold Premier Partner status</p>\n'
                  '      </div>\n    </div>\n' % GLOGO)
           + '\n'
-          + band('dark', 'process', 'How we manage Google Ads campaigns',
-                 'Five stages. You see the discovery audit before you commit to anything.',
-                 process(PPC_STEPS, 'Two DUNK strategists working through a client account',
-                         ads_overlay()))
+          + compare_band('compare', 'Why our ads win at', PPC_COMPARE)
           + '\n'
-          + band('dark', 'compare', 'Why our ads win',
-                 'Here is exactly where we stack up against the agency you are probably comparing us to.',
-                 compare(PPC_COMPARE, None, None))
-          + '\n'
-          + band('paper', 'pricing', 'Management pricing by monthly ad spend',
-                 'Management is the same at every level. The difference is how much ad spend we are '
-                 'running on your behalf, so you only step up when the results justify it.',
-                 pricing(PPC_TIERS,
-                         'Ad spend is separate and goes straight to Google on your own card, never '
-                         'through us. Billed monthly, cancel any time with 60 days notice.'))
+          + pricing_band(PPC_TIERS,
+                         'All prices exclude GST and exclude ad spend, which is paid directly to Google. '
+                         'Higher spend tiers are available on request.')
           + '\n'
           + includes('Every package includes',
                      'The same six things, whatever you are spending.', PPC_INCLUDES)

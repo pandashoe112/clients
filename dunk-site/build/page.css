@@ -202,6 +202,47 @@
     .what{grid-template-columns:minmax(0,1fr);}
   }
 
+  /* ---------- service tiles ----------
+     The homepage channel-picker card, reused: white panel, display-size
+     title, grey body, lime chips. A hairline spec sheet read as a list of
+     admin rather than a set of things you can buy. */
+  .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;}
+  .tile{
+    display:flex;flex-direction:column;
+    padding:1.6rem 1.5rem 1.7rem;
+    border:1px solid rgba(0,0,0,.09);
+    border-radius:1.25rem;
+    background:#fff;
+    box-shadow:0 1px 2px rgba(0,0,0,.04), 0 10px 28px rgba(0,0,0,.07);
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .tile:hover{
+    transform:translateY(-4px);
+    border-color:rgba(0,0,0,.16);
+    box-shadow:0 2px 4px rgba(0,0,0,.06), 0 20px 44px rgba(0,0,0,.12);
+  }
+  .tile__ico{display:block;width:2.5rem;height:2.5rem;margin:0 0 1.15rem;}
+  .tile h3{
+    margin:0;
+    font-family:var(--font-head);
+    font-size:1.4375rem;line-height:1.2;letter-spacing:-.022em;font-weight:700;
+    color:var(--ink-dark);text-wrap:balance;
+  }
+  .tile p{margin:.6rem 0 0;font-size:1rem;line-height:1.5;color:#4f4f4f;text-wrap:pretty;}
+  .tile__chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:1.35rem 0 0;}
+  .tile__chips span{
+    padding:.35rem .7rem;
+    border-radius:var(--radius-full);
+    background:#E8FCA6;color:#2F3D00;
+    font-size:.8125rem;font-weight:600;
+  }
+  @media (max-width:1024px){
+    .tiles{grid-template-columns:repeat(2,minmax(0,1fr));}
+  }
+  @media (max-width:640px){
+    .tiles{grid-template-columns:minmax(0,1fr);}
+  }
+
   /* ---------- what is included ----------
      A spec sheet, not six identical icon cards: one hairline-separated row per
      deliverable, two up, so the list scans as a list. */
@@ -384,25 +425,6 @@
   /* ---------- reviews, static ----------
      The homepage runs these on three auto-scrolling rails. A service page has
      one job, so here it is three cards and the proof bar, nothing moving. */
-  /* white rather than --paper: the case-study band directly above is already
-     --paper, and two of them in a row read as one long panel */
-  .voices{background:#fff;}
-  .voices__head{
-    display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
-    gap:clamp(1.5rem,4vw,4rem);align-items:end;text-align:left;
-    max-width:none;
-    padding-bottom:clamp(1.75rem,3vw,2.5rem);
-    border-bottom:1px solid rgba(0,0,0,.11);
-  }
-  .voices__head h2{font-size:clamp(1.875rem,3.4vw,3rem);}
-  .voices__lede{margin:0;max-width:38rem;}
-  .voices__flat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;}
-  .voices__flat .vcard{background:#FBFBF9;}
-  @media (max-width:900px){
-    .voices__head{grid-template-columns:minmax(0,1fr);align-items:start;gap:1.25rem;}
-    .voices__flat{grid-template-columns:minmax(0,1fr);}
-  }
-
   /* the marquee sits on the page ground here, not inside a dark section */
   .trust{
     padding:clamp(2rem,3.5vw,3rem) 0 clamp(.5rem,1vw,1rem);
@@ -480,60 +502,110 @@
     .ct__feat i{display:none;}
   }
 
-  /* ---------- pricing tiers ---------- */
-  .tier{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;align-items:start;}
-  .tier__card{
-    position:relative;
+  /* ---------- pricing ----------
+     Ported from the supplied proposal rather than re-invented, down to the
+     brushed-silver gradient, the 4px dot texture over it, the purple tier
+     pill against a right-aligned price, and the featured card's plum wash
+     with its lime button and inverted bullets. Variable names are the site's;
+     every value is the proposal's. */
+  .pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:center;}
+  .pcard{
+    position:relative;overflow:hidden;
     display:flex;flex-direction:column;
-    padding:1.85rem 1.6rem 1.6rem;
-    border:1px solid rgba(0,0,0,.09);
-    border-radius:1.5rem;
-    background:#fff;
-    box-shadow:0 1px 2px rgba(0,0,0,.05), 0 12px 32px rgba(0,0,0,.07);
+    padding:24px 22px 26px;
+    border-radius:22px;
+    background:linear-gradient(150deg,#D9D9DF 0%,#FFFFFF 34%,#FFFFFF 78%,#E9E9EE 100%);
+    box-shadow:0 16px 44px rgba(22,22,38,.12);
   }
-  /* the taken tier is raised rather than recoloured, so the set still reads
-     as three of the same thing */
-  .tier__card--pick{
-    border-color:rgba(0,0,0,.14);
-    box-shadow:0 2px 4px rgba(0,0,0,.07), 0 24px 54px rgba(0,0,0,.14);
-    transform:translateY(-.65rem);
+  .pcard::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;
+    background-image:radial-gradient(rgba(22,22,38,.08) .8px, transparent .8px);
+    background-size:4px 4px;
   }
-  .tier__flag{
-    position:absolute;top:-.7rem;left:1.6rem;
-    padding:.25rem .65rem;border-radius:var(--radius-full);
-    background:var(--lime);color:var(--ink-dark);
-    font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  .pcard > *{position:relative;z-index:1;}
+  .pc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;}
+  .pc-tier{
+    margin-top:5px;padding:7px 15px;
+    border-radius:999px;
+    background:#5B31C4;color:#fff;
+    font-size:12.5px;font-weight:700;white-space:nowrap;
   }
-  .tier__name{
-    margin:0;
+  .pc-price{
     font-family:var(--font-head);
-    font-size:1.0625rem;font-weight:700;letter-spacing:-.015em;
+    font-weight:800;line-height:1;
+    font-size:clamp(26px,2.5vw,34px);
+    letter-spacing:-.02em;
+    -webkit-text-stroke:.4px currentColor;
+    text-align:right;white-space:nowrap;
   }
-  .tier__price{
-    display:flex;align-items:baseline;gap:.25rem;
-    margin:.5rem 0 0;
-    font-family:var(--font-head);
-    font-size:clamp(2.25rem,3.4vw,2.875rem);
-    font-weight:700;letter-spacing:-.045em;line-height:1;
-    font-variant-numeric:tabular-nums;
+  .pc-price small{
+    font-family:var(--font-body);
+    font-weight:500;font-size:15px;color:#6b6b73;
+    -webkit-text-stroke:0;letter-spacing:0;
   }
-  .tier__price span{font-size:.9375rem;font-weight:500;letter-spacing:0;color:#6b6b73;}
-  .tier__spend{
-    margin:1rem 0 0;padding:.4rem .7rem;
-    align-self:flex-start;
-    border-radius:var(--radius-full);
-    background:#F2F2EE;
-    font-size:.8125rem;font-weight:600;color:#3f3f46;
+  .pc-desc{margin:0 0 18px;font-size:15px;line-height:1.6;color:#3A3A4C;}
+  .pc-desc b{color:var(--ink-dark);font-weight:800;}
+  .pc-btn{
+    display:block;width:100%;
+    padding:13px 18px;
+    border-radius:12px;
+    background:#0A0A0F;color:#fff;
+    font-family:var(--font-body);
+    font-size:14px;font-weight:800;text-align:center;
+    transition:transform .15s ease, box-shadow .15s ease;
   }
-  .tier__desc{margin:1rem 0 1.5rem;font-size:.9375rem;line-height:1.6;color:#54545a;}
-  .tier__btn{width:100%;justify-content:center;margin-top:auto;}
-  .tier__note{
-    margin:1.75rem auto 0;max-width:44rem;text-align:center;
-    font-size:.9375rem;line-height:1.6;color:#54545a;
+  .pc-btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(10,10,15,.3);}
+  .pc-micro{margin:11px 0 20px;text-align:center;font-size:11.5px;line-height:1.5;color:#6b6b73;}
+  .pc-inc-label{
+    margin-bottom:10px;
+    font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+    color:var(--ink-dark);
   }
+  .pc-inc{
+    flex:1;
+    list-style:none;margin:0;padding:17px 16px;
+    border-radius:13px;
+    background:rgba(228,228,233,.75);
+    display:flex;flex-direction:column;gap:11px;
+  }
+  .pc-inc li{
+    display:flex;align-items:flex-start;gap:10px;
+    font-size:13px;font-weight:600;line-height:1.45;color:var(--ink-dark);
+  }
+  .pc-ball{width:14px;height:14px;flex-shrink:0;margin-top:2px;}
+  .pc-ball svg{width:100%;height:100%;display:block;}
+  .pc-ball .b-fill{fill:#161626;}
+  .pc-ball .b-seam{stroke:#F1F1F4;stroke-width:1.6;fill:none;}
+
+  .pcard--feat{
+    padding:32px 22px 34px;
+    color:#fff;
+    background:
+      radial-gradient(ellipse 100% 42% at 32% -4%, rgba(139,92,246,.6) 0%, rgba(139,92,246,0) 55%),
+      linear-gradient(180deg,#5B21E6 0%,#2A1258 44%,#14101F 76%,#131022 100%);
+    box-shadow:0 30px 70px rgba(21,10,46,.45);
+  }
+  .pcard--feat::before{
+    opacity:.5;
+    background-image:radial-gradient(rgba(255,255,255,.08) .8px, transparent .8px);
+    background-size:5px 5px;
+  }
+  .pcard--feat .pc-tier{background:#fff;color:var(--ink-dark);}
+  .pcard--feat .pc-price{color:#fff;}
+  .pcard--feat .pc-price small{color:rgba(255,255,255,.72);}
+  .pcard--feat .pc-desc{color:rgba(255,255,255,.92);}
+  .pcard--feat .pc-desc b{color:#fff;}
+  .pcard--feat .pc-btn{background:var(--lime);color:var(--ink-dark);box-shadow:0 12px 30px rgba(215,242,76,.35);}
+  .pcard--feat .pc-btn:hover{box-shadow:0 16px 36px rgba(215,242,76,.5);}
+  .pcard--feat .pc-micro{color:rgba(255,255,255,.75);}
+  .pcard--feat .pc-inc-label{color:#fff;}
+  .pcard--feat .pc-inc{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.12);}
+  .pcard--feat .pc-inc li{color:#fff;}
+  .pcard--feat .pc-ball .b-fill{fill:#EDE9FB;}
+  .pcard--feat .pc-ball .b-seam{stroke:#2A1258;}
+  .pnote{margin:1.75rem auto 0;max-width:44rem;text-align:center;font-size:.9375rem;line-height:1.6;color:#54545a;}
   @media (max-width:860px){
-    .tier{grid-template-columns:minmax(0,1fr);}
-    .tier__card--pick{transform:none;}
+    .pgrid{grid-template-columns:minmax(0,1fr);}
   }
 
   /* ---------- a platform tile lapping the process photo ----------
@@ -578,4 +650,294 @@
   @media (max-width:860px){
     .prem{grid-template-columns:minmax(0,1fr);}
     .prem__badge{max-width:22rem;}
+  }
+
+  /* ---------- feature cards ----------
+     Three tinted cards, each with a circular icon badge, and a mock panel
+     pinned to the bottom so the card shows the thing rather than describing
+     it. The panels are the same .ui vocabulary the homepage tiles use, so
+     they inherit its type scale and row rhythm instead of inventing another. */
+  .feat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;align-items:stretch;}
+  .fcard{
+    display:flex;flex-direction:column;
+    padding:1.75rem 1.6rem 0;
+    border-radius:1.5rem;
+    background:#EFF1E7;
+    border:1px solid rgba(0,0,0,.05);
+    overflow:hidden;
+  }
+  .fcard__ico{
+    display:flex;align-items:center;justify-content:center;
+    width:3.5rem;height:3.5rem;margin:0 0 1.5rem;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 1px 3px rgba(0,0,0,.07);
+  }
+  .fcard__ico svg{width:1.75rem;height:1.75rem;}
+  .fcard h3{
+    margin:0;
+    font-family:var(--font-head);
+    font-size:clamp(1.3125rem,1.9vw,1.5rem);
+    line-height:1.2;letter-spacing:-.024em;font-weight:600;
+    color:var(--ink-dark);text-wrap:balance;
+  }
+  .fcard p{margin:.9rem 0 0;font-size:1rem;line-height:1.55;color:#4f4f4f;}
+  .fcard__ticks{
+    list-style:none;margin:1.15rem 0 0;padding:0;
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem .9rem;
+  }
+  .fcard__ticks li{
+    display:flex;align-items:flex-start;gap:.55rem;
+    font-size:.9375rem;line-height:1.35;color:var(--ink-dark);
+  }
+  .fcard__ticks svg{flex:0 0 auto;width:1.05rem;height:1.05rem;margin-top:.1rem;color:#5B7A00;}
+  /* the panel bleeds off the bottom of the card, which is what stops the
+     three cards needing equal amounts of copy to look right */
+  .fcard__shot{
+    margin:auto -1.6rem 0;padding:1.6rem 1.6rem 0;
+    display:flex;justify-content:center;
+  }
+  .fcard__shot .ui{width:min(20rem,100%);box-shadow:0 10px 26px rgba(0,0,0,.14);}
+  @media (max-width:1000px){
+    .feat{grid-template-columns:minmax(0,1fr);}
+    .fcard__shot .ui{width:min(24rem,100%);}
+  }
+
+  /* ---------- mini mock panels ----------
+     Two more tiles in the .ui family, for the feature cards. Same head, row
+     and foot rhythm as the homepage tiles; only the row contents differ. */
+  .ui__prow{
+    display:grid;grid-template-columns:2.4rem minmax(0,1fr) auto;
+    gap:.6rem;align-items:center;
+    padding:.5rem .85rem;
+    border-bottom:1px solid rgba(0,0,0,.05);
+  }
+  .ui__thumb{
+    height:2.4rem;border-radius:.4rem;
+    background:linear-gradient(150deg,#E6E1FA,#C9BEF3);
+  }
+  .ui__pname{display:grid;min-width:0;}
+  .ui__pname b{font-weight:600;font-size:.75rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ui__pname span{color:#8a8a92;font-size:.625rem;}
+  .ui__pprice{font-weight:700;font-size:.8125rem;font-variant-numeric:tabular-nums;}
+  .ui__chan{
+    display:flex;flex-wrap:wrap;gap:.35rem;
+    padding:.7rem .85rem .8rem;
+  }
+  .ui__chan span{
+    padding:.2rem .5rem;border-radius:.35rem;
+    background:#F1F1EE;color:#3f3f46;
+    font-size:.625rem;font-weight:600;
+  }
+  .ui__chan span.on{background:#E6E1FA;color:#2A1D63;}
+
+  /* ---------- certification strip ----------
+     White, because every badge is artwork on its own white plate and any
+     other ground shows the plates as rectangles. */
+  .badge{
+    margin-top:var(--shell);
+    padding:clamp(1.75rem,3vw,2.75rem) var(--edge);
+    border-radius:var(--radius-main);
+    background:#fff;
+  }
+  .badge__row{
+    max-width:var(--max);margin-inline:auto;
+    display:flex;align-items:center;justify-content:center;
+    flex-wrap:wrap;gap:clamp(2rem,5vw,4.75rem);
+  }
+  .badge__row img{height:4.25rem;width:auto;display:block;object-fit:contain;}
+  .badge__row img:last-child{
+    height:3rem;
+    border:1px solid rgba(0,0,0,.10);border-radius:6px;
+  }
+  @media (max-width:640px){
+    .badge__row{gap:1.75rem;}
+    .badge__row img{height:3rem;}
+    .badge__row img:last-child{height:2.25rem;}
+  }
+
+  /* ---------- comparison band ----------
+     Its own centred head with the wordmark set inline, and the dot texture
+     the proposal puts behind it. */
+  .ctband{position:relative;isolation:isolate;overflow:hidden;}
+  .ctband::before{
+    content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.3;
+    background-image:radial-gradient(rgba(255,255,255,.09) 1px, transparent 1px);
+    background-size:24px 24px;
+  }
+  .ct__head-copy{max-width:var(--max);margin:0 auto clamp(2.5rem,4vw,3.5rem);text-align:center;}
+  .ct__head-copy h2{
+    display:flex;align-items:center;justify-content:center;gap:.75rem;flex-wrap:wrap;
+    margin:0;
+    font-family:var(--font-head);
+    font-size:clamp(1.875rem,3.4vw,3rem);
+    line-height:1.06;letter-spacing:-.035em;font-weight:600;
+  }
+  .ct__logo{display:inline-flex;align-items:center;}
+  .ct__logo svg{height:1em;width:auto;display:block;color:#fff;}
+  .ct__mark svg{height:1.1rem;width:auto;display:block;margin-inline:auto;color:#fff;}
+  .ct__x svg{
+    width:1.5rem;height:1.5rem;
+    padding:.3rem;box-sizing:content-box;
+    border-radius:50%;
+    background:#E0463C;color:#fff;
+  }
+
+  /* ---------- pricing head ---------- */
+  .plock{
+    display:flex;align-items:center;gap:1rem;
+    max-width:var(--max);margin:0 auto clamp(1.5rem,2.5vw,2rem);
+    padding-bottom:clamp(1.25rem,2vw,1.5rem);
+    border-bottom:1px solid rgba(0,0,0,.11);
+  }
+  .plock img{height:1.75rem;width:auto;display:block;}
+  .plock span{
+    padding-left:1rem;
+    border-left:1px solid rgba(0,0,0,.14);
+    font-size:.8125rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:#54545a;
+  }
+  .phead{max-width:var(--max);margin:0 auto clamp(2.25rem,4vw,3rem);}
+  .phead h2{
+    margin:0;max-width:26ch;
+    font-family:var(--font-head);
+    font-size:clamp(1.875rem,3.4vw,2.75rem);
+    line-height:1.06;letter-spacing:-.035em;font-weight:600;
+  }
+  .phead p{margin:1rem 0 0;max-width:42rem;font-size:1.0625rem;line-height:1.6;color:#54545a;}
+  .pgrid,.pnote{max-width:var(--max);margin-inline:auto;}
+
+  /* ---------- service features ----------
+     Eyebrow and heading on the top row, an accordion of features bottom left
+     against a photograph bottom right. The label sits in its own cell rather
+     than stacked over the heading, which is what keeps it a label. */
+  .svcs{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:clamp(1.5rem,4vw,4rem) clamp(2rem,5vw,5rem);
+    align-items:start;
+  }
+  .svcs__tag{
+    display:flex;align-items:center;gap:.6rem;margin:0;
+    font-size:.8125rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:#54545a;
+  }
+  .svcs__tag i{width:.45rem;height:.45rem;border-radius:50%;background:#B9CE2E;flex:0 0 auto;}
+  .svcs__lead{
+    margin:0;
+    font-family:var(--font-head);
+    font-size:clamp(1.875rem,3.4vw,2.875rem);
+    line-height:1.08;letter-spacing:-.035em;font-weight:600;
+    color:var(--ink-dark);text-wrap:balance;
+  }
+  .svcs__list{border-top:1px solid rgba(0,0,0,.12);}
+  .sv{border-bottom:1px solid rgba(0,0,0,.12);}
+  .sv summary{
+    display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+    padding:1.35rem 0;
+    cursor:pointer;list-style:none;
+    font-family:var(--font-head);
+    font-size:clamp(1.25rem,2vw,1.625rem);
+    line-height:1.15;letter-spacing:-.026em;font-weight:600;
+    color:var(--ink-dark);
+  }
+  .sv summary::-webkit-details-marker{display:none;}
+  .sv summary:focus-visible{outline:2px solid #5B7A00;outline-offset:3px;}
+  .sv__pm{position:relative;width:1rem;height:1rem;flex:0 0 auto;}
+  .sv__pm::before,.sv__pm::after{
+    content:"";position:absolute;left:0;top:50%;
+    width:1rem;height:1.5px;background:var(--ink-dark);
+    transition:transform .25s ease;
+  }
+  .sv__pm::after{transform:rotate(90deg);}
+  .sv[open] .sv__pm::after{transform:rotate(0deg);}
+  .sv[open] summary{padding-bottom:.6rem;}
+  .sv__body{padding:0 3rem 1.5rem 0;max-width:38rem;font-size:1rem;line-height:1.6;color:#4f4f4f;}
+  .sv__body p{margin:0;}
+  .svcs__shot{
+    border-radius:1.25rem;
+    overflow:hidden;
+    aspect-ratio:4 / 5;
+    background-image:var(--photo-studio);
+    background-size:cover;background-position:50% 40%;
+    box-shadow:0 2px 4px rgba(0,0,0,.08), 0 20px 48px rgba(0,0,0,.14);
+  }
+  @media (max-width:900px){
+    .svcs{grid-template-columns:minmax(0,1fr);}
+    .svcs__shot{aspect-ratio:4 / 3;}
+  }
+
+  /* ---------- case tiles, as photo cards ----------
+     Overrides the homepage's tinted card: photograph, near-black scrim, and
+     the client, the result and the line about it stacked at the foot. The
+     per-card hue tokens still drive the service chip, which is the only
+     colour that survives on a photograph. */
+  .cases__grid .ccard{
+    position:relative;isolation:isolate;overflow:hidden;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    aspect-ratio:4 / 5;
+    padding:1.6rem;
+    border:0;border-radius:1.5rem;
+    background:#14111C;color:#fff;
+    box-shadow:0 2px 4px rgba(0,0,0,.10), 0 18px 44px rgba(0,0,0,.20);
+  }
+  .cases__grid .ccard:hover{
+    transform:translateY(-5px);
+    box-shadow:0 3px 6px rgba(0,0,0,.12), 0 26px 60px rgba(0,0,0,.28);
+  }
+  .cc__ph{
+    position:absolute;inset:0;z-index:-2;
+    background-image:var(--case-photo);
+    background-size:cover;background-position:50% 45%;
+    transition:transform .7s cubic-bezier(.16,1,.3,1);
+  }
+  .ccard:hover .cc__ph{transform:scale(1.05);}
+  /* near-black rather than a hue: three different photographs have to end up
+     on the same value for the type to read the same on all three */
+  .cc__scrim{
+    position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(0deg,
+      rgba(10,9,14,.94) 0%,
+      rgba(10,9,14,.86) 34%,
+      rgba(10,9,14,.62) 58%,
+      rgba(10,9,14,.34) 78%,
+      rgba(10,9,14,.18) 100%);
+  }
+  .cc__go{
+    position:absolute;top:1.35rem;right:1.35rem;z-index:1;
+    display:flex;align-items:center;justify-content:center;
+    width:2.4rem;height:2.4rem;border-radius:50%;
+    background:var(--lime);color:var(--ink-dark);
+    transition:transform .2s ease;
+  }
+  .cc__go svg{width:.95rem;height:.95rem;}
+  .ccard:hover .cc__go{transform:translateX(.2rem);}
+  .cc__name{
+    margin:0 0 .9rem;
+    font-size:.8125rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:rgba(255,255,255,.72);
+  }
+  .cc__metric{
+    display:flex;align-items:center;gap:.3rem;
+    margin:0;
+    font-family:var(--font-head);
+    font-size:clamp(2.5rem,4vw,3.25rem);
+    font-weight:700;letter-spacing:-.05em;line-height:.92;
+    color:#fff;font-variant-numeric:tabular-nums;
+  }
+  .cc__metric svg{width:.6em;height:.6em;flex:0 0 auto;color:var(--lime);}
+  .cc__label{
+    margin:.6rem 0 0;
+    font-family:var(--font-head);
+    font-size:1.0625rem;font-weight:600;line-height:1.3;letter-spacing:-.018em;
+    color:#fff;
+  }
+  .cc__text{margin:.75rem 0 1.25rem;font-size:.9375rem;line-height:1.55;color:rgba(255,255,255,.8);}
+  .cc__tag{
+    align-self:flex-start;
+    padding:.3rem .7rem;border-radius:var(--radius-full);
+    background:rgba(255,255,255,.14);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    font-size:.75rem;font-weight:700;color:#fff;
   }
