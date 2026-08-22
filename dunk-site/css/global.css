@@ -1,3 +1,21 @@
+/* Two real cuts, so a heading can out-weigh the text under it instead of
+   having to out-size it. 600 resolves to the bold file, which is what the
+   headings across this stylesheet ask for. */
+@font-face{
+  font-family:'Sahar';
+  src:url('/fonts/sahar-regular.woff2') format('woff2');
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:'Sahar';
+  src:url('/fonts/sahar-bold.woff2') format('woff2');
+  font-weight:700;
+  font-style:normal;
+  font-display:swap;
+}
+
 :root{
   --page:#EFEEEB;
   --ink:#ffffff;
@@ -36,11 +54,11 @@
   --photo-focus:url("/img/photo-focus.jpg");
   --photo-studio:url("/img/photo-studio.jpg");
   --mark-google:url("/img/mark-google.webp");
-  --font-body:'Geist',system-ui,-apple-system,sans-serif;
-  /* General Sans first, Plus Jakarta Sans behind it: the two are the same
-     geometric-humanist genre, so the fallback shifts metrics slightly and
-     nothing else. Instrument Serif is the accent face, wired and unused. */
-  --font-head:'General Sans','Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  --font-body:'Manrope',system-ui,-apple-system,sans-serif;
+  /* Sahar is the display face and ships from /fonts as a single bold cut.
+     Plus Jakarta Sans sits behind it as a same-genre fallback for the moment
+     before it loads. Instrument Serif is the accent face, wired and unused. */
+  --font-head:'Sahar','Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
   --font-style:'Instrument Serif',Georgia,'Times New Roman',serif;
 }
 

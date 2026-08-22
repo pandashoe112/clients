@@ -1172,7 +1172,7 @@ body{background:var(--page);color:var(--ink-dark);}
 .ncard h3{
   margin:0;
   font-family:var(--font-head);
-  font-size:1.3125rem;line-height:1.2;letter-spacing:-.022em;font-weight:600;
+  font-size:1.375rem;line-height:1.18;letter-spacing:-.024em;font-weight:700;
   color:#fff;text-wrap:balance;
 }
 .ncard p{
