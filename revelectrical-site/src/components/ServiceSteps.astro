@@ -22,7 +22,7 @@ const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : i >= 3 ? '
       )}
     </div>
 
-    <ol class="steps" id="steps">
+    <ol class={`steps steps--${Math.min(steps.length, 5)}`} id="steps">
       {steps.map((step, i) => (
         <li class={`step reveal ${delay(i)}`}>
           <span class="step__wire" aria-hidden="true"><span class="step__charge"></span></span>

@@ -97,7 +97,10 @@
 .band__top--figure .band__head{max-width:none}
 .band__intro{margin-top:18px}
 .band .bandgrid{margin-top:clamp(30px,3.4vw,46px)}
+/* A spec panel that is its own section, rather than a table tucked under a
+   set of cards, gets more of the width - it is the thing the section is for. */
 .band .specpanel{margin-top:clamp(26px,3vw,38px);max-width:760px}
+.band:not(:has(.bandgrid)) .specpanel{max-width:920px}
 .band .smallprint{margin-top:16px}
 .band__cta{margin-top:clamp(28px,3vw,38px)}
 

@@ -247,6 +247,11 @@ button{font:inherit}
    ============================================================ */
 .process__head{max-width:62ch;margin:0 0 clamp(44px,5vw,68px)}
 .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,2.6vw,34px)}
+/* The column count follows the number of steps. At four columns a five-step
+   process dropped its last step onto a line of its own, which read as an
+   afterthought rather than the end of the sequence. */
+.steps--5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.steps--2{grid-template-columns:repeat(2,minmax(0,1fr))}
 /* The responsive rules further down still apply: they come later in the file. */
 .steps--3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .step{position:relative;padding-top:0}
@@ -290,8 +295,15 @@ button{font:inherit}
 .diffitem{background:var(--deep);padding:clamp(26px,2.6vw,34px);transition:background-color .25s ease}
 .diffitem:hover{background:var(--deep-card)}
 .diffitem__icon{width:42px;height:42px;border-radius:var(--r-sm);background:rgba(182,237,62,.14);display:grid;place-items:center;color:var(--lime);margin:0 0 18px}
-.diffitem__title{margin:0 0 8px;color:var(--cream)}
-.diffitem__text{margin:0;color:var(--muted-light);font-size:.9375rem;line-height:1.6}
+/* Card titles carry the point - they are what gets read - so they share one
+   scale across the why-us grid, the brand bands and the product cards rather
+   than each section quietly picking its own. */
+.diffitem__title,.banditem__title,.prodcard__h{
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(1.125rem,1.35vw,1.3125rem);line-height:1.28;letter-spacing:-.015em;
+  margin:0 0 10px}
+.diffitem__title{color:var(--cream)}
+.diffitem__text{margin:0;color:var(--muted-light);font-size:.9688rem;line-height:1.62}
 
 /* ============================================================
    WORK
@@ -391,6 +403,10 @@ button{font:inherit}
 /* ============================================================
    RESPONSIVE
    ============================================================ */
+/* Five narrow columns hold at desktop width and no lower. */
+@media (max-width:1280px){
+  .steps--5{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
 @media (max-width:1080px){
   .sitenav{display:none}
   .hero__inner{grid-template-columns:1fr}
