@@ -1010,6 +1010,151 @@
     .cases__grid{grid-template-columns:minmax(0,1fr);}
   }
 
+  /* ---------- strategy call ----------
+     The panel used to be a white card inside the plum card, with a third
+     bordered card inside that. Three nested containers to say one thing.
+     Now the copy sits straight on the plum and the booking card is the only
+     card in the section, so there is exactly one object to look at. */
+  .call{
+    position:relative;isolation:isolate;
+    margin-top:var(--shell);
+    padding:clamp(2.75rem,5.5vw,5.5rem) var(--edge);
+    border-radius:var(--radius-main);
+    background:
+      radial-gradient(ellipse 62% 70% at 8% 0%, rgba(var(--purple-accent),.30) 0%, rgba(var(--purple-accent),0) 62%),
+      radial-gradient(ellipse 50% 60% at 100% 100%, rgba(255,111,196,.10) 0%, rgba(255,111,196,0) 60%),
+      #1C1729;
+    color:#fff;
+    overflow:hidden;
+  }
+  /* the brand pixel motif as ground texture rather than a corner sticker:
+     masked out before it reaches the copy so it never competes with it */
+  .call__pips{
+    position:absolute;inset:0;z-index:0;pointer-events:none;
+    color:var(--lime);opacity:.14;
+    background-image:
+      radial-gradient(currentColor 1.5px, transparent 1.5px),
+      radial-gradient(currentColor 1.5px, transparent 1.5px);
+    background-size:22px 22px, 22px 22px;
+    background-position:0 0, 11px 11px;
+    -webkit-mask-image:radial-gradient(ellipse 60% 90% at 100% 8%, #000 0%, rgba(0,0,0,.35) 45%, transparent 72%);
+    mask-image:radial-gradient(ellipse 60% 90% at 100% 8%, #000 0%, rgba(0,0,0,.35) 45%, transparent 72%);
+  }
+  .call__panel{
+    position:relative;z-index:1;
+    max-width:var(--max);margin-inline:auto;
+    display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,25rem);
+    gap:clamp(2.5rem,5vw,5rem);
+    align-items:center;
+  }
+  .call__panel h2{
+    margin:0;max-width:22ch;
+    font-family:var(--font-head);
+    font-size:clamp(1.875rem,3.4vw,3rem);
+    line-height:1.06;letter-spacing:-.035em;font-weight:600;
+    text-wrap:balance;
+  }
+  .call__lede{margin:1.35rem 0 0;max-width:36rem;font-size:1.0625rem;line-height:1.62;color:var(--grey-100);}
+  .call__lede b{color:#fff;font-weight:600;}
+
+  .call__points{list-style:none;margin:2rem 0 0;padding:0;display:grid;gap:.9rem;}
+  .call__points li{
+    display:flex;align-items:flex-start;gap:.75rem;
+    font-size:1rem;line-height:1.5;color:var(--grey-100);
+  }
+  .call__points svg{
+    flex:0 0 auto;width:1.25rem;height:1.25rem;margin-top:.1rem;
+    color:var(--lime);
+  }
+  .call__actions{display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem;margin-top:2.25rem;}
+  .call__tel{font-size:.9375rem;color:var(--grey-200);transition:color .16s ease;}
+  .call__tel:hover{color:#fff;}
+
+  /* ---- the booking card ---- */
+  .call__card{
+    padding:1.5rem;
+    border-radius:1.5rem;
+    background:#fff;
+    color:var(--ink-dark);
+    box-shadow:0 2px 4px rgba(0,0,0,.16), 0 28px 64px rgba(0,0,0,.42);
+  }
+  .call__host{display:flex;align-items:center;gap:.9rem;}
+  .call__avatar{
+    position:relative;flex:0 0 auto;
+    width:3.5rem;height:3.5rem;border-radius:50%;
+    overflow:hidden;
+    box-shadow:0 0 0 1px rgba(0,0,0,.08);
+  }
+  .call__avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+  .call__id{display:flex;flex-direction:column;gap:.15rem;min-width:0;}
+  .call__who{
+    margin:0;
+    font-family:var(--font-head);
+    font-size:1.0625rem;font-weight:600;letter-spacing:-.018em;
+  }
+  .call__role{margin:0;font-size:.8125rem;color:#6b6b73;}
+  /* the live pip moves out of the avatar and onto its own labelled chip: as a
+     dot on a photograph it was decoration, as a chip it says something */
+  .call__live{
+    display:inline-flex;align-items:center;gap:.4rem;
+    margin-left:auto;flex:0 0 auto;
+    padding:.3rem .6rem .3rem .5rem;
+    border-radius:var(--radius-full);
+    background:#F1F8D6;
+    font-size:.6875rem;font-weight:700;letter-spacing:.02em;color:#3F5200;
+    white-space:nowrap;
+  }
+  .call__live i{
+    width:.45rem;height:.45rem;border-radius:50%;background:#8CA800;
+    box-shadow:0 0 0 0 rgba(140,168,0,.55);
+    animation:pulse 2.4s infinite;
+  }
+
+  .call__rows{margin:1.35rem 0 0;padding:1.15rem 0 0;border-top:1px solid rgba(0,0,0,.09);display:grid;gap:.85rem;}
+  .call__rows > div{display:flex;align-items:center;gap:.75rem;}
+  .call__rows dt{
+    display:flex;align-items:center;gap:.55rem;
+    font-size:.875rem;color:#6b6b73;
+  }
+  .call__rows dt svg{width:1.05rem;height:1.05rem;flex:0 0 auto;color:#9a9aa2;}
+  .call__rows dd{
+    margin:0 0 0 auto;text-align:right;
+    font-family:var(--font-head);
+    font-size:.875rem;font-weight:600;letter-spacing:-.012em;
+  }
+
+  .call__avail{margin-top:1.35rem;padding-top:1.15rem;border-top:1px solid rgba(0,0,0,.09);}
+  .call__avail-h{
+    margin:0 0 .8rem;
+    font-size:.6875rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6b6b73;
+  }
+  .call__days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.3rem;}
+  .call__days span{
+    display:flex;align-items:center;justify-content:center;
+    height:2.1rem;border-radius:.55rem;
+    background:#EFF6D3;color:#3F5200;
+    font-size:.6875rem;font-weight:700;
+  }
+  .call__days span.is-off{background:#F4F4F1;color:#adadb4;font-weight:500;}
+  .call__window{
+    display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;
+    margin:.9rem 0 0;
+    font-size:.875rem;font-weight:600;
+  }
+  .call__window svg{width:1.05rem;height:1.05rem;flex:0 0 auto;color:#9a9aa2;}
+  .call__window i{font-style:normal;margin-left:auto;font-size:.75rem;font-weight:500;color:#6b6b73;}
+  .call__go{width:100%;justify-content:center;margin-top:1.35rem;padding:.95rem 1.25rem;}
+
+  @media (max-width:1024px){
+    .call__panel{grid-template-columns:minmax(0,1fr);gap:2.5rem;justify-items:stretch;}
+    .call__card{max-width:26rem;}
+  }
+  @media (max-width:640px){
+    .call{padding:2.25rem 1.25rem;}
+    .call__actions .btn{width:100%;}
+    .call__tel{width:100%;text-align:center;}
+  }
+
   /* ---------- why dunk ---------- */
   .whyus{
     margin-top:var(--shell);

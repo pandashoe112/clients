@@ -56,6 +56,7 @@ navcss    = css('  /* ---------- nav ---------- */', '  /* ---------- hero conte
 marqcss   = css('  /* ---------- logo marquee ---------- */', '  /* ---------- channel picker ---------- */')
 faqcss    = css('  /* ---------- faq ---------- */', '  @media (max-width:1280px){')
 casecss   = css('  /* ---------- case studies ----------', '  /* ---------- why dunk ---------- */')
+callcss   = css('  /* ---------- strategy call ----------', '  /* ---------- case studies ----------')
 whycss    = css('  /* ---------- why dunk ---------- */', '  /* ---------- client reviews ----------')
 voicescss = css('  /* ---------- client reviews ----------', '  /* ---------- lead form ---------- */')
 leadcss   = css('  /* ---------- lead form ---------- */', '  /* ---------- footer ---------- */')
@@ -73,6 +74,23 @@ marquee = css('    <div class="marquee">', '    </div>\n  </section>').rstrip() 
 # did not move, and the homepage one is the component the client knows
 VOICES = css('  <section class="voices" id="testimonials">', '\n\n  <section class="cases"').rstrip()
 assert VOICES.count('vrail') >= 3 and VOICES.count('vcard') >= 12
+# the homepage booking panel, lifted whole rather than rebuilt, so the two
+# cannot drift apart
+CALL = css('  <section class="call" id="strategy-call">', '\n\n  <section class="svc"').rstrip()
+assert 'call__card' in CALL and 'Pick a time' in CALL
+# the homepage lede opens "Whichever of those sounds like you", pointing back at
+# the channel picker above it. There is no picker on a service page, so the
+# panel needs a lede that stands on its own
+PICKER_LEDE = ('Whichever of those sounds like you, the first step is the same. We look at\n'
+               '          your marketing performance together: what is bringing in enquiries, '
+               'what is wasting money, and\n'
+               '          what we would change first.')
+assert PICKER_LEDE in CALL
+PPC_CALL_LEDE = ('Wherever your Google Ads sit right now, the first step is the same. We go '
+                 'through\n'
+                 '          the account together: what is bringing in enquiries, what is wasting '
+                 'money, and what\n'
+                 '          we would change first.')
 cta     = css('  <section class="cta" id="contact">', '  <footer class="foot"').rstrip()
 footer  = css('  <footer class="foot" id="footer">', '</footer>') + '</footer>'
 
@@ -819,27 +837,7 @@ def build(key):
                  'Six campaign types, and an account usually needs two or three of them rather than all '
                  'six. Which ones depends on what you sell and how people buy it.', tiles(PPC_TYPES))
           + '\n' + cases(PPC_CASES) + '\n'
-          + band('paper', 'capability', 'What are the different Google Ads services we offer?',
-                 'Three of them do most of the work for most accounts. Here is what each one actually '
-                 'looks like when it is running.',
-                 feat([('mag', 'Google Search &amp; Display',
-                        'Search catches the people already looking for what you sell. Display keeps you in '
-                        'front of them through a longer decision.',
-                        ['Exact and phrase match', 'Negative keyword lists', 'Responsive search ads',
-                         'Placement and audience control'],
-                        '<img alt="" src="%s">' % TILE_SEARCH),
-                       ('cart', 'Google Shopping for eCommerce',
-                        'Your product feed, surfaced with pricing, imagery and reviews at the top of the '
-                        'results page, and kept clean so nothing gets disapproved.',
-                        None, SHOP_TILE),
-                       ('cycle', 'Remarketing and retargeting',
-                        'The people who visited and did not enquire are the cheapest audience you have. '
-                        'Dynamic remarketing pulls the exact products they looked at.',
-                        None, RMKT_TILE)]))
-          + '\n'
-          + features_band('features', 'What you get', 'The parts of a Google Ads account we do '
-                          'differently, and why they matter.', PPC_FEATURES)
-          + '\n'
+          + CALL.replace(PICKER_LEDE, PPC_CALL_LEDE) + '\n'
           + compare_band('compare', 'Why our ads win at', PPC_COMPARE)
           + '\n'
           + pricing_band(PPC_TIERS,
@@ -857,7 +855,7 @@ def build(key):
            + head_links + '\n<style>\n'
            + tokens
            + '  /* ---------- shell ---------- */\n  .shell{padding:var(--shell);}\n\n'
-           + navcss + marqcss + faqcss + suitecss + casecss + whycss + voicescss
+           + navcss + marqcss + faqcss + suitecss + casecss + callcss + whycss + voicescss
            + leadcss + footcss + ctacss + mobcss + rmcss + PAGE_CSS
            + '</style>\n</head>\n<body>\n\n<div class="shell">\n\n'
            '  <header class="topbar">\n' + page_nav + '\n  </header>\n\n'
