@@ -99,7 +99,7 @@ body{background:var(--page);color:var(--ink-dark);}
   background-image:var(--hero,url("/img/hero-service.webp"));
   /* the faces sit in the upper middle of the frame, so the crop pulls up
      and the empty foreground is what the copy sits on */
-  background-position:50% 30%;background-size:cover;background-repeat:no-repeat;
+  background-position:var(--hero-pos,50% 30%);background-size:cover;background-repeat:no-repeat;
 }
 .phero__scrim{
   position:absolute;inset:0;z-index:-1;
