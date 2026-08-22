@@ -9,6 +9,12 @@ import Icon from './Icon.astro';
 // the form, not a link to one.
 const { settings, heading, intro, level = 2 } = Astro.props;
 const H = level === 1 ? 'h1' : 'h2';
+// On its own page this is the form, so it takes #quote. Bolted to the foot of
+// the solar battery service page it is the second form there - the short hero
+// one already owns #quote - and two elements cannot share an id. Every #quote
+// link on that page was landing on the hero card, which is the right
+// destination for a general "contact us" anyway; this one gets its own anchor.
+const anchor = level === 1 ? 'quote' : 'battery-quote';
 
 const WHY = [
   {
@@ -25,15 +31,15 @@ const WHY = [
   }
 ];
 ---
-<section class="section bg-cream" id="quote">
+<section class="section bg-cream" id={anchor}>
   <div class="wrap bqpage">
     <div class="bqpage__intro reveal">
       <p class="eyebrow">Battery storage</p>
       <H class={level === 1 ? 'h1' : 'h2'} style="margin-top:12px;max-width:16ch">
-        {heading || 'Solar battery quote in Melbourne'}
+        {heading || 'Free battery storage assessment in Melbourne'}
       </H>
       <p class="lede" style="margin-top:20px;max-width:44ch">
-        {intro || "The more you can tell us, the closer the number. Only your name, email and phone are needed — skip anything you're not sure about and we'll work it out on site."}
+        {intro || "Tell us about your home and we'll come back with a fixed solar battery quote, usually within 24 hours. Only your name, email and phone are needed — skip anything you're not sure about and we'll work it out on site."}
       </p>
 
       <ul class="bqwhy">
