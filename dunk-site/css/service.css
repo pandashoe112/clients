@@ -1356,3 +1356,28 @@ body{background:var(--page);color:var(--ink-dark);}
 }
 .cta--light .lead__note{color:rgba(18,18,18,.55);}
 .cta--light .lead__note b{color:rgba(18,18,18,.72);}
+
+/* ---------- legal pages ----------
+   One column at a readable measure. No cards, no grid: it is a document, and
+   the only job is that someone can find the paragraph they came for. */
+.legal__body{max-width:44rem;margin-inline:auto;}
+.legal__block + .legal__block{margin-top:clamp(2rem,3.5vw,2.75rem);}
+.legal__block h2{
+  margin:0 0 .85rem;
+  font-family:var(--font-head);
+  font-size:clamp(1.25rem,2vw,1.5rem);
+  line-height:1.2;letter-spacing:-.02em;font-weight:700;
+  color:var(--ink-dark);
+}
+.legal__block p{margin:0;font-size:1rem;line-height:1.7;color:rgba(18,18,18,.74);}
+.legal__block p + p{margin-top:.9rem;}
+.legal__block ul{margin:.9rem 0 0;padding-left:1.2rem;display:flex;flex-direction:column;gap:.6rem;}
+.legal__block li{font-size:1rem;line-height:1.7;color:rgba(18,18,18,.74);}
+.legal__block b{color:var(--ink-dark);font-weight:600;}
+.legal__block a{color:var(--ink-dark);text-decoration:underline;text-underline-offset:.18em;}
+.legal__block a:hover{color:rgb(var(--purple-accent));}
+.legal__note{
+  margin:clamp(2.5rem,4vw,3.5rem) 0 0;padding-top:1.5rem;
+  border-top:1px solid rgba(18,18,18,.12);
+  font-size:.875rem;line-height:1.65;color:rgba(18,18,18,.55);
+}

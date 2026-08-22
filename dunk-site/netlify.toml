@@ -1,6 +1,9 @@
 # The DUNK site is static HTML: nothing to build, the folder is the deploy.
 [build]
-  base = "dunk-site"
+  # No base here on purpose. Netlify resolves base from the UI setting when the
+  # repo is linked, and this file then sits at the root of the build context —
+  # so publish is "." either way. Putting base = "dunk-site" in the file made
+  # it look for dunk-site/dunk-site on a direct upload.
   publish = "."
   command = ""
   # This repo holds several clients, so skip a build when the push did not
@@ -56,4 +59,28 @@
 [[redirects]]
   from = "/contact"
   to = "/contact/"
+  status = 301
+
+# The case-study cards and the footer link to pages that were never built, and
+# their content is client results we do not have. Until they exist, send those
+# URLs to the results section on the homepage rather than a 404.
+[[redirects]]
+  from = "/case-studies/*"
+  to = "/#results"
+  status = 302
+
+[[redirects]]
+  from = "/case-studies"
+  to = "/#results"
+  status = 302
+
+# the link-building page shipped as /services/digital-pr
+[[redirects]]
+  from = "/services/link-building"
+  to = "/services/digital-pr/"
+  status = 301
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy/"
   status = 301
