@@ -632,17 +632,17 @@
   .feat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;align-items:stretch;}
   .fcard{
     display:flex;flex-direction:column;
-    padding:1.75rem 1.6rem 0;
+    padding:0 1.6rem 1.75rem;
     border-radius:1.5rem;
-    /* the ground the client's supplied panel is drawn on, sampled from it, so
-       that card's artwork sits on the card rather than on a patch */
-    background:#EFECFB;
+    /* the ground the client's supplied artwork is drawn on, sampled from its
+       own edge, so the artwork bleeds into the card with no seam */
+    background:#EBE2FC;
     border:1px solid rgba(0,0,0,.05);
     overflow:hidden;
   }
   .fcard__ico{
     display:flex;align-items:center;justify-content:center;
-    width:3.5rem;height:3.5rem;margin:0 0 1.5rem;
+    width:3.5rem;height:3.5rem;margin:0 0 1.25rem;
     border-radius:50%;
     background:#fff;
     box-shadow:0 1px 3px rgba(0,0,0,.07);
@@ -665,20 +665,35 @@
     font-size:.9375rem;line-height:1.35;color:var(--ink-dark);
   }
   .fcard__ticks svg{flex:0 0 auto;width:1.05rem;height:1.05rem;margin-top:.1rem;color:#4C1D95;}
-  /* the panel bleeds off the bottom of the card, which is what stops the
-     three cards needing equal amounts of copy to look right */
+  /* the visual leads the card, flush with its top and side edges. Every card
+     uses the artwork's own aspect ratio, so the three headings line up even
+     though the panels underneath them are different heights */
   .fcard__shot{
-    margin:auto -1.6rem 0;padding:1.6rem 1.6rem 0;
+    position:relative;
+    margin:0 -1.6rem 1.5rem;
+    aspect-ratio:900/580;
+    overflow:hidden;
     display:flex;justify-content:center;
   }
-  .fcard__shot .ui{width:min(20rem,100%);box-shadow:0 10px 26px rgba(0,0,0,.14);}
-  /* the supplied artwork is a whole panel, so it spans the card and bleeds
-     off the bottom the same way the built ones do */
-  .fcard__shot img{display:block;width:100%;height:auto;}
-  .fcard__shot--art{padding-inline:0;}
+  /* the built panels are narrower than the supplied artwork, so they are given
+     the breathing room that artwork has drawn into it */
+  .fcard__shot .ui{
+    width:min(20rem,80%);align-self:flex-start;margin-top:1.9rem;
+    box-shadow:0 10px 26px rgba(0,0,0,.14);
+  }
+  .fcard__shot > img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;}
+  /* the band cuts every panel off part way down, so the cut is faded into the
+     card ground rather than left as a hard edge */
+  .fcard__shot::after{
+    /* .ui carries z-index:2 of its own, so the fade has to out-rank it */
+    content:"";position:absolute;inset:auto 0 0;z-index:3;height:5.5rem;
+    background:linear-gradient(to bottom,rgba(235,226,252,0),rgba(235,226,252,.86) 58%,#EBE2FC 88%);
+    pointer-events:none;
+  }
   @media (max-width:1000px){
     .feat{grid-template-columns:minmax(0,1fr);}
-    .fcard__shot .ui{width:min(24rem,100%);}
+    .fcard__shot{aspect-ratio:auto;min-height:19rem;}
+    .fcard__shot .ui{width:min(24rem,84%);}
   }
 
   /* ---------- mini mock panels ----------

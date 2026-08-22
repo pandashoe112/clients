@@ -288,13 +288,12 @@ def feat(cards):
             tk = ('        <ul class="fcard__ticks">\n'
                   + '\n'.join('          <li>%s<span>%s</span></li>' % (I['tick'], t) for t in ticks)
                   + '\n        </ul>\n')
-        art = ' fcard__shot--art' if shot.startswith('<img') else ''
         out.append('      <article class="fcard">\n'
+                   '        <div class="fcard__shot" aria-hidden="true">%s</div>\n'
                    '        <span class="fcard__ico">%s</span>\n'
                    '        <h3>%s</h3>\n'
                    '        <p>%s</p>\n%s'
-                   '        <div class="fcard__shot%s" aria-hidden="true">%s</div>\n'
-                   '      </article>' % (I[ico], h, body, tk, art, shot))
+                   '      </article>' % (shot, I[ico], h, body, tk))
     return '    <div class="feat">\n' + '\n'.join(out) + '\n    </div>\n'
 
 def features(kicker, lead, items):
@@ -808,7 +807,7 @@ def build(key):
           + band('paper', 'ad-types', 'Google Ads services for Australian businesses',
                  'Six campaign types, and an account usually needs two or three of them rather than all '
                  'six. Which ones depends on what you sell and how people buy it.', tiles(PPC_TYPES))
-          + '\n'
+          + '\n' + cases(PPC_CASES) + '\n'
           + band('paper', 'capability', 'What are the different Google Ads services we offer?',
                  'Three of them do most of the work for most accounts. Here is what each one actually '
                  'looks like when it is running.',
@@ -821,11 +820,13 @@ def build(key):
                        ('cart', 'Google Shopping for eCommerce',
                         'Your product feed, surfaced with pricing, imagery and reviews at the top of the '
                         'results page, and kept clean so nothing gets disapproved.',
-                        None, SHOP_TILE),
+                        ['Merchant Center setup', 'Product feed optimisation',
+                         'Disapproval monitoring', 'Price and stock sync'], SHOP_TILE),
                        ('cycle', 'Remarketing and retargeting',
                         'The people who visited and did not enquire are the cheapest audience you have. '
                         'Dynamic remarketing pulls the exact products they looked at.',
-                        None, RMKT_TILE)]))
+                        ['Dynamic product ads', 'Cart abandoner lists',
+                         'Audience time windows', 'Frequency capping'], RMKT_TILE)]))
           + '\n'
           + features_band('features', 'What you get', 'The parts of a Google Ads account we do '
                           'differently, and why they matter.', PPC_FEATURES)
@@ -838,7 +839,7 @@ def build(key):
           + '\n'
           + includes('Every package includes',
                      'The same six things, whatever you are spending.', PPC_INCLUDES)
-          + '\n' + cases(PPC_CASES) + '\n' + reviews() + '\n' + badges() + '\n'
+          + '\n' + reviews() + '\n' + badges() + '\n'
           + faq(PPC_FAQ, 'Questions people ask before starting Google Ads', 'Get a free paid audit'))
 
     doc = ('<!DOCTYPE html>\n<html lang="en-AU">\n<head>\n<meta charset="utf-8">\n'

@@ -847,7 +847,19 @@ rendered 10646px tall, which is how it got caught. Delete to the **next**
 ## The first capability card's artwork
 
 Client-supplied, not built. The image is a whole card, so only the mock search
-page below its title is used, cropped and re-encoded to `build/tile-search.b64`
-(740px, 24KB). Its ground was sampled at `rgb(239,236,251)` and all three
-feature cards now take that value, so the artwork sits on the card rather than
-on a patch of a different colour.
+page below its icon is used, cropped and re-encoded to `build/tile-search.b64`
+(900x580, 44KB). Its ground was sampled at its own edge, `rgb(235,226,252)`, and
+all three feature cards take that value, so the artwork bleeds into the card
+with no seam.
+
+The visual leads the card, above the icon and heading, and all three cards share
+the artwork's `900/580` aspect so the three headings line up even though the
+panels are different heights. Every panel is therefore cut off part way down, so
+`.fcard__shot::after` fades the cut into the card ground. That fade needs
+`z-index:3`: `.ui` carries a `z-index:2` of its own, and without it the fade
+paints under the panel and the cut stays hard.
+
+The artwork's example query is "emergency plumber Melbourne". It is an example
+of a local search rather than a claim about where DUNK works, but it is the one
+place on the page that still says Melbourne, so swap the asset if that reads
+wrong.
