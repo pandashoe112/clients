@@ -15,6 +15,12 @@ OUT  = os.path.join(ROOT, 'seo.html')
 
 s = io.open(SRC, encoding='utf-8').read()
 
+# The four service rows were archived off the homepage, but this page still
+# needs their platform-tile CSS and two of their art panels. Both come out of
+# the archive partial now; index.html no longer carries them.
+ARCHIVE = io.open(os.path.join(HERE, 'archive', 'services-suite.html'),
+                  encoding='utf-8').read()
+
 def css(a, b):
     i = s.index(a); j = s.index(b, i)
     return s[i:j]
@@ -34,7 +40,7 @@ assert '--photo-trade' not in tokens
 navcss     = css('  /* ---------- nav ---------- */', '  /* ---------- hero content ---------- */')
 marqcss    = css('  /* ---------- logo marquee ---------- */', '  /* ---------- channel picker ---------- */')
 faqcss     = css('  /* ---------- faq ---------- */', '  @media (max-width:1280px){')
-suitecss   = css('  /* ---------- service suite ---------- */', '  /* ---------- strategy call ----------')
+suitecss   = ARCHIVE[ARCHIVE.index('  /* ---------- service suite ---------- */'):ARCHIVE.index('</style>')]
 casecss    = css('  /* ---------- case studies ----------', '  /* ---------- why dunk ---------- */')
 voicescss  = css('  /* ---------- client reviews ----------', '  /* ---------- lead form ---------- */')
 leadcss    = css('  /* ---------- lead form ---------- */', '  /* ---------- footer ---------- */')
@@ -67,9 +73,9 @@ def div_block(src, start):
             if depth == 0:
                 return src[start:i]
 
-art_offsets = [m.start() for m in re.finditer(r'<div class="suite__art">', s)]
+art_offsets = [m.start() for m in re.finditer(r'<div class="suite__art">', ARCHIVE)]
 assert len(art_offsets) == 4, len(art_offsets)
-arts = [div_block(s, o) for o in art_offsets]
+arts = [div_block(ARCHIVE, o) for o in art_offsets]
 art_google, art_meta, art_seo = arts[0], arts[1], arts[2]
 for a in (art_google, art_meta, art_seo):
     assert 'class="ui' in a and a.rstrip().endswith('</div>'), a[:120]
@@ -89,13 +95,13 @@ proc_b64 = io.open(os.path.join(HERE, 'process-photo.b64')).read().strip()
 
 # the winning organic result out of the homepage's SERP tile, reused whole as
 # the overlay on the process photograph
-_i = s.index('<div class="serp serp--win">')
-serp_win = s[_i:s.index('</div>', s.index('serp__links', _i)) + 6]
+_i = ARCHIVE.index('<div class="serp serp--win">')
+serp_win = ARCHIVE[_i:ARCHIVE.index('</div>', ARCHIVE.index('serp__links', _i)) + 6]
 assert 'serp__title' in serp_win
 
 # the Google mark the overlay's search bar carries, and the two glyphs the
 # homepage draws in that tile
-glogo = re.search(r'<img class="ui__glogo" alt="" src="(data:image/webp;base64,[^"]+)">', s).group(1)
+glogo = re.search(r'<img class="ui__glogo" alt="" src="(data:image/webp;base64,[^"]+)">', ARCHIVE).group(1)
 MAG = ('<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">'
        '<circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/>'
        '<path d="M15.5 15.5 20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>')
@@ -103,7 +109,7 @@ UPS = '&#8593;'
 
 # in-page anchors on the homepage become homepage links from a service page
 def relink(frag):
-    for a in ('#who-we-work-with', '#about', '#results', '#services', '#get-started'):
+    for a in ('#who-we-work-with', '#about', '#results', '#services-overview', '#get-started'):
         frag = frag.replace('href="%s"' % a, 'href="/%s"' % a)
     return frag
 nav, mobile, footer = relink(nav), relink(mobile), relink(footer)
@@ -731,7 +737,7 @@ BODY = """
       <nav class="crumbs" aria-label="Breadcrumb">
         <a href="/">Home</a>
         <span aria-hidden="true">/</span>
-        <a href="/#services">What we do</a>
+        <a href="/#services-overview">What we do</a>
         <span aria-hidden="true">/</span>
         <span aria-current="page">SEO</span>
       </nav>

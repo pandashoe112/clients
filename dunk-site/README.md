@@ -57,7 +57,14 @@ and could be dropped if this layout is the one that ships.
 ## Sections
 
 Order inside `.shell`: hero → approach → picker → strategy call → services
-carousel → suite → reviews → case studies → why DUNK → faq → cta → footer. The reviews sit
+carousel → reviews → case studies → why DUNK → faq → cta → footer.
+
+The four service rows ("How each one works") were archived on request. They
+live in `build/archive/services-suite.html`, and that file is **live input to
+the build**: `build/build-seo.py` reads the platform-tile CSS, two of the four
+art panels and the winning SERP result out of it. So it has to stay valid even
+while it is off the page. Putting it back is three paste operations, described
+at the top of the file. The reviews sit
 directly under the services section: what we do, then what people say about
 it. Nothing carries a hand-written section number any more, so inserting a
 section no longer means renumbering anything after it.
@@ -665,3 +672,35 @@ The token block is copied to `seo.html` whole, so the three carousel-only
 photographs would ride along as about 270KB the page never paints. The script
 strips those three declarations. Add a homepage-only image token and it needs
 adding to that list.
+
+## The carousel's pin
+
+Wide viewports pin the section and let the page scroll drive the rail
+sideways; narrow ones leave it a plain swipeable rail. Two custom properties
+carry the state: `--svc-p` is the 0-to-1 progress the script writes each
+frame, `--svc-travel` is how far the rail has to move in px, which only the
+layout knows.
+
+Four things this got wrong before it got right:
+
+- **The rail cannot carry the transform.** Translating the rail slid it out of
+  its grid column and over the copy, and clipping at the section could not
+  stop that. The rail is the clipping box now and the cards carry the
+  transform, which means the focus rule has to repeat the translate rather
+  than replace it (`translate3d(var(--x),-.65rem,0) scale(1.02)`).
+- **`overflow-x:clip`, never `hidden`.** Hidden makes the element a scroll
+  container and the sticky child inside stops sticking to the page. Clip does
+  not. Paired with `overflow-y:visible` so the focused card's lift and shadow
+  are not cut off.
+- **Cards get wider while pinned** (`clamp(20rem,30vw,27rem)`). At the
+  unpinned size three cards fit the column, which left barely one card of
+  travel for a whole pinned section. Fewer visible cards is what gives the
+  rail something to do.
+- **The focused card comes off progress, not position.** The rail can only
+  ever bring the last card to the right edge, never to a focus line, so a
+  positional test never reached card four and the thumbnails stopped at three.
+
+Measured at 1440: 1012px of travel over a 2064px section, so about a screen
+and a bit of extra scrolling. Everything the pin adds is scoped to
+`.svc.is-pinned`, which the script adds, so a JS failure degrades to the
+swipeable rail rather than to a section that cannot be scrolled.
