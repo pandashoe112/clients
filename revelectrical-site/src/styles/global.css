@@ -474,6 +474,12 @@ textarea.input{min-height:132px;resize:vertical}
 .utilbar__links{display:flex;align-items:center;gap:26px}
 .utilbar__link{color:inherit;text-decoration:none;font-weight:600;transition:color .18s ease}
 .utilbar__link:hover{color:var(--lime)}
+/* The one offer in the utility bar, so it reads as an offer rather than
+   another contact detail. It outlives the email on a narrow screen: the email
+   is a duplicate of what the footer and every form already give you, and this
+   is the thing we want tapped. */
+.utilbar__offer{color:var(--lime)}
+.utilbar__offer:hover{color:var(--cream)}
 
 /* ============================================================
    HOME HERO  — contained split, framed photo
@@ -499,6 +505,13 @@ textarea.input{min-height:132px;resize:vertical}
   .homehero__media{max-width:560px}
   .utilbar__licfull{display:none}
   .utilbar__links{gap:16px}
+}
+/* On a phone the bar keeps the offer and drops the rest: the email is a
+   duplicate of what the footer and every form already carry. */
+@media (max-width:640px){
+  .utilbar__link-email{display:none}
+  .utilbar__lic{display:none}
+  .utilbar__inner{justify-content:center}
 }
 
 /* Header fits once the full nav is present */
