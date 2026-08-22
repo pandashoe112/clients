@@ -255,38 +255,6 @@ body{background:var(--page);color:var(--ink-dark);}
 .tile--art{padding-top:0;overflow:hidden;}
 .tile__shot{margin:0 -1.5rem 1.4rem;background:#EBE2FC;}
 .tile__shot img{display:block;width:100%;height:auto;}
-/* ---------- campaign types: copy beside a 2x2 of tiles ----------
-   The heading and lede sit in their own column rather than in a .band__head
-   above the grid, so the four tiles read as one block next to them. The copy
-   sticks while the tiles scroll past, because at this height the grid is
-   taller than the copy and would otherwise leave it stranded at the top. */
-.adtypes{
-  display:grid;
-  grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);
-  gap:clamp(2rem,5vw,5rem);
-  align-items:start;
-}
-.adtypes__copy{position:sticky;top:2.5rem;}
-.adtypes__copy h2{
-  margin:0;
-  font-family:var(--font-head);
-  font-size:clamp(1.875rem,3.4vw,3rem);
-  line-height:1.06;letter-spacing:-.035em;font-weight:600;
-  text-wrap:balance;
-}
-.adtypes__copy .band__lede{margin:1.35rem 0 0;}
-.adtypes__copy .btn{margin-top:2rem;}
-.tiles--quad{grid-template-columns:repeat(2,minmax(0,1fr));}
-@media (max-width:1100px){
-  .adtypes{grid-template-columns:minmax(0,1fr);gap:2.5rem;}
-  /* nothing to sit beside once it is one column, and sticky would leave the
-     copy riding over the tiles the way the FAQ heading used to */
-  .adtypes__copy{position:static;}
-}
-@media (max-width:640px){
-  .tiles--quad{grid-template-columns:minmax(0,1fr);}
-}
-
 .tile__ico{display:block;width:2.5rem;height:2.5rem;margin:0 0 1.15rem;}
 .tile h3{
   margin:0;
@@ -997,22 +965,6 @@ body{background:var(--page);color:var(--ink-dark);}
    the foot of the card. The screenshots are the argument, so the card is
    built around giving them room rather than treating them as decoration. */
 .majors{text-align:center;}
-/* the site's eyebrow is a lime dot and a letter-spaced label, set for dark
-   bands. On paper it needs its own colour, and a pill to sit in. */
-.band__eyebrow{
-  display:inline-flex;align-items:center;gap:.55rem;
-  margin:0 0 1.1rem;
-  padding:.4rem 1rem .4rem .85rem;
-  border:1px solid rgba(18,18,18,.14);border-radius:var(--radius-full);
-  background:#fff;
-  font-size:.75rem;font-weight:600;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:rgba(18,18,18,.66);
-}
-.band__eyebrow::before{
-  content:"";flex:0 0 auto;
-  width:.4rem;height:.4rem;background:var(--lime);
-}
 .majors > h2{
   margin:0 auto;max-width:24ch;
   font-family:var(--font-head);
@@ -1020,48 +972,11 @@ body{background:var(--page);color:var(--ink-dark);}
   line-height:1.06;letter-spacing:-.032em;font-weight:600;
   text-wrap:balance;
 }
-.majors__lede{
-  margin:1.1rem auto 0;max-width:46rem;
-  font-size:1.0625rem;line-height:1.6;color:rgba(18,18,18,.68);
-}
 .majors__grid{
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;
   margin-top:clamp(2.25rem,4vw,3.25rem);
   text-align:left;
 }
-.major{
-  display:flex;flex-direction:column;
-  padding:1.75rem 1.75rem 0;
-  border-radius:var(--radius-main);
-  background:#fff;
-  box-shadow:0 1px 2px rgba(0,0,0,.04), 0 14px 36px rgba(0,0,0,.07);
-}
-.major__tag{
-  align-self:flex-start;margin:0 0 1rem;
-  padding:.3rem .75rem;
-  border:1px solid rgba(18,18,18,.12);border-radius:var(--radius-full);
-  font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
-  color:rgba(18,18,18,.6);
-}
-.major h3{
-  margin:0;
-  font-family:var(--font-head);
-  font-size:1.5rem;line-height:1.14;letter-spacing:-.022em;font-weight:600;
-}
-.major p{
-  margin:.7rem 0 0;
-  font-size:.9375rem;line-height:1.6;color:rgba(18,18,18,.68);
-}
-.major .btn{margin-top:1.35rem;align-self:flex-start;}
-/* the well: a tinted recess the screenshot sits in, bleeding off the bottom
-   of the card so the placement reads as a window rather than a thumbnail */
-.major__shot{
-  margin:1.75rem -1.75rem 0;
-  border-top:1px solid rgba(18,18,18,.07);
-  border-radius:0 0 var(--radius-main) var(--radius-main);
-  overflow:hidden;
-}
-.major__shot img{display:block;width:100%;height:auto;}
 @media (max-width:1000px){
   .majors__grid{grid-template-columns:minmax(0,1fr);max-width:34rem;margin-inline:auto;}
 }
