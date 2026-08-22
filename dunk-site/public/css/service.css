@@ -484,7 +484,8 @@ body{background:var(--page);color:var(--ink-dark);}
    one job, so here it is three cards and the proof bar, nothing moving. */
 /* the marquee sits on the page ground here, not inside a dark section */
 .trust{
-  padding:clamp(2rem,3.5vw,3rem) 0 clamp(.5rem,1vw,1rem);
+  /* the same above the label as below the logos */
+  padding:clamp(2rem,3.5vw,3rem) 0;
 }
 .trust__label{
   margin:0 auto 1.75rem;
@@ -511,6 +512,7 @@ body{background:var(--page);color:var(--ink-dark);}
    DUNK column has to be paintable as a full-height band, which a table
    cell cannot do without a colgroup hack. */
 .ct{
+  max-width:64rem;margin-inline:auto;
   border:1px solid var(--hairline);
   border-radius:1.25rem;
   overflow:hidden;
@@ -800,7 +802,7 @@ body{background:var(--page);color:var(--ink-dark);}
   background-image:radial-gradient(rgba(255,255,255,.09) 1px, transparent 1px);
   background-size:24px 24px;
 }
-.ct__head-copy{max-width:var(--max);margin:0 auto clamp(2.5rem,4vw,3.5rem);text-align:center;}
+.ct__head-copy{max-width:64rem;margin:0 auto clamp(2.5rem,4vw,3.5rem);text-align:center;}
 .ct__head-copy h2{
   display:flex;align-items:center;justify-content:center;gap:.75rem;flex-wrap:wrap;
   margin:0;

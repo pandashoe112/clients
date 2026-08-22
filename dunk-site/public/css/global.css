@@ -1135,8 +1135,11 @@ h1{
 .call__panel{
   position:relative;z-index:1;
   max-width:var(--max);margin-inline:auto;
-  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,25rem);
-  gap:clamp(2.5rem,5vw,5rem);
+  /* the copy column is capped rather than fluid: left to fill 1.1fr it ran
+     out of words long before the card, leaving a void down the middle */
+  display:grid;grid-template-columns:minmax(0,34rem) minmax(0,25rem);
+  justify-content:center;
+  gap:clamp(2.5rem,4vw,3.5rem);
   align-items:center;
 }
 .call__panel h2{
