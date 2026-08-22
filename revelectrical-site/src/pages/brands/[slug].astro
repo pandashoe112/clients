@@ -6,6 +6,7 @@ import CertifiedBand from '../../components/CertifiedBand.astro';
 import ServiceSteps from '../../components/ServiceSteps.astro';
 import DiffGrid from '../../components/DiffGrid.astro';
 import BrandRange from '../../components/BrandRange.astro';
+import BrandSections from '../../components/BrandSections.astro';
 import WorkGrid from '../../components/WorkGrid.astro';
 import ServiceAreasBand from '../../components/ServiceAreasBand.astro';
 import RelatedServices from '../../components/RelatedServices.astro';
@@ -34,6 +35,11 @@ const description = brand.seoDescription || brand.summary;
 // the service sections rather than a second set that drifts out of step. This
 // shapes the brand into what those sections expect. `slug` picks the install
 // photos, which is why it carries a service slug rather than the brand's.
+// A brand with bands in the Studio's page builder uses those for its body and
+// skips the fixed sections entirely. Mixing the two would give the reader the
+// same material twice under two different headings.
+const built = (brand.sections || []).length > 0;
+
 const asService = {
   title: brand.name,
   // The brand's own slug picks its install photos; WorkGrid falls back to
@@ -58,6 +64,11 @@ const asService = {
   faqHeading: brand.faqHeading || `${brand.name} questions we get asked`,
   faqNote: brand.faqNote,
   faqs: brand.faqs,
+  heroCtaLabel: brand.heroCtaLabel,
+  areasHeading: brand.areasHeading,
+  areasIntro: brand.areasIntro,
+  relatedIntro: brand.relatedIntro,
+  faqNote: brand.faqNote,
   ctaEyebrow: brand.ctaEyebrow || 'Ready when you are',
   ctaHeading: brand.ctaHeading,
   ctaText: brand.ctaText
@@ -72,17 +83,23 @@ const asService = {
 >
   <SiteHeader settings={settings} services={services} areas={areas} brands={navBrands} contactHref="#quote" />
 
-  <main id="main">
+  <main id="main" class={brand.spacious ? 'brandpage brandpage--spacious' : 'brandpage'}>
     <ServiceHero
       service={asService}
       settings={settings}
       services={services}
       brandLogo={brand.logo}
     />
-    <CertifiedBand brand={brand} settings={settings} />
-    <ServiceSteps service={asService} />
-    <BrandRange brand={brand} />
-    <DiffGrid service={asService} />
+    {built ? (
+      <BrandSections sections={brand.sections} settings={settings} />
+    ) : (
+      <>
+        <CertifiedBand brand={brand} settings={settings} />
+        <ServiceSteps service={asService} />
+        <BrandRange brand={brand} />
+        <DiffGrid service={asService} />
+      </>
+    )}
     <WorkGrid service={asService} />
     <ServiceAreasBand service={asService} suburbs={suburbs} tone="bg-cream" />
     <RelatedServices service={asService} />

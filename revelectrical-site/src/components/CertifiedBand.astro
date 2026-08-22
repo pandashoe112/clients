@@ -7,19 +7,29 @@ const text = brand.certifiedText || [];
 
 // The band used to be gated on the badge image, which meant a brand we are not
 // formally accredited by lost the whole section - heading, copy and all - even
-// when it was filled in. It renders on the heading now; the badge is optional
-// and the grid already collapses to one column without it.
+// when it was filled in. It renders on the heading now.
+//
+// It always shows something in the left column, though: a badge where the brand
+// gives us one, otherwise a photo. A band of nothing but type is the one shape
+// this is not allowed to take.
 //
 // The eyebrow follows the badge rather than being fixed: "Accredited installer"
 // is a claim, and it should only appear where there is a badge to back it.
 const eyebrow = brand.certifiedBadge ? 'Accredited installer' : 'Why this brand';
+const photo = brand.certifiedImage
+  ? img(brand.certifiedImage, 1200)
+  : brand.certifiedImagePath || null;
 ---
 {brand.certifiedHeading && (
   <section class="section bg-deep" id="certified">
     <div class="wrap certified__inner">
-      {brand.certifiedBadge && (
+      {brand.certifiedBadge ? (
         <figure class="certified__badge reveal">
           <img src={img(brand.certifiedBadge, 520)} alt={`${brand.name} certified installer`} loading="lazy" />
+        </figure>
+      ) : photo && (
+        <figure class="certified__photo reveal">
+          <img src={photo} alt={`${brand.name} installed by us`} width="1600" height="1200" loading="lazy" decoding="async" />
         </figure>
       )}
       <div class="certified__body reveal reveal-d1">

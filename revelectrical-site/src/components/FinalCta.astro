@@ -32,23 +32,25 @@ const { service, settings } = Astro.props;
         <input type="hidden" name="form-name" value="quote-request-service-footer" />
         <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
-        <div class="field">
-          <label class="label" for="fc_name">Name</label>
-          <input class="input" type="text" id="fc_name" name="name" autocomplete="name" placeholder="First and last name" required />
-        </div>
         <div class="fieldrow">
+          <div class="field">
+            <label class="label" for="fc_name">Name</label>
+            <input class="input" type="text" id="fc_name" name="name" autocomplete="name" placeholder="First and last name" required />
+          </div>
           <div class="field">
             <label class="label" for="fc_email">Email</label>
             <input class="input" type="email" id="fc_email" name="email" autocomplete="email" placeholder="Email address" required />
           </div>
+        </div>
+        <div class="fieldrow">
           <div class="field">
             <label class="label" for="fc_phone">Phone number</label>
             <input class="input" type="tel" id="fc_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
           </div>
-        </div>
-        <div class="field">
-          <label class="label" for="fc_address">Address</label>
-          <input class="input" type="text" id="fc_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
+          <div class="field">
+            <label class="label" for="fc_address">Address</label>
+            <input class="input" type="text" id="fc_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
+          </div>
         </div>
         <JobTiles idPrefix="fc_job" selected={service.title} />
         <ContactPrefs idPrefix="fc_pref" />

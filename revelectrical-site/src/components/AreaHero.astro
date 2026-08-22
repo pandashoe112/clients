@@ -69,21 +69,25 @@ const bgFile = !bg && LOCAL[area.slug] ? LOCAL[area.slug] : null;
           <input type="hidden" name="form-name" value="quote-request-suburb-hero" />
           <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
-          <div class="field">
-            <label class="label" for="a_name">Name</label>
-            <input class="input" type="text" id="a_name" name="name" autocomplete="name" placeholder="First and last name" required />
+          <div class="fieldrow">
+            <div class="field">
+              <label class="label" for="a_name">Name</label>
+              <input class="input" type="text" id="a_name" name="name" autocomplete="name" placeholder="First and last name" required />
+            </div>
+            <div class="field">
+              <label class="label" for="a_email">Email</label>
+              <input class="input" type="email" id="a_email" name="email" autocomplete="email" placeholder="Email address" required />
+            </div>
           </div>
-          <div class="field">
-            <label class="label" for="a_email">Email</label>
-            <input class="input" type="email" id="a_email" name="email" autocomplete="email" placeholder="Email address" required />
-          </div>
-          <div class="field">
-            <label class="label" for="a_phone">Phone number</label>
-            <input class="input" type="tel" id="a_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
-          </div>
-          <div class="field">
-            <label class="label" for="a_address">Address</label>
-            <input class="input" type="text" id="a_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
+          <div class="fieldrow">
+            <div class="field">
+              <label class="label" for="a_phone">Phone number</label>
+              <input class="input" type="tel" id="a_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
+            </div>
+            <div class="field">
+              <label class="label" for="a_address">Address</label>
+              <input class="input" type="text" id="a_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
+            </div>
           </div>
           <JobTiles idPrefix="ah_job" />
           <ContactPrefs idPrefix="ah_pref" />

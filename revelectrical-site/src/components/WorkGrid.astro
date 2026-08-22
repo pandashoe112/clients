@@ -57,13 +57,26 @@ const BY_SERVICE = {
     { src: '/photos/induction-fit2.webp', cap: 'Cooktop commissioned' },
     { src: '/photos/kitchen-reno.webp', cap: 'Benchtop prepared for the circuit' }
   ],
-  // Only genuine Fox ESS hardware. Falling through to the ev-charging set put
-  // six photos of other brands' chargers under a heading that said "Fox ESS
-  // installs we have done", which is not true. Two real ones beat six that
-  // claim something we did not do. Add to this list as Fox ESS jobs get shot.
+  // Only genuine Fox ESS hardware, plus two of our own crew at work. Falling
+  // through to the ev-charging set put six photos of other brands' chargers
+  // under a heading that said "Fox ESS installs we have done", which is not
+  // true. The two crew shots are captioned for what they are rather than
+  // implied to be Fox jobs.
   foxess: [
-    { src: '/photos/battery-foxess.webp', cap: 'Fox ESS battery and inverter' },
-    { src: '/photos/battery-foxess-meter.webp', cap: 'Fox ESS tied in beside the meter' }
+    { src: '/photos/foxess-stack-redbrick.webp', cap: 'Fox ESS stack and inverter, sited under the eave' },
+    { src: '/photos/foxess-stack-creambrick.webp', cap: 'Inverter, isolators and stack in one clean run' },
+    { src: '/photos/battery-install.webp', cap: 'Tying the battery into the switchboard' },
+    { src: '/photos/foxess-stack-tall.webp', cap: 'Six modules, stacked and labelled' },
+    { src: '/photos/foxess-stack-darkbrick.webp', cap: 'Fox ESS beside the meter' },
+    { src: '/photos/team.webp', cap: 'The crew who will do the work' }
+  ],
+  sigenergy: [
+    { src: '/photos/sigenergy-outdoor-meter.webp', cap: 'Sigenergy stack, outdoor install' },
+    { src: '/photos/team-battery.webp', cap: 'Handed over and running' },
+    { src: '/photos/sigenergy-outdoor-plants.webp', cap: 'Sited out of the afternoon sun' },
+    { src: '/photos/sigenergy-ev-charger.webp', cap: 'Sigenergy EV charger, cable holstered' },
+    { src: '/photos/sigenergy-wall-unit.webp', cap: 'Wall-mounted unit, tucked under the eave' },
+    { src: '/photos/sigenergy-outdoor-label.webp', cap: 'Labelled, inspected and signed off' }
   ]
 };
 const WORK = BY_SERVICE[service.slug] || BY_SERVICE['ev-charging'];

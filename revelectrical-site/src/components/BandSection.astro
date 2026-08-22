@@ -1,0 +1,100 @@
+---
+import Icon from './Icon.astro';
+import RichText from './RichText.astro';
+import BandFigure from './BandFigure.astro';
+
+// One band of a page-builder brand page: heading, opening line, titled points,
+// and - where the copy has them - a spec panel, a comparison table, a line of
+// small print and a button. Everything but the heading is optional.
+const { band } = Astro.props;
+const points = band.points || [];
+const specs = (band.specs || []).filter((s) => s.label);
+const cols = (band.compareColumns || []).filter(Boolean);
+const rows = band.compareRows || [];
+const tone = band.tone || 'bg-paper';
+const dark = tone === 'bg-deep';
+const delay = (i) => ['', 'reveal-d1', 'reveal-d2'][i % 3];
+// A band with a photo runs its heading and opening line beside the picture
+// rather than above it. A wall of type with nothing to look at is the thing
+// this avoids.
+const hasFigure = Boolean(band.image || band.imagePath);
+// Four points read better as a square than as a row of three with one adrift
+// underneath it. Everything else takes as many columns as it has, up to three.
+const pointCols = points.length === 4 ? 2 : Math.min(points.length, 3);
+---
+<section class={`section band ${tone}`} id={band.anchor || undefined}>
+  <div class="wrap">
+    <div class={hasFigure ? 'band__top band__top--figure' : 'band__top'}>
+      <div class="band__head reveal">
+        {band.eyebrow && <p class={dark ? 'eyebrow eyebrow-light' : 'eyebrow'}>{band.eyebrow}</p>}
+        <h2 class={dark ? 'h2 h2-lime' : 'h2'}>{band.heading}</h2>
+        {band.intro && (
+          <p class={`lede measure band__intro ${dark ? 'lede-light' : ''}`}><RichText text={band.intro} /></p>
+        )}
+      </div>
+      <div class="reveal reveal-d1"><BandFigure band={band} /></div>
+    </div>
+
+    {points.length > 0 && (
+      <ul class={`bandgrid bandgrid--${pointCols}`}>
+        {points.map((p, i) => (
+          <li class={`banditem reveal ${delay(i)}`}>
+            <span class="banditem__icon" aria-hidden="true"><Icon name="check" size={17} stroke={2.6} /></span>
+            {p.title && <h3 class="banditem__title">{p.title}</h3>}
+            {p.text && <p class="banditem__text"><RichText text={p.text} /></p>}
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {specs.length > 0 && (
+      <div class="reveal specpanel">
+        <div class="tablescroll">
+          <table class="spectable spectable--pairs">
+            <tbody>
+              {specs.map((s) => (
+                <tr>
+                  <th scope="row">{s.label}</th>
+                  <td>{s.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    )}
+
+    {cols.length > 0 && rows.length > 0 && (
+      <div class="reveal specpanel">
+        <div class="tablescroll">
+          <table class="spectable">
+            <thead>
+              <tr>
+                <th scope="col"><span class="sr-only">Feature</span></th>
+                {cols.map((c) => <th scope="col">{c}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r) => (
+                <tr>
+                  <th scope="row">{r.label}</th>
+                  {cols.map((_, i) => <td>{(r.values || [])[i] || 'Not listed'}</td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    )}
+
+    {band.note && <p class="smallprint reveal"><RichText text={band.note} /></p>}
+
+    {band.ctaLabel && (
+      <div class="btn-row band__cta reveal">
+        <a class={`btn ${dark ? 'btn-lime' : 'btn-ink'}`} href={band.ctaHref || '#quote'}>
+          {band.ctaLabel} <Icon name="chevron" size={15} stroke={2.6} />
+        </a>
+      </div>
+    )}
+  </div>
+</section>

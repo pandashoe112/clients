@@ -1,14 +1,23 @@
 ---
 import Icon from './Icon.astro';
+import { sectionPhoto } from '../lib/photos.js';
 const { service } = Astro.props;
 const items = service.diffItems || [];
+const photo = sectionPhoto(service.slug, 'why');
 ---
 <section class="section bg-deep" id="why-us">
   <div class="wrap">
-    <div class="diff__head reveal">
-      {service.diffEyebrow && <p class="eyebrow eyebrow-light">{service.diffEyebrow}</p>}
-      <h2 class="h2 h2-lime">{service.diffHeading}</h2>
-      {service.diffIntro && <p class="lede lede-light measure" style="margin-top:18px">{service.diffIntro}</p>}
+    <div class={photo ? 'band__top band__top--figure' : 'band__top'}>
+      <div class="diff__head reveal">
+        {service.diffEyebrow && <p class="eyebrow eyebrow-light">{service.diffEyebrow}</p>}
+        <h2 class="h2 h2-lime">{service.diffHeading}</h2>
+        {service.diffIntro && <p class="lede lede-light measure" style="margin-top:18px">{service.diffIntro}</p>}
+      </div>
+      {photo && (
+        <figure class="bandfig reveal reveal-d1">
+          <img src={photo.src} alt={photo.alt} width="1600" height="1200" loading="lazy" decoding="async" />
+        </figure>
+      )}
     </div>
 
     <ul class="diffgrid reveal reveal-d1">

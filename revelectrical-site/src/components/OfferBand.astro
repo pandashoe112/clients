@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+import RichText from './RichText.astro';
+import BandFigure from './BandFigure.astro';
+
+// A standalone offer, on its own ground. It exists because the copy it carries
+// is addressed to a different reader than the page around it - someone who
+// already owns the hardware and does not need selling on the brand - and if it
+// sits in the same treatment as the section above it, it reads as a footnote
+// to that section rather than its own proposition.
+const { band, settings } = Astro.props;
+const paras = (band.text || []).filter(Boolean);
+const hasFigure = Boolean(band.image || band.imagePath);
+---
+<section class="offerband" id={band.anchor || undefined}>
+  <div class={`wrap offerband__grid ${hasFigure ? 'offerband__grid--figure' : ''}`}>
+    <div class="offerband__inner reveal">
+      {band.eyebrow && <p class="eyebrow eyebrow-light">{band.eyebrow}</p>}
+      <h2 class="h2 offerband__h">{band.heading}</h2>
+      {paras.map((p) => <p class="offerband__p"><RichText text={p} /></p>)}
+      <div class="btn-row offerband__cta">
+        {band.ctaLabel && (
+          <a class="btn btn-lime" href={band.ctaHref || '#quote'}>
+            {band.ctaLabel} <Icon name="chevron" size={15} stroke={2.6} />
+          </a>
+        )}
+        <a class="btn btn-glass js-call" href={settings.phoneHref}>Call {settings.phone}</a>
+      </div>
+    </div>
+    <div class="reveal reveal-d1"><BandFigure band={band} sizes="(max-width: 900px) 100vw, 42vw" /></div>
+  </div>
+</section>

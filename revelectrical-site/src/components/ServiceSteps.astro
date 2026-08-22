@@ -1,14 +1,25 @@
 ---
 import Icon from './Icon.astro';
+import { sectionPhoto } from '../lib/photos.js';
 const { service } = Astro.props;
+// Steps on their own are a column of type. The photo gives the section
+// something to look at without pushing the steps down the page.
+const photo = sectionPhoto(service.slug, 'steps');
 const steps = service.processSteps || [];
 const delay = (i) => (i === 1 ? 'reveal-d1' : i === 2 ? 'reveal-d2' : i >= 3 ? 'reveal-d3' : '');
 ---
 <section class="section bg-cream" id="how-it-works">
   <div class="wrap">
-    <div class="process__head reveal">
-      {service.processEyebrow && <p class="eyebrow">{service.processEyebrow}</p>}
-      <h2 class="h2">{service.processHeading}</h2>
+    <div class={photo ? 'band__top band__top--figure' : 'band__top'}>
+      <div class="process__head reveal">
+        {service.processEyebrow && <p class="eyebrow">{service.processEyebrow}</p>}
+        <h2 class="h2">{service.processHeading}</h2>
+      </div>
+      {photo && (
+        <figure class="bandfig reveal reveal-d1">
+          <img src={photo.src} alt={photo.alt} width="1600" height="1200" loading="lazy" decoding="async" />
+        </figure>
+      )}
     </div>
 
     <ol class="steps" id="steps">

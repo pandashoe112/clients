@@ -3,6 +3,7 @@ import Icon from './Icon.astro';
 const { service, settings } = Astro.props;
 const faqs = service.faqs || [];
 ---
+{faqs.length > 0 && (
 <section class="section bg-cream" id="faq">
   <div class="wrap faq__inner">
     <div class="faq__aside reveal">
@@ -27,3 +28,4 @@ const faqs = service.faqs || [];
     </div>
   </div>
 </section>
+)}

@@ -194,21 +194,25 @@ const stepMeta = [
                   <input type="hidden" name="quote_json" id="qb-json-field" />
                   <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
-                  <div class="field">
-                    <label class="label" for="q_name">Name</label>
-                    <input class="input" type="text" id="q_name" name="name" autocomplete="name" placeholder="First and last name" required />
+                  <div class="fieldrow">
+                    <div class="field">
+                      <label class="label" for="q_name">Name</label>
+                      <input class="input" type="text" id="q_name" name="name" autocomplete="name" placeholder="First and last name" required />
+                    </div>
+                    <div class="field">
+                      <label class="label" for="q_email">Email</label>
+                      <input class="input" type="email" id="q_email" name="email" autocomplete="email" placeholder="Email address" required />
+                    </div>
                   </div>
-                  <div class="field">
-                    <label class="label" for="q_email">Email</label>
-                    <input class="input" type="email" id="q_email" name="email" autocomplete="email" placeholder="Email address" required />
-                  </div>
-                  <div class="field">
-                    <label class="label" for="q_phone">Phone number</label>
-                    <input class="input" type="tel" id="q_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
-                  </div>
-                  <div class="field">
-                    <label class="label" for="q_address">Address</label>
-                    <input class="input" type="text" id="q_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
+                  <div class="fieldrow">
+                    <div class="field">
+                      <label class="label" for="q_phone">Phone number</label>
+                      <input class="input" type="tel" id="q_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
+                    </div>
+                    <div class="field">
+                      <label class="label" for="q_address">Address</label>
+                      <input class="input" type="text" id="q_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
+                    </div>
                   </div>
                   <div class="field field--wide">
                     <label class="label" for="q_notes">Anything we should know? <span class="label__opt">(optional)</span></label>

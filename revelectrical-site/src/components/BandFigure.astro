@@ -1,0 +1,17 @@
+---
+// The picture that goes with a band.
+//
+// Two sources, because there are two ways a photo gets here: one the client
+// uploads in the Studio, and one already sitting in /public/photos, cropped
+// and converted with the rest of the install library. The uploaded one wins
+// where both are set.
+import { img } from '../lib/sanity.js';
+const { band, sizes = '(max-width: 900px) 100vw, 46vw' } = Astro.props;
+const src = band.image ? img(band.image, 1200) : band.imagePath || null;
+const alt = band.imageAlt || '';
+---
+{src && (
+  <figure class="bandfig">
+    <img src={src} alt={alt} width="1600" height="1200" loading="lazy" decoding="async" sizes={sizes} />
+  </figure>
+)}

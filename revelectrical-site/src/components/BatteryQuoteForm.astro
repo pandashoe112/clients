@@ -107,18 +107,24 @@ const QUOTES = ["You're the first", 'Got one or two others', 'Comparing several'
   <fieldset class="bq__group">
     <legend class="bq__legend">How to reach you</legend>
 
-    <div class="field">
-      <label class="label" for="bq_name">Your name</label>
-      <input class="input" type="text" id="bq_name" name="name" autocomplete="name" placeholder="First and last name" required />
-    </div>
     <div class="fieldrow">
+      <div class="field">
+        <label class="label" for="bq_name">Your name</label>
+        <input class="input" type="text" id="bq_name" name="name" autocomplete="name" placeholder="First and last name" required />
+      </div>
       <div class="field">
         <label class="label" for="bq_email">Email</label>
         <input class="input" type="email" id="bq_email" name="email" autocomplete="email" placeholder="Email address" required />
       </div>
+    </div>
+    <div class="fieldrow">
       <div class="field">
         <label class="label" for="bq_phone">Phone</label>
         <input class="input" type="tel" id="bq_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
+      </div>
+      <div class="field">
+        <label class="label" for="bq_addr">Street address <span class="label__opt">Optional</span></label>
+        <input class="input" type="text" id="bq_addr" name="address" autocomplete="street-address" placeholder="Street number and name" />
       </div>
     </div>
   </fieldset>
@@ -127,10 +133,6 @@ const QUOTES = ["You're the first", 'Got one or two others', 'Comparing several'
   <fieldset class="bq__group">
     <legend class="bq__legend">About the property</legend>
 
-    <div class="field">
-      <label class="label" for="bq_addr">Street address <span class="label__opt">Optional</span></label>
-      <input class="input" type="text" id="bq_addr" name="address" autocomplete="street-address" placeholder="Street number and name" />
-    </div>
     <div class="fieldrow">
       <div class="field">
         <label class="label" for="bq_suburb">Suburb <span class="label__opt">Optional</span></label>

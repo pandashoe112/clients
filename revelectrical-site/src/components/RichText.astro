@@ -1,0 +1,20 @@
+---
+// A CMS plain-text string, with any [label](/href) turned into a real link.
+// Off-site links open in a new tab and carry rel="noopener", so a manufacturer
+// datasheet does not take the reader off a page they were part-way through.
+import { segments } from '../lib/richtext.js';
+const { text } = Astro.props;
+const parts = segments(text);
+const external = (href) => href.startsWith('https://');
+---
+{parts.map((p) =>
+  p.href
+    ? (
+      <a
+        href={p.href}
+        target={external(p.href) ? '_blank' : undefined}
+        rel={external(p.href) ? 'noopener' : undefined}
+      >{p.text}</a>
+    )
+    : <Fragment>{p.text}</Fragment>
+)}

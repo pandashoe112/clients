@@ -295,7 +295,9 @@ body.nav-locked{overflow:hidden}
 .contact__media img{width:100%;height:auto;border-radius:var(--r-md)}
 
 .formgrid{display:grid;gap:18px}
-.formrow{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.formrow{display:grid;gap:18px}
+@container (min-width:400px){.formrow{grid-template-columns:1fr 1fr}}
+@supports not (container-type:inline-size){.formrow{grid-template-columns:1fr 1fr}}
 .label{display:block;font-size:.875rem;font-weight:700;margin:0 0 8px}
 .label__opt{font-weight:500;color:var(--muted)}
 .input{width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r-sm);padding:14px 16px;transition:border-color .16s ease, box-shadow .16s ease}
@@ -450,7 +452,6 @@ textarea.input{min-height:132px;resize:vertical}
 @media (max-width:640px){
   .featgrid{grid-template-columns:1fr}
   .svcgrid{grid-template-columns:1fr}
-  .formrow{grid-template-columns:1fr}
   .revtrack{grid-auto-columns:88%}
   .btn-row{flex-direction:column;align-items:stretch}
   .heroticks{gap:10px 18px}

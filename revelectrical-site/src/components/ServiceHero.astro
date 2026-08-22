@@ -42,7 +42,7 @@ const ticks = service.heroTicks || [];
       )}
 
       <div class="btn-row hero__actions">
-        <a class="btn btn-ink" href="#quote">Get a free quote <Icon name="chevron" size={15} stroke={2.6} /></a>
+        <a class="btn btn-ink" href="#quote">{service.heroCtaLabel || 'Get a free quote'} <Icon name="chevron" size={15} stroke={2.6} /></a>
         <a class="btn btn-outline js-call" href={settings.phoneHref}>Call {settings.phone}</a>
       </div>
     </div>
@@ -59,21 +59,25 @@ const ticks = service.heroTicks || [];
           <input type="hidden" name="form-name" value="quote-request-service-hero" />
           <p class="hp"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
-          <div class="field">
-            <label class="label" for="f_name">Name</label>
-            <input class="input" type="text" id="f_name" name="name" autocomplete="name" placeholder="First and last name" required />
+          <div class="fieldrow">
+            <div class="field">
+              <label class="label" for="f_name">Name</label>
+              <input class="input" type="text" id="f_name" name="name" autocomplete="name" placeholder="First and last name" required />
+            </div>
+            <div class="field">
+              <label class="label" for="f_email">Email</label>
+              <input class="input" type="email" id="f_email" name="email" autocomplete="email" placeholder="Email address" required />
+            </div>
           </div>
-          <div class="field">
-            <label class="label" for="f_email">Email</label>
-            <input class="input" type="email" id="f_email" name="email" autocomplete="email" placeholder="Email address" required />
-          </div>
-          <div class="field">
-            <label class="label" for="f_phone">Phone number</label>
-            <input class="input" type="tel" id="f_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
-          </div>
-          <div class="field">
-            <label class="label" for="f_address">Address</label>
-            <input class="input" type="text" id="f_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
+          <div class="fieldrow">
+            <div class="field">
+              <label class="label" for="f_phone">Phone number</label>
+              <input class="input" type="tel" id="f_phone" name="phone" autocomplete="tel" placeholder="Phone number" required />
+            </div>
+            <div class="field">
+              <label class="label" for="f_address">Address</label>
+              <input class="input" type="text" id="f_address" name="address" autocomplete="street-address" placeholder="Street address and suburb" required />
+            </div>
           </div>
           <JobTiles idPrefix="sh_job" selected={service.title} />
           <ContactPrefs idPrefix="sh_pref" />

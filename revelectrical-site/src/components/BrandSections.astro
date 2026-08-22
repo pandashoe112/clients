@@ -1,0 +1,14 @@
+---
+import BandSection from './BandSection.astro';
+import OfferBand from './OfferBand.astro';
+
+// The page-builder body. Bands render in the order the Studio has them, so the
+// running order is content, not code - which is the point, because it differs
+// per brand.
+const { sections = [], settings } = Astro.props;
+---
+{sections.map((s) => (
+  s._type === 'offerBand'
+    ? <OfferBand band={s} settings={settings} />
+    : <BandSection band={s} />
+))}
