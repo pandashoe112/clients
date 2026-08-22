@@ -1269,38 +1269,3 @@ body{background:var(--page);color:var(--ink-dark);}
   .badge--press .badge__row img{height:1.9rem;}
 }
 
-/* ---------- who the clients are, above their own words ----------
-   Three claims about the relationship rather than the work, so they sit on
-   the paper band as a plain three-up: no cards, since a card here would read
-   as another feature grid two sections after the last one. */
-.clients{text-align:center;}
-.clients > h2{
-  margin:0 auto;max-width:26ch;
-  font-family:var(--font-head);
-  font-size:clamp(1.75rem,3vw,2.5rem);
-  line-height:1.08;letter-spacing:-.03em;font-weight:600;
-  text-wrap:balance;
-}
-.clients__grid{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:clamp(2rem,4vw,3.5rem);
-  margin-top:clamp(2.25rem,4vw,3rem);
-  text-align:left;
-}
-.clients__item{
-  padding-top:1.35rem;
-  border-top:2px solid rgb(var(--purple-accent));
-}
-.clients__item h3{
-  margin:0;
-  font-family:var(--font-head);
-  font-size:1.25rem;line-height:1.2;letter-spacing:-.018em;font-weight:600;
-  color:var(--ink-dark);
-}
-.clients__item p{
-  margin:.5rem 0 0;
-  font-size:.9375rem;line-height:1.6;color:rgba(18,18,18,.68);
-}
-@media (max-width:820px){
-  .clients__grid{grid-template-columns:minmax(0,1fr);}
-}
