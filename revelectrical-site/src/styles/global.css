@@ -90,7 +90,9 @@ button{font:inherit}
 /* The bar picks up the cream the 'How it works' band sits on rather than
    sitting on white, with a light wash through it so it reads as a surface
    instead of a flat block. Same on every page. */
-.siteheader{position:sticky;top:0;z-index:100;background:linear-gradient(180deg,#FBFCF7 0%,var(--cream) 100%);border-bottom:1px solid transparent;transition:border-color .25s ease, box-shadow .25s ease}
+/* Two per cent off both stops of the gradient. The header sat lighter than the
+   cream it leads into, which read as a strip of white rather than a bar. */
+.siteheader{position:sticky;top:0;z-index:100;background:linear-gradient(180deg,#F6F7F2 0%,#EFF1EA 100%);border-bottom:1px solid transparent;transition:border-color .25s ease, box-shadow .25s ease}
 .siteheader.is-stuck{border-bottom-color:var(--line);box-shadow:0 6px 22px rgba(3,47,53,.06)}
 .siteheader__inner{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:82px}
 .siteheader__logo img{width:178px;height:auto}
